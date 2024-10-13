@@ -1,0 +1,20 @@
+MY PART
+hala bel nesbeh lal activity diagrams
+,e7na 7awlna nwarji shwaye men el processes elli muhemeh lal integrity ta3t el system,
+awalhum bewarji el user sign up process
+ou keef bseer validation 3ala el input ta3 el user ou el type selection ou bel nehhhayyeh bnewsal la enu yentaqel el user la el dashboard el khass feeh la 7atta yegdar yballesh estakhdem lal platform 
+
+thani wa7ad bewarji bshekel 3am keef el process of retailer-supplier communication btet7aqaq men khelal el marketplace ou el request lal quotation elli el supplier be3malelha generate ou berja3 beb3atha lal retailer ou bel akheer bkuun el qarar 3end el retailer men 7eeth enu y3mal purchase aw reject 
+
+thaleth diagram b3mal depiction lal interaction been el admin ou el establishment men khelal el complaints elli mumken tenzzal 3aleeha 
+
+halla bnentaqel lal el physical design ou elli beballesh el cycle ta3ha bel data capturing and facilitaion 
+awalan el entity relationship diagram 7awalna feeh qadr el emkan ne3mal balance been el tradeoff of preserving el state ta3t el system ou enu tkuun el data entities elli 3enna heyye el  mimimum viable depiction lal system
+tab3an el erd fe akthar men sub-components bemathlu akthar men aspect lal system men el user management lal regulations la el core functionaility 
+hala for more readability e7na qasammna el erd la three parts
+-- internally: 
+focus on first part: establishment
+focus on third part: quotation
+summarize second part
+relational schema represents el blueprint lal physical database ou be3kes an optimized version of the erd
+---------------------
