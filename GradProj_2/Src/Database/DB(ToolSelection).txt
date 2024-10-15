@@ -1,0 +1,3 @@
+# Postgresql DBMS
+
+Postgresql is a Relational Open-Source DBMS that is highly regarded and used in the tech community, since our project has the capacity to evolve into an Enterprise-level Platform, the need to Validate and Preserve Database Transactions and inter-relations is crucial; hence the use of a Relational Database is elemental to the success of the project. Postgresql has many features, such as ACID Compliance, Write ahead Log Strategy to preserve consistency in a multi-user environment on read/write and wide range of data type options to assist in Data Manipulation. Furthermore, Postgresql has many plugins and extensions that will come in handy with backend to database communication and database development.
