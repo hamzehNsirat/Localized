@@ -1,6 +1,6 @@
 # Database Implementation Strategy
 
-## LAST UPDATED: 15-10-2024
+## LAST UPDATED: 16-10-2024
 
 $$
 
@@ -81,19 +81,19 @@ $$
 
 [Implementation Order]:
 {
-    1- Establishment Status
-    2- Notification Type
-    3- ProductStatus
-    4- Purchase Status
-    5- Quotation Status
-    6- Transaction Status
-    7- UserType
-    8- UserStatus
-    9- Compliant Type
-    10- Penalty Type
-    11- Industry Type
-    12- Adminstrator
-    13- Establishment
+    1- Establishment Status DONE
+    2- Notification Type DONE
+    3- ProductStatus DONE
+    4- Purchase Status DONE
+    5- Quotation Status DONE
+    6- Transaction Status DONE
+    7- UserType DONE
+    8- UserStatus DONE
+    9- Compliant Type DONE
+    10- Penalty Type DONE
+    11- Industry Type DONE
+    12- Adminstrator DONE
+    13- Establishment DONE
     14- User
     15- Inventory
     16- Supplier
