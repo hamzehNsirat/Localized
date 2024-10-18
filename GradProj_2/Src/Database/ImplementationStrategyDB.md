@@ -4,37 +4,37 @@
 
 ## [Tables]
 
-    1. Establishment Status
-    2. Industry Type
-    3. Establishment
-    4. Penalty Type
-    5. Penalty
-    6. Compliant Type
-    7. Compliant
-    8. UserType
-    9. UserStatus
-    10. User
-    11. User Review
-    12. Adminstrator
-    13. Supplier
-    14. Retailer
-    15. Factory
-    16. RetailStore
-    17. Inventory
-    18. Review
-    19. Quotation
-    20. Transaction Status
-    21. Purchase Transaction
-    22. Purchase
-    23. Quotation Status
-    24. Purchase Status
-    25. Order
-    26. Analytics
-    27. Product
-    28. ProductStatus
-    29. Log
-    30. Notification Type
-    31. Notification
+    1. Establishment Status 
+    2. Industry Type 
+    3. Establishment 
+    4. Penalty Type 
+    5. Penalty 
+    6. Compliant Type 
+    7. Compliant 
+    8. UserType 
+    9. UserStatus 
+    10. User 
+    11. User Review 
+    12. Adminstrator 
+    13. Supplier 
+    14. Retailer 
+    15. Factory 
+    16. RetailStore 
+    17. Inventory 
+    18. Review 
+    19. Quotation  
+    20. Transaction Status 
+    21. Purchase Transaction 
+    22. Purchase 
+    23. Quotation Status 
+    24. Purchase Status 
+    25. Order 
+    26. Analytics 
+    27. Product 
+    28. ProductStatus 
+    29. Log 
+    30. Notification Type 
+    31. Notification 
 
 ## [DependenciesMap]
 
@@ -221,43 +221,43 @@
         - REVIEWED: NOT YET
 
     25. Compliant
-        - STATUS: , 
+        - STATUS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     26. User Review  
-        - STATUS: ,  
+        - STATUS: DONE,  
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     27. Review
-        - STATUS: , 
+        - STATUS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     28. Quotation
-        - STATUS: , 
+        - STATUS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     29. Order
-        - STATUS: , 
+        - STATUS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
  
     30. Purchase
-        - STATUS: , 
+        - STATUS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     31. Purchase Transaction
-        - STATUS: , 
+        - STATUS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
@@ -271,5 +271,6 @@
 
     1. SQL FILE FOR EACH TABLE AND ITS CRUD FUNCTIONS COMMENT SEPARATED
     2. SQL FILE FOR COMPLEX FUNCTIONS
-    3. MANUAL FILE
-    4. CONNECTION / PROPERTIES FILE
+    3. SQL FILE FOR DATABASE GENERAL
+    4. MANUAL FILE
+    5. CONNECTION / PROPERTIES FILE
