@@ -25,3 +25,15 @@ CREATE TABLE establishment (
 	CONSTRAINT fk_industry FOREIGN KEY (industry_type)
     REFERENCES industry_type(industry_type_id) ON DELETE SET NULL ON UPDATE CASCADE
 );
+
+/*
+Establishment Indexes
+*/
+
+-- Establishment Industry Type Index
+-- to optimize the Retrieval Based on a given Establishment's Industry Type
+CREATE INDEX  idx_fk_establishment_industry_type ON establishment(industry_type);
+
+-- Establishment Commercial Registration Number Index
+-- to optimize the Retrieval Based on a given Establishment's Commercial Registration Number
+CREATE INDEX  idx_fk_establishment_cmrcRec ON establishment(commercial_registration_num);

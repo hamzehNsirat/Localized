@@ -24,3 +24,42 @@ CREATE TABLE user_localized (
 	CONSTRAINT fk_user_type FOREIGN KEY (user_type)
     REFERENCES user_type(user_type_id) ON DELETE SET NULL ON UPDATE CASCADE
 );
+
+/*
+User Indexes
+*/
+
+-- User National Number Index
+-- to optimize the Retrieval Based on a given User's National Number
+CREATE INDEX  idx_user_national_num ON user_localized(national_number);
+
+-- User National Number Index
+-- to optimize the Retrieval Based on a given User's Status
+CREATE INDEX  idx_fk_user_status ON user_localized(user_status);
+
+-- User National Number Index
+-- to optimize the Retrieval Based on a given User's Email
+CREATE INDEX  idx_user_email ON user_localized(user_email);
+
+-- User Password Hash Trigger
+-- to secure user entered password
+CREATE OR REPLACE FUNCTION insert_salt_user_password()
+  RETURNS TRIGGER 
+  LANGUAGE PLPGSQL
+  AS
+$$
+BEGIN			
+	NEW.password = (SELECT crypt(NEW.user_password, gen_salt('md5'))) ;
+	RETURN NEW;
+END;
+$$
+
+CREATE TRIGGER before_insert_userpass
+BEFORE INSERT ON user_localized
+FOR EACH ROW
+EXECUTE FUNCTION insert_salt_user_password();
+
+CREATE TRIGGER before_update_userpass
+BEFORE INSERT ON user_localized
+FOR EACH ROW
+EXECUTE FUNCTION insert_salt_user_password();

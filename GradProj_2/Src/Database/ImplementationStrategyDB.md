@@ -1,6 +1,6 @@
 # Database Implementation Strategy
 
-## LAST UPDATED: 18-10-2024
+## LAST UPDATED: 20-10-2024
 
 ## [Tables]
 
@@ -78,66 +78,77 @@
 
     1. Establishment Status 
         - STATUS: DONE, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     2. Notification Type
         - STATUS: DONE, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
     
     3. ProductStatus
         - STATUS: DONE, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     4. Purchase Status
         - STATUS: DONE, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     5. Quotation Status
         - STATUS: DONE, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     6. Transaction Status
         - STATUS: DONE, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     7. UserType
         - STATUS: DONE, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     8. UserStatus
         - STATUS: DONE, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     9. Compliant Type
         - STATUS: DONE, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     10. Penalty Type
         - STATUS: DONE, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     11. Industry Type
         - STATUS: DONE, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
@@ -150,114 +161,133 @@
 
     13. Establishment
         - STATUS: DONE, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     14. User
         - STATUS: DONE, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     15. Inventory
         - STATUS: DONE, 
+        - ADJUSTMENTS: NOT YET, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     16. Supplier
         - STATUS: DONE, 
+        - ADJUSTMENTS: NOT YET, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     17. Retailer
         - STATUS: DONE, 
+        - ADJUSTMENTS: NOT YET, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     18. Log
         - STATUS: DONE, 
+        - ADJUSTMENTS: NOT YET, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     19. Notification
         - STATUS: DONE, 
+        - ADJUSTMENTS: NOT YET, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     20. Factory
         - STATUS: DONE, 
+        - ADJUSTMENTS: NOT YET, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     21. RetailStore
         - STATUS: DONE, 
+        - ADJUSTMENTS: NOT YET, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     22. Product
         - STATUS: DONE, 
+        - ADJUSTMENTS: NOT YET, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     23. Analytics
         - STATUS: DONE, 
+        - ADJUSTMENTS: NOT YET, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     24. Penalty
         - STATUS: DONE, 
+        - ADJUSTMENTS: NOT YET, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     25. Compliant
         - STATUS: DONE, 
+        - ADJUSTMENTS: NOT YET, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     26. User Review  
         - STATUS: DONE,  
+        - ADJUSTMENTS: NOT YET, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     27. Review
         - STATUS: DONE, 
+        - ADJUSTMENTS: NOT YET, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     28. Quotation
         - STATUS: DONE, 
+        - ADJUSTMENTS: NOT YET, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     29. Order
         - STATUS: DONE, 
+        - ADJUSTMENTS: NOT YET, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
  
     30. Purchase
         - STATUS: DONE, 
+        - ADJUSTMENTS: NOT YET, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     31. Purchase Transaction
         - STATUS: DONE, 
+        - ADJUSTMENTS: NOT YET, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
