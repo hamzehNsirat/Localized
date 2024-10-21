@@ -8,7 +8,7 @@ CREATE TABLE supplier (
 	supplier_bank_account_num    VARCHAR(18) UNIQUE,
 	supplier_iban    VARCHAR(34)  NOT NULL UNIQUE,
 	supplier_compliance_indicator FLOAT NOT NULL DEFAULT 0,
-	supplier_compliance_count 	    INTEGER NOT NULL DEFAULT 0,
+	supplier_complaint_count 	    INTEGER NOT NULL DEFAULT 0,
 	supplier_positive_review_count INTEGER NOT NULL DEFAULT 0,	
 	last_modification_date  TIMESTAMP NOT NULL,
 	last_modified_by		 BIGINT   NOT NULL,
@@ -18,3 +18,19 @@ CREATE TABLE supplier (
 	CONSTRAINT chk_supp_compliance_cnt CHECK(supplier_compliance_count >= 0),
 	CONSTRAINT chk_supp_posrev_cnt     CHECK(supplier_positive_review_count >= 0)
 );
+/*
+Supplier Indexes  / Triggers
+*/
+
+-- Supplier User ID Index
+-- to optimize the Retrieval Based on a given Supplier's UserID
+CREATE INDEX  idx_fk_suppuser_id ON supplier(supplier_user_id);
+
+-- Supplier TIN Index
+-- to optimize the Retrieval Based on a given Supplier's TIN
+CREATE INDEX  idx_fk_supp_tin ON supplier(supplier_tax_identification_num);
+
+-- Supplier Compliance Indicator Index
+-- to optimize the Retrieval Based on a given Supplier's UserID
+CREATE INDEX  idx_fk_supp_compliance ON supplier(supplier_compliance_indicator);
+

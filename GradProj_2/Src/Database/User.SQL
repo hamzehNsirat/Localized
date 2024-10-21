@@ -24,9 +24,8 @@ CREATE TABLE user_localized (
 	CONSTRAINT fk_user_type FOREIGN KEY (user_type)
     REFERENCES user_type(user_type_id) ON DELETE SET NULL ON UPDATE CASCADE
 );
-
 /*
-User Indexes
+User Indexes / Triggers
 */
 
 -- User National Number Index

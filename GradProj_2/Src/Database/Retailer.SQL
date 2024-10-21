@@ -16,3 +16,14 @@ CREATE TABLE retailer (
 	CONSTRAINT chk_retlr_compliance_ind CHECK(retailer_compliance_indicator BETWEEN 0 AND 1),
 	CONSTRAINT chk_retlr_compliance_cnt CHECK(retailer_compliance_count >= 0)
 );
+/*
+Retailer Indexes  / Triggers
+*/
+
+-- Retailer User ID Index
+-- to optimize the Retrieval Based on a given Retailer's UserID
+CREATE INDEX  idx_fk_retlruser_id ON retailer(retailer_user_id);
+
+-- Retailer TIN Index
+-- to optimize the Retrieval Based on a given Retailer's TIN
+CREATE INDEX  idx_fk_retlr_tin ON retailer(retailer_tax_identification_num);

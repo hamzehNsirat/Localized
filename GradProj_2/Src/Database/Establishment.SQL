@@ -25,9 +25,8 @@ CREATE TABLE establishment (
 	CONSTRAINT fk_industry FOREIGN KEY (industry_type)
     REFERENCES industry_type(industry_type_id) ON DELETE SET NULL ON UPDATE CASCADE
 );
-
 /*
-Establishment Indexes
+Establishment Indexes  / Triggers
 */
 
 -- Establishment Industry Type Index

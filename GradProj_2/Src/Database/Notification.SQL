@@ -30,3 +30,23 @@ CREATE TABLE notification (
 	CONSTRAINT chk_notif_num_tries    CHECK(number_of_tries IN(0, 1, 2)),
 	CONSTRAINT chk_notif_maxnum_tries CHECK(number_of_max_tries = 3)
 );
+/*
+Notification Indexes  / Triggers
+*/
+
+-- Notification User ID Index
+-- to optimize the Retrieval Based on a given Notification's UserID
+CREATE INDEX  idx_notification_user_id ON notification(notified_user_id);
+
+-- Notification Status Index
+-- to optimize the Retrieval Based on a given Notification's Status
+CREATE INDEX  idx_notification_status ON notification(notification_status);
+
+-- Notification Type Index
+-- to optimize the Retrieval Based on a given Notification's Notification Type
+CREATE INDEX  idx_notification_type ON notification(notification_type);
+
+
+-- Notification Priority Index
+-- to optimize the Retrieval Based on a given Notification's Number of Priority
+CREATE INDEX  idx_notification_priority ON notification(notification_priority);

@@ -21,3 +21,18 @@ CREATE TABLE product (
 	CONSTRAINT chk_prdct_price 	  CHECK(product_unit_price >= 0),
 	CONSTRAINT chk_prdct_discount CHECK(product_unit_price_discount BETWEEN 0 AND 1)
 );
+/*
+Product Indexes  / Triggers
+*/
+
+-- Product Supplier ID Index
+-- to optimize the Retrieval Based on a given Product's Supplier
+CREATE INDEX  idx_product_supplier_id ON product(supplier_id);
+
+-- Product Category Index
+-- to optimize the Retrieval Based on a given Product's Category
+CREATE INDEX  idx_product_category ON product(product_category);
+
+-- Product Status Index
+-- to optimize the Retrieval Based on a given Product's Status
+CREATE INDEX  idx_product_status ON product(product_status_id);

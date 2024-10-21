@@ -13,3 +13,10 @@ CREATE TABLE establishment_inventory (
 	CONSTRAINT fk_owner_establishment_id FOREIGN KEY (establishment_id) 
     REFERENCES establishment(establishment_id) ON DELETE SET NULL ON UPDATE CASCADE
 );
+/*
+Inventory Indexes  / Triggers
+*/
+
+-- Inventory Industry Type Index
+-- to optimize the Retrieval Based on a given Establishment's ID
+CREATE INDEX  idx_fk_establishment_id ON establishment_inventory(establishment_id);

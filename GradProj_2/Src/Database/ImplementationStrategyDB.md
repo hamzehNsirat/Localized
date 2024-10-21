@@ -155,6 +155,7 @@
 
     12. Adminstrator
         - STATUS: DONE, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
@@ -175,56 +176,56 @@
 
     15. Inventory
         - STATUS: DONE, 
-        - ADJUSTMENTS: NOT YET, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     16. Supplier
         - STATUS: DONE, 
-        - ADJUSTMENTS: NOT YET, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     17. Retailer
         - STATUS: DONE, 
-        - ADJUSTMENTS: NOT YET, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     18. Log
         - STATUS: DONE, 
-        - ADJUSTMENTS: NOT YET, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     19. Notification
         - STATUS: DONE, 
-        - ADJUSTMENTS: NOT YET, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     20. Factory
         - STATUS: DONE, 
-        - ADJUSTMENTS: NOT YET, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     21. RetailStore
         - STATUS: DONE, 
-        - ADJUSTMENTS: NOT YET, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     22. Product
         - STATUS: DONE, 
-        - ADJUSTMENTS: NOT YET, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
