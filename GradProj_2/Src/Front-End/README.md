@@ -44,12 +44,8 @@ Localized is a platform created to endorse the Jordanian economy by increasing l
     <pre>
       <code>git checkout development</code>
     </pre>
-    <li><strong>Step 3:</strong> Create and switch to a new branch:</li>
-    <pre>
-      <code>git checkout -b new-feature-branch</code>
-    </pre>
   </ul>
-  Now, you're working in the <code>new-feature-branch</code>.
+  Now, you're working in the <code>development</code> branch.
 </div>
 
 <h2>3. Make Changes and Commit</h2>
@@ -102,12 +98,20 @@ Localized is a platform created to endorse the Jordanian economy by increasing l
     <pre>
       <code>git checkout main</code>
     </pre>
-    <li><strong>Step 2:</strong> Pull the latest changes from the remote:</li>
+    <li><strong>Step 2:</strong> Fetch the latest changes from the remote:</li>
+    <pre>
+      <code>git fetch origin</code>
+    </pre>
+    <li><strong>Step 3:</strong> Pull the latest changes into your local branch:</li>
     <pre>
       <code>git pull origin main</code>
     </pre>
   </ul>
 </div>
+
+<h2>Why Use git fetch Before git pull?</h2>
+Review Changes:<br>By using git fetch, you can review the incoming changes before merging them into your branch. This helps in understanding what updates have been made and if they might cause conflicts.
+Avoid Conflicts: Fetching first allows you to ensure that your local repository is aware of any changes made in the remote repository, which can help avoid merge conflicts when you do pull.
 
 <h2>For the Reviewrs</h2>
 <h2>7. Merge Main Branch into Your Feature Branch</h2>
