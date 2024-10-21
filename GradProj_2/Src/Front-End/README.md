@@ -1,6 +1,6 @@
-Localized
-Project Description:
-Localized is a B2B eCommerce platform designed to connect local suppliers with retailers. It allows suppliers to list their products while giving retailers the ability to search, request quotations, and manage profiles. Built with React.js and styled using Bootstrap, this platform provides an intuitive user interface with a focus on localization.
+<h1>Localized</h1>
+<strong>Project Description:</strong>
+Localized is a platform created to endorse the Jordanian economy by increasing local manufacturers’ visibility and access to markets. The goal of Localized is to shorten the gap between small-medium scale producers and retailers by providing a simple, safe and effective platform for local product discovery and sales. An analytics driven interface for retailers to track purchase history and product profitability in which there is a comprehensive dashboard for manufacturers to monitor product performance, receive feedback and advanced features like product validation and secure payment processing are the main use cases of Localized.
 
 <h1>Installation</h1>
 <ol> 
