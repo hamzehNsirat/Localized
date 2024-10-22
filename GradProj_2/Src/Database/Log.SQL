@@ -21,6 +21,3 @@ Log Indexes  / Triggers
 -- to optimize the Retrieval Based on a given Log's UserID
 CREATE INDEX  idx_fk_loguser_id ON log(log_user_id);
 
--- Log TIMESTAMP Index
--- to optimize the Retrieval Based on a given Log's Timestamp
-CREATE INDEX  idx_fk_log_timestamp ON log(log_timestamp);

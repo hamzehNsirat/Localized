@@ -232,63 +232,63 @@
 
     23. Analytics
         - STATUS: DONE, 
-        - ADJUSTMENTS: NOT YET, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     24. Penalty
         - STATUS: DONE, 
-        - ADJUSTMENTS: NOT YET, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     25. Compliant
         - STATUS: DONE, 
-        - ADJUSTMENTS: NOT YET, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     26. User Review  
         - STATUS: DONE,  
-        - ADJUSTMENTS: NOT YET, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     27. Review
         - STATUS: DONE, 
-        - ADJUSTMENTS: NOT YET, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     28. Quotation
         - STATUS: DONE, 
-        - ADJUSTMENTS: NOT YET, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     29. Order
         - STATUS: DONE, 
-        - ADJUSTMENTS: NOT YET, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
  
     30. Purchase
         - STATUS: DONE, 
-        - ADJUSTMENTS: NOT YET, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
     31. Purchase Transaction
         - STATUS: DONE, 
-        - ADJUSTMENTS: NOT YET, 
+        - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET

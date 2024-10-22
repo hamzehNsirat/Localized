@@ -14,3 +14,10 @@ CREATE TABLE purchase_transaction (
 	CONSTRAINT fk_prchstrx_status_id FOREIGN KEY (transaction_status_id)
     REFERENCES transaction_status(transaction_status_id) ON DELETE SET NULL ON UPDATE CASCADE
 );
+/*
+Purchase Transaction Indexes  / Triggers
+*/
+
+-- Purchase ID Index
+-- to optimize the Retrieval Based on a given Purchase Transaction's Purchase ID
+CREATE INDEX  idx_purchasetrx_purchase_id ON purchase_transaction(purchase_id);

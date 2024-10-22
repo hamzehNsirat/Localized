@@ -18,3 +18,15 @@ CREATE TABLE order_localized (
 	CONSTRAINT chk_ordr_quantity 	  CHECK(order_quantity >= 0)
 );
 
+/*
+Order Indexes  / Triggers
+*/
+
+-- Order Quotation ID Index
+-- to optimize the Retrieval Based on a given Order's Quotation ID
+CREATE INDEX  idx_order_quotation_id ON order_localized(quotation_id);
+
+-- Order Product ID Index
+-- to optimize the Retrieval Based on a given Order's Product ID
+CREATE INDEX  idx_order_product_id ON order_localized(product_id);
+

@@ -30,3 +30,14 @@ CREATE TABLE quotation (
 	CONSTRAINT chk_qotn_addrs 	  CHECK(ship_to_address <> supplier_address AND bill_to_address <> supplier_address),
 	CONSTRAINT chk_qotn_name 	  CHECK(from_establishment_name <> to_establishment_name)
 );
+/*
+Quotation Indexes  / Triggers
+*/
+
+-- Quotation Supplier ID Index
+-- to optimize the Retrieval Based on a given Quotation's Supplier ID
+CREATE INDEX  idx_qotn_supplier_id ON quotation(supplier_id);
+
+-- Quotation Retailer ID Index
+-- to optimize the Retrieval Based on a given Quotation's Retailer ID
+CREATE INDEX  idx_qotn_retailer_id ON quotation(requester_id);

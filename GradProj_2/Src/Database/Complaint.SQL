@@ -1,4 +1,3 @@
-
 -- TABLE: Complaint
 -- TYPE: Main
 
@@ -24,3 +23,16 @@ CREATE TABLE complaint (
     REFERENCES complaint_type(complaint_type_id) ON DELETE SET NULL ON UPDATE CASCADE,
 	CONSTRAINT chk_cmpn_status CHECK(complaint_status_id IN('CREATED', 'REVIEWED', 'RESOLVED', 'DELETED'))
 );
+
+/*
+Complaint Indexes  / Triggers
+*/
+
+-- Complaint Supplier ID Index
+-- to optimize the Retrieval Based on a given Complaint's Supplier ID
+CREATE INDEX  idx_cmplnt_supplier_id ON complaint(supplier_id);
+
+-- Complaint  ID Index
+-- to optimize the Retrieval Based on a given Complaint's Retailer ID
+CREATE INDEX  idx_cmplnt_retailer_id ON complaint(retailer_id);
+
