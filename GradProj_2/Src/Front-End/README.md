@@ -1,19 +1,3 @@
-# graduation-project
-
-## this repository is the main hub for our work artifacts in both Graduation Project(1,2)
-
-- two Main Folders conatained in this Repository:
-    A- GradProj_1: all items related to Grad 1 (Analysis-Design) will be added to this folder;
-    B- GradProj_2: all items related to Grad 2 (Implementation-Rollout) will be added to this folder.
-
-- three Branches in this Repository:
-    A- development:
-        all Project items start thier lifecycle in this branch, this includes (Design Artifacts, Code, Report Files and more);
-    B- stage:
-        upon team confirmation, completed Items are added to this branch to be further reviewed and edited;
-    C- main:
-        completed and reviewed Items are comitted to this branch.
-
 <h1>Localized</h1>
 <strong>Project Description:</strong><br>
 Localized is a platform created to endorse the Jordanian economy by increasing local manufacturers’ visibility and access to markets. The goal of Localized is to shorten the gap between small-medium scale producers and retailers by providing a simple, safe and effective platform for local product discovery and sales. An analytics driven interface for retailers to track purchase history and product profitability in which there is a comprehensive dashboard for manufacturers to monitor product performance, receive feedback and advanced features like product validation and secure payment processing are the main use cases of Localized.
@@ -22,8 +6,8 @@ Localized is a platform created to endorse the Jordanian economy by increasing l
 <ol> 
  <li><strong>Clone the repository</strong> <pre> 
     <code>git clone https://github.com/hamzehNsirat/Localized</code> </pre></li>
- <li><strong>Navigate into the project directory</strong> <pre> <code>cd Localized</code> </pre></li>  
- <li><strong>Install dependencies</strong> Ensure you have <a href="https://nodejs.org/">Node.js</a> installed, then run: 
+ <li><strong>Navigate into the project directory</strong> <pre> <code>cd Localized</code> </pre></li>  <li><strong>Install dependencies</strong> Ensure you have <a href="https://nodejs.org/">Node.js</a> installed, then run: <pre> <code>npm install</code> </pre></li>
+ <li><strong>Start the development server</strong> <pre> <code>npm run dev</code> </pre></li> 
 </ol>
 
 <strong>-------------------------------------</strong>
@@ -31,7 +15,7 @@ Localized is a platform created to endorse the Jordanian economy by increasing l
 # Managing a Remote Repository as a Collaborator (Pushing to Development Branch)
 
 <div>
-  As a collaborator in this repository, you'll push changes to the <strong>development</strong> branch and create a pull request (PR) for the <strong>main</strong> branch. Below are the steps to follow:
+  As a collaborator on your friend's GitHub repository, you'll push changes to the <strong>development</strong> branch and create a pull request (PR) for the <strong>main</strong> branch. Below are the steps to follow:
 </div>
 
 <h2>1. Cloning the Repository</h2>
@@ -129,7 +113,7 @@ Localized is a platform created to endorse the Jordanian economy by increasing l
 Review Changes:<br>By using git fetch, you can review the incoming changes before merging them into your branch. This helps in understanding what updates have been made and if they might cause conflicts.
 Avoid Conflicts: Fetching first allows you to ensure that your local repository is aware of any changes made in the remote repository, which can help avoid merge conflicts when you do pull.
 
-<h2>For the Reviewers</h2>
+<h2>For the Reviewrs</h2>
 <h2>7. Merge Main Branch into Your Feature Branch</h2>
 
 <div>
