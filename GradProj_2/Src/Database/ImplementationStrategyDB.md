@@ -79,9 +79,9 @@
     1. Establishment Status 
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     2. Notification Type
         - STATUS: DONE, 
@@ -287,6 +287,13 @@
         - REVIEWED: NOT YET
 
     31. Purchase Transaction
+        - STATUS: DONE, 
+        - ADJUSTMENTS: DONE, 
+        - CRUD-STATUS: NOT YET, 
+        - COMPLEX-STATUS: NOT YET, 
+        - REVIEWED: NOT YET
+
+    32. Category
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: NOT YET, 
