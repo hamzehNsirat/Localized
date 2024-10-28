@@ -86,9 +86,9 @@
     2. Notification Type
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
     
     3. ProductStatus
         - STATUS: DONE, 
@@ -100,65 +100,65 @@
     4. Purchase Status
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     5. Quotation Status
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     6. Transaction Status
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     7. UserType
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     8. UserStatus
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     9. Compliant Type
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     10. Penalty Type
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     11. Industry Type
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     12. Adminstrator
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     13. Establishment
         - STATUS: DONE, 
