@@ -163,7 +163,7 @@
     13. Establishment
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
+        - CRUD-STATUS: DONE, 
         - COMPLEX-STATUS: NOT YET, 
         - REVIEWED: NOT YET
 
