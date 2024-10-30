@@ -164,22 +164,22 @@
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
         - CRUD-STATUS: DONE, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     14. User
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     15. Inventory
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     16. Supplier
         - STATUS: DONE, 

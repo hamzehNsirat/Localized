@@ -4,7 +4,7 @@
 CREATE TABLE establishment ( 
 	establishment_id SERIAL PRIMARY KEY,
 	establishment_status    BIGINT,
-	industry_type    BIGINT,
+	industry_type    BIGINT[],
 	establishment_name TEXT,
 	commercial_registration_num BIGINT NOT NULL UNIQUE,
 	establishment_registration_date TIMESTAMP NOT NULL,
@@ -229,42 +229,137 @@ BEGIN
 	WHERE industry_type_spec = est_industry_type;
 END;
 $$ LANGUAGE plpgsql;
+-- INSERT AN ESTABLISHMENT
+DROP FUNCTION establishment_insert;
+CREATE OR REPLACE FUNCTION establishment_insert(
+	IN in_establishment_status    BIGINT,
+	IN in_industry_type    BIGINT[],
+	IN in_establishment_name TEXT,
+	IN in_commercial_registration_num BIGINT,
+	IN in_establishment_registration_date TIMESTAMP,
+	IN in_contact_number VARCHAR,
+	IN in_establishment_email VARCHAR,
+	IN in_establishment_website TEXT,
+	IN in_establishment_description TEXT,
+	IN in_establishment_type BOOLEAN,
+	IN in_establishment_city VARCHAR,
+	IN in_establishment_street VARCHAR,
+	IN in_establishment_building_num VARCHAR,
+	IN in_establishment_longitude FLOAT,
+	IN in_establishment_latitude  FLOAT,
+	IN last_modifier BIGINT,
+	OUT out_establishment_id BIGINT
+)
+RETURNS BIGINT AS $$
+BEGIN
+	INSERT INTO establishment (
+		establishment_status,
+		industry_type,
+		establishment_name,
+		commercial_registration_num,
+		establishment_registration_date,
+		contact_number,
+		establishment_email,
+		establishment_website,
+		establishment_description,
+		establishment_type,
+		establishment_city,
+		establishment_street,
+		establishment_building_num,
+		establishment_longitude,
+		establishment_latitude,
+		last_modification_date,
+		last_modified_by
+	) VALUES
+	(
+		in_establishment_status,
+		in_industry_type,
+		in_establishment_name,
+		in_commercial_registration_num,
+		in_establishment_registration_date,
+		in_contact_number,
+		in_establishment_email,
+		in_establishment_website,
+		in_establishment_description,
+		in_establishment_type,
+		in_establishment_city,
+		in_establishment_street,
+		in_establishment_building_num,
+		in_establishment_longitude,
+		in_establishment_latitude,
+		CURRENT_TIMESTAMP,
+		last_modifier
+	) RETURNING CAST(establishment_id AS BIGINT) INTO out_establishment_id;
+EXCEPTION WHEN OTHERS THEN 
+	SET out_establishment_id = -1;	
+END;
+$$ LANGUAGE plpgsql;
 
-/*
--- INSERT AN ESTABLISHMENT STATUS
-CREATE OR REPLACE FUNCTION establishment_status_insert(IN est_status VARCHAR, IN last_modifier BIGINT)
+-- UPDATE AN ESTABLISHMENT 
+CREATE OR REPLACE FUNCTION establishment_update (
+	IN est_id BIGINT,
+	IN in_establishment_status    BIGINT,
+	IN in_industry_type    BIGINT[],
+	IN in_establishment_name TEXT,
+	IN in_commercial_registration_num BIGINT,
+	IN in_establishment_registration_date TIMESTAMP,
+	IN in_contact_number VARCHAR,
+	IN in_establishment_email VARCHAR,
+	IN in_establishment_website TEXT,
+	IN in_establishment_description TEXT,
+	IN in_establishment_city VARCHAR,
+	IN in_establishment_street VARCHAR,
+	IN in_establishment_building_num VARCHAR,
+	IN in_establishment_longitude FLOAT,
+	IN in_establishment_latitude  FLOAT,
+	IN last_modifier BIGINT
+)
 RETURNS INTEGER AS $$
 BEGIN
-	INSERT INTO establishment_status (establishment_status, last_modification_date, last_modified_by) VALUES
-	(est_status, CURRENT_TIMESTAMP, last_modifier);
+	UPDATE establishment 
+	SET 
+	establishment_status = COALESCE(in_establishment_status, establishment_status),
+	industry_type = COALESCE(in_industry_type, industry_type),
+	establishment_name = COALESCE(in_establishment_name, establishment_name),
+	commercial_registration_num = COALESCE(in_commercial_registration_num, commercial_registration_num),
+	establishment_registration_date = COALESCE(in_establishment_registration_date, establishment_registration_date),
+	contact_number = COALESCE(in_contact_number, contact_number),
+	establishment_email = COALESCE(in_establishment_email, establishment_email),
+	establishment_website = COALESCE(in_establishment_website, establishment_website),
+	establishment_description = COALESCE(in_establishment_description, establishment_description),
+	establishment_city = COALESCE(in_establishment_city, establishment_city),
+	establishment_street = COALESCE(in_establishment_street, establishment_street),
+	establishment_building_num = COALESCE(in_establishment_building_num, establishment_building_num),
+	establishment_longitude = COALESCE(in_establishment_longitude, establishment_longitude),
+	establishment_latitude = COALESCE(in_establishment_latitude, establishment_latitude),
+	last_modification_date = CURRENT_TIMESTAMP, 
+	last_modified_by =	COALESCE(last_modifier, last_modified_by)
+
+	WHERE CAST(establishment_id AS BIGINT) = est_id;
 	RETURN 0 AS execution_result;
+
 EXCEPTION WHEN OTHERS THEN 
 	RETURN -1 AS execution_result;	
 END;
 $$ LANGUAGE plpgsql;
--- UPDATE AN ESTABLISHMENT STATUS
-CREATE OR REPLACE FUNCTION establishment_status_update(IN est_status_id BIGINT, IN est_status VARCHAR, IN last_modifier BIGINT)
+
+-- DELETE AN ESTABLISHMENT STATUS
+CREATE OR REPLACE FUNCTION establishment_delete (
+	IN est_id BIGINT,
+	IN last_modifier BIGINT
+)
 RETURNS INTEGER AS $$
 BEGIN
-	UPDATE establishment_status 
-	SET establishment_status = est_status, 
+	UPDATE establishment 
+	SET 
+	establishment_status = (SELECT establishment_status_id FROM establishment_status WHERE establishment_status LIKE '%INACTIVE%'),
 	last_modification_date = CURRENT_TIMESTAMP, 
 	last_modified_by =	last_modifier
-	WHERE establishment_status_id = est_status_id;
+
+	WHERE CAST(establishment_id AS BIGINT) = est_id;
 	RETURN 0 AS execution_result;
+
 EXCEPTION WHEN OTHERS THEN 
 	RETURN -1 AS execution_result;	
 END;
 $$ LANGUAGE plpgsql;
--- DELETE AN ESTABLISHMENT STATUS
-CREATE OR REPLACE FUNCTION establishment_status_delete(IN est_status_id BIGINT)
-RETURNS INTEGER AS $$
-BEGIN
-	DELETE FROM establishment_status 
-	WHERE establishment_status_id = est_status_id;
-	RETURN 0 AS execution_result;
-EXCEPTION WHEN OTHERS THEN 
-	RETURN -1 AS execution_result;	
-END;
-$$ LANGUAGE plpgsql;
-*/
