@@ -18,6 +18,7 @@ CREATE TABLE supplier (
 	CONSTRAINT chk_supp_compliance_cnt CHECK(supplier_compliance_count >= 0),
 	CONSTRAINT chk_supp_posrev_cnt     CHECK(supplier_positive_review_count >= 0)
 );
+
 /*
 Supplier Indexes  / Triggers
 */
@@ -34,3 +35,142 @@ CREATE INDEX  idx_fk_supp_tin ON supplier(supplier_tax_identification_num);
 -- to optimize the Retrieval Based on a given Supplier's UserID
 CREATE INDEX  idx_fk_supp_compliance ON supplier(supplier_compliance_indicator);
 
+/*
+Supplier CRUD Functions
+*/
+-- GET A Supplier BY ID
+CREATE OR REPLACE FUNCTION supplier_get_by_id(IN in_supplier_id BIGINT)
+RETURNS TABLE(		
+	supplier_user_id    BIGINT,
+	supplier_tax_identification_num    VARCHAR,
+	supplier_bank_account_num    VARCHAR,
+	supplier_iban    VARCHAR,
+	supplier_compliance_indicator FLOAT,
+	supplier_complaint_count 	    INTEGER,
+	supplier_positive_review_count INTEGER
+) AS $$
+BEGIN
+    RETURN QUERY 
+	SELECT
+	supplier_user_id,
+	supplier_tax_identification_num,
+	supplier_bank_account_num,
+	supplier_iban,
+	supplier_compliance_indicator,
+	supplier_complaint_count 	,
+	supplier_positive_review_count
+	FROM supplier
+	WHERE CAST(supplier_id AS BIGINT) = in_supplier_id;
+END;
+$$ LANGUAGE plpgsql;
+-- GET A Supplier Statistics 
+CREATE OR REPLACE FUNCTION get_supplier_compliance_statistics (
+IN in_supplier_id BIGINT
+)
+RETURNS TABLE(		
+	supplier_compliance_indicator FLOAT,
+	supplier_complaint_count 	    INTEGER,
+	supplier_positive_review_count INTEGER
+) AS $$
+BEGIN
+    RETURN QUERY 
+	SELECT
+	supplier_compliance_indicator,
+	supplier_complaint_count 	,
+	supplier_positive_review_count
+	FROM supplier
+	WHERE CAST(supplier_id AS BIGINT) = in_supplier_id;
+END;
+$$ LANGUAGE plpgsql;
+
+-- INSERT A Supplier
+CREATE OR REPLACE FUNCTION supplier_insert (
+	IN in_supplier_user_id    BIGINT,
+	IN in_supplier_tax_identification_num    VARCHAR,
+	IN in_supplier_bank_account_num    VARCHAR,
+	IN in_supplier_iban    VARCHAR,
+	IN in_supplier_compliance_indicator FLOAT,
+	IN in_supplier_complaint_count 	    INTEGER,
+	IN in_supplier_positive_review_count INTEGER,
+	IN in_last_modified_by	 BIGINT,
+	OUT out_supplier_id BIGINT
+)
+RETURNS BIGINT AS $$
+BEGIN
+    INSERT INTO supplier 
+	(	
+	supplier_user_id,
+	supplier_tax_identification_num,
+	supplier_bank_account_num,
+	supplier_iban,
+	supplier_compliance_indicator,
+	supplier_complaint_count,
+	supplier_positive_review_count,	
+	last_modification_date,
+	last_modified_by,
+	)
+	VALUES 
+	(
+	in_supplier_user_id,
+	in_supplier_tax_identification_num ,
+	in_supplier_bank_account_num,
+	in_supplier_iban,
+	in_supplier_compliance_indicator ,
+	in_supplier_complaint_count 	 ,
+	in_supplier_positive_review_count,
+	CURRENT_TIMESTAMP,
+	in_last_modified_by
+	) RETURNING CAST(supplier_id AS BIGINT) INTO out_supplier_id;
+
+EXCEPTION WHEN OTHERS THEN 
+	SET out_supplier_id = -1;	
+END;
+$$ LANGUAGE plpgsql;
+
+-- UPDATE A Supplier
+CREATE OR REPLACE FUNCTION user_update (
+	IN in_supplier_id    BIGINT,
+	IN in_supplier_user_id    BIGINT,
+	IN in_supplier_tax_identification_num    VARCHAR,
+	IN in_supplier_bank_account_num    VARCHAR,
+	IN in_supplier_iban    VARCHAR,
+	IN in_supplier_compliance_indicator FLOAT,
+	IN in_supplier_complaint_count 	    INTEGER,
+	IN in_supplier_positive_review_count INTEGER,
+	IN in_last_modified_by	 BIGINT,
+	OUT update_res INT
+)
+RETURNS INT AS $$
+BEGIN
+    UPDATE supplier 
+	SET	
+	supplier_tax_identification_num = COALESCE(in_supplier_tax_identification_num, supplier_tax_identification_num),
+	supplier_bank_account_num= COALESCE(in_supplier_bank_account_num, supplier_bank_account_num),
+	supplier_iban= COALESCE(in_supplier_iban, supplier_iban),
+	supplier_compliance_indicator= COALESCE(in_supplier_compliance_indicator, supplier_compliance_indicator),
+	supplier_complaint_count= COALESCE(in_supplier_complaint_count, supplier_complaint_count),
+	supplier_positive_review_count= COALESCE(in_supplier_positive_review_count, supplier_positive_review_count),	
+	last_modification_date = CURRENT_TIMESTAMP,
+	last_modified_by =	COALESCE(in_last_modified_by, last_modified_by)
+
+	WHERE CAST(supplier_id AS BIGINT) = in_supplier_id;
+	SET update_res = 0;	
+
+EXCEPTION WHEN OTHERS THEN 
+	SET update_res = -1;	
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- DELETE A Supplier
+CREATE OR REPLACE FUNCTION supplier_delete (
+	IN in_supplier_user_id BIGINT,
+	OUT update_res INT
+)
+RETURNS INT AS $$
+BEGIN
+	SELECT user_delete(in_supplier_user_id);
+EXCEPTION WHEN OTHERS THEN 
+	SET update_res = -1;	
+END;
+$$ LANGUAGE plpgsql;
