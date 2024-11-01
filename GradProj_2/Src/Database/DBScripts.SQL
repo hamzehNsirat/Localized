@@ -12,3 +12,13 @@ where
     and t.table_type= 'BASE TABLE'
     and c.table_schema = 'public'
 group by t.table_name;
+-- LIST FUNCTIONS
+SELECT proname AS function_name, pg_get_function_identity_arguments(oid) AS arguments_accepted
+FROM pg_proc
+WHERE pronamespace = 'public'::regnamespace AND proname NOT LIKE 'pg_%';
+-- LIST TRIGGERS
+select 
+ 	l.trigger_name
+ from
+information_schema.triggers;
+
