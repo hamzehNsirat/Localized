@@ -107,7 +107,7 @@ BEGIN
 	supplier_complaint_count,
 	supplier_positive_review_count,	
 	last_modification_date,
-	last_modified_by,
+	last_modified_by
 	)
 	VALUES 
 	(
@@ -170,6 +170,7 @@ CREATE OR REPLACE FUNCTION supplier_delete (
 RETURNS INT AS $$
 BEGIN
 	SELECT user_delete(in_supplier_user_id);
+	SET update_res = 0;	
 EXCEPTION WHEN OTHERS THEN 
 	SET update_res = -1;	
 END;

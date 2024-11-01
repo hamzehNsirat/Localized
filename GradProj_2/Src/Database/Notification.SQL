@@ -50,3 +50,62 @@ CREATE INDEX  idx_notification_type ON notification(notification_type);
 -- Notification Priority Index
 -- to optimize the Retrieval Based on a given Notification's Number of Priority
 CREATE INDEX  idx_notification_priority ON notification(notification_priority);
+
+/*
+Notification CRUD Functions
+*/
+
+-- ONLY GET BY PAGE SIZE AND INDEX
+CREATE OR REPLACE FUNCTION notifications_get (
+	IN in_page_size INT,
+	IN in_page_index INT
+)
+RETURNS TABLE(		
+	notification_id BIGINT,
+	notification_type    BIGINT,
+	notified_user_id    BIGINT,
+	notification_priority INTEGER,
+	notification_email     VARCHAR,
+	notification_phone_num VARCHAR,
+	notification_message   JSONB,
+	notification_subject   VARCHAR,
+	is_email_verified	   BOOLEAN,
+	notification_status 	 INTEGER,
+	notification_status_desc VARCHAR,
+	establishment_building_num VARCHAR,
+	number_of_tries INTEGER,
+	number_of_max_tries INTEGER,
+	is_final_failed BOOLEAN,
+	creation_date  TIMESTAMP,
+	last_modification_date  TIMESTAMP,
+	last_modified_by		 BIGINT
+) AS $$
+BEGIN
+    RETURN QUERY 
+	SELECT
+	N.notification_id,
+	N.notification_type,
+	N.notified_user_id,
+	N.notification_priority,
+	N.notification_email,
+	N.notification_phone_num,
+	N.notification_message,
+	N.notification_subject,
+	N.is_email_verified,
+	N.notification_status,
+	N.notification_status_desc,
+	N.establishment_building_num,
+	N.number_of_tries,
+	N.number_of_max_tries,
+	N.is_final_failed,
+	N.creation_date,
+	N.last_modification_date,
+	N.last_modified_by,
+	(SELECT COUNT(*) FROM notification D WHERE D.is_final_failed = FALSE) AS total_records_count
+	FROM notification N
+	ORDER BY notification_id DESC
+	LIMIT in_page_size
+	OFFSET in_page_index;
+
+END;
+$$ LANGUAGE plpgsql;
