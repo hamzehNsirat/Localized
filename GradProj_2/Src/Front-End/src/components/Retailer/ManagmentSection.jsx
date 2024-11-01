@@ -19,7 +19,8 @@ const ManagementSection = ({ icon, title, description, buttonText, progress }) =
                         )}
                     </div>
                 </div>
-                <Button className='rounded-pill px-5 py-2 d-flex align-content-center' style={{backgroundColor:'#BB4430',border:'none', boxShadow: '-4px 3px 1px rgba(0, 0, 0, 1)', fontSize:'14px'}}>{buttonText}</Button>
+                <Button   className='rounded-pill px-5 py-2 d-flex align-content-center' style={{backgroundColor:'#BB4430',border:'none', boxShadow: '-4px 3px 1px rgba(0, 0, 0, 1)', fontSize:'14px'}}>{buttonText}</Button>
+
             </Card.Body>
         </Card>
     );

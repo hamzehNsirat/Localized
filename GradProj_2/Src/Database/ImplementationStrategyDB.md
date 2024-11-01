@@ -79,16 +79,16 @@
     1. Establishment Status 
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     2. Notification Type
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
     
     3. ProductStatus
         - STATUS: DONE, 
@@ -100,199 +100,210 @@
     4. Purchase Status
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     5. Quotation Status
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     6. Transaction Status
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     7. UserType
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     8. UserStatus
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     9. Compliant Type
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     10. Penalty Type
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     11. Industry Type
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     12. Adminstrator
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     13. Establishment
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     14. User
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     15. Inventory
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     16. Supplier
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     17. Retailer
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     18. Log
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS:DONE, 
+        - REVIEWED: DONE
 
     19. Notification
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     20. Factory
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: DONE, 
+        - COMPLEX-STATUS: DONE, 
+        - REVIEWED: DONE
 
     21. RetailStore
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: CODE IMPLEMENTED, 
+        - COMPLEX-STATUS: CODE IMPLEMENTED, 
+        - REVIEWED: DONE
 
     22. Product
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: CODE IMPLEMENTED, 
+        - COMPLEX-STATUS: CODE IMPLEMENTED, 
+        - REVIEWED: DONE
 
     23. Analytics
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: CODE IMPLEMENTED, 
+        - COMPLEX-STATUS: CODE IMPLEMENTED, 
+        - REVIEWED: DONE
 
     24. Penalty
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: CODE IMPLEMENTED, 
+        - COMPLEX-STATUS: CODE IMPLEMENTED, 
+        - REVIEWED: DONE
 
     25. Compliant
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: CODE IMPLEMENTED, 
+        - COMPLEX-STATUS: CODE IMPLEMENTED, 
+        - REVIEWED: DONE
 
     26. User Review  
         - STATUS: DONE,  
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: CODE IMPLEMENTED, 
+        - COMPLEX-STATUS: CODE IMPLEMENTED, 
+        - REVIEWED: DONE
 
     27. Review
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: CODE IMPLEMENTED, 
+        - COMPLEX-STATUS: CODE IMPLEMENTED, 
+        - REVIEWED: DONE
 
     28. Quotation
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: CODE IMPLEMENTED, 
+        - COMPLEX-STATUS: CODE IMPLEMENTED, 
+        - REVIEWED: DONE
 
     29. Order
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: CODE IMPLEMENTED, 
+        - COMPLEX-STATUS: CODE IMPLEMENTED, 
+        - REVIEWED: DONE
  
     30. Purchase
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: CODE IMPLEMENTED, 
+        - COMPLEX-STATUS: CODE IMPLEMENTED, 
+        - REVIEWED: DONE
 
     31. Purchase Transaction
         - STATUS: DONE, 
         - ADJUSTMENTS: DONE, 
-        - CRUD-STATUS: NOT YET, 
-        - COMPLEX-STATUS: NOT YET, 
-        - REVIEWED: NOT YET
+        - CRUD-STATUS: CODE IMPLEMENTED, 
+        - COMPLEX-STATUS: CODE IMPLEMENTED, 
+        - REVIEWED: DONE
 
+    32. Category
+        - STATUS: DONE, 
+        - ADJUSTMENTS: DONE, 
+        - CRUD-STATUS: CODE IMPLEMENTED, 
+        - COMPLEX-STATUS: CODE IMPLEMENTED, 
+        - REVIEWED: DONE
+    * APPNDX 1
+      * MANUAL FILE: TO BE DONE 
+    * APPNDX 2
+      * CONNECTION / PROPERITES: TO BE DONE 
+      
 ## [ImplementationCategories]
 
     1. TABLE AND INTER-RELATIONS & CRUD FUNCTIONS (GET / UPDATE / CREATE / DELETE) FOR EACH TABLE

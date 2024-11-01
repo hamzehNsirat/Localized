@@ -17,10 +17,10 @@ export default function Header(){
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-center">
           <Nav className="nav justify-content-between gap-4" style={{color:'white'}}>
-            <Nav.Link href='/retailer' style={{color:'inherit'}}><Link to="/retailer" style={{textDecoration:'none',color:'inherit'}}>Dashboard</Link></Nav.Link>
-            <Nav.Link href='marketplace' style={{color:'inherit'}}><Link to="marketplace"  style={{textDecoration:'none',color:'inherit'}}>Marketplace</Link></Nav.Link>
-            <Nav.Link href='manageQuotations' style={{color:'inherit'}}><Link to="manageQuotations"  style={{textDecoration:'none',color:'inherit'}}>Manage Quotations</Link></Nav.Link>
-            <Nav.Link href='Complaints' style={{color:'inherit'}}><Link to="complaints"  style={{textDecoration:'none',color:'inherit'}}>Complaints</Link></Nav.Link>
+            <Nav.Link  href='#Dashboard' style={{color:'inherit'}}><Link to="/Dashboard" style={{textDecoration:'none',color:'inherit'}}>Dashboard</Link></Nav.Link>
+            <Nav.Link href='#Marketplace' style={{color:'inherit'}}><Link to="/Marketplace"  style={{textDecoration:'none',color:'inherit'}}>Marketplace</Link></Nav.Link>
+            <Nav.Link href='#ManageQuotations' style={{color:'inherit'}}><Link to="/ManageQuotations"  style={{textDecoration:'none',color:'inherit'}}>Manage Quotations</Link></Nav.Link>
+            <Nav.Link href='#Complaints' style={{color:'inherit'}}><Link to="/Complaints"  style={{textDecoration:'none',color:'inherit'}}>Complaints</Link></Nav.Link>
           </Nav>
         </Navbar.Collapse>
         <img src={settingsLogo} style={{width:'2.4rem'}}/>
