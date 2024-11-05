@@ -1,0 +1,1 @@
+// Product endpoints (/products, /products/:id, etc.)

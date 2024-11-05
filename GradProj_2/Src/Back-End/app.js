@@ -1,0 +1,1 @@
+// Configures the main Express app, adds middleware, and sets up routing

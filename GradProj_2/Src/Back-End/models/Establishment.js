@@ -1,0 +1,1 @@
+// Represents establishments with necessary details.

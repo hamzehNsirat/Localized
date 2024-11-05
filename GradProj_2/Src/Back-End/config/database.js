@@ -1,0 +1,1 @@
+// Sets up the Sequelize configuration for PostgreSQL

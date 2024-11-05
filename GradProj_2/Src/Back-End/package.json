@@ -1,0 +1,12 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "<h1>Localized</h1>\r <strong>Project Description:</strong><br>\r Localized is a platform created to endorse the Jordanian economy by increasing local manufacturers’ visibility and access to markets. The goal of Localized is to shorten the gap between small-medium scale producers and retailers by providing a simple, safe and effective platform for local product discovery and sales. An analytics driven interface for retailers to track purchase history and product profitability in which there is a comprehensive dashboard for manufacturers to monitor product performance, receive feedback and advanced features like product validation and secure payment processing are the main use cases of Localized.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

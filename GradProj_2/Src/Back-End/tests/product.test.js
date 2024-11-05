@@ -1,0 +1,1 @@
+// Product management tests (CRUD, search, filter)

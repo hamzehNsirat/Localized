@@ -1,0 +1,1 @@
+// User schema (Admin, Retailer, Supplier roles)

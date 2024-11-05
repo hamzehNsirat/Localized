@@ -1,0 +1,1 @@
+// Quotation schema, linking retailers and suppliers

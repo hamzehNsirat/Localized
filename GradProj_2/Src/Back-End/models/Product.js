@@ -1,0 +1,1 @@
+// Product schema with attributes (name, price, description, etc.)

@@ -1,0 +1,1 @@
+// Stores API keys and other sensitive configurations if needed

@@ -1,0 +1,1 @@
+// Validates incoming request data based on defined schemas (e.g., using Joi)

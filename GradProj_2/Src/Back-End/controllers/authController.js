@@ -1,0 +1,1 @@
+// Manages user authentication (login, signup, password reset)

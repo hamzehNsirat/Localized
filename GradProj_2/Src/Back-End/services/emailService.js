@@ -1,0 +1,1 @@
+// Handles email notifications (e.g., for quotations, order updates)
