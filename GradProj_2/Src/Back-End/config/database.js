@@ -1,4 +1,4 @@
-// Sets up the Sequelize configuration for PostgreSQL
+/* // Sets up the Sequelize configuration for PostgreSQL
 
 const { Sequelize } = require('sequelize');
 const keys = require('../keys'); // Import keys.js
@@ -31,4 +31,34 @@ async function authenticateConnection() {
 }
 authenticateConnection();  // Test the connection upon initialization
 
-module.exports = sequelize;
+module.exports = sequelize; */
+
+const { Pool } = require("pg");
+
+// Database connection pool
+const pool = new Pool({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  database: process.env.DB_NAME,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+});
+
+// Utility function to execute database queries
+async function executeQuery(query = "", params = []) {
+  const client = await pool.connect();
+  try {
+    const result = await client.query(query, params);
+    return result.rows;
+  } catch (error) {
+    console.error("Database query error:", error);
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+module.exports = {
+  executeQuery,
+  pool
+};

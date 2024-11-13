@@ -89,29 +89,27 @@ RETURNS TABLE(
 BEGIN
     RETURN QUERY 
 	SELECT
-		national_number,
-		user_type,
-		user_status,
-		first_name,
-		middle_name,
-		last_name,
-		date_of_birth,
-		user_name,
-		user_address,
-		user_email,
-		is_email_verified,
-		user_phone_number,
-		last_modification_date,
-		last_modified_by	
-	FROM user_localized
-	WHERE CAST(user_id AS BIGINT) = in_user_id;
+		D.national_number,
+		D.user_type,
+		D.user_status,
+		D.first_name,
+		D.middle_name,
+		D.last_name,
+		D.date_of_birth,
+		D.user_name_lclzd,
+		D.user_address,
+		D.user_email,
+		D.is_email_verified,
+		D.user_phone_number
+	FROM user_localized AS D
+	WHERE CAST(D.user_id AS BIGINT) = in_user_id;
 END;
 $$ LANGUAGE plpgsql;
 -- VALIDATE USER LOGIN
 CREATE OR REPLACE FUNCTION validate_user_login (
-		IN user_name 		VARCHAR,
-		IN user_email 		VARCHAR,
-		IN user_pass 		VARCHAR
+		IN in_user_name 		VARCHAR,
+		IN in_user_email 		VARCHAR,
+		IN in_user_pass 		VARCHAR
 )
 RETURNS INTEGER AS $$
 DECLARE salted_pass VARCHAR;
@@ -122,19 +120,18 @@ BEGIN
 
 	SELECT user_password
 	FROM user_localized D
-	WHERE CAST(D.user_name AS BIGINT) = user_name  AND CAST(D.user_email AS BIGINT) = user_email  INTO salted_pass;
+	WHERE CAST(D.user_name_lclzd AS VARCHAR) = in_user_name  AND CAST(D.user_email AS VARCHAR) = in_user_email  INTO salted_pass;
 	IF salted_pass IS NULL THEN 
 		RETURN -2; 
 	END IF;
-	check_state = (SELECT  (salted_pass = crypt(user_pass, salted_pass)));
-	IF check_state = t THEN 
+	check_state = (SELECT  (salted_pass = crypt(in_user_pass, salted_pass)));
+	IF check_state = TRUE THEN 
 		RETURN 0;
 	ELSE 
 		RETURN -2;
 	END IF;
 END;
 $$ LANGUAGE plpgsql;
-
 -- INSERT A User
 CREATE OR REPLACE FUNCTION user_insert (
 	IN in_national_number   BIGINT,
@@ -152,6 +149,7 @@ CREATE OR REPLACE FUNCTION user_insert (
 	IN in_is_email_verified BOOLEAN,
 	IN in_user_phone_number VARCHAR,
 	IN in_last_modified_by	 BIGINT,
+	IN in_image BYTEA,
 	OUT out_user_id BIGINT
 )
 RETURNS BIGINT AS $$
@@ -165,7 +163,7 @@ BEGIN
 	middle_name,
 	last_name,
 	date_of_birth,
-	user_name 	 ,
+	user_name_lclzd 	 ,
 	user_address ,
 	user_email 	 ,
 	user_password,
@@ -174,6 +172,7 @@ BEGIN
 	user_phone_number,
 	last_modification_date,
 	last_modified_by
+	user_image
 	)
 	VALUES
 	(
@@ -192,7 +191,8 @@ BEGIN
 	in_is_email_verified,
 	in_user_phone_number,
 	CURRENT_TIMESTAMP,
-	in_last_modified_by
+	in_last_modified_by,
+	in_image
 	) RETURNING CAST(user_id AS BIGINT) INTO out_user_id;
 
 EXCEPTION WHEN OTHERS THEN 
