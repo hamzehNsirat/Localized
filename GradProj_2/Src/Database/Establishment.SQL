@@ -20,6 +20,8 @@ CREATE TABLE establishment (
 	establishment_latitude  FLOAT,
 	last_modification_date  TIMESTAMP NOT NULL,
 	last_modified_by		 BIGINT   NOT NULL,
+	establishment_logo       BYTEA,
+	establishment_cover       BYTEA,
 	CONSTRAINT fk_establishment_status FOREIGN KEY (establishment_status)
     REFERENCES establishment_status(establishment_status_id) ON DELETE SET NULL ON UPDATE CASCADE,
 	CONSTRAINT fk_industry FOREIGN KEY (industry_type)

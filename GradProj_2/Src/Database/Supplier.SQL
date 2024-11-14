@@ -128,7 +128,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- UPDATE A Supplier
-CREATE OR REPLACE FUNCTION user_update (
+CREATE OR REPLACE FUNCTION supplier_update (
 	IN in_supplier_id    BIGINT,
 	IN in_supplier_user_id    BIGINT,
 	IN in_supplier_tax_identification_num    VARCHAR,

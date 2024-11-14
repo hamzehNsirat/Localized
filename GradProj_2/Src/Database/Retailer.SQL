@@ -121,7 +121,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- UPDATE A Retailer
-CREATE OR REPLACE FUNCTION user_update (
+CREATE OR REPLACE FUNCTION retailer_update (
 	IN in_retialer_id    BIGINT,
 	IN in_retialer_user_id    BIGINT,
 	IN in_retialer_tax_identification_num    VARCHAR,

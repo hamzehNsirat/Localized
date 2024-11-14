@@ -112,21 +112,22 @@ CREATE OR REPLACE FUNCTION validate_user_login (
 		IN in_user_pass 		VARCHAR
 )
 RETURNS INTEGER AS $$
-DECLARE salted_pass VARCHAR;
+DECLARE salted_pass VARCHAR; 
 DECLARE v_user_name VARCHAR;
 DECLARE v_user_email VARCHAR;
+DECLARE v_user_id INTEGER;
 DECLARE check_state BOOLEAN;
 BEGIN
 
-	SELECT user_password
+	SELECT user_password, user_id
 	FROM user_localized D
-	WHERE CAST(D.user_name_lclzd AS VARCHAR) = in_user_name  AND CAST(D.user_email AS VARCHAR) = in_user_email  INTO salted_pass;
+	WHERE CAST(D.user_name_lclzd AS VARCHAR) = in_user_name  AND CAST(D.user_email AS VARCHAR) = in_user_email  INTO salted_pass, v_user_id;
 	IF salted_pass IS NULL THEN 
 		RETURN -2; 
 	END IF;
 	check_state = (SELECT  (salted_pass = crypt(in_user_pass, salted_pass)));
 	IF check_state = TRUE THEN 
-		RETURN 0;
+		RETURN v_user_id;
 	ELSE 
 		RETURN -2;
 	END IF;
@@ -171,7 +172,7 @@ BEGIN
 	is_email_verified,
 	user_phone_number,
 	last_modification_date,
-	last_modified_by
+	last_modified_by,
 	user_image
 	)
 	VALUES
@@ -196,7 +197,7 @@ BEGIN
 	) RETURNING CAST(user_id AS BIGINT) INTO out_user_id;
 
 EXCEPTION WHEN OTHERS THEN 
-	SET out_user_id = -1;	
+	out_user_id := -1;	
 END;
 $$ LANGUAGE plpgsql;
 
@@ -239,10 +240,11 @@ BEGIN
 	last_modified_by =	COALESCE(in_last_modified_by, last_modified_by)
 
 	WHERE CAST(user_id AS BIGINT) = in_user_id;
-	SET update_res = 0;	
+	update_res := 0;	
 
 EXCEPTION WHEN OTHERS THEN 
-	SET update_res = -1;	
+	update_res := -1;	
+
 END;
 $$ LANGUAGE plpgsql;
 
@@ -261,9 +263,9 @@ BEGIN
 	last_modified_by =	COALESCE(in_last_modified_by, last_modified_by)
 
 	WHERE CAST(user_id AS BIGINT) = in_user_id;
-	SET update_res = 0;	
+	update_res := 0;	
 
 EXCEPTION WHEN OTHERS THEN 
-	SET update_res = -1;	
+	update_res := -1;	
 END;
 $$ LANGUAGE plpgsql;
