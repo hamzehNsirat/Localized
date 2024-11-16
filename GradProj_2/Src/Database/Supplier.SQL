@@ -41,13 +41,13 @@ Supplier CRUD Functions
 -- GET A Supplier BY ID
 CREATE OR REPLACE FUNCTION supplier_get_by_id(IN in_supplier_id BIGINT)
 RETURNS TABLE(		
-	supplier_user_id    BIGINT,
-	supplier_tax_identification_num    VARCHAR,
-	supplier_bank_account_num    VARCHAR,
-	supplier_iban    VARCHAR,
-	supplier_compliance_indicator FLOAT,
-	supplier_complaint_count 	    INTEGER,
-	supplier_positive_review_count INTEGER
+	out_supplier_user_id    BIGINT,
+	out_supplier_tax_identification_num    VARCHAR,
+	out_supplier_bank_account_num    VARCHAR,
+	out_supplier_iban    VARCHAR,
+	out_supplier_compliance_indicator FLOAT,
+	out_supplier_complaint_count 	    INTEGER,
+	out_supplier_positive_review_count INTEGER
 ) AS $$
 BEGIN
     RETURN QUERY 
@@ -68,9 +68,9 @@ CREATE OR REPLACE FUNCTION get_supplier_compliance_statistics (
 IN in_supplier_id BIGINT
 )
 RETURNS TABLE(		
-	supplier_compliance_indicator FLOAT,
-	supplier_complaint_count 	    INTEGER,
-	supplier_positive_review_count INTEGER
+	out_supplier_compliance_indicator FLOAT,
+	out_supplier_complaint_count 	    INTEGER,
+	out_supplier_positive_review_count INTEGER
 ) AS $$
 BEGIN
     RETURN QUERY 
@@ -123,7 +123,7 @@ BEGIN
 	) RETURNING CAST(supplier_id AS BIGINT) INTO out_supplier_id;
 
 EXCEPTION WHEN OTHERS THEN 
-	SET out_supplier_id = -1;	
+	out_supplier_id := -1;	
 END;
 $$ LANGUAGE plpgsql;
 
@@ -157,7 +157,7 @@ BEGIN
 	SET update_res = 0;	
 
 EXCEPTION WHEN OTHERS THEN 
-	SET update_res = -1;	
+	 update_res := -1;	
 END;
 $$ LANGUAGE plpgsql;
 
@@ -172,6 +172,6 @@ BEGIN
 	SELECT user_delete(in_supplier_user_id);
 	SET update_res = 0;	
 EXCEPTION WHEN OTHERS THEN 
-	SET update_res = -1;	
+	 update_res := -1;	
 END;
 $$ LANGUAGE plpgsql;

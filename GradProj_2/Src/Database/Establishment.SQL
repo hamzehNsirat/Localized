@@ -4,7 +4,6 @@
 CREATE TABLE establishment ( 
 	establishment_id SERIAL PRIMARY KEY,
 	establishment_status    BIGINT,
-	industry_type    BIGINT[],
 	establishment_name TEXT,
 	commercial_registration_num BIGINT NOT NULL UNIQUE,
 	establishment_registration_date TIMESTAMP NOT NULL,
@@ -16,16 +15,19 @@ CREATE TABLE establishment (
 	establishment_city VARCHAR(254) NOT NULL,
 	establishment_street VARCHAR(254) NOT NULL,
 	establishment_building_num VARCHAR(15) NOT NULL,
-	establishment_longitude FLOAT,
-	establishment_latitude  FLOAT,
 	last_modification_date  TIMESTAMP NOT NULL,
 	last_modified_by		 BIGINT   NOT NULL,
+	industry_type_spec    BIGINT[],
 	establishment_logo       BYTEA,
 	establishment_cover       BYTEA,
+	est_compliance_indicator FLOAT NOT NULL DEFAULT 0,
+	est_compliance_indicator_desc VARCHAR(15) NOT NULL DEFAULT 'GOOD'
 	CONSTRAINT fk_establishment_status FOREIGN KEY (establishment_status)
     REFERENCES establishment_status(establishment_status_id) ON DELETE SET NULL ON UPDATE CASCADE,
 	CONSTRAINT fk_industry FOREIGN KEY (industry_type)
-    REFERENCES industry_type(industry_type_id) ON DELETE SET NULL ON UPDATE CASCADE
+    REFERENCES industry_type(industry_type_id) ON DELETE SET NULL ON UPDATE CASCADE,
+	CONSTRAINT chk_est_compliance_ind CHECK(est_compliance_indicator BETWEEN 0 AND 1),
+	CONSTRAINT chk_est_compliance_ind_desc CHECK(est_compliance_indicator_desc IN('GOOD', 'WARNING', 'RESTRICTED', 'SUSPENDED'))
 );
 /*
 Establishment Indexes  / Triggers
@@ -59,8 +61,10 @@ RETURNS TABLE(
 		out_establishment_city VARCHAR,
 		out_establishment_street VARCHAR,
 		out_establishment_building_num VARCHAR,
-		out_establishment_longitude FLOAT,
-		out_establishment_latitude  FLOAT,
+		out_establishment_logo       BYTEA,
+		out_establishment_cover       BYTEA,
+		out_est_compliance_indicator FLOAT,
+		out_est_compliance_indicator_desc VARCHAR,
 		out_last_modification_date  TIMESTAMP,
 		out_last_modified_by		 BIGINT
 	) 
@@ -82,15 +86,16 @@ BEGIN
 		establishment_city,
 		establishment_street,
 		establishment_building_num,
-		establishment_longitude,
-		establishment_latitude,
+		establishment_logo,
+		establishment_cover,
+		est_compliance_indicator,
+		est_compliance_indicator_desc,
 		last_modification_date,
 		last_modified_by	
 	FROM establishment;
 END;
 $$ LANGUAGE plpgsql;
 -- GET AN ESTABLISHMENT BY ID
-DROP FUNCTION establishment_get_by_id;
 CREATE OR REPLACE FUNCTION establishment_get_by_id(IN est_id BIGINT)
 RETURNS TABLE(		
 		out_establishment_status BIGINT,
@@ -106,8 +111,10 @@ RETURNS TABLE(
 		out_establishment_city VARCHAR,
 		out_establishment_street VARCHAR,
 		out_establishment_building_num VARCHAR,
-		out_establishment_longitude FLOAT,
-		out_establishment_latitude  FLOAT,
+		out_establishment_logo       BYTEA,
+		out_establishment_cover       BYTEA,
+		out_est_compliance_indicator FLOAT,
+		out_est_compliance_indicator_desc VARCHAR,
 		out_last_modification_date  TIMESTAMP,
 		out_last_modified_by		 BIGINT
 ) AS $$
@@ -127,8 +134,10 @@ BEGIN
 		establishment_city,
 		establishment_street,
 		establishment_building_num,
-		establishment_longitude,
-		establishment_latitude,
+		establishment_logo,
+		establishment_cover,
+		est_compliance_indicator,
+		est_compliance_indicator_desc,
 		last_modification_date,
 		last_modified_by	
 	FROM establishment
@@ -152,8 +161,10 @@ RETURNS TABLE(
 		out_establishment_city VARCHAR,
 		out_establishment_street VARCHAR,
 		out_establishment_building_num VARCHAR,
-		out_establishment_longitude FLOAT,
-		out_establishment_latitude  FLOAT,
+		out_establishment_logo       BYTEA,
+		out_establishment_cover       BYTEA,
+		out_est_compliance_indicator FLOAT,
+		out_est_compliance_indicator_desc VARCHAR,
 		out_last_modification_date  TIMESTAMP,
 		out_last_modified_by		 BIGINT
 ) AS $$
@@ -174,8 +185,10 @@ BEGIN
 		establishment_city,
 		establishment_street,
 		establishment_building_num,
-		establishment_longitude,
-		establishment_latitude,
+		establishment_logo,
+		establishment_cover,
+		est_compliance_indicator,
+		est_compliance_indicator_desc,
 		last_modification_date,
 		last_modified_by	
 	FROM establishment
@@ -201,8 +214,10 @@ RETURNS TABLE(
 		out_establishment_city VARCHAR,
 		out_establishment_street VARCHAR,
 		out_establishment_building_num VARCHAR,
-		out_establishment_longitude FLOAT,
-		out_establishment_latitude  FLOAT,
+		out_establishment_logo       BYTEA,
+		out_establishment_cover       BYTEA,		
+		out_est_compliance_indicator FLOAT,
+		out_est_compliance_indicator_desc VARCHAR,
 		out_last_modification_date  TIMESTAMP,
 		out_last_modified_by		 BIGINT
 ) AS $$
@@ -223,8 +238,10 @@ BEGIN
 		establishment_city,
 		establishment_street,
 		establishment_building_num,
-		establishment_longitude,
-		establishment_latitude,
+		establishment_logo,
+		establishment_cover,
+		est_compliance_indicator,
+		est_compliance_indicator_desc,
 		last_modification_date,
 		last_modified_by	
 	FROM establishment
@@ -232,7 +249,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 -- INSERT AN ESTABLISHMENT
-DROP FUNCTION establishment_insert;
 CREATE OR REPLACE FUNCTION establishment_insert(
 	IN in_establishment_status    BIGINT,
 	IN in_industry_type    BIGINT[],
@@ -247,16 +263,23 @@ CREATE OR REPLACE FUNCTION establishment_insert(
 	IN in_establishment_city VARCHAR,
 	IN in_establishment_street VARCHAR,
 	IN in_establishment_building_num VARCHAR,
-	IN in_establishment_longitude FLOAT,
-	IN in_establishment_latitude  FLOAT,
+	IN in_establishment_logo       BYTEA,
+	IN in_establishment_cover       BYTEA,
+	IN in_est_compliance_indicator FLOAT,
+	IN in_est_compliance_indicator_desc VARCHAR,
 	IN last_modifier BIGINT,
 	OUT out_establishment_id BIGINT
 )
 RETURNS BIGINT AS $$
+DECLARE
+    v_state TEXT;
+    v_msg TEXT;
+    v_detail TEXT;
+    v_hint TEXT;
+    v_context TEXT;
 BEGIN
 	INSERT INTO establishment (
 		establishment_status,
-		industry_type,
 		establishment_name,
 		commercial_registration_num,
 		establishment_registration_date,
@@ -268,14 +291,16 @@ BEGIN
 		establishment_city,
 		establishment_street,
 		establishment_building_num,
-		establishment_longitude,
-		establishment_latitude,
+		industry_type_spec,
+		establishment_logo      ,
+		establishment_cover      ,
+		est_compliance_indicator,
+		est_compliance_indicator_desc,
 		last_modification_date,
 		last_modified_by
 	) VALUES
 	(
 		in_establishment_status,
-		in_industry_type,
 		in_establishment_name,
 		in_commercial_registration_num,
 		in_establishment_registration_date,
@@ -287,16 +312,31 @@ BEGIN
 		in_establishment_city,
 		in_establishment_street,
 		in_establishment_building_num,
-		in_establishment_longitude,
-		in_establishment_latitude,
+		in_industry_type,
+		in_establishment_logo,
+		in_establishment_cover,
+		in_est_compliance_indicator,
+		in_est_compliance_indicator_desc,
 		CURRENT_TIMESTAMP,
 		last_modifier
 	) RETURNING CAST(establishment_id AS BIGINT) INTO out_establishment_id;
 EXCEPTION WHEN OTHERS THEN 
-	SET out_establishment_id = -1;	
+
+	out_establishment_id := -1;	
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
 END;
 $$ LANGUAGE plpgsql;
-
 -- UPDATE AN ESTABLISHMENT 
 CREATE OR REPLACE FUNCTION establishment_update (
 	IN est_id BIGINT,
@@ -312,8 +352,10 @@ CREATE OR REPLACE FUNCTION establishment_update (
 	IN in_establishment_city VARCHAR,
 	IN in_establishment_street VARCHAR,
 	IN in_establishment_building_num VARCHAR,
-	IN in_establishment_longitude FLOAT,
-	IN in_establishment_latitude  FLOAT,
+	IN in_establishment_logo       BYTEA,
+	IN in_establishment_cover       BYTEA,
+	IN in_est_compliance_indicator FLOAT,
+	IN in_est_compliance_indicator_desc VARCHAR,
 	IN last_modifier BIGINT
 )
 RETURNS INTEGER AS $$
@@ -321,7 +363,7 @@ BEGIN
 	UPDATE establishment 
 	SET 
 	establishment_status = COALESCE(in_establishment_status, establishment_status),
-	industry_type = COALESCE(in_industry_type, industry_type),
+	industry_type_spec = COALESCE(in_industry_type, industry_type_spec),
 	establishment_name = COALESCE(in_establishment_name, establishment_name),
 	commercial_registration_num = COALESCE(in_commercial_registration_num, commercial_registration_num),
 	establishment_registration_date = COALESCE(in_establishment_registration_date, establishment_registration_date),
@@ -332,8 +374,10 @@ BEGIN
 	establishment_city = COALESCE(in_establishment_city, establishment_city),
 	establishment_street = COALESCE(in_establishment_street, establishment_street),
 	establishment_building_num = COALESCE(in_establishment_building_num, establishment_building_num),
-	establishment_longitude = COALESCE(in_establishment_longitude, establishment_longitude),
-	establishment_latitude = COALESCE(in_establishment_latitude, establishment_latitude),
+	establishment_logo   = COALESCE(in_establishment_logo, establishment_logo),
+	establishment_cover  = COALESCE(in_establishment_cover, establishment_cover),
+	est_compliance_indicator = COALESCE(in_est_compliance_indicator, est_compliance_indicator),
+	est_compliance_indicator_desc = COALESCE(in_est_compliance_indicator_desc, est_compliance_indicator_desc),
 	last_modification_date = CURRENT_TIMESTAMP, 
 	last_modified_by =	COALESCE(last_modifier, last_modified_by)
 
@@ -344,8 +388,7 @@ EXCEPTION WHEN OTHERS THEN
 	RETURN -1 AS execution_result;	
 END;
 $$ LANGUAGE plpgsql;
-
--- DELETE AN ESTABLISHMENT STATUS
+-- DELETE AN ESTABLISHMENT
 CREATE OR REPLACE FUNCTION establishment_delete (
 	IN est_id BIGINT,
 	IN last_modifier BIGINT

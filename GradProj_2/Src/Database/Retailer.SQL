@@ -36,99 +36,96 @@ CREATE INDEX  idx_retlr_cmplnce ON retailer(retailer_compliance_indicator);
 Retailer CRUD Functions
 */
 -- GET A Retailer BY ID
-CREATE OR REPLACE FUNCTION retialer_get_by_id(IN in_retialer_id BIGINT)
+CREATE OR REPLACE FUNCTION retailer_get_by_id(IN in_retailer_id BIGINT)
 RETURNS TABLE(		
-	retialer_user_id    BIGINT,
-	retialer_tax_identification_num    VARCHAR,
-	retialer_bank_account_num    VARCHAR,
-	retialer_iban    VARCHAR,
-	retialer_compliance_indicator FLOAT,
-	retialer_complaint_count 	    INTEGER
+	out_retailer_user_id    BIGINT,
+	out_retailer_tax_identification_num    VARCHAR,
+	out_retailer_bank_account_num    VARCHAR,
+	out_retailer_iban    VARCHAR,
+	out_retailer_compliance_indicator FLOAT,
+	out_retailer_complaint_count 	    INTEGER
 ) AS $$
 BEGIN
     RETURN QUERY 
 	SELECT
-	retialer_user_id,
-	retialer_tax_identification_num,
-	retialer_bank_account_num,
-	retialer_iban,
-	retialer_compliance_indicator,
-	retialer_complaint_count 
+	retailer_user_id,
+	retailer_tax_identification_num,
+	retailer_bank_account_num,
+	retailer_iban,
+	retailer_compliance_indicator,
+	retailer_compliance_count 
 	FROM retailer
-	WHERE CAST(retialer_id AS BIGINT) = in_retialer_id;
+	WHERE CAST(retailer_id AS BIGINT) = in_retailer_id;
 END;
 $$ LANGUAGE plpgsql;
 -- GET A Retailer Statistics 
-CREATE OR REPLACE FUNCTION get_retialer_compliance_statistics (
-IN in_retialer_id BIGINT
+CREATE OR REPLACE FUNCTION get_retailer_compliance_statistics (
+IN in_retailer_id BIGINT
 )
 RETURNS TABLE(		
-	retialer_compliance_indicator FLOAT,
-	retialer_complaint_count 	    INTEGER,
-	retialer_positive_review_count INTEGER
+	out_retailer_compliance_indicator FLOAT,
+	out_retailer_complaint_count 	    INTEGER
 ) AS $$
 BEGIN
     RETURN QUERY 
 	SELECT
-	retialer_compliance_indicator,
-	retialer_complaint_count 	,
-	retialer_positive_review_count
+	retailer_compliance_indicator,
+	retailer_compliance_count 	
 	FROM retailer
-	WHERE CAST(retialer_id AS BIGINT) = in_retialer_id;
+	WHERE CAST(retailer_id AS BIGINT) = in_retailer_id;
 END;
 $$ LANGUAGE plpgsql;
 
 -- INSERT A Retailer
-CREATE OR REPLACE FUNCTION retialer_insert (
-	IN in_retialer_user_id    BIGINT,
-	IN in_retialer_tax_identification_num    VARCHAR,
-	IN in_retialer_bank_account_num    VARCHAR,
-	IN in_retialer_iban    VARCHAR,
-	IN in_retialer_compliance_indicator FLOAT,
-	IN in_retialer_complaint_count 	    INTEGER,
+CREATE OR REPLACE FUNCTION retailer_insert (
+	IN in_retailer_user_id    BIGINT,
+	IN in_retailer_tax_identification_num    VARCHAR,
+	IN in_retailer_bank_account_num    VARCHAR,
+	IN in_retailer_iban    VARCHAR,
+	IN in_retailer_compliance_indicator FLOAT,
+	IN in_retailer_complaint_count 	    INTEGER,
 	IN in_last_modified_by	 BIGINT,
-	OUT out_retialer_id BIGINT
+	OUT out_retailer_id BIGINT
 )
 RETURNS BIGINT AS $$
 BEGIN
     INSERT INTO retailer 
 	(	
-	retialer_user_id,
-	retialer_tax_identification_num,
-	retialer_bank_account_num,
-	retialer_iban,
-	retialer_compliance_indicator,
-	retialer_complaint_count,
-	retialer_positive_review_count,	
+	retailer_user_id,
+	retailer_tax_identification_num,
+	retailer_bank_account_num,
+	retailer_iban,
+	retailer_compliance_indicator,
+	retailer_compliance_count,
 	last_modification_date,
 	last_modified_by
 	)
 	VALUES 
 	(
-	in_retialer_user_id,
-	in_retialer_tax_identification_num ,
-	in_retialer_bank_account_num,
-	in_retialer_iban,
-	in_retialer_compliance_indicator ,
-	in_retialer_complaint_count 	 ,
+	in_retailer_user_id,
+	in_retailer_tax_identification_num ,
+	in_retailer_bank_account_num,
+	in_retailer_iban,
+	in_retailer_compliance_indicator ,
+	in_retailer_complaint_count 	 ,
 	CURRENT_TIMESTAMP,
 	in_last_modified_by
-	) RETURNING CAST(retialer_id AS BIGINT) INTO out_retialer_id;
+	) RETURNING CAST(retailer_id AS BIGINT) INTO out_retailer_id;
 
 EXCEPTION WHEN OTHERS THEN 
-	SET out_retialer_id = -1;	
+	out_retailer_id := -1;	
 END;
 $$ LANGUAGE plpgsql;
 
 -- UPDATE A Retailer
 CREATE OR REPLACE FUNCTION retailer_update (
-	IN in_retialer_id    BIGINT,
-	IN in_retialer_user_id    BIGINT,
-	IN in_retialer_tax_identification_num    VARCHAR,
-	IN in_retialer_bank_account_num    VARCHAR,
-	IN in_retialer_iban    VARCHAR,
-	IN in_retialer_compliance_indicator FLOAT,
-	IN in_retialer_complaint_count 	    INTEGER,
+	IN in_retailer_id    BIGINT,
+	IN in_retailer_user_id    BIGINT,
+	IN in_retailer_tax_identification_num    VARCHAR,
+	IN in_retailer_bank_account_num    VARCHAR,
+	IN in_retailer_iban    VARCHAR,
+	IN in_retailer_compliance_indicator FLOAT,
+	IN in_retailer_complaint_count 	    INTEGER,
 	IN in_last_modified_by	 BIGINT,
 	OUT update_res INT
 )
@@ -136,33 +133,33 @@ RETURNS INT AS $$
 BEGIN
     UPDATE retailer 
 	SET	
-	retialer_tax_identification_num = COALESCE(in_retialer_tax_identification_num, retialer_tax_identification_num),
-	retialer_bank_account_num= COALESCE(in_retialer_bank_account_num, retialer_bank_account_num),
-	retialer_iban= COALESCE(in_retialer_iban, retialer_iban),
-	retialer_compliance_indicator= COALESCE(in_retialer_compliance_indicator, retialer_compliance_indicator),
-	retialer_complaint_count= COALESCE(in_retialer_complaint_count, retialer_complaint_count),
+	retailer_tax_identification_num = COALESCE(in_retailer_tax_identification_num, retailer_tax_identification_num),
+	retailer_bank_account_num= COALESCE(in_retailer_bank_account_num, retailer_bank_account_num),
+	retailer_iban= COALESCE(in_retailer_iban, retailer_iban),
+	retailer_compliance_indicator= COALESCE(in_retailer_compliance_indicator, retailer_compliance_indicator),
+	retailer_compliance_count= COALESCE(in_retailer_complaint_count, retailer_compliance_count),
 	last_modification_date = CURRENT_TIMESTAMP,
 	last_modified_by =	COALESCE(in_last_modified_by, last_modified_by)
 
-	WHERE CAST(retialer_id AS BIGINT) = in_retialer_id;
+	WHERE CAST(retailer_id AS BIGINT) = in_retailer_id;
 	SET update_res = 0;	
 
 EXCEPTION WHEN OTHERS THEN 
-	SET update_res = -1;	
+	update_res := -1;	
 END;
 $$ LANGUAGE plpgsql;
 
 
 -- DELETE A Retailer
-CREATE OR REPLACE FUNCTION retialer_delete (
-	IN in_retialer_user_id BIGINT,
+CREATE OR REPLACE FUNCTION retailer_delete (
+	IN in_retailer_user_id BIGINT,
 	OUT update_res INT
 )
 RETURNS INT AS $$
 BEGIN
-	SELECT user_delete(in_retialer_user_id);
+	SELECT user_delete(in_retailer_user_id);
 	SET update_res = 0;	
 EXCEPTION WHEN OTHERS THEN 
-	SET update_res = -1;	
+	update_res := -1;	
 END;
 $$ LANGUAGE plpgsql;

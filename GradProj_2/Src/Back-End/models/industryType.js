@@ -25,8 +25,8 @@ const IndustryModel = {
     );
   },
   async delete(inputData) {
-    return await executeQuery("SELECT user_status_delete($1) AS RES", [
-      inputData.industryType
+    return await executeQuery("SELECT industry_type_delete($1) AS RES", [
+      inputData.industryType,
     ]);
   },
 };

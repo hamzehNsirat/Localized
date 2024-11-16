@@ -29,11 +29,11 @@ EXCEPTION WHEN OTHERS THEN
 END;
 $$ LANGUAGE plpgsql;
 -- DELETE AN Adminstrator
-CREATE OR REPLACE FUNCTION adminstrators_delete(IN admin_id BIGINT, IN last_modifier BIGINT)
+CREATE OR REPLACE FUNCTION adminstrators_delete(IN in_admin_id BIGINT, IN last_modifier BIGINT)
 RETURNS INTEGER AS $$
 BEGIN
 	DELETE FROM adminstrator  AS D
-	WHERE CAST(D.admin_id AS BIGINT) = admin_id;
+	WHERE CAST(D.admin_id AS BIGINT) = in_admin_id;
 	RETURN 0 AS execution_result;
 EXCEPTION WHEN OTHERS THEN 
 	RETURN -1 AS execution_result;	
