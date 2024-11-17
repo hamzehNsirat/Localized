@@ -1,7 +1,5 @@
-
 -- TABLE: Log
 -- TYPE: Main
-
 CREATE TABLE log ( 
 	log_id SERIAL PRIMARY KEY,
 	log_user_id    BIGINT NOT NULL,
@@ -13,10 +11,10 @@ CREATE TABLE log (
 	CONSTRAINT fk_log_user_id FOREIGN KEY (log_user_id)
     REFERENCES user_localized(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 /*
 Log Indexes  / Triggers
 */
-
 -- Log User ID Index
 -- to optimize the Retrieval Based on a given Log's UserID
 CREATE INDEX  idx_fk_loguser_id ON log(log_user_id);
@@ -37,14 +35,14 @@ RETURNS TABLE(
 BEGIN
     RETURN QUERY 
 	SELECT
-	CAST(log_id AS BIGINT),
-	action_details,
-	action_json_payload,
-	action_description,
-	is_transactional,
-	log_timestamp
-	FROM log
-	WHERE CAST(log_user_id AS BIGINT) = in_log_user_id;
+	CAST(D.log_id AS BIGINT),
+	D.action_details,
+	D.action_json_payload,
+	D.action_description,
+	D.is_transactional,
+	D.log_timestamp
+	FROM log AS D
+	WHERE CAST(D.log_user_id AS BIGINT) = in_log_user_id;
 END;
 $$ LANGUAGE plpgsql;
 -- INSERT A Log

@@ -1,37 +1,31 @@
-/* // Sets up the Sequelize configuration for PostgreSQL
-
-const { Sequelize } = require('sequelize');
-const keys = require('../keys'); // Import keys.js
-
-const sequelize = new Sequelize(
-    keys.dbName,
-    keys.dbUser,
-    keys.dbPass,
-    {
-        host: keys.dbHost,
-        port: keys.dbPort,
-        dialect: keys.dbDialect,
-        logging: process.env.NODE_ENV === 'development' ? console.log : false,
-        pool: {
-            max: 5,
-            min: 0,
-            acquire: 30000,
-            idle: 10000
-        }
-    }
-);
-
-async function authenticateConnection() {
-    try {
-        await sequelize.authenticate();
-        console.log('Database connected successfully.');
-    } catch (error) {
-        console.error('Unable to connect to the database:', error);
-    }
+/**
+ * Converts a JavaScript array into a PostgreSQL-compatible array string.
+ * If the input is not an array, it throws an error.
+ * 
+ * @param {Array} inputArray - The JavaScript array to format.
+ * @returns {string} - A PostgreSQL-compatible array string.
+ */
+function handleArray(inputArray) {
+  if (!Array.isArray(inputArray)) {
+    throw new Error("Provided parameter is not an array.");
+  }
+  return `{${inputArray.map(item => JSON.stringify(item)).join(',')}}`;
 }
-authenticateConnection();  // Test the connection upon initialization
+/**
+ * Converts a JavaScript object into a PostgreSQL-compatible JSONB string.
+ * If the input is not an object, it throws an error.
+ * 
+ * @param {Object} jsonObject - The JavaScript object to format.
+ * @returns {string} - A PostgreSQL-compatible JSONB string.
+ */
+function handleJsonB(jsonObject) {
+  if (typeof jsonObject !== "object" || jsonObject === null) {
+    throw new Error("Provided parameter is not a valid JSON object.");
+  }
+  return JSON.stringify(jsonObject);
+}
 
-module.exports = sequelize; */
+
 
 const { Pool } = require("pg");
 
@@ -44,21 +38,31 @@ const pool = new Pool({
   password: process.env.DB_PASS,
 });
 
-// Utility function to execute database queries
-async function executeQuery(query = "", params = []) {
-  const client = await pool.connect();
+/**
+ * Executes a query with properly formatted parameters.
+ *
+ * @param {string} query - The SQL query to execute.
+ * @param {Array} params - The parameters to pass into the query.
+ * @returns {Promise} - A promise resolving with the query result.
+ */
+async function executeQuery(query, params) {
+  const formattedParams = params.map((param) => {
+    if (Array.isArray(param)) {
+      return handleArray(param);
+    }
+    if (typeof param === "object" && param !== null) {
+      return handleJsonB(param);
+    }
+    return param; // Pass other types (e.g., strings, numbers) directly.
+  });
+
   try {
-    const result = await client.query(query, params);
+    const result = await pool.query(query, formattedParams);
     return result.rows;
   } catch (error) {
-    console.error("Database query error:", error);
+    console.error("Database Query Error:", error);
     throw error;
-  } finally {
-    client.release();
   }
 }
 
-module.exports = {
-  executeQuery,
-  pool
-};
+module.exports = { executeQuery, handleArray, handleJsonB, pool };

@@ -18,12 +18,13 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 -- GET A Industry Type
-CREATE OR REPLACE FUNCTION industry_type_get_by_id(IN indus_type_id BIGINT)
-RETURNS TABLE(industry_type VARCHAR) AS $$
+CREATE OR REPLACE FUNCTION industry_type_get_by_id(IN indus_type_id BIGINT[])
+RETURNS TABLE(industry_type_id INT, industry_type VARCHAR) AS $$
 BEGIN
-    RETURN QUERY SELECT D.industry_type FROM industry_type AS D WHERE D.industry_type_id = indus_type_id;
+    RETURN QUERY SELECT D.industry_type_id, D.industry_type FROM industry_type AS D WHERE D.industry_type_id =ANY(ARRAY[indus_type_id]);
 END;
 $$ LANGUAGE plpgsql;
+
 -- INSERT A Industry Type
 CREATE OR REPLACE FUNCTION industry_type_insert(IN indus_type VARCHAR, IN last_modifier BIGINT)
 RETURNS INTEGER AS $$

@@ -13,7 +13,6 @@ CREATE TABLE notification (
 	is_email_verified	   BOOLEAN NOT NULL,
 	notification_status 	 INTEGER NOT NULL DEFAULT 0 ,
 	notification_status_desc VARCHAR(15) NOT NULL DEFAULT 'CREATED',
-	establishment_building_num VARCHAR(15) NOT NULL,
 	number_of_tries INTEGER NOT NULL DEFAULT 0,
 	number_of_max_tries INTEGER NOT NULL DEFAULT 3,
 	is_final_failed BOOLEAN NOT NULL DEFAULT FALSE,
@@ -54,6 +53,70 @@ CREATE INDEX  idx_notification_priority ON notification(notification_priority);
 /*
 Notification CRUD Functions
 */
+-- ONLY GET BY PAGE SIZE AND INDEX
+CREATE OR REPLACE FUNCTION notifications_insert (
+	IN in_notification_type    BIGINT,
+	IN in_notified_user_id    BIGINT,
+	IN in_notification_priority INTEGER,
+	IN in_notification_email     VARCHAR,
+	IN in_notification_phone_num VARCHAR,
+	IN in_notification_message   JSONB,
+	IN in_notification_subject   VARCHAR,
+	IN in_is_email_verified	   BOOLEAN,
+	IN in_notification_status 	 INTEGER ,
+	IN in_notification_status_desc VARCHAR,
+	IN in_number_of_tries INTEGER,
+	IN in_number_of_max_tries INTEGER,
+	IN in_is_final_failed BOOLEAN,
+	IN in_last_modified_by BIGINT
+)
+RETURNS INTEGER
+AS $$
+BEGIN
+	INSERT INTO notification
+	(
+		notification_type,
+		notified_user_id,
+		notification_priority,
+		notification_email,
+	    notification_phone_num,
+	    notification_message,
+	    notification_subject,
+	    is_email_verified,
+	    notification_status,
+	    notification_status_desc,
+	    number_of_tries,
+	    number_of_max_tries,
+	    is_final_failed,
+	    creation_date,
+	    last_modification_date,
+	    last_modified_by
+    
+	)
+	VALUES
+	( 
+		in_notification_type,
+		in_notified_user_id,
+		in_notification_priority,
+		in_notification_email,
+		in_notification_phone_num,
+		in_notification_message,
+		in_notification_subject,
+		in_is_email_verified,
+		in_notification_status,
+		in_notification_status_desc,
+		in_number_of_tries,
+		in_number_of_max_tries,
+		in_is_final_failed,
+		CURRENT_TIMESTAMP,
+		CURRENT_TIMESTAMP,
+		in_last_modified_by
+	);
+	RETURN 0;
+EXCEPTION WHEN OTHERS THEN 
+	RETURN -1;	
+END;
+$$ LANGUAGE plpgsql;
 
 -- ONLY GET BY PAGE SIZE AND INDEX
 CREATE OR REPLACE FUNCTION notifications_get (
@@ -72,18 +135,18 @@ RETURNS TABLE(
 	is_email_verified	   BOOLEAN,
 	notification_status 	 INTEGER,
 	notification_status_desc VARCHAR,
-	establishment_building_num VARCHAR,
 	number_of_tries INTEGER,
 	number_of_max_tries INTEGER,
 	is_final_failed BOOLEAN,
 	creation_date  TIMESTAMP,
 	last_modification_date  TIMESTAMP,
-	last_modified_by		 BIGINT
+	last_modified_by		 BIGINT,
+	out_total_records_count INTEGER
 ) AS $$
 BEGIN
     RETURN QUERY 
 	SELECT
-	N.notification_id,
+	CAST(N.notification_id AS BIGINT),
 	N.notification_type,
 	N.notified_user_id,
 	N.notification_priority,
@@ -94,18 +157,17 @@ BEGIN
 	N.is_email_verified,
 	N.notification_status,
 	N.notification_status_desc,
-	N.establishment_building_num,
 	N.number_of_tries,
 	N.number_of_max_tries,
 	N.is_final_failed,
 	N.creation_date,
 	N.last_modification_date,
 	N.last_modified_by,
-	(SELECT COUNT(*) FROM notification D WHERE D.is_final_failed = FALSE) AS total_records_count
+	CAST((SELECT COUNT(*) FROM notification D WHERE D.is_final_failed = FALSE) AS INTEGER) AS total_records_count
 	FROM notification N
 	ORDER BY notification_id DESC
 	LIMIT in_page_size
-	OFFSET in_page_index;
+	OFFSET ((in_page_index - 1) * in_page_size) ;
 
 END;
 $$ LANGUAGE plpgsql;
