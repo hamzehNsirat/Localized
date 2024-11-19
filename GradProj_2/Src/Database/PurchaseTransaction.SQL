@@ -34,6 +34,7 @@ RETURNS TABLE(
 	out_purchase_transaction_id  BIGINT,
 	out_purchase_id 			 BIGINT,
 	out_transaction_status_id 	 BIGINT,
+	out_transaction_status 	 VARCHAR,
 	out_transaction_date	     TIMESTAMP,
 	out_transaction_details     JSONB,
 	out_last_modification_date     TIMESTAMP,
@@ -43,14 +44,15 @@ AS $$ BEGIN
 	IF in_purchase_id IS NOT NULL THEN 
 		RETURN QUERY
 		SELECT
-		purchase_transaction_id,
-		purchase_id,
-		transaction_status_id,
-		transaction_date,
-		transaction_details,
-		last_modification_date,
-		last_modified_by
-		FROM	purchase_transaction
+		CAST(D.purchase_transaction_id AS BIGINT),
+		D.purchase_id,
+		D.transaction_status_id,
+		(SELECT transaction_status FROM (SELECT * FROM transaction_status_get_by_id(transaction_status_id))),
+		D.transaction_date,
+		D.transaction_details,
+		D.last_modification_date,
+		D.last_modified_by
+		FROM	purchase_transaction AS D
 		WHERE	CAST(purchase_id AS BIGINT) = in_purchase_id;
 	END IF;
 END;

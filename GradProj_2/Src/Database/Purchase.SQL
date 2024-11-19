@@ -53,7 +53,7 @@ CREATE OR REPLACE FUNCTION generate_payment_reference()
   AS
 $$
 BEGIN			
-	IF NEW.purchase_status_id = 0 THEN 
+	IF NEW.purchase_status_id = 1 THEN 
 		NEW.payment_reference = (SELECT 'PST' || TO_CHAR(CURRENT_DATE,'YYMMDD') || (SELECT substr(concat(md5(random()::text), md5(random()::text)), 0, 20)));
 	ELSEIF NEW.purchase_status_id = 4 THEN 
 		NEW.reconciliation_reference = (SELECT 'REV' || TO_CHAR(CURRENT_DATE,'YYMMDD') || (SELECT substr(concat(md5(random()::text), md5(random()::text)), 0, 20)));
@@ -99,7 +99,7 @@ AS $$ BEGIN
 	IF in_purchase_id IS NOT NULL THEN 
 		RETURN QUERY
 		SELECT
-		purchase_id 			   ,
+		CAST(purchase_id AS BIGINT)			   ,
 		quotation_id 	       	   ,
 		buyer_id 		           ,
 		supplier_id 		       ,
@@ -118,7 +118,7 @@ AS $$ BEGIN
 	ELSIF in_quotation_id IS NOT NULL THEN 
 		RETURN QUERY
 		SELECT
-		purchase_id 			   ,
+		CAST(purchase_id AS BIGINT)			   ,
 		quotation_id 	       	   ,
 		buyer_id 		           ,
 		supplier_id 		       ,
@@ -137,7 +137,7 @@ AS $$ BEGIN
 	ELSIF in_buyer_id IS NOT NULL THEN 
 		RETURN QUERY
 		SELECT
-		purchase_id 			   ,
+		CAST(purchase_id AS BIGINT)			   ,
 		quotation_id 	       	   ,
 		buyer_id 		           ,
 		supplier_id 		       ,
@@ -156,7 +156,7 @@ AS $$ BEGIN
 	ELSIF in_supplier_id IS NOT NULL THEN 
 		RETURN QUERY
 		SELECT
-		purchase_id 			   ,
+		CAST(purchase_id AS BIGINT)			   ,
 		quotation_id 	       	   ,
 		buyer_id 		           ,
 		supplier_id 		       ,

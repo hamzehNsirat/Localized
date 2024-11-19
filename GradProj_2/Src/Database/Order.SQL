@@ -47,7 +47,7 @@ RETURNS TABLE(
 ) 
 AS $$ BEGIN RETURN QUERY
 	SELECT
-	order_id,
+	CAST(order_id AS BIGINT),
 	quotation_id,
 	product_id,
 	order_quantity,
@@ -55,7 +55,7 @@ AS $$ BEGIN RETURN QUERY
 	order_date,
 	last_modification_date,
 	last_modified_by
-	FROM	order
+	FROM	order_localized
 	WHERE	CAST(order_id AS BIGINT) = in_order_id;
 END;
 $$ LANGUAGE plpgsql;
@@ -72,14 +72,14 @@ RETURNS TABLE(
 ) 
 AS $$ BEGIN RETURN QUERY
 	SELECT
-	order_id,
+	CAST(order_id AS BIGINT),
 	product_id,
 	order_quantity,
 	order_quantity_unit,
 	order_date,
 	last_modification_date,
 	last_modified_by
-	FROM	order
+	FROM	order_localized
 	WHERE	CAST(quotation_id AS BIGINT) = in_quotation_id;
 END;
 $$ LANGUAGE plpgsql;
@@ -104,7 +104,7 @@ v_hint TEXT;
 v_context TEXT;
 BEGIN
 	INSERT INTO
-		order (
+		order_localized (
 			quotation_id 		 ,
 			product_id  		 ,
 			order_quantity   	 ,

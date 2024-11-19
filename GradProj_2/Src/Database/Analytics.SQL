@@ -39,7 +39,7 @@ AS $$
 BEGIN
     RETURN QUERY
     SELECT 
-        analytics_id,
+        CAST(analytics_id AS BIGINT),
         product_id,
         trends,
         sales_count,
@@ -63,7 +63,7 @@ AS $$
 BEGIN
     RETURN QUERY
     SELECT 
-        analytics_id,
+        CAST(analytics_id AS BIGINT),
         trends,
         sales_count,
         views_count,
@@ -167,5 +167,33 @@ BEGIN
     RETURN 0;
 EXCEPTION WHEN OTHERS THEN
     RETURN -1;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION analytics_get_by_date(
+    in_from_date TIMESTAMP,
+    in_to_date TIMESTAMP
+)
+RETURNS TABLE(
+    out_analytics_id BIGINT,
+    out_product_id BIGINT,
+    out_trends JSONB,
+    out_sales_count INTEGER,
+    out_views_count INTEGER,
+    out_capture_date TIMESTAMP
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        CAST(analytics_id AS BIGINT),
+        product_id,
+        trends,
+        sales_count,
+        views_count,
+        capture_date
+    FROM
+        analytics
+    WHERE
+        capture_date BETWEEN in_from_date AND in_to_date;
 END;
 $$ LANGUAGE plpgsql;

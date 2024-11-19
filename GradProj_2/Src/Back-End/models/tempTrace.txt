@@ -1,7 +1,3 @@
 LEFT (SP's and Models)
-1-Quotation
-2-Order (Relates to Quotation)
-3-Purchase (Relates to Order, Supplier)
-4-Purchase Transaction (Relates to Purchase, Transaction Status)
 5-Analytics
 6-Smoke Test

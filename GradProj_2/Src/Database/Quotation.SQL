@@ -7,7 +7,7 @@ CREATE TABLE quotation (
 	supplier_id 		 BIGINT NOT NULL,
 	quotation_status_id  BIGINT NOT NULL,
 	quotation_request_date   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	quotation_details     JSONB NOT NULL,
+	quotation_details     JSONB,
 	quotation_attachments JSONB,
 	payment_details_bank		      VARCHAR(256)  NOT NULL,
 	payment_details_iban		      VARCHAR(34)  NOT NULL,
@@ -46,7 +46,6 @@ CREATE INDEX  idx_qotn_retailer_id ON quotation(requester_id);
 Quotation CRUD Functions
 */
 -- GET A Quotation ALL DATA
--- GET A Quotation BY Supplier
 CREATE OR REPLACE FUNCTION quotation_get_all_data(in_quotation_id BIGINT) 
 RETURNS TABLE (
 	out_quotation_id 		 BIGINT,
@@ -73,8 +72,9 @@ RETURNS TABLE (
 AS $$ BEGIN RETURN QUERY
 	SELECT 
 
-	D.quotation_id,
+	CAST(D.quotation_id AS BIGINT),
 	D.requester_id,
+	D.supplier_id,
 	D.quotation_status_id,
 	D.quotation_request_date,
 	D.quotation_details,
@@ -84,7 +84,7 @@ AS $$ BEGIN RETURN QUERY
 	D.payment_details_bank_acc_num,
 	K.payment_reference,
 	K.reconciliation_reference,
-	L.purchase_transaction_id,
+	CAST(L.purchase_transaction_id AS VARCHAR),
 	D.from_establishment_name,
 	D.to_establishment_name,
 	CASE WHEN (SELECT COUNT(*) FROM complaint P WHERE P.quotation_id = D.quotation_id) > 0 THEN 1 ELSE 0 END AS out_has_related_complaints,
@@ -93,8 +93,8 @@ AS $$ BEGIN RETURN QUERY
 	D.supplier_address
 
 	FROM	quotation AS D
-	JOIN purchase AS K ON K.quotation_id = D.quotation_id
-	JOIN purchase_transaction AS L ON L.purchase_id = K.purchase_id
+	LEFT JOIN purchase AS K ON K.quotation_id = D.quotation_id
+	LEFT JOIN purchase_transaction AS L ON L.purchase_id = K.purchase_id
 	WHERE D.quotation_id = in_quotation_id;
 END;
 $$ LANGUAGE plpgsql;
@@ -121,7 +121,7 @@ RETURNS TABLE (
 ) 
 AS $$ BEGIN RETURN QUERY
 	SELECT 
-	D.quotation_id,
+	CAST(D.quotation_id AS BIGINT),
 	D.requester_id,
 	D.quotation_status_id,
 	D.quotation_request_date,
@@ -162,7 +162,7 @@ RETURNS TABLE (
 ) 
 AS $$ BEGIN RETURN QUERY
 	SELECT 
-	D.quotation_id,
+	CAST(D.quotation_id AS BIGINT),
 	D.supplier_id,
 	D.quotation_status_id,
 	D.quotation_request_date,
@@ -212,21 +212,23 @@ v_context TEXT;
 BEGIN
 	INSERT INTO
 		quotation (
-		requester_id 		  ,
-		supplier_id 		  ,
-		quotation_status_id   ,
-		quotation_request_date   ,
-		quotation_details     JSONB,
-		quotation_attachments JSONB,
-		payment_details_bank		      ,
-		payment_details_iban		      ,
-		payment_details_bank_acc_num	  ,
-		from_establishment_name	  ,
-		to_establishment_name	  ,
-		ship_to_address		      ,
-		bill_to_address		      ,
-		supplier_address		  ,
-		last_modified_by		
+	requester_id 		,
+	supplier_id 		,
+	quotation_status_id ,
+	quotation_request_date ,
+	quotation_details      ,
+	quotation_attachments ,
+	payment_details_bank		      ,
+	payment_details_iban		     ,
+	payment_details_bank_acc_num	,
+	from_establishment_name	  ,
+	to_establishment_name	  ,
+	ship_to_address		      ,
+	bill_to_address		      ,
+	supplier_address		  ,
+	last_updater_type		,
+	last_modification_date  ,
+	last_modified_by		
 		)
 	VALUES
 		(
@@ -234,8 +236,8 @@ BEGIN
 		in_supplier_id 		  ,
 		in_quotation_status_id   ,
 		in_quotation_request_date   ,
-		in_quotation_details     JSONB,
-		in_quotation_attachments JSONB,
+		in_quotation_details     ,
+		in_quotation_attachments ,
 		in_payment_details_bank		      ,
 		in_payment_details_iban		      ,
 		in_payment_details_bank_acc_num	  ,
@@ -247,26 +249,22 @@ BEGIN
 		TRUE,
 		CURRENT_TIMESTAMP,
 		in_last_modified_by
-	) RETURNING CAST(product_id AS BIGINT) INTO out_quotation_id;
+	) RETURNING CAST(quotation_id AS BIGINT) INTO out_quotation_id;
 EXCEPTION
 WHEN OTHERS THEN 
-	out_product_id := -1;
-	get stacked diagnostics v_state = returned_sqlstate,
+	out_quotation_id := -1;
+	get stacked diagnostics
+	v_state = returned_sqlstate,
 	v_msg = message_text,
 	v_detail = pg_exception_detail,
 	v_context = pg_exception_context;
-
-	raise notice E ' Got exception:
-		state: % 
-		message: % 
-		detail: %
-		hint: %
-		context: %',
-	v_state,
-	v_msg,
-	v_detail,
-	v_hint,
-	v_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
 END;
 $$ LANGUAGE plpgsql;
 
