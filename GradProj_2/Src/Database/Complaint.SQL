@@ -13,6 +13,7 @@ CREATE TABLE complaint (
 	creation_date  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	last_modification_date  TIMESTAMP NOT NULL,
 	last_modified_by		 BIGINT   NOT NULL,
+	quotation_id BIGINT NOT NULL,
 	resolution_notes  TEXT,
 	CONSTRAINT fk_cmpn_rtlr_id FOREIGN KEY (retailer_id)
     REFERENCES retailer(retailer_id) ON DELETE CASCADE,
@@ -22,6 +23,8 @@ CREATE TABLE complaint (
     REFERENCES adminstrator(admin_id) ON DELETE SET NULL,
 	CONSTRAINT fk_cmpn_type_id FOREIGN KEY (complaint_type_id)
     REFERENCES complaint_type(complaint_type_id) ON DELETE SET NULL ON UPDATE CASCADE,
+	CONSTRAINT fk_cmpn_qttn_id FOREIGN KEY (quotation_id)
+    REFERENCES quotation(quotation_id) ON DELETE SET NULL ON UPDATE CASCADE,
 	CONSTRAINT chk_cmpn_status CHECK(complaint_status_id IN('CREATED', 'REVIEWED', 'RESOLVED', 'DELETED'))
 );
 
@@ -48,6 +51,7 @@ RETURNS TABLE (
 	out_complaint_supplier_id   BIGINT ,
 	out_complaint_retailer_id BIGINT,
 	out_complaint_status_id 	 VARCHAR,
+	out_quotation_id BIGINT,
 	out_creation_date  TIMESTAMP 
 ) 
 AS $$ BEGIN RETURN QUERY
@@ -57,93 +61,61 @@ AS $$ BEGIN RETURN QUERY
 	CAST(D.supplier_id AS BIGINT),
 	CAST(D.retailer_id AS BIGINT),
 	D.complaint_status_id,
+	D.quotation_id,
 	D.creation_date
 	FROM	complaint AS D;
 END;
 $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION complaint_get_by_id(IN in_complaint_id BIGINT) 
 RETURNS TABLE (
+	out_complaint_id  BIGINT,
 	out_complaint_type_id    BIGINT,
-	out_establishment_id   BIGINT,
-	out_establishment_name VARCHAR,
-	out_establishment_type VARCHAR,
-	out_establishment_status_id BIGINT,
-	out_establishment_status VARCHAR,
-	out_complaint_initiator_id BIGINT,
-	out_complaint_status_id VARCHAR,
-	out_complaint_notes TEXT,
-	out_creation_date TIMESTAMP,
-	out_last_modification_date TIMESTAMP,
-	out_last_modified_by BIGINT
+	out_quotation_id    BIGINT,
+	out_reviewer_id BIGINT,
+	out_supplier_id   BIGINT,
+	out_retailer_id   BIGINT,
+	out_complaint_status_id   VARCHAR,
+	out_complaint_notes  TEXT,
+	out_submitter_type   BOOLEAN,
+	out_creation_date  TIMESTAMP,
+	out_resolution_notes  TEXT
 ) 
 AS $$ 
 BEGIN 
     RETURN QUERY
-    SELECT
-        D.complaint_type_id,
-        D.establishment_id,
-        CAST(L.establishment_name AS VARCHAR),
-        CAST(CASE 
-            WHEN CAST(L.establishment_type AS BOOLEAN) = TRUE THEN 'RetailStore' 
-            ELSE 'Factory' 
-        END  AS VARCHAR),
-        L.establishment_status,
-        M.establishment_status,
-        D.complaint_initiator_id,
-        D.complaint_status_id,
-        D.complaint_notes,
-        D.creation_date,
-        D.last_modification_date,
-        D.last_modified_by
+    SELECT 
+	complaint_id, 
+	complaint_type_id , 
+	quotation_id,
+	reviewer_id , 
+	supplier_id , 
+	retailer_id , 
+	complaint_status_id , 
+	complaint_notes  , 
+	submitter_type  , 
+	creation_date  , 
+	resolution_notes
     FROM 
-        complaint AS D
-    JOIN 
-        establishment AS L ON D.establishment_id = L.establishment_id
-    JOIN 
-        establishment_status AS M ON L.establishment_status = M.establishment_status_id
+        complaint 
     WHERE 
-        CAST(D.complaint_id AS BIGINT) = in_complaint_id;
-END;
-$$ LANGUAGE plpgsql;
--- GET A Complaint BY Establishment
-CREATE OR REPLACE FUNCTION complaint_get_by_establishment(IN in_establishment_id BIGINT) 
-RETURNS TABLE (
-	out_complaint_id		  	 BIGINT,
-	out_complaint_type_id      BIGINT,
-	out_establishment_id  	 BIGINT ,
-	out_complaint_initiator_id BIGINT,
-	out_complaint_status_id 	 VARCHAR,
-	out_complaint_notes  		 TEXT,
-	out_creation_date  		 TIMESTAMP ,
-	out_last_modification_date   TIMESTAMP,
-	out_last_modified_by		 BIGINT
-) 
-AS $$ BEGIN RETURN QUERY
-	SELECT
-	CAST(complaint_id AS BIGINT),
-	complaint_type_id,
-	establishment_id,
-	complaint_initiator_id,
-	complaint_status_id,
-	complaint_notes,
-	creation_date,
-	last_modification_date,
-	last_modified_by
-	FROM	complaint
-	WHERE	CAST(establishment_id AS BIGINT) = in_establishment_id;
+        CAST(complaint_id AS BIGINT) = in_complaint_id;
 END;
 $$ LANGUAGE plpgsql;
 
 
 -- INSERT A Complaint
 CREATE OR REPLACE FUNCTION complaint_insert(
-	IN in_complaint_type_id        BIGINT,
-	IN in_establishment_id  	 BIGINT ,
-	IN in_complaint_initiator_id   BIGINT,
+	IN in_complaint_type_id    BIGINT,
+	IN in_reviewer_id BIGINT,
+	IN in_supplier_id   BIGINT,
+	IN in_retailer_id   BIGINT,
 	IN in_complaint_status_id 	 VARCHAR,
-	IN in_complaint_notes  		 TEXT,
-	IN in_creation_date  		 TIMESTAMP ,
-	IN in_last_modified_by	   	 BIGINT,
+	IN in_complaint_notes  TEXT,
+	IN in_submitter_type   BOOLEAN,
+	IN in_creation_date  TIMESTAMP,
+	IN in_last_modified_by		 BIGINT,
+	IN in_resolution_notes  TEXT,
+	IN in_quotation_id BIGINT,
 	OUT out_complaint_id     BIGINT
 )
 RETURNS BIGINT AS $$
@@ -155,24 +127,32 @@ DECLARE
     v_context TEXT;
 BEGIN
 	INSERT INTO complaint (
-		complaint_type_id,
-		establishment_id,
-		complaint_initiator_id,
-		complaint_status_id,
-		complaint_notes,
-		creation_date,
-		last_modification_date,
-		last_modified_by
+		complaint_type_id , 
+		reviewer_id , 
+		supplier_id , 
+		retailer_id , 
+		complaint_status_id , 
+		complaint_notes  , 
+		submitter_type  , 
+		creation_date  , 
+		last_modification_date ,
+		last_modified_by,
+		resolution_notes,
+		quotation_id
 	) VALUES
 	( 
-		in_complaint_type_id,
-		in_establishment_id,
-		in_complaint_initiator_id,
-		in_complaint_status_id,
-		in_complaint_notes,
-		in_creation_date,
+		in_complaint_type_id , 
+		in_reviewer_id , 
+		in_supplier_id , 
+		in_retailer_id , 
+		in_complaint_status_id , 
+		in_complaint_notes  , 
+		in_submitter_type  , 
+		CURRENT_TIMESTAMP, 
 		CURRENT_TIMESTAMP,
-		in_last_modified_by
+		in_last_modified_by,
+		in_resolution_notes,
+		in_quotation_id
 	) RETURNING CAST(complaint_id AS BIGINT) INTO out_complaint_id;
 
 EXCEPTION WHEN OTHERS THEN 
@@ -195,13 +175,11 @@ $$ LANGUAGE plpgsql;
 
 -- UPDATE A Complaint
 CREATE OR REPLACE FUNCTION complaint_update (
-	IN in_complaint_id		  	 BIGINT,
-	IN in_complaint_type_id        BIGINT,
-	IN in_establishment_id  	 BIGINT ,
-	IN in_complaint_initiator_id   BIGINT,
+	IN in_reviewer_id BIGINT,
 	IN in_complaint_status_id 	 VARCHAR,
-	IN in_complaint_notes  		 TEXT,
-	IN in_last_modified_by	   	 BIGINT
+	IN in_last_modified_by		 BIGINT,
+	IN in_resolution_notes  TEXT,
+	IN in_complaint_id     BIGINT
 )
 RETURNS BIGINT AS $$
 DECLARE
@@ -212,14 +190,11 @@ DECLARE
     v_context TEXT;
 BEGIN
 	UPDATE complaint SET
-		complaint_type_id  = 		COALESCE(in_complaint_type_id, complaint_type_id),
-		establishment_id = 		COALESCE(in_establishment_id, establishment_id),
-		complaint_initiator_id = 		COALESCE(in_complaint_initiator_id, complaint_initiator_id),
-		complaint_status_id =		COALESCE(in_complaint_status_id, complaint_status_id),
-		complaint_notes =		COALESCE(in_complaint_notes, complaint_notes),
-		last_modification_date = CURRENT_TIMESTAMP, 
-		last_modified_by =	COALESCE(in_last_modified_by, last_modified_by)
-	;
+		reviewer_id = COALESCE(in_reviewer_id,reviewer_id) , 
+		complaint_status_id = COALESCE(in_complaint_status_id, complaint_status_id) , 
+		last_modification_date =CURRENT_TIMESTAMP,
+		last_modified_by= COALESCE(in_last_modified_by, last_modified_by),
+		resolution_notes=COALESCE(in_resolution_notes, resolution_notes);
 	RETURN 0;
 EXCEPTION WHEN OTHERS THEN 
 
@@ -249,7 +224,7 @@ CREATE OR REPLACE FUNCTION complaint_delete (
 RETURNS BIGINT AS $$
 BEGIN
 	UPDATE complaint SET
-		complaint_status_id =	'DISABLED',
+		complaint_status_id =	'DELETED',
 		last_modified_by  = in_last_modified_by
 	WHERE CAST(complaint_id AS BIGINT) = in_complaint_id;
 	RETURN 0;
