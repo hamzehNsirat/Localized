@@ -72,3 +72,267 @@ BEFORE UPDATE ON purchase
 FOR EACH ROW
 EXECUTE FUNCTION generate_payment_reference();
 
+
+/*
+ Purchase CRUD Functions
+*/
+
+-- GET A Purchase BY ID
+CREATE OR REPLACE FUNCTION purchase_get_by_ids(IN in_purchase_id BIGINT, IN in_supplier_id BIGINT, IN in_buyer_id BIGINT, IN in_quotation_id BIGINT) 
+RETURNS TABLE(
+	out_purchase_id 			   BIGINT,
+	out_quotation_id 	       	   BIGINT,
+	out_buyer_id 		           BIGINT,
+	out_supplier_id 		       BIGINT,
+	out_purchase_status_id 	       BIGINT,
+	out_purchase_date              TIMESTAMP,
+	out_payment_reference	  	   VARCHAR,
+	out_reconciliation_reference   VARCHAR,
+	out_external_pay_reference     VARCHAR,
+	out_payment_amount		  	   FLOAT,
+	out_payment_currency	  	   CHAR,
+	out_payment_exchange_rate	   FLOAT ,
+	out_last_modification_date     TIMESTAMP,
+	out_last_modified_by		   BIGINT
+) 
+AS $$ BEGIN
+	IF in_purchase_id IS NOT NULL THEN 
+		RETURN QUERY
+		SELECT
+		purchase_id 			   ,
+		quotation_id 	       	   ,
+		buyer_id 		           ,
+		supplier_id 		       ,
+		purchase_status_id 	       ,
+		purchase_date              ,
+		payment_reference	  	   ,
+		reconciliation_reference   ,
+		external_pay_reference     ,
+		payment_amount		  	   ,
+		payment_currency	  	   ,
+		payment_exchange_rate	   ,
+		last_modification_date     ,
+		last_modified_by		   
+		FROM	purchase
+		WHERE	CAST(purchase_id AS BIGINT) = in_purchase_id;
+	ELSIF in_quotation_id IS NOT NULL THEN 
+		RETURN QUERY
+		SELECT
+		purchase_id 			   ,
+		quotation_id 	       	   ,
+		buyer_id 		           ,
+		supplier_id 		       ,
+		purchase_status_id 	       ,
+		purchase_date              ,
+		payment_reference	  	   ,
+		reconciliation_reference   ,
+		external_pay_reference     ,
+		payment_amount		  	   ,
+		payment_currency	  	   ,
+		payment_exchange_rate	   ,
+		last_modification_date     ,
+		last_modified_by		   
+		FROM	purchase
+		WHERE	CAST(quotation_id AS BIGINT) = in_quotation_id;
+	ELSIF in_buyer_id IS NOT NULL THEN 
+		RETURN QUERY
+		SELECT
+		purchase_id 			   ,
+		quotation_id 	       	   ,
+		buyer_id 		           ,
+		supplier_id 		       ,
+		purchase_status_id 	       ,
+		purchase_date              ,
+		payment_reference	  	   ,
+		reconciliation_reference   ,
+		external_pay_reference     ,
+		payment_amount		  	   ,
+		payment_currency	  	   ,
+		payment_exchange_rate	   ,
+		last_modification_date     ,
+		last_modified_by		   
+		FROM	purchase
+		WHERE	CAST(buyer_id AS BIGINT) = in_buyer_id;
+	ELSIF in_supplier_id IS NOT NULL THEN 
+		RETURN QUERY
+		SELECT
+		purchase_id 			   ,
+		quotation_id 	       	   ,
+		buyer_id 		           ,
+		supplier_id 		       ,
+		purchase_status_id 	       ,
+		purchase_date              ,
+		payment_reference	  	   ,
+		reconciliation_reference   ,
+		external_pay_reference     ,
+		payment_amount		  	   ,
+		payment_currency	  	   ,
+		payment_exchange_rate	   ,
+		last_modification_date     ,
+		last_modified_by		   
+		FROM	purchase
+		WHERE	CAST(supplier_id AS BIGINT) = in_supplier_id;
+	END IF;
+END;
+$$ LANGUAGE plpgsql;
+-- INSERT A purchase
+CREATE OR REPLACE FUNCTION purchase_insert (
+	IN in_quotation_id 	       	   BIGINT,
+	IN in_buyer_id 		           BIGINT,
+	IN in_supplier_id 		       BIGINT,
+	IN in_purchase_status_id 	       BIGINT,
+	IN in_purchase_date              TIMESTAMP,
+	IN in_payment_reference	  	   VARCHAR,
+	IN in_reconciliation_reference   VARCHAR,
+	IN in_external_pay_reference     VARCHAR,
+	IN in_payment_amount		  	   FLOAT,
+	IN in_payment_currency	  	   CHAR,
+	IN in_payment_exchange_rate	   FLOAT ,
+	IN in_last_modification_date     TIMESTAMP,
+	IN in_last_modified_by		   BIGINT,
+	OUT out_purchase_id BIGINT
+) 
+RETURNS BIGINT 
+AS $$ 
+DECLARE 
+v_state TEXT;
+v_msg TEXT;
+v_detail TEXT;
+v_hint TEXT;
+v_context TEXT;
+BEGIN
+	INSERT INTO
+	purchase (
+		quotation_id 	       	   ,
+		buyer_id 		           ,
+		supplier_id 		       ,
+		purchase_status_id 	       ,
+		purchase_date              ,
+		payment_reference	  	   ,
+		reconciliation_reference   ,
+		external_pay_reference     ,
+		payment_amount		  	   ,
+		payment_currency	  	   ,
+		payment_exchange_rate	   ,
+		last_modification_date     ,
+		last_modified_by		   
+		)
+	VALUES
+	(
+		in_quotation_id 	       	   ,
+		in_buyer_id 		           ,
+		in_supplier_id 		       ,
+		in_purchase_status_id 	       ,
+		in_purchase_date              ,
+		in_payment_reference	  	   ,
+		in_reconciliation_reference   ,
+		in_external_pay_reference     ,
+		in_payment_amount		  	   ,
+		in_payment_currency	  	   ,
+		in_payment_exchange_rate	   ,
+		CURRENT_TIMESTAMP     ,
+		in_last_modified_by		   
+	) RETURNING CAST(purchase_id AS BIGINT) INTO out_purchase_id;
+EXCEPTION
+WHEN OTHERS THEN 
+	out_purchase_id := -1;
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- UPDATE A purchase
+CREATE OR REPLACE FUNCTION purchase_update (
+	IN in_purchase_id 			   BIGINT,
+	IN in_quotation_id 	       	   BIGINT,
+	IN in_buyer_id 		           BIGINT,
+	IN in_supplier_id 		       BIGINT,
+	IN in_purchase_status_id 	       BIGINT,
+	IN in_purchase_date              TIMESTAMP,
+	IN in_payment_reference	  	   VARCHAR,
+	IN in_reconciliation_reference   VARCHAR,
+	IN in_external_pay_reference     VARCHAR,
+	IN in_payment_amount		  	   FLOAT,
+	IN in_payment_currency	  	   CHAR,
+	IN in_payment_exchange_rate	   FLOAT ,
+	IN in_last_modification_date     TIMESTAMP,
+	IN in_last_modified_by		   BIGINT,
+	OUT update_res INT
+) 
+RETURNS INT 
+AS $$ 
+DECLARE
+v_state TEXT;
+v_msg TEXT;
+v_detail TEXT;
+v_hint TEXT;
+v_context TEXT;
+BEGIN
+	UPDATE	purchase 
+	SET
+	quotation_id = COALESCE(in_quotation_id, quotation_id) ,
+	buyer_id = COALESCE(in_buyer_id, buyer_id) ,
+	supplier_id = COALESCE(in_supplier_id, supplier_id),
+	purchase_status_id = COALESCE(in_purchase_status_id, purchase_status_id) ,
+	purchase_date = COALESCE(in_purchase_date, purchase_date) ,
+	payment_reference = COALESCE(in_payment_reference, payment_reference) ,
+	reconciliation_reference = COALESCE(in_reconciliation_reference, reconciliation_reference) ,
+	external_pay_reference = COALESCE(in_external_pay_reference, external_pay_reference),
+	payment_amount = COALESCE(in_payment_amount, payment_amount) ,
+	payment_currency = COALESCE(in_payment_currency, payment_currency),
+	payment_exchange_rate = COALESCE(in_payment_exchange_rate, payment_exchange_rate),
+	last_modification_date = CURRENT_TIMESTAMP,
+	last_modified_by = COALESCE(in_last_modified_by, last_modified_by)	   
+	WHERE
+	CAST(purchase_id AS BIGINT) = in_purchase_id;
+	update_res := 0;
+
+EXCEPTION WHEN OTHERS THEN 
+
+	update_res := -1;
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION purchase_delete (IN in_purchase_id BIGINT, OUT update_res INT) 
+RETURNS INT 
+AS $$ BEGIN
+	UPDATE	purchase SET
+	purchase_status_id = (
+		SELECT
+			purchase_status_id
+		FROM
+			purchase_status P
+		WHERE
+			P.purchase_status LIKE '%EXPIRED%'
+	)
+	WHERE
+	CAST(purchase_id AS BIGINT) = in_purchase_id;
+	SET	update_res = 0;
+EXCEPTION
+WHEN OTHERS THEN 
+	update_res := -1;
+END;
+$$ LANGUAGE plpgsql;
