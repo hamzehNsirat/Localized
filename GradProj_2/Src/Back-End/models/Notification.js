@@ -1,5 +1,5 @@
 // Notification Model
-const executeQuery = require("../config/database"); // Database connection
+const { executeQuery } = require("../config/database");
 
 const Notification = {
   async insertNotification(inputData) {

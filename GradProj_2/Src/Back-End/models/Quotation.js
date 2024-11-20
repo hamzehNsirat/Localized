@@ -1,5 +1,5 @@
 // Quotation schema, linking retailers and suppliers
-const executeQuery = require("../config/database");
+const { executeQuery } = require("../config/database");
 
 const Quotation = {
   async getAllData(quotationId) {

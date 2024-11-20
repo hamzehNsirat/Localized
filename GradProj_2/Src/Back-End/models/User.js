@@ -44,6 +44,8 @@ const userModel = {
         inputData.userAddress,
         inputData.userEmail,
         inputData.userPassword,
+        inputData.userPassSalt,
+        inputData.isEmailVerified,
         inputData.userPhoneNumber,
         inputData.lastModifiedBy,
         inputData.userImage,

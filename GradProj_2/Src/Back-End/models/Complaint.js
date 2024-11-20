@@ -1,5 +1,5 @@
 // Complaints model for managing retailer-supplier complaints
-const executeQuery = require("../config/database");
+const { executeQuery } = require("../config/database");
 
 const Complaint = {
   async getAll() {

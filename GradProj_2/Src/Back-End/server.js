@@ -1,6 +1,6 @@
 // Initializes the server and listens on the specified port
 const app = require("./app"); // Import configured app
-const keys = require("./keys"); // Import essential configurations
+const keys = require("./config/keys"); // Import essential configurations
 
 // Start the server
 app.listen(keys.port, () => {

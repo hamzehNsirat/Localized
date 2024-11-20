@@ -1,5 +1,5 @@
-const executeQuery = require("../config/database"); // Database connection
-
+const { executeQuery } = require("../config/database"); 
+ 
 const Supplier = {
   async getSupplierById(supplierId) {
     return await executeQuery("SELECT * FROM supplier_get_by_id($1)", [

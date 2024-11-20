@@ -1,5 +1,5 @@
 // Product schema with attributes (name, price, description, etc.)
-const executeQuery = require("../config/database"); // Database connection
+const { executeQuery } = require("../config/database");
 
 const Product = {
   async getProductById(productId) {

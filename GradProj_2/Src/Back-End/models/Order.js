@@ -1,5 +1,5 @@
 // Order schema, including status and product relationship
-const executeQuery = require("../config/database");
+const { executeQuery } = require("../config/database");
 
 const Order = {
   // Get order by ID

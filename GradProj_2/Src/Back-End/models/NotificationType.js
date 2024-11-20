@@ -1,4 +1,4 @@
-const executeQuery = require("../config/database");
+const { executeQuery } = require("../config/database");
 
 const NotificationType = {
   async getAllNotificationTypes() {
@@ -12,10 +12,10 @@ const NotificationType = {
   },
 
   async insertNotificationType(inputData) {
-    return await executeQuery(
-      "SELECT FROM notification_type_insert($1, $2)",
-      [inputData.notificationTypeDescription, inputData.lastModifiedBy]
-    );
+    return await executeQuery("SELECT FROM notification_type_insert($1, $2)", [
+      inputData.notificationTypeDescription,
+      inputData.lastModifiedBy,
+    ]);
   },
 
   async updateNotificationType(notificationTypeId, inputData) {

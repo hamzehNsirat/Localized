@@ -1,5 +1,5 @@
 // Retailer Model
-const executeQuery = require("../config/database"); // Database connection
+const { executeQuery } = require("../config/database");
 
 const Retailer = {
   async getRetailerById(retailerId) {

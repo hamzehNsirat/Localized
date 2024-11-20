@@ -1,5 +1,5 @@
 // Establishment Model
-const executeQuery = require("../config/database"); // Database connection
+const { executeQuery } = require("../config/database");
 
 const Establishment = {
   async getAllEstablishments() {

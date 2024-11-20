@@ -31,11 +31,11 @@ const { Pool } = require("pg");
 
 // Database connection pool
 const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  database: process.env.DB_NAME,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
+  host: process.env.DB_HOST || "localhost",
+  port: process.env.DB_PORT || "5432",
+  database: process.env.DB_NAME || "Localized",
+  user: process.env.DB_USER || "postgres",
+  password: process.env.DB_PASS || "admin",
 });
 
 /**

@@ -1,4 +1,4 @@
-const executeQuery = require("../config/database");
+const { executeQuery } = require("../config/database");
 
 const PenaltyType = {
   async getAllPenaltyTypes() {
@@ -27,9 +27,7 @@ const PenaltyType = {
   },
 
   async deletePenaltyType(typeId) {
-    return await executeQuery("SELECT FROM penalty_type_delete($1)", [
-      typeId,
-    ]);
+    return await executeQuery("SELECT FROM penalty_type_delete($1)", [typeId]);
   },
 };
 

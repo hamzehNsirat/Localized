@@ -1,7 +1,6 @@
-const executeQuery = require("../config/database");
+const { executeQuery } = require("../config/database");
 
 const PurchaseStatus = {
-
   async getAll() {
     return await executeQuery("SELECT * FROM purchase_status_get_all()", []);
   },

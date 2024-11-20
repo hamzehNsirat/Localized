@@ -1,4 +1,4 @@
-const executeQuery = require("../config/database");
+const {executeQuery} = require("../config/database");
 
 const UserReview = {
   async getAll() {

@@ -218,6 +218,7 @@ CREATE OR REPLACE FUNCTION user_update (
 	IN in_is_email_verified BOOLEAN,
 	IN in_user_phone_number VARCHAR,
 	IN in_last_modified_by	 BIGINT,
+	IN in_user_image BYTEA,
 	IN in_user_id BIGINT,
 	OUT update_res INT
 )
@@ -235,10 +236,11 @@ BEGIN
 	user_email 	 =	COALESCE(in_user_email, user_email) ,
 	user_password =	COALESCE(in_user_password, user_password),
 	is_email_verified =  	COALESCE(in_is_email_verified, is_email_verified),
+
 	user_phone_number = 	COALESCE(in_user_phone_number, user_phone_number),
 	last_modification_date = CURRENT_TIMESTAMP,
-	last_modified_by =	COALESCE(in_last_modified_by, last_modified_by)
-
+	last_modified_by =	COALESCE(in_last_modified_by, last_modified_by),
+	user_image = COALESCE(in_user_image, user_image)
 	WHERE CAST(user_id AS BIGINT) = in_user_id;
 	update_res := 0;	
 

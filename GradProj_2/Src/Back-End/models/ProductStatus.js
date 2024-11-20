@@ -1,5 +1,5 @@
 // Product Status Model
-const executeQuery = require("../config/database"); // Database connection
+const { executeQuery } = require("../config/database");
 
 const ProductStatus = {
   async getAllProductStatuses() {

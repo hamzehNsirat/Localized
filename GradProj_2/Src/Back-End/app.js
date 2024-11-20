@@ -1,13 +1,10 @@
 // Configures the main Express app, adds middleware, and sets up routing
-
 const express = require('express');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
-const keys = require('./keys');            // Load essential configurations
+const keys = require("./config/keys");            // Load essential configurations
 const sequelize = require('./config/database'); // Database connection setup
-
 const app = express(); // Initialize Express app
-
 // Global Middleware Configuration
 
 // CORS
@@ -17,10 +14,10 @@ app.use(cors({
 }));
 
 // Rate Limiting
-app.use(rateLimit({
-    windowMs: keys.rateLimitWindow * 60 * 1000,  // Convert minutes to milliseconds
-    max: keys.rateLimitMaxRequests
-}));
+// app.use(rateLimit({
+//     windowMs: keys.rateLimitWindow * 60 * 1000,  // Convert minutes to milliseconds
+//     max: keys.rateLimitMaxRequests
+// }));
 
 // Body Parsers
 app.use(express.json());
@@ -36,9 +33,10 @@ const quotationRoutes = require('./routes/quotationRoutes');
 
 // Mount routes
 app.use('/api/auth', authRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/quotations', quotationRoutes);
+// unfinished
+// app.use('/api/products', productRoutes);
+// app.use('/api/orders', orderRoutes);
+// app.use('/api/quotations', quotationRoutes);
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {

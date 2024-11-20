@@ -1,5 +1,5 @@
 // Factory Model
-const executeQuery = require("../config/database"); // Database connection
+const { executeQuery } = require("../config/database");
 
 const Factory = {
   async insertOwnedFactory(ownerId, factoryEstId) {

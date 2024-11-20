@@ -1,7 +1,16 @@
 // Stores analytics data on products, sales, and trends
-const executeQuery = require("../config/database");
+const {executeQuery} = require("../config/database"); 
 
 const Analytics = {
+
+  async getByDate(startDate, endDate) {
+    return await executeQuery(
+      "SELECT * FROM analytics_get_by_date($1, $2)",
+      [startDate, endDate]
+    );
+  },
+
+
   // Get analytics by ID
   async getById(inputData) {
     return await executeQuery("SELECT * FROM analytics_get_by_id($1)", [

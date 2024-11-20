@@ -1,4 +1,4 @@
-const executeQuery = require("../config/database"); // Database connection
+const { executeQuery } = require("../config/database");
 const Log = {
   async getLogByUserId(logUserId) {
     return await executeQuery("SELECT * FROM log_get_by_userid($1)", [

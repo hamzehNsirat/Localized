@@ -1,43 +1,41 @@
 // Stores API keys and other sensitive configurations if needed
-
-const config = require('./config/env');
-const environment = process.env.NODE_ENV || 'development';
-
-// Choose config based on environment
 const keys = {
-    // Essential server and application settings
-    port: config.server.port,
-    baseUrl: config.server.baseUrl,
+  // Essential server and application settings
+  port: 3000,
+  baseUrl: "http://localhost:3000",
+  environment: "development",
 
-    // Database credentials
-    dbHost: config.database.host,
-    dbPort: config.database.port,
-    dbName: config.database.name,
-    dbUser: config.database.user,
-    dbPass: config.database.password,
-    dbDialect: config.database.dialect,
+  // Database credentials
+  dbHost: "localhost",
+  dbPort: 5432,
+  dbName: "Localized",
+  dbUser: "postgres",
+  dbPass: "admin",
+  dbDialect: "postgres",
 
-    // JWT configuration
-    jwtSecret: config.jwt.secret,
-    jwtExpiresIn: config.jwt.expiresIn,
+  // JWT configuration
+  jwtSecret: "d4f7e8g9h2j5k6m1n4p8s7t9v6x3z5b8a7d2g1h5j9k3p8m",
+  jwtExpiresIn: "86400", // Default to 1 day
 
-    // Email service credentials (essential)
-    emailService: config.email.service,
-    emailUsername: config.email.username,
-    emailPassword: config.email.password,
-    emailFrom: config.email.from,
-    oauthClientId: config.email.oauth.clientId,
-    oauthClientSecret: config.email.oauth.clientSecret,
-    oauthRedirectUri: config.email.oauth.redirectUri,
-    oauthRefreshToken: config.email.oauth.refreshToken,
+  // Email service credentials
+  emailService: "gmail",
+  emailUsername: "localized.jo@gmail.com",
+  emailPassword: "localized2024",
+  emailFrom: "your_email@gmail.com",
+  oauthClientId:
+    "357590222030-05hoed3gg747pq4c2opnddq04h6fmaif.apps.googleusercontent.com",
+  oauthClientSecret: "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",
+  oauthRedirectUri: "https://developers.google.com/oauthplayground",
+  oauthRefreshToken:
+    "1//04AfbS5JcX9RPCgYIARAAGAQSNwF-L9IrWqxhnxKWE6Kgls3aySwbISG8IgVmrQ5xZYpAKVmYqJIQEOKdDYgb0YS9842uvdsZo_I",
 
-    // Security settings
-    rateLimitWindow: config.security.rateLimitWindow,
-    rateLimitMaxRequests: config.security.rateLimitMaxRequests,
-    passwordSaltRounds: config.security.passwordSaltRounds,
+  // Security settings
+  rateLimitWindow: 15, // Rate limit window in minutes
+  rateLimitMaxRequests: 100, // Max requests per window
+  passwordSaltRounds: 10, // Salt rounds for password hashing
 
-    // CORS settings
-    allowedOrigins: config.cors.allowedOrigins
+  // CORS settings
+  allowedOrigins: ["http://localhost:3000"],
 };
 
 module.exports = keys;

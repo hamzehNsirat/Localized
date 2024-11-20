@@ -1,4 +1,4 @@
-const executeQuery = require("../config/database"); // Database connection
+const { executeQuery } = require("../config/database");
 
 const RetailStore = {
   async insertRetailStore(ownerId, retailstoreEstId, lastModifiedBy) {
