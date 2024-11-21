@@ -1,9 +1,10 @@
 // Stores API keys and other sensitive configurations if needed
 const keys = {
   // Essential server and application settings
-  port: 3000,
-  baseUrl: "http://localhost:3000",
+  port: 5055,
+  baseUrl: "http://localhost:5055",
   environment: "development",
+  
 
   // Database credentials
   dbHost: "localhost",
@@ -35,7 +36,7 @@ const keys = {
   passwordSaltRounds: 10, // Salt rounds for password hashing
 
   // CORS settings
-  allowedOrigins: ["http://localhost:3000"],
+  allowedOrigins: ["http://localhost:5055"],
 };
 
 module.exports = keys;

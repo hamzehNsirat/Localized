@@ -1,8 +1,8 @@
 //  Loads environment variables (optional, depending on project setup)
 const config = {
   // Essential server and application settings
-  port: 3000,
-  baseUrl: "http://localhost:3000",
+  port: 5055,
+  baseUrl: "http://localhost:5055",
   environment: "development",
 
   // Database credentials
@@ -35,7 +35,7 @@ const config = {
   passwordSaltRounds: 10, // Salt rounds for password hashing
 
   // CORS settings
-  allowedOrigins: ["http://localhost:3000"],
+  allowedOrigins: ["http://localhost:5055"],
 };
 ;
 
