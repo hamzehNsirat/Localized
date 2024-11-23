@@ -19,6 +19,7 @@ CREATE TABLE user_localized (
 	user_phone_number VARCHAR(15) NOT NULL UNIQUE,
 	last_modification_date  TIMESTAMP NOT NULL,
 	last_modified_by		 BIGINT   NOT NULL,
+	user_image BYTEA DEFAULT NULL,
 	CONSTRAINT fk_user_status FOREIGN KEY (user_status)
     REFERENCES user_status(user_status_id) ON DELETE SET NULL ON UPDATE CASCADE,
 	CONSTRAINT fk_user_type FOREIGN KEY (user_type)

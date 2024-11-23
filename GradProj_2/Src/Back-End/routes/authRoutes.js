@@ -5,5 +5,7 @@ const controller = require('../controllers/authController');
 const validateToken = require('../middlewares/validateToken');
 
 router.post("/token", controller.generateToken);
+router.post("/signup", controller.signUp);
 router.use(validateToken);
+//router.post("/login", controller.login);
 module.exports = router;

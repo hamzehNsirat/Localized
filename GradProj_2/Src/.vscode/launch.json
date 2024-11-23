@@ -1,20 +1,18 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-    
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug Node.js App",
-      "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}/app.js", // Path to your server entry file
-      "env": {
-        "NODE_ENV": "development",
-        "DEBUG": "app:*" // Optional: Enable debug logs
-      }
+      "name": "Launch Program",
+      "skipFiles": [
+        "<node_internals>/**",
+        "<node_modules>/**"
+      ],
+      "program": "${workspaceFolder}/Back-End/app.js", // Update to your entry point file
+      "cwd": "${workspaceFolder}",
+      "restart": true,
+      "console": "integratedTerminal"
     }
   ]
 }

@@ -65,4 +65,45 @@ async function executeQuery(query, params) {
   }
 }
 
-module.exports = { executeQuery, handleArray, handleJsonB, pool };
+
+
+// Transaction Utility Functions
+const beginTransaction = async () => {
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    return client;
+  } catch (error) {
+    client.release();
+    throw error;
+  }
+};
+
+const commitTransaction = async (client) => {
+  try {
+    await client.query("COMMIT");
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+  }
+};
+
+const rollbackTransaction = async (client) => {
+  try {
+    await client.query("ROLLBACK");
+  } catch (error) {
+    throw error;
+  } finally {
+    client.release();
+  }
+};
+
+module.exports = {
+  executeQuery,
+  beginTransaction,
+  commitTransaction,
+  rollbackTransaction,
+  handleArray,
+  handleJsonB
+};

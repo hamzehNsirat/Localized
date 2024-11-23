@@ -1,15 +1,15 @@
 // Administrator Model
-const executeQuery = require("../config/database"); // Database connection
+const { executeQuery } = require("../config/database");
 
 const Administrator = {
   async getAllAdministrators() {
     return await executeQuery("SELECT * FROM adminstrators_get()", []);
   },
 
-  async insertAdministrator(lastModifiedBy) {
+  async insertAdministrator(lastModifiedBy, user_id) {
     return await executeQuery(
-      "SELECT adminstrators_insert($1) AS execution_result",
-      [lastModifiedBy]
+      "SELECT adminstrators_insert($1, $2) AS execution_result",
+      [user_id, lastModifiedBy]
     );
   },
 

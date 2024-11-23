@@ -54,10 +54,10 @@ const userModel = {
     );
   },
   async delete(inputData) {
-    return await executeQuery("SELECT user_delete($1) AS RES", [inputData.userId]);
+    return await executeQuery("SELECT * FROM user_delete($1) AS RES", [inputData.userId]);
   },
   async validate(inputData) {
-    return await executeQuery("SELECT validate_user_login($1, $2, $3) AS RES", [
+    return await executeQuery("SELECT * FROM validate_user_login($1, $2, $3) AS RES", [
       inputData.userName,
       inputData.userEmail,
       inputData.userPassword
