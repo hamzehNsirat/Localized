@@ -1,0 +1,20 @@
+2024-11-24T13:26:00.233Z [INFO]: Incoming Request: 
+    Method: POST, 
+    URL: /api/auth/login, 
+    Headers: {"content-type":"application/json","user-agent":"PostmanRuntime/7.42.0","accept":"*/*","cache-control":"no-cache","postman-token":"07034111-1608-4fc0-a94d-a44461e6d55d","host":"localhost:5055","accept-encoding":"gzip, deflate, br","connection":"keep-alive","content-length":"103"}, 
+    Body: {"user":{"userEmail":"admin99@mail.com","userPassword":"pass321"}}
+2024-11-24T13:26:00.240Z [INFO]: Outgoing Response: 
+      Status: 400, 
+      Response Time: 7 ms, 
+      Headers: {"x-powered-by":"Express","vary":"Origin","access-control-allow-credentials":"true","content-type":"application/json; charset=utf-8","content-length":"136","etag":"W/\"88-jFO8ZmYYdeaCq/RrmAnLs3EWpws\""}, 
+      Body: {"header":{"errorCode":"E0007","errorDescription":"Missing Data","statusCode":"E0007","message":"Username or Userpassword is missing."}}
+2024-11-24T13:28:07.066Z [INFO]: Incoming Request: 
+    Method: POST, 
+    URL: /api/auth/login, 
+    Headers: {"content-type":"application/json","user-agent":"PostmanRuntime/7.42.0","accept":"*/*","cache-control":"no-cache","postman-token":"027412c7-a446-4b8e-bedd-1c2d4994617f","host":"localhost:5055","accept-encoding":"gzip, deflate, br","connection":"keep-alive","content-length":"137"}, 
+    Body: {"user":{"userName":"admin2999","userEmail":"admin99@mail.com","userPassword":"pass321"}}
+2024-11-24T13:28:07.349Z [INFO]: Outgoing Response: 
+      Status: 200, 
+      Response Time: 283 ms, 
+      Headers: {"x-powered-by":"Express","vary":"Origin","access-control-allow-credentials":"true","content-type":"application/json; charset=utf-8","content-length":"386","etag":"W/\"182-wQCRmIgtA9CBSTEHdWBUC9GqUFk\""}, 
+      Body: {"header":{"errorCode":"0000","errorDescription":"SUCCESS","statusCode":200,"message":"Operation completed successfully"},"body":{"success":true,"userId":"115","userType":"1","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxMTUiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluMjk5OSIsImlhdCI6MTczMjQ1NDg4NywiZXhwIjoxNzMyNTQxMjg3fQ.oAUYqy0BWbr1BTNnQmyv1w_4JqHyAfp2mGG1GHdgYok"}}

@@ -35,6 +35,18 @@ module.exports = {
     message: "Sign up operation has failed.",
     errorCode: "E0006",
   },
+  E0007: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "Username or Userpassword is missing.",
+    errorCode: "E0007",
+  },
+  E0008: {
+    errorDescription: "Operation Failure",
+    statusCode: 400,
+    message: "Sign in operation has failed.",
+    errorCode: "E0008",
+  },
   DEFAULT_ERROR: {
     errorDescription: "Unknown Error",
     statusCode: 500,
