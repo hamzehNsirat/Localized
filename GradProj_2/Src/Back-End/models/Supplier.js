@@ -16,7 +16,7 @@ const Supplier = {
 
   async insertSupplier(inputData) {
     return await executeQuery(
-      "SELECT supplier_insert($1, $2, $3, $4, $5, $6, $7, $8) AS out_supplier_id",
+      "SELECT * FROM supplier_insert($1, $2, $3, $4, $5, $6, $7, $8) AS out_supplier_id",
       [
         inputData.supplierUserId,
         inputData.supplierTaxIdentificationNum,

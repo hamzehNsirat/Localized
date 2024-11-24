@@ -79,7 +79,7 @@ BEGIN
     RETURN QUERY 
 	SELECT
 	f.factory_est_id
-	FROM factory f WHERE f.owner_id = owner_id;
+	FROM factory f WHERE f.owner_id = in_owner_id;
 END;
 $$ LANGUAGE plpgsql;
 

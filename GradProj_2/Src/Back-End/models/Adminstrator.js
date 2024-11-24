@@ -8,7 +8,7 @@ const Administrator = {
 
   async insertAdministrator(lastModifiedBy, user_id) {
     return await executeQuery(
-      "SELECT adminstrators_insert($1, $2) AS execution_result",
+      "SELECT * FROM adminstrators_insert($1, $2)",
       [user_id, lastModifiedBy]
     );
   },

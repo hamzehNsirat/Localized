@@ -25,3 +25,5 @@ const Factory = {
     ]);
   },
 };
+
+module.exports = Factory;

@@ -17,7 +17,7 @@ const Retailer = {
 
   async insertRetailer(inputData) {
     return await executeQuery(
-      "SELECT retailer_insert($1, $2, $3, $4, $5, $6, $7) AS retailer_id",
+      "SELECT * FROM retailer_insert($1, $2, $3, $4, $5, $6, $7) AS retailer_id",
       [
         inputData.retailerUserId,
         inputData.retailerTaxIdentificationNum,
