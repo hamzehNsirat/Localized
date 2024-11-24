@@ -5,6 +5,8 @@ CREATE TABLE product (
 	supplier_id BIGINT NOT NULL,
 	product_status_id BIGINT NOT NULL,
 	product_unit_price FLOAT NOT NULL,
+	product_whole_sale_price FLOAT,
+	product_retail_price FLOAT ,
 	product_unit_price_discount FLOAT DEFAULT NULL,
 	product_category BIGINT,
 	product_description TEXT DEFAULT NULL,
@@ -41,12 +43,15 @@ CREATE INDEX idx_product_status ON product(product_status_id);
 /*
  Product CRUD Functions
  */
+
 -- GET A Product BY ID
 CREATE OR REPLACE FUNCTION product_get_by_id(IN in_product_id BIGINT) 
 RETURNS TABLE(
 	out_supplier_id BIGINT,
 	out_product_status_id BIGINT,
 	out_product_unit_price FLOAT,
+	out_product_whole_sale_price FLOAT,
+	out_product_retail_price FLOAT,
 	out_product_unit_price_discount FLOAT,
 	out_product_category VARCHAR,
 	out_product_description TEXT,
@@ -61,6 +66,8 @@ AS $$ BEGIN RETURN QUERY
 	supplier_id,
 	product_status_id,
 	product_unit_price,
+	product_whole_sale_price,
+	product_retail_price,
 	product_unit_price_discount,
 	(
 		SELECT
@@ -86,6 +93,8 @@ RETURNS TABLE(
 	out_product_id BIGINT,
 	out_product_status_id BIGINT,
 	out_product_unit_price FLOAT,
+	out_product_whole_sale_price FLOAT,
+	out_product_retail_price FLOAT,
 	out_product_unit_price_discount FLOAT,
 	out_product_category VARCHAR,
 	out_product_description TEXT,
@@ -100,6 +109,8 @@ AS $$ BEGIN RETURN QUERY
 	CAST(product_id AS BIGINT),
 	product_status_id,
 	product_unit_price,
+	product_whole_sale_price,
+	product_retail_price,
 	product_unit_price_discount,
 	(
 		SELECT
@@ -121,15 +132,17 @@ END;
 $$ LANGUAGE plpgsql;
 -- INSERT A Product
 CREATE OR REPLACE FUNCTION product_insert (
-	in_supplier_id BIGINT,
-	in_product_status_id BIGINT,
-	in_product_unit_price FLOAT,
-	in_product_unit_price_discount FLOAT,
-	in_product_category BIGINT,
-	in_product_description TEXT,
-	in_product_image BYTEA,
-	in_product_name VARCHAR,
-	in_last_modified_by BIGINT,
+	IN in_supplier_id BIGINT,
+	IN in_product_status_id BIGINT,
+	IN in_product_unit_price FLOAT,
+	IN in_product_whole_sale_price FLOAT,
+	IN in_product_retail_price FLOAT,
+	IN in_product_unit_price_discount FLOAT,
+	IN in_product_category BIGINT,
+	IN in_product_description TEXT,
+	IN in_product_image BYTEA,
+	IN in_product_name VARCHAR,
+	IN in_last_modified_by BIGINT,
 	OUT out_product_id BIGINT
 ) 
 RETURNS BIGINT 
@@ -153,7 +166,9 @@ BEGIN
 			product_name,
 			product_addition_date,
 			last_modification_date,
-			last_modified_by
+			last_modified_by,
+			product_whole_sale_price,
+			product_retail_price
 		)
 	VALUES
 		(
@@ -167,27 +182,25 @@ BEGIN
 			in_product_name,
 			CURRENT_TIMESTAMP,
 			CURRENT_TIMESTAMP,
-			in_last_modified_by
+			in_last_modified_by,
+			in_product_whole_sale_price,
+			in_product_retail_price
 	) RETURNING CAST(product_id AS BIGINT) INTO out_product_id;
 EXCEPTION
 WHEN OTHERS THEN 
 	out_product_id := -1;
-	get stacked diagnostics v_state = returned_sqlstate,
+	get stacked diagnostics
+	v_state = returned_sqlstate,
 	v_msg = message_text,
 	v_detail = pg_exception_detail,
 	v_context = pg_exception_context;
-
-	raise notice E ' Got exception:
-		state: % 
-		message: % 
-		detail: %
-		hint: %
-		context: %',
-	v_state,
-	v_msg,
-	v_detail,
-	v_hint,
-	v_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -197,6 +210,8 @@ CREATE OR REPLACE FUNCTION product_update (
 	IN in_product_id BIGINT,
 	IN in_product_status_id BIGINT,
 	IN in_product_unit_price FLOAT,
+	IN in_product_whole_sale_price FLOAT,
+	IN in_product_retail_price FLOAT,
 	IN in_product_unit_price_discount FLOAT,
 	IN in_product_category BIGINT,
 	IN in_product_description TEXT,
@@ -218,6 +233,8 @@ BEGIN
 	SET
 	product_status_id = COALESCE(in_product_status_id, product_status_id),
 	product_unit_price = COALESCE(in_product_unit_price, product_unit_price),
+	product_whole_sale_price = COALESCE(in_product_whole_sale_price, product_whole_sale_price),
+	product_retail_price = COALESCE(in_product_retail_price, product_retail_price),
 	product_unit_price_discount = COALESCE(in_product_unit_price_discount,product_unit_price_discount),
 	product_category = COALESCE(in_product_category,product_category),
 	product_description = COALESCE(in_product_description,product_description),
@@ -244,26 +261,5 @@ EXCEPTION WHEN OTHERS THEN
     detail: %
     hint: %
     context: %',  v_state, v_msg, v_detail, v_hint, v_context;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION product_delete (IN in_product_id BIGINT, OUT update_res INT) 
-RETURNS INT 
-AS $$ BEGIN
-	UPDATE	product SET
-	product_status_id = (
-		SELECT
-			product_status_id
-		FROM
-			product_status P
-		WHERE
-			P.product_status LIKE '%DISCONTINUED%'
-	)
-	WHERE
-	CAST(product_id AS BIGINT) = in_product_id;
-	SET	update_res = 0;
-EXCEPTION
-WHEN OTHERS THEN 
-	update_res := -1;
 END;
 $$ LANGUAGE plpgsql;

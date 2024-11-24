@@ -1,26 +1,27 @@
-// Product schema with attributes (name, price, description, etc.)
 const { executeQuery } = require("../config/database");
 
 const Product = {
-  async getProductById(productId) {
+  async getById(productId) {
     return await executeQuery("SELECT * FROM product_get_by_id($1)", [
       productId,
     ]);
   },
 
-  async getProductsBySupplier(supplierId) {
+  async getBySupplier(supplierId) {
     return await executeQuery("SELECT * FROM product_get_by_supplier($1)", [
       supplierId,
     ]);
   },
 
-  async insertProduct(inputData) {
+  async insert(inputData) {
     return await executeQuery(
-      "SELECT product_insert($1, $2, $3, $4, $5, $6, $7, $8, $9) AS out_product_id",
+      `SELECT * FROM product_insert($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
       [
         inputData.supplierId,
         inputData.productStatusId,
         inputData.productUnitPrice,
+        inputData.productWholeSalePrice,
+        inputData.productRetailPrice,
         inputData.productUnitPriceDiscount,
         inputData.productCategory,
         inputData.productDescription,
@@ -31,13 +32,15 @@ const Product = {
     );
   },
 
-  async updateProduct(productId, inputData) {
+  async update(inputData) {
     return await executeQuery(
-      "SELECT product_update($1, $2, $3, $4, $5, $6, $7, $8, $9) AS update_res",
+      `SELECT * FROM product_update($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
       [
-        productId,
+        inputData.productId,
         inputData.productStatusId,
         inputData.productUnitPrice,
+        inputData.productWholeSalePrice,
+        inputData.productRetailPrice,
         inputData.productUnitPriceDiscount,
         inputData.productCategory,
         inputData.productDescription,
@@ -46,12 +49,6 @@ const Product = {
         inputData.lastModifiedBy,
       ]
     );
-  },
-
-  async deleteProduct(productId) {
-    return await executeQuery("SELECT product_delete($1) AS update_res", [
-      productId,
-    ]);
   },
 };
 
