@@ -6,5 +6,6 @@ const validateToken = require('../middlewares/validateToken');
  
 router.post("/signup", controller.signUp);
 router.post("/login", controller.signIn);
+router.post("/logout", validateToken, controller.signOut);
 router.use(validateToken);
 module.exports = router;

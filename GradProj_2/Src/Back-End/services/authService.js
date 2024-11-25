@@ -11,6 +11,7 @@ const Factory = require("../models/Factory");
 const RetailStore = require("../models/RetailStore");
 const jwt = require("jsonwebtoken");
 const keys = require("../config/keys");
+const { executeQuery } = require("../config/database");
 
 
 const {
@@ -32,8 +33,6 @@ const authService = {
       const userResult = await User.create(userData);
       const newUserId = userResult[0].res;
       let newAdminId, newRetailerId, newSupplierId, establishmentId;
-      console.log("After User Insert");
-      console.log("UserType " + userData.userType);
 
       // Role-specific logic
       if (userData.userType === 1) {
@@ -104,12 +103,19 @@ const authService = {
       }
 
       await commitTransaction(client);
+      // Generate JWT Token
+      const tokenDBRes = await executeQuery(
+        "SELECT token_version FROM user_localized WHERE user_id = $1",
+        [newUserId]
+      );
+      const tokenVersion = tokenDBRes[0].token_version;
       const payload = {
         userId: newUserId,
         userType: userData.userType,
         username: userData.userName,
+        tokenVersion
       };
-      // Generate JWT Token
+
       const token = jwt.sign(
         payload,
         keys.jwtSecret, // Use a secure key stored in .env
@@ -145,11 +151,20 @@ const authService = {
         }
       }
 
+      const tokenDBRes = await executeQuery(
+        "SELECT token_version FROM user_localized WHERE user_id = $1",
+        [userResult[0].out_user_id]
+      );
+
+
+      const tokenVersion = tokenDBRes[0].token_version;
       const payload = {
         userId: userResult[0].out_user_id,
         userType: userResult[0].out_user_type,
         username: userData.userName,
+        tokenVersion,
       };
+
       // Generate JWT Token
       const token = jwt.sign(
         payload,
@@ -165,7 +180,7 @@ const authService = {
     } catch (error) {
       throw error;
     }
-  },
+  }
 };
 
 module.exports = authService;

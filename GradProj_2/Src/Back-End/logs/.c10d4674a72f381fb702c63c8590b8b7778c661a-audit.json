@@ -19,6 +19,11 @@
             "date": 1732432109791,
             "name": "logs\\2024-11-24-combined.log",
             "hash": "1cb0eb3c3dbf4eae9b67fe28c98e23d8b095d1dbca9c129caf08fba398783e0a"
+        },
+        {
+            "date": 1732534317566,
+            "name": "logs\\2024-11-25-combined.log",
+            "hash": "e1e00727a1f51f18c269765582bf16beef6bb05f165e8b8ca5fd6cd909f221fa"
         }
     ],
     "hashType": "sha256"

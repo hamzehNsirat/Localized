@@ -47,6 +47,24 @@ module.exports = {
     message: "Sign in operation has failed.",
     errorCode: "E0008",
   },
+  E0009: {
+    errorDescription: "Operation Failure",
+    statusCode: 400,
+    message: "Error Signing out.",
+    errorCode: "E0009",
+  },
+  TOKEN_EXPIRED: {
+    errorDescription: "Authentication Failure",
+    statusCode: 400,
+    message: "token is expired.",
+    errorCode: "TOKEN_EXPIRED",
+  },
+  TOKEN_MISSING: {
+    errorDescription: "Authentication Failure",
+    statusCode: 400,
+    message: "token is missing.",
+    errorCode: "TOKEN_MISSING",
+  },
   DEFAULT_ERROR: {
     errorDescription: "Unknown Error",
     statusCode: 500,
