@@ -32,9 +32,11 @@ const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const quotationRoutes = require('./routes/quotationRoutes');
+const userRoutes = require("./routes/userRoutes");
 
 // Mount routes
 app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
 // unfinished
 // app.use('/api/products', productRoutes);
 // app.use('/api/orders', orderRoutes);

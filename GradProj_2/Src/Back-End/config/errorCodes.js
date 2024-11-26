@@ -53,6 +53,12 @@ module.exports = {
     message: "Error Signing out.",
     errorCode: "E0009",
   },
+  E0010: {
+    errorDescription: "Operation Failure",
+    statusCode: 400,
+    message: "Error Getting User Data.",
+    errorCode: "E0010",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,

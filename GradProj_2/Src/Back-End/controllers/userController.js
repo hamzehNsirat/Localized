@@ -6,11 +6,11 @@ const errorHandler = require("../middlewares/errorHandler");
 
 const getSingleUser =  async (req, res) => {
     try {
-      const { userId } = req.user; // Extract userId from the token
+      const { userId } = req.user.userId; // Extract userId from the token
       const result = await userService.getUserById(userId);
       return handleSuccess(res, result);
     } catch (error) {
-      return handleError(res, "USER_GET_ERROR", error.message);
+      return handleError(res, "E0010", error.message);
     }
 };
 
@@ -20,7 +20,7 @@ const updateSingleUser = async (req, res) =>  {
     const result = await userService.updateUser(userData);
     return handleSuccess(res, result);
   } catch (error) {
-    return handleError(res, "USER_UPDATE_ERROR", error.message);
+    return handleError(res, "E0010", error.message);
   }
 };
 

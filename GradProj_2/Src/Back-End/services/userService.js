@@ -1,6 +1,7 @@
 const userModel = require("../models/User");
 
-const getUserById = async (userId) => {
+const userService = {
+  async getUserById (userId)  {
   // Fetch user details by user ID
   const dbFetch =  await userModel.get(userId);
   if (dbFetch[0].length = 0 || !dbFetch)
@@ -22,4 +23,6 @@ const getUserById = async (userId) => {
         userPhone: dbFetch.user_phone_number
   }
 
-};
+}
+}
+module.exports = userService;
