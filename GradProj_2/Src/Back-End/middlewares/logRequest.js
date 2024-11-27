@@ -1,5 +1,5 @@
 const logger = require("../utils/logger"); // Import your Winston logger
-/*
+
 // Middleware function to log incoming requests and outgoing responses
 const logRequest = (req, res, next) => {
   const startTime = new Date();
@@ -22,26 +22,24 @@ const logRequest = (req, res, next) => {
   };
 
   res.end = function (chunk) {
-  if (chunk) {
-    // Ensure the chunk is a Buffer before pushing
-    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-  }
+    if (chunk) {
+      // Ensure the chunk is a Buffer before pushing
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+    }
 
-  const responseBody = Buffer.concat(chunks).toString("utf8");
-  const responseTime = new Date() - startTime;
+    const responseBody = Buffer.concat(chunks).toString("utf8");
+    const responseTime = new Date() - startTime;
 
-  logger.info(`Outgoing Response: 
+    logger.info(`Outgoing Response: 
     Status: ${res.statusCode}, 
     Response Time: ${responseTime} ms, 
     Headers: ${JSON.stringify(res.getHeaders())}, 
     Body: ${responseBody}`);
 
-  oldEnd.apply(res, arguments);
-};
-
+    oldEnd.apply(res, arguments);
+  };
 
   next();
 };
 
 module.exports = logRequest;
-*/
