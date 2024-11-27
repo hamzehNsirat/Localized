@@ -22,21 +22,23 @@ const logRequest = (req, res, next) => {
   };
 
   res.end = function (chunk) {
-    if (chunk) {
-      chunks.push(chunk);
-    }
+  if (chunk) {
+    // Ensure the chunk is a Buffer before pushing
+    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+  }
 
-    const responseBody = Buffer.concat(chunks).toString("utf8");
-    const responseTime = new Date() - startTime;
+  const responseBody = Buffer.concat(chunks).toString("utf8");
+  const responseTime = new Date() - startTime;
 
-    logger.info(`Outgoing Response: 
-      Status: ${res.statusCode}, 
-      Response Time: ${responseTime} ms, 
-      Headers: ${JSON.stringify(res.getHeaders())}, 
-      Body: ${responseBody}`);
+  logger.info(`Outgoing Response: 
+    Status: ${res.statusCode}, 
+    Response Time: ${responseTime} ms, 
+    Headers: ${JSON.stringify(res.getHeaders())}, 
+    Body: ${responseBody}`);
 
-    oldEnd.apply(res, arguments);
-  };
+  oldEnd.apply(res, arguments);
+};
+
 
   next();
 };
