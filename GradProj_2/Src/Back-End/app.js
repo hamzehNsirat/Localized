@@ -4,7 +4,6 @@ const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const keys = require("./config/keys");            // Load essential configurations
 const logRequest = require("./middlewares/logRequest");            // References Request/Response Logger
-
 const app = express(); // Initialize Express app
 // Global Middleware Configuration
 
@@ -23,7 +22,11 @@ app.use(cors({
 // Body Parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+/*
+uncomment to log incoming requests and corresponding responses
 app.use(logRequest);
+*/
+ 
 
 // Route Handlers
 

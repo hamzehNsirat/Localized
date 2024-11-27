@@ -13,7 +13,7 @@ const signUp = async (req, res) => {
     const result = await authService.registerUser(user, establishment);
 
     if (!result.success) {
-      return errorHandler.handleError(res, "E0006");
+      return errorHandler.handleError(res, "E0006", result);
     }
     return errorHandler.handleSuccess(res, result, 201);
   } catch (error) {
@@ -32,7 +32,7 @@ const signIn = async (req, res) => {
     const result = await authService.loginUser(user);
 
     if (!result.success) {
-      return errorHandler.handleError(res, "E0008");
+      return errorHandler.handleError(res, "E0008", result);
     }
     return errorHandler.handleSuccess(res, result, 200);
   } catch (error) {
@@ -49,8 +49,6 @@ const signOut = async (req, res, next) => {
       "UPDATE user_localized SET token_version = token_version + 1 WHERE user_id = $1",
       [parseInt(userId)]
     );
-    console.log("singOUTTTTTT");
-
     // Respond with a success message
     return errorHandler.handleSuccess(
       res,

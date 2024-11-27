@@ -62,11 +62,16 @@ CREATE TRIGGER before_insert_userpass
 BEFORE INSERT ON user_localized
 FOR EACH ROW
 EXECUTE FUNCTION insert_salt_user_password();
-
-CREATE TRIGGER before_update_userpass
+ 
+CREATE TRIGGER before_update_userpass 
 BEFORE UPDATE ON user_localized
 FOR EACH ROW
-WHEN (NEW.user_password IS NOT NULL) EXECUTE FUNCTION insert_salt_user_password();
+WHEN ( 
+    NEW.user_password IS NOT NULL AND
+    (OLD.user_password = crypt(NEW.user_password, OLD.user_password )) = false 
+)
+EXECUTE FUNCTION insert_salt_user_password();
+
 
 /*
 User CRUD Functions

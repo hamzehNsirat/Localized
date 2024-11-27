@@ -11,12 +11,11 @@ const validateToken = async (req, res, next) => {
   }
  
   const token = authHeader.split(" ")[1]; // Extract token after "Bearer"
+  const decoded = jwt.verify(token, keys.jwtSecret);
 
   try {
     // Verify and decode the token
-
-     const decoded = jwt.verify(token, keys.jwtSecret);
-
+    const decoded = jwt.verify(token, keys.jwtSecret);
     const token_ver = await executeQuery("SELECT token_version FROM user_localized WHERE user_id = $1", [decoded.userId]);
     const token_DB  = token_ver[0].token_version;
     if (decoded.tokenVersion != token_DB)
@@ -24,7 +23,6 @@ const validateToken = async (req, res, next) => {
         return errorHandler.handleError(res, 'TOKEN_EXPIRED');
     }
     req.user = decoded; // Attach decoded payload to request object
-
     next(); // Pass control to the next middleware or route handler
   } catch (error) {
     return errorHandler.handleError(res,'TOKEN_EXPIRED');

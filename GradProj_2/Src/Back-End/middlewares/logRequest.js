@@ -4,6 +4,9 @@ const logger = require("../utils/logger"); // Import your Winston logger
 const logRequest = (req, res, next) => {
   const startTime = new Date();
 
+  if (req.logRequest === false) {
+   return next(); // Skip logging 
+  }
   // Log the request details
   logger.info(`Incoming Request: 
     Method: ${req.method}, 

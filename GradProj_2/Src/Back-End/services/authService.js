@@ -32,12 +32,24 @@ const authService = {
       // Insert user
       const userResult = await User.create(userData);
       const newUserId = userResult[0].res;
+      if(!userResult[0].res || userResult[0].res == -1){
+        return {
+          success: false,
+          error: 'Unable to Create User in Database'
+        }
+      }
       let newAdminId, newRetailerId, newSupplierId, establishmentId;
 
       // Role-specific logic
       if (userData.userType === 1) {
         // Admin creation logic (if needed)
         const adminResult = await Admin.insertAdministrator(1, newUserId);
+        if (!adminResult[0].out_admin_id || adminResult[0].out_admin_id == -1) {
+          return {
+            success: false,
+            error: "Unable to Create User in Database",
+          };
+        }
         newAdminId = adminResult[0].out_admin_id;
       } else if (userData.userType === 2) {
         // Supplier creation logic
@@ -47,7 +59,17 @@ const authService = {
         // Insert establishment
         establishmentData.lastModifiedBy = newUserId;
         const establishmentResult =
-          await Establishment.insertEstablishment(establishmentData);
+        await Establishment.insertEstablishment(establishmentData);
+        
+        if (
+          !establishmentResult[0].out_establishment_id ||
+          establishmentResult[0].out_establishment_id == -1
+        ) {
+          return {
+            success: false,
+            error: "Unable to Create Establishment in Database",
+          };
+        }
         establishmentId = establishmentResult[0].out_establishment_id;
 
         const inputData = {
@@ -63,7 +85,15 @@ const authService = {
         // Insert supplier
         const supplierResult = await Supplier.insertSupplier(inputData);
         newSupplierId = supplierResult[0].out_supplier_id;
-
+        if (
+          !supplierResult[0].out_supplier_id ||
+          supplierResult[0].out_supplier_id == -1
+        ) {
+          return {
+            success: false,
+            error: "Unable to Create Supplier in Database",
+          };
+        }
         // Insert factory
         const factoryResult = await Factory.insertOwnedFactory(
           newSupplierId,
@@ -78,7 +108,16 @@ const authService = {
         // Insert establishment
         establishmentData.lastModifiedBy = newUserId;
         const establishmentResult =
-          await Establishment.insertEstablishment(establishmentData);
+        await Establishment.insertEstablishment(establishmentData);
+        if (
+          !establishmentResult[0].out_establishment_id ||
+          establishmentResult[0].out_establishment_id == -1
+        ) {
+          return {
+            success: false,
+            error: "Unable to Create Establishment in Database",
+          };
+        }
         establishmentId = establishmentResult[0].out_establishment_id;
 
         // Insert retailer
@@ -92,7 +131,15 @@ const authService = {
           lastModifiedBy: newUserId,
         };
         const retailerResult = await Retailer.insertRetailer(inputData);
-        console.log(retailerResult);
+        if (
+          !retailerResult[0].out_retailer_id ||
+          retailerResult[0].out_retailer_id == -1
+        ) {
+          return {
+            success: false,
+            error: "Unable to Create Retailer in Database",
+          };
+        }
         newRetailerId = retailerResult[0].out_retailer_id;
         // Insert factory
         const RetailStoreResult = await RetailStore.insertRetailStore(
@@ -108,8 +155,7 @@ const authService = {
         "SELECT token_version FROM user_localized WHERE user_id = $1",
         [newUserId]
       );
-      console.log('supposed User ID :' + newUserId);
-      console.log('token_version ' + tokenDBRes);
+
       const tokenVersion = tokenDBRes[0].token_version;
       const payload = {
         userId: newUserId,
@@ -148,7 +194,6 @@ const authService = {
 
       if (userResult[0].out_is_valid != 1) 
       {
-        console.log(userResult[0].out_is_valid);
         return {
         success: false
         }
