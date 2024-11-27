@@ -7,16 +7,15 @@ CREATE TABLE user_localized (
 	user_type    BIGINT,
 	user_status  BIGINT,
 	first_name VARCHAR(35) NOT NULL,
-	middle_name VARCHAR(35) NOT NULL,
+	middle_name VARCHAR(35) ,
 	last_name VARCHAR(35) NOT NULL,
-	date_of_birth  DATE NOT NULL,
+	date_of_birth  DATE ,
 	user_name VARCHAR(35) NOT NULL UNIQUE,
 	user_address TEXT DEFAULT NULL,
 	user_email VARCHAR(254) NOT NULL UNIQUE,
 	user_password  VARCHAR(100) NOT NULL,
-	user_pass_salt VARCHAR(22) NOT NULL,
 	is_email_verified BOOLEAN NOT NULL,
-	user_phone_number VARCHAR(15) NOT NULL UNIQUE,
+	user_phone_number VARCHAR(15)  UNIQUE,
 	last_modification_date  TIMESTAMP NOT NULL,
 	last_modified_by		 BIGINT   NOT NULL,
 	user_image BYTEA DEFAULT NULL,
@@ -67,8 +66,7 @@ CREATE TRIGGER before_update_userpass
 BEFORE UPDATE ON user_localized
 FOR EACH ROW
 WHEN ( 
-    NEW.user_password IS NOT NULL AND
-    (OLD.user_password = crypt(NEW.user_password, OLD.user_password )) = false 
+    NEW.is_pass_change IS NOT NULL AND NEW.is_pass_change = TRUE
 )
 EXECUTE FUNCTION insert_salt_user_password();
 
@@ -233,6 +231,7 @@ CREATE OR REPLACE FUNCTION user_update (
 	IN in_last_modified_by	 BIGINT,
 	IN in_user_image BYTEA,
 	IN in_user_id BIGINT,
+	IN in_is_pass_change BOOLEAN,
 	OUT update_res INT
 )
 RETURNS INT AS $$
@@ -253,7 +252,8 @@ BEGIN
 	user_phone_number = 	COALESCE(in_user_phone_number, user_phone_number),
 	last_modification_date = CURRENT_TIMESTAMP,
 	last_modified_by =	COALESCE(in_last_modified_by, last_modified_by),
-	user_image = COALESCE(in_user_image, user_image)
+	user_image = COALESCE(in_user_image, user_image),
+	is_pass_change = COALESCE(in_is_pass_change, is_pass_change)
 	WHERE CAST(user_id AS BIGINT) = in_user_id;
 	update_res := 0;	
 

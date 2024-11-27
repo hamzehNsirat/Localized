@@ -1,2 +1,1 @@
 TO BE DONE:
-1- add retail price, wholesale price and selling price to product DB / model 
