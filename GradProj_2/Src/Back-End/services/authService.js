@@ -22,7 +22,7 @@ const {
 
 const authService = {
   async registerUser(userData, establishmentData) {
-    const client = await beginTransaction();
+    //const client = await beginTransaction();
     try {
       // Validate userType
       if (![1, 2, 3].includes(userData.userType)) {
@@ -102,12 +102,14 @@ const authService = {
         );
       }
 
-      await commitTransaction(client);
+      //await commitTransaction(client);
       // Generate JWT Token
       const tokenDBRes = await executeQuery(
         "SELECT token_version FROM user_localized WHERE user_id = $1",
         [newUserId]
       );
+      console.log('supposed User ID :' + newUserId);
+      console.log('token_version ' + tokenDBRes);
       const tokenVersion = tokenDBRes[0].token_version;
       const payload = {
         userId: newUserId,
@@ -134,7 +136,7 @@ const authService = {
         token: token,
       };
     } catch (error) {
-      await rollbackTransaction(client);
+      //await rollbackTransaction(client);
       throw error;
     }
   },
@@ -146,6 +148,7 @@ const authService = {
 
       if (userResult[0].out_is_valid != 1) 
       {
+        console.log(userResult[0].out_is_valid);
         return {
         success: false
         }

@@ -8,7 +8,7 @@ CREATE TABLE supplier (
 	supplier_bank_account_num    VARCHAR(18) UNIQUE,
 	supplier_iban    VARCHAR(34)  NOT NULL UNIQUE,
 	supplier_compliance_indicator FLOAT NOT NULL DEFAULT 0,
-	supplier_complaint_count 	    INTEGER NOT NULL DEFAULT 0,
+	supplier_compliance_count 	    INTEGER NOT NULL DEFAULT 0,
 	supplier_positive_review_count INTEGER NOT NULL DEFAULT 0,	
 	last_modification_date  TIMESTAMP NOT NULL,
 	last_modified_by		 BIGINT   NOT NULL,

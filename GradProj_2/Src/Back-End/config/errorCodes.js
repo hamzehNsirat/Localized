@@ -59,6 +59,12 @@ module.exports = {
     message: "Error Getting User Data.",
     errorCode: "E0010",
   },
+  E0011: {
+    errorDescription: "No Data",
+    statusCode: 400,
+    message: "No Data for this User was found",
+    errorCode: "E0011",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,

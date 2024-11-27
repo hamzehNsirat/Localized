@@ -1,5 +1,5 @@
 const logger = require("../utils/logger"); // Import your Winston logger
-
+/*
 // Middleware function to log incoming requests and outgoing responses
 const logRequest = (req, res, next) => {
   const startTime = new Date();
@@ -42,3 +42,4 @@ const logRequest = (req, res, next) => {
 };
 
 module.exports = logRequest;
+*/

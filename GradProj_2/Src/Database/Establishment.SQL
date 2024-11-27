@@ -21,21 +21,15 @@ CREATE TABLE establishment (
 	establishment_logo       BYTEA,
 	establishment_cover       BYTEA,
 	est_compliance_indicator FLOAT NOT NULL DEFAULT 0,
-	est_compliance_indicator_desc VARCHAR(15) NOT NULL DEFAULT 'GOOD'
+	est_compliance_indicator_desc VARCHAR(15) NOT NULL DEFAULT 'GOOD',
 	CONSTRAINT fk_establishment_status FOREIGN KEY (establishment_status)
     REFERENCES establishment_status(establishment_status_id) ON DELETE SET NULL ON UPDATE CASCADE,
-	CONSTRAINT fk_industry FOREIGN KEY (industry_type)
-    REFERENCES industry_type(industry_type_id) ON DELETE SET NULL ON UPDATE CASCADE,
 	CONSTRAINT chk_est_compliance_ind CHECK(est_compliance_indicator BETWEEN 0 AND 1),
 	CONSTRAINT chk_est_compliance_ind_desc CHECK(est_compliance_indicator_desc IN('GOOD', 'WARNING', 'RESTRICTED', 'SUSPENDED'))
 );
 /*
 Establishment Indexes  / Triggers
 */
-
--- Establishment Industry Type Index
--- to optimize the Retrieval Based on a given Establishment's Industry Type
-CREATE INDEX  idx_fk_establishment_industry_type ON establishment(industry_type);
 
 -- Establishment Commercial Registration Number Index
 -- to optimize the Retrieval Based on a given Establishment's Commercial Registration Number
@@ -332,7 +326,7 @@ EXCEPTION WHEN OTHERS THEN
     detail: %
     hint: %
     context: %',  v_state, v_msg, v_detail, v_hint, v_context;
-	RETURN -1;
+	out_establishment_id:= -1;
 END;
 $$ LANGUAGE plpgsql;
 

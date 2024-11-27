@@ -91,7 +91,7 @@ CREATE OR REPLACE FUNCTION order_insert (
 	IN in_order_quantity_unit  VARCHAR,
 	IN in_order_date			    TIMESTAMP,
 	IN in_last_modification_date  TIMESTAMP,
-	IN in_last_modified_by  		BIGINT
+	IN in_last_modified_by  		BIGINT,
 	OUT out_order_id BIGINT
 ) 
 RETURNS BIGINT 
@@ -126,21 +126,17 @@ BEGIN
 EXCEPTION
 WHEN OTHERS THEN 
 	out_order_id := -1;
-	get stacked diagnostics v_state = returned_sqlstate,
+	get stacked diagnostics
+	v_state = returned_sqlstate,
 	v_msg = message_text,
 	v_detail = pg_exception_detail,
 	v_context = pg_exception_context;
-
-	raise notice E ' Got exception:
-		state: % 
-		message: % 
-		detail: %
-		hint: %
-		context: %',
-	v_state,
-	v_msg,
-	v_detail,
-	v_hint,
-	v_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
 END;
 $$ LANGUAGE plpgsql;
