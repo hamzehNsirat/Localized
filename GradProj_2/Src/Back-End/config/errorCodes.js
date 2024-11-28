@@ -65,6 +65,48 @@ module.exports = {
     message: "No Data for this User was found",
     errorCode: "E0011",
   },
+  E0012: {
+    errorDescription: "Update Failure",
+    statusCode: 400,
+    message: "Updating User Data has failed",
+    errorCode: "E0012",
+  },
+  E0013: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "PageIndex and PageSize are Mandatory",
+    errorCode: "E0013",
+  },
+  E0014: {
+    errorDescription: "Fetch Failure",
+    statusCode: 400,
+    message: "Fetching User Data has failed",
+    errorCode: "E0014",
+  },
+  E0013: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "UserStatus is Mandatory",
+    errorCode: "E0015",
+  },
+  E0014: {
+    errorDescription: "Review Failure",
+    statusCode: 400,
+    message: "Reviewing User has failed",
+    errorCode: "E0016",
+  },
+  E0013: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "UserId is Mandatory",
+    errorCode: "E0017",
+  },
+  E0014: {
+    errorDescription: "Review Failure",
+    statusCode: 400,
+    message: "Deleting User has failed",
+    errorCode: "E0018",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,

@@ -4,8 +4,107 @@ ALTER TABLE user_localized ALTER COLUMN middle_name DROP NOT NULL
 ALTER TABLE user_localized ALTER COLUMN user_phone_number DROP NOT NULL
 ALTER TABLE user_localized ALTER COLUMN date_of_birth DROP NOT NULL
 ALTER TABLE user_localized DROP COLUMN user_pass_salt
---
-DROP FUNCTION user_update
+ALTER TABLE user_localized ALTER COLUMN date_of_birth SET DEFAULT '1970-01-01';
+ALTER TABLE user_localized ALTER COLUMN middle_name SET DEFAULT '';
+ALTER TABLE user_localized ALTER COLUMN user_phone_number SET DEFAULT NULL;
+----------------------------------
+DROP TRIGGER before_update_userpass ON user_localized;
+CREATE TRIGGER before_update_userpass 
+BEFORE UPDATE ON user_localized
+FOR EACH ROW
+WHEN ( 
+    NEW.is_pass_change IS NOT NULL AND NEW.is_pass_change = TRUE
+)
+EXECUTE FUNCTION insert_salt_user_password();
+----------------------------------
+ALTER TABLE supplier ALTER COLUMN supplier_tax_identification_num DROP NOT NULL;
+ALTER TABLE supplier ALTER COLUMN supplier_iban DROP NOT NULL;
+ALTER TABLE supplier ALTER COLUMN supplier_tax_identification_num SET DEFAULT NULL;
+ALTER TABLE supplier ALTER COLUMN supplier_iban SET DEFAULT NULL;
+ALTER TABLE supplier ALTER COLUMN supplier_bank_account_num SET DEFAULT NULL;
+
+ALTER TABLE retailer ALTER COLUMN retailer_tax_identification_num DROP NOT NULL;
+ALTER TABLE retailer ALTER COLUMN retailer_iban DROP NOT NULL;
+ALTER TABLE retailer ALTER COLUMN retailer_tax_identification_num SET DEFAULT NULL;
+ALTER TABLE retailer ALTER COLUMN retailer_iban SET DEFAULT NULL;
+ALTER TABLE retailer ALTER COLUMN retailer_bank_account_num SET DEFAULT NULL;
+
+ALTER TABLE establishment ALTER COLUMN establishment_registration_date DROP NOT NULL;
+ALTER TABLE establishment ALTER COLUMN commercial_registration_num DROP NOT NULL;
+ALTER TABLE establishment ALTER COLUMN establishment_email DROP NOT NULL;
+ALTER TABLE establishment ALTER COLUMN establishment_city DROP NOT NULL;
+ALTER TABLE establishment ALTER COLUMN establishment_registration_date SET DEFAULT NULL;
+ALTER TABLE establishment ALTER COLUMN commercial_registration_num SET DEFAULT NULL;
+ALTER TABLE establishment ALTER COLUMN establishment_email SET DEFAULT NULL;
+ALTER TABLE establishment ALTER COLUMN establishment_city SET DEFAULT NULL;
+----------------------------------------------------------------------------------------
+drop function user_insert;
+drop function user_update;
+-- INSERT A User
+CREATE OR REPLACE FUNCTION user_insert (
+	IN in_national_number   BIGINT,
+	IN in_user_type    BIGINT,
+	IN in_user_status  BIGINT,
+	IN in_first_name   VARCHAR,
+	IN in_middle_name 	VARCHAR,
+	IN in_last_name	VARCHAR,
+	IN in_date_of_birth  DATE,
+	IN in_user_name 	  VARCHAR,
+	IN in_user_address 	TEXT ,
+	IN in_user_email 	  VARCHAR,
+	IN in_user_password  VARCHAR,
+	IN in_is_email_verified BOOLEAN,
+	IN in_user_phone_number VARCHAR,
+	IN in_last_modified_by	 BIGINT,
+	IN in_image BYTEA,
+	OUT out_user_id BIGINT
+)
+RETURNS BIGINT AS $$
+BEGIN
+    INSERT INTO user_localized 
+	(	
+	national_number,
+	user_type,
+	user_status,
+	first_name,
+	middle_name,
+	last_name,
+	date_of_birth,
+	user_name_lclzd 	 ,
+	user_address ,
+	user_email 	 ,
+	user_password,
+	is_email_verified,
+	user_phone_number,
+	last_modification_date,
+	last_modified_by,
+	user_image
+	)
+	VALUES
+	(
+	in_national_number,
+	in_user_type,
+	in_user_status,
+	in_first_name,
+	in_middle_name,
+	in_last_name,
+	in_date_of_birth,
+	in_user_name,
+	in_user_address ,
+	in_user_email ,
+	in_user_password,
+	in_is_email_verified,
+	in_user_phone_number,
+	CURRENT_TIMESTAMP,
+	in_last_modified_by,
+	in_image
+	) RETURNING CAST(user_id AS BIGINT) INTO out_user_id;
+
+EXCEPTION WHEN OTHERS THEN 
+	out_user_id := -1;	
+END;
+$$ LANGUAGE plpgsql;
+
 -- UPDATE A User
 CREATE OR REPLACE FUNCTION user_update (
 	IN in_national_number   BIGINT,
@@ -19,7 +118,6 @@ CREATE OR REPLACE FUNCTION user_update (
 	IN in_user_address 	TEXT ,
 	IN in_user_email 	  VARCHAR,
 	IN in_user_password  VARCHAR,
-	IN in_user_pass_salt VARCHAR,
 	IN in_is_email_verified BOOLEAN,
 	IN in_user_phone_number VARCHAR,
 	IN in_last_modified_by	 BIGINT,
@@ -56,4 +154,27 @@ EXCEPTION WHEN OTHERS THEN
 
 END;
 $$ LANGUAGE plpgsql;
-----------------------------------
+------------------------------------------------------------------------------------
+-- UPDATE A UserStatus By Admin
+CREATE OR REPLACE FUNCTION user_update_status (
+	IN in_user_status  BIGINT,
+	IN in_user_id BIGINT,
+	IN in_last_modified_by BIGINT,
+	OUT update_res INT
+)
+RETURNS INT AS $$
+BEGIN
+    UPDATE user_localized 
+	SET	
+	user_status		=	COALESCE(in_user_status, user_status),
+	last_modification_date = CURRENT_TIMESTAMP,
+	last_modified_by =	COALESCE(in_last_modified_by, last_modified_by)
+	WHERE CAST(user_id AS BIGINT) = in_user_id;
+	update_res := 0;	
+
+EXCEPTION WHEN OTHERS THEN 
+	update_res := -1;	
+
+END;
+$$ LANGUAGE plpgsql;
+------------------------------------------------------------------------------------

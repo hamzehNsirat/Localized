@@ -6,10 +6,10 @@ const validateToken = require('../middlewares/validateToken');
 
 // General User Operations
 router.post("/get", validateToken, controller.getSingleUser);
-//router.post("/update", validateToken, controller.updateSingleUser);
+router.post("/update", validateToken, controller.updateSingleUser);
+router.post("/delete", validateToken, controller.deleteUser);
 // Admin Oriented
-//router.post('/getall', validateToken, controller.getAll);
-//router.post("/reviewuser", validateToken, controller.reviewUser);
-//router.post("/deleteuser", validateToken, controller.deleteUser);
+router.post("/getall", validateToken, controller.getUserList);
+router.post("/reviewuser", validateToken, controller.reviewUser);
 
 module.exports = router;

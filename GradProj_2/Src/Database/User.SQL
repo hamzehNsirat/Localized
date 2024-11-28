@@ -157,7 +157,6 @@ CREATE OR REPLACE FUNCTION user_insert (
 	IN in_user_address 	TEXT ,
 	IN in_user_email 	  VARCHAR,
 	IN in_user_password  VARCHAR,
-	IN in_user_pass_salt VARCHAR,
 	IN in_is_email_verified BOOLEAN,
 	IN in_user_phone_number VARCHAR,
 	IN in_last_modified_by	 BIGINT,
@@ -179,7 +178,6 @@ BEGIN
 	user_address ,
 	user_email 	 ,
 	user_password,
-	user_pass_salt,
 	is_email_verified,
 	user_phone_number,
 	last_modification_date,
@@ -199,7 +197,6 @@ BEGIN
 	in_user_address ,
 	in_user_email ,
 	in_user_password,
-	in_user_pass_salt,
 	in_is_email_verified,
 	in_user_phone_number,
 	CURRENT_TIMESTAMP,
@@ -225,7 +222,6 @@ CREATE OR REPLACE FUNCTION user_update (
 	IN in_user_address 	TEXT ,
 	IN in_user_email 	  VARCHAR,
 	IN in_user_password  VARCHAR,
-	IN in_user_pass_salt VARCHAR,
 	IN in_is_email_verified BOOLEAN,
 	IN in_user_phone_number VARCHAR,
 	IN in_last_modified_by	 BIGINT,
@@ -282,5 +278,29 @@ BEGIN
 
 EXCEPTION WHEN OTHERS THEN 
 	update_res := -1;	
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- UPDATE A UserStatus By Admin
+CREATE OR REPLACE FUNCTION user_update_status (
+	IN in_user_status  BIGINT,
+	IN in_user_id BIGINT,
+	IN in_last_modified_by BIGINT,
+	OUT update_res INT
+)
+RETURNS INT AS $$
+BEGIN
+    UPDATE user_localized 
+	SET	
+	user_status		=	COALESCE(in_user_status, user_status),
+	last_modification_date = CURRENT_TIMESTAMP,
+	last_modified_by =	COALESCE(in_last_modified_by, last_modified_by)
+	WHERE CAST(user_id AS BIGINT) = in_user_id;
+	update_res := 0;	
+
+EXCEPTION WHEN OTHERS THEN 
+	update_res := -1;	
+
 END;
 $$ LANGUAGE plpgsql;

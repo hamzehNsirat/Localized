@@ -1,20 +1,16 @@
-
 // Handles password hashing, token generation, and validation
-
-
 const User = require("../models/User"); // User model
 const Establishment = require("../models/Establishment"); // Establishment model
 const Supplier = require("../models/supplier");
 const Retailer = require("../models/retailer");
 const Admin = require("../models/Adminstrator");
-const Factory = require("../models/Factory"); 
+const Factory = require("../models/Factory");
 const RetailStore = require("../models/RetailStore");
+const logDBModel = require("../models/Log");
 const jwt = require("jsonwebtoken");
 const keys = require("../config/keys");
-const { executeQuery } = require("../config/database");
-
-
 const {
+  executeQuery,
   beginTransaction,
   commitTransaction,
   rollbackTransaction,
@@ -26,17 +22,25 @@ const authService = {
     try {
       // Validate userType
       if (![1, 2, 3].includes(userData.userType)) {
-        throw new Error("Invalid user type.");
+        return {
+          success: false,
+          error: "Invalid User Type",
+        };
       }
 
       // Insert user
+      // Default Values for every new User
+      userData.userStatus = 1;
+      userData.isEmailVerified = false;
+      userData.lastModifiedBy = 1;
+      userData.userImage = null;
       const userResult = await User.create(userData);
       const newUserId = userResult[0].res;
-      if(!userResult[0].res || userResult[0].res == -1){
+      if (!userResult[0].res || userResult[0].res == -1) {
         return {
           success: false,
-          error: 'Unable to Create User in Database'
-        }
+          error: "Unable to Create User in Database",
+        };
       }
       let newAdminId, newRetailerId, newSupplierId, establishmentId;
 
@@ -54,13 +58,25 @@ const authService = {
       } else if (userData.userType === 2) {
         // Supplier creation logic
         if (!establishmentData) {
-          throw new Error("Establishment data is required for suppliers.");
+          return {
+            success: false,
+            error: "Establishment data is required for suppliers",
+          };
         }
         // Insert establishment
+        // Default Values for every Establishment
+        establishmentData.lastModifiedBy = newUserId;
+        establishmentData.establishmentStatus = 1;
+        establishmentData.establishmentEmail = null;
+        establishmentData.establishmentLogo = null;
+        establishmentData.establishmentCover = null;
+        establishmentData.establishmentType = false;
+        establishmentData.estComplianceIndicator = 1;
+        establishmentData.estComplianceIndicatorDesc = "GOOD";
         establishmentData.lastModifiedBy = newUserId;
         const establishmentResult =
-        await Establishment.insertEstablishment(establishmentData);
-        
+          await Establishment.insertEstablishment(establishmentData);
+
         if (
           !establishmentResult[0].out_establishment_id ||
           establishmentResult[0].out_establishment_id == -1
@@ -74,9 +90,9 @@ const authService = {
 
         const inputData = {
           supplierUserId: newUserId,
-          supplierTaxIdentificationNum: userData.TIN,
-          supplierBankAccountNum: userData.bankAccountNumber,
-          supplierIban: userData.IBAN,
+          supplierTaxIdentificationNum: null,
+          supplierBankAccountNum: null,
+          supplierIban: null,
           supplierComplianceIndicator: 1,
           supplierComplaintCount: 0,
           supplierPositiveReviewCount: 0,
@@ -102,13 +118,23 @@ const authService = {
       } else {
         // Retailer creation logic
         if (!establishmentData) {
-          throw new Error("Establishment data is required for retailers.");
+          return {
+            success: false,
+            error: "Establishment data is required for retailers",
+          };
         }
 
         // Insert establishment
+        // Default Values for every Establishment
+        establishmentData.lastModifiedBy = newUserId;
+        establishmentData.establishmentStatus = 1;
+        establishmentData.establishmentEmail = null;
+        establishmentData.establishmentType = true;
+        establishmentData.estComplianceIndicator = 1;
+        establishmentData.estComplianceIndicatorDesc = "GOOD";
         establishmentData.lastModifiedBy = newUserId;
         const establishmentResult =
-        await Establishment.insertEstablishment(establishmentData);
+          await Establishment.insertEstablishment(establishmentData);
         if (
           !establishmentResult[0].out_establishment_id ||
           establishmentResult[0].out_establishment_id == -1
@@ -123,9 +149,9 @@ const authService = {
         // Insert retailer
         const inputData = {
           retailerUserId: newUserId,
-          retailerTaxIdentificationNum: userData.TIN,
-          retailerBankAccountNum: userData.bankAccountNumber,
-          retailerIban: userData.IBAN,
+          retailerTaxIdentificationNum: null,
+          retailerBankAccountNum: null,
+          retailerIban: null,
           retailerComplianceIndicator: 1,
           retailerComplaintCount: 0,
           lastModifiedBy: newUserId,
@@ -161,7 +187,7 @@ const authService = {
         userId: newUserId,
         userType: userData.userType,
         username: userData.userName,
-        tokenVersion
+        tokenVersion,
       };
 
       const token = jwt.sign(
@@ -169,6 +195,15 @@ const authService = {
         keys.jwtSecret, // Use a secure key stored in .env
         { expiresIn: "1d" } // Token expiry
       );
+
+      const inputData = {
+        logUserId: newUserId,
+        actionDetails: "Create New User" + newUserId,
+        actionJsonPayload: null,
+        actionDescription: "DATA CREATION",
+        isTransactional: true,
+      };
+      await logDBModel.insertLog(inputData);
       return {
         success: true,
         userId: newUserId,
@@ -188,22 +223,19 @@ const authService = {
   },
   async loginUser(userData) {
     try {
-
       // Validate User
       const userResult = await User.validate(userData);
 
-      if (userResult[0].out_is_valid != 1) 
-      {
+      if (userResult[0].out_is_valid != 1) {
         return {
-        success: false
-        }
+          success: false,
+        };
       }
 
       const tokenDBRes = await executeQuery(
         "SELECT token_version FROM user_localized WHERE user_id = $1",
         [userResult[0].out_user_id]
       );
-
 
       const tokenVersion = tokenDBRes[0].token_version;
       const payload = {
@@ -228,7 +260,7 @@ const authService = {
     } catch (error) {
       throw error;
     }
-  }
+  },
 };
 
 module.exports = authService;
