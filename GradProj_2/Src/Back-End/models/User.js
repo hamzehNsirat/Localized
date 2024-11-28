@@ -71,8 +71,8 @@ const userModel = {
   },
   async updateStatus(inputData) {
     return await executeQuery("SELECT * FROM user_update_status($1, $2, $3)", [
-      inputData.userId,
       inputData.userStatus,
+      inputData.userId,
       inputData.lastModifiedBy,
     ]);
   },
