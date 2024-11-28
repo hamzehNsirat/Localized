@@ -1,7 +1,33 @@
-USER 
-    ADMIN OPS
-        CHANGESTATUS / REVIEW USER (NEEDS SP) 
+-- 29-11-2024 --
+APPLICATION
+    payload:
+    USER:
+        FIRST NAME 
+        LAST NAME
+        USERNAME
+        Email
+        PASSWORD
+        PHONE
+    ESTABLISHMENT:
+        ESTABLISHMENT NAME 
+        ESTABLISHMENT Email
+        ESTABLISHMENT PHONE
+        ESTABLISHMENT DESC
+        ESTABLISHMENT CMRCL REG NUM
+        ESTABLISHMENT CITY
+        ESTABLISHMENT STREET 
+        ESTABLISHMENT BUILDING NUMBER
+        ESTABLISHMENT LOGO
 
+    actions: Insert, View, Update, Get, Status
+    todo: 
+    TABLE
+    MODEL
+    Add to Auth Routes
+    add to Auth Controller
+    add to Auth Service
+
+-- STARTING 01-12 --
 ESTABLISHMENT
     GET ESTABLISHMENTS BY SUPPLIER / RETAILER / ID
     UPDATE ESTABLISHMENT

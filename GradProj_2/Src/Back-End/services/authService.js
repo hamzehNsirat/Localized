@@ -31,7 +31,7 @@ const authService = {
       // Insert user
       // Default Values for every new User
       userData.userStatus = 1;
-      userData.isEmailVerified = false;
+      userData.isEmailVerified = true;
       userData.lastModifiedBy = 1;
       userData.userImage = null;
       const userResult = await User.create(userData);
@@ -67,8 +67,6 @@ const authService = {
         // Default Values for every Establishment
         establishmentData.lastModifiedBy = newUserId;
         establishmentData.establishmentStatus = 1;
-        establishmentData.establishmentEmail = null;
-        establishmentData.establishmentLogo = null;
         establishmentData.establishmentCover = null;
         establishmentData.establishmentType = false;
         establishmentData.estComplianceIndicator = 1;
@@ -128,8 +126,8 @@ const authService = {
         // Default Values for every Establishment
         establishmentData.lastModifiedBy = newUserId;
         establishmentData.establishmentStatus = 1;
-        establishmentData.establishmentEmail = null;
-        establishmentData.establishmentType = true;
+        establishmentData.establishmentCover = null;
+        establishmentData.establishmentType = false;
         establishmentData.estComplianceIndicator = 1;
         establishmentData.estComplianceIndicatorDesc = "GOOD";
         establishmentData.lastModifiedBy = newUserId;
@@ -195,16 +193,7 @@ const authService = {
         keys.jwtSecret, // Use a secure key stored in .env
         { expiresIn: "1d" } // Token expiry
       );
-
-      const inputData = {
-        logUserId: newUserId,
-        actionDetails: "Create New User" + newUserId,
-        actionJsonPayload: null,
-        actionDescription: "DATA CREATION",
-        isTransactional: true,
-      };
-      await logDBModel.insertLog(inputData);
-      return {
+      const response = {
         success: true,
         userId: newUserId,
         adminId: newAdminId || null,
@@ -216,6 +205,15 @@ const authService = {
           : null,
         token: token,
       };
+      const inputData = {
+        logUserId: newUserId,
+        actionDetails: "Create New User: " + newUserId,
+        actionJsonPayload: `${JSON.stringify(response)}`,
+        actionDescription: "DATA CREATION",
+        isTransactional: true,
+      };
+      await logDBModel.insertLog(inputData);
+      return response;
     } catch (error) {
       //await rollbackTransaction(client);
       throw error;
