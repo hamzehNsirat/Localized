@@ -184,21 +184,21 @@ $$ LANGUAGE plpgsql;
 
 -- INSERT A Quotation
 CREATE OR REPLACE FUNCTION quotation_insert (
-	IN in_requester_id 		 BIGINT ,
-	IN in_supplier_id 		 BIGINT ,
-	IN in_quotation_status_id  BIGINT ,
-	IN in_quotation_request_date   TIMESTAMP,
-	IN in_quotation_details     JSONB,
-	IN in_quotation_attachments JSONB,
-	IN in_payment_details_bank		      VARCHAR,
-	IN in_payment_details_iban		      VARCHAR,
-	IN in_payment_details_bank_acc_num	  VARCHAR,
-	IN in_from_establishment_name	  TEXT,
-	IN in_to_establishment_name	  TEXT,
-	IN in_ship_to_address		      TEXT,
-	IN in_bill_to_address		      TEXT,
-	IN in_supplier_address		  TEXT,
-	IN in_last_modified_by		BIGINT,
+	IN in_requester_id 		 BIGINT , -- from inp
+	IN in_supplier_id 		 BIGINT , -- from inp
+	IN in_quotation_status_id  BIGINT , -- 1 
+	IN in_quotation_request_date   TIMESTAMP, -- from inp
+	IN in_quotation_details     JSONB, -- from inp
+	IN in_quotation_attachments JSONB, -- null
+	IN in_payment_details_bank		      VARCHAR, -- null
+	IN in_payment_details_iban		      VARCHAR, -- null
+	IN in_payment_details_bank_acc_num	  VARCHAR, -- null
+	IN in_from_establishment_name	  TEXT, -- from inp
+	IN in_to_establishment_name	  TEXT, -- from inp
+	IN in_ship_to_address		      TEXT, -- from inp
+	IN in_bill_to_address		      TEXT, -- from inp 
+	IN in_supplier_address		  TEXT, -- null
+	IN in_last_modified_by		BIGINT, -- 1
 	OUT out_quotation_id BIGINT
 ) 
 RETURNS BIGINT 
