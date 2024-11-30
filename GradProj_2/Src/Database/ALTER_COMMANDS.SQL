@@ -178,3 +178,39 @@ EXCEPTION WHEN OTHERS THEN
 END;
 $$ LANGUAGE plpgsql;
 ------------------------------------------------------------------------------------
+-- VALIDATE USER LOGIN
+DROP FUNCTION validate_user_login;
+CREATE OR REPLACE FUNCTION validate_user_login (
+		IN in_user_name 		VARCHAR,
+		IN in_user_email 		VARCHAR,
+		IN in_user_pass 		VARCHAR
+)
+RETURNS TABLE(		
+		out_user_id		 BIGINT,
+		out_user_type    BIGINT,
+		out_is_valid    INTEGER
+) AS $$
+DECLARE salted_pass VARCHAR; 
+DECLARE v_user_id BIGINT;
+DECLARE v_user_type BIGINT;
+DECLARE v_user_name VARCHAR;
+DECLARE v_user_email VARCHAR;
+DECLARE check_state BOOLEAN;
+BEGIN
+
+	SELECT user_password, user_id, user_type
+	FROM user_localized D
+	WHERE (CAST(D.user_name_lclzd AS VARCHAR) = in_user_name  OR CAST(D.user_email AS VARCHAR) = in_user_email)  INTO salted_pass, v_user_id, v_user_type;
+	IF salted_pass IS NULL THEN 
+		v_user_id := 0;
+		v_user_type := 0;
+		RETURN QUERY SELECT  v_user_id,v_user_type, 0;
+	END IF;
+	check_state = (SELECT  (salted_pass = crypt(in_user_pass, salted_pass)));
+	IF check_state = TRUE THEN 
+		RETURN QUERY SELECT v_user_id,v_user_type, 1;
+	ELSE 
+		RETURN QUERY  SELECT v_user_id,v_user_type, 0;
+	END IF;
+END;
+$$ LANGUAGE plpgsql;

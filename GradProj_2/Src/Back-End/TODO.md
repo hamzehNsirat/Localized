@@ -27,9 +27,6 @@
         - Get, 
         - Status
     - todo: 
-        - TABLE
-        - MODEL
-        - Add to Auth Routes
         - add to Auth Controller
         - add to Auth Service
 

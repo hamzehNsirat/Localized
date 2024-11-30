@@ -60,8 +60,29 @@ const signOut = async (req, res, next) => {
     return errorHandler.handleError(res,'E0009');
   }
 };
+
+const submitApplication = async (req, res) => {
+  try {
+    const applicationData = req.body;
+    
+    if (!req.body.userType) {
+      return errorHandler.handleError(res, "E0005");
+    }
+    const result = await authService.submitApplication(applicationData);
+
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0019", result);
+    }
+    return errorHandler.handleSuccess(res, result, 201);
+  } catch (error) {
+    console.error("Submit App error:", error);
+    return errorHandler.handleError(res, "E0019");
+  }
+};
+
 module.exports = {
   signUp,
   signIn,
   signOut,
+  submitApplication,
 };

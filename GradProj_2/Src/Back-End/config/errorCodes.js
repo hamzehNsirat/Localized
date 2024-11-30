@@ -107,6 +107,12 @@ module.exports = {
     message: "Deleting User has failed",
     errorCode: "E0018",
   },
+  E0019: {
+    errorDescription: "Submit Failure",
+    statusCode: 400,
+    message: "Submitting an Application has failed",
+    errorCode: "E0019",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,

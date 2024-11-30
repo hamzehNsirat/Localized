@@ -9,6 +9,8 @@ const RetailStore = require("../models/RetailStore");
 const logDBModel = require("../models/Log");
 const jwt = require("jsonwebtoken");
 const keys = require("../config/keys");
+const applicationModel = require("../models/Application");
+
 const {
   executeQuery,
   beginTransaction,
@@ -254,6 +256,45 @@ const authService = {
         userId: userResult[0].out_user_id,
         userType: userResult[0].out_user_type,
         token: token,
+      };
+    } catch (error) {
+      throw error;
+    }
+  },
+  async submitApplication(applicationData) {
+    try {
+      // Insert application
+      // Default Values for every new User
+      // userType,
+      // firstName ,
+      // lastName ,
+      // userName ,
+      // email ,
+      // password  ,
+      // phoneNumber ,
+      // establishmentName ,
+      // establishmentContactNumber ,
+      // establishmentEmail ,
+      // establishmentDescription ,
+      // establishmentCommercialRegistrationNum ,
+      // establishmentCity ,
+      // establishmentStreet ,
+      // establishmentBuildingNum ,
+      // establishmentIndustryType,
+      // establishmentLogo,
+
+      const applicationResult =
+        await applicationModel.insertApplication(applicationData);
+      console.log(applicationResult);
+
+      if (!applicationResult || applicationResult == -1) {
+        return {
+          success: false,
+          error: "Unable to Create Application in Database",
+        };
+      }
+      return {
+        success: true,
       };
     } catch (error) {
       throw error;
