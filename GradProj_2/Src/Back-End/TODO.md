@@ -70,11 +70,12 @@ if matching -> update password from payload if not -> handle error
 
 
 #### Change Quotation Table and Functions, add Summations, remove Payment IBAN / Bank Account / Name .. etc ####
+#### Change Order Table and Functions, add Order Total Price, Remove Quantity
 
 ### PART 5 Request QUOTATION
 - service: Get Retailer Info and establishment Info (retailerId)
 - service: Request QUOTATION -> insert in database returns success / error 
-
+- service: create orders enlisted in quotation
 ### PART 6 Manage QUOTATION
 - service: GetQuotations List by Retailer (retailerId, page sized, page number)
 qid, logo supplier, factory name, status
@@ -110,3 +111,72 @@ qid, logo supplier, factory name, status
 - service: get update RetailStore Data
 - service: get policies
 - service: logout
+
+## SUPPLIER PART
+
+### PART 1 Signup
+- service: check user name is already in database
+- service: submit APPLICATION
+
+### PART 2 Login
+- service: is the most recent application approved, and username/email is in the database
+- service: forget password -> send an email with a unique code, listen to the user input new code, compare sent code and entered code 
+if matching -> update password from payload if not -> handle error
+- service: Actual Login
+
+
+### PART 3 DASHBOARD Init
+- service: fetch user / supplier data,
+- service: get progress bar profile, user id returns percantge of completed data in terms of User / - Supplier-RETAILER
+- service: get progress bar establishment, returns percantge of completed data
+- service: Insights (postponed)
+
+### PART 4 MARKETPLACE SUPPLIER
+- service: Get all Products Paginated (filtered by Factory Categories (supplierId -> EstablishmentId -> IndustryTypes -> Categories - > Products))
+- service: Search by product Category, product name,factory name (filtered by search term, page size, page index)
+
+### PART 5 PRODUCTS
+- service: Get all Products Paginated (supplierId)
+- service: Insert Product
+- service: Update Product
+
+### PART 6 Manage QUOTATION
+- service: GetQuotations List by Supplier (supplierId, page sized, page number)
+qid, logo retailer, retailstore name, status
+- service: Get Quotation BY ID
+    Quotation Details
+    List Of Orders with default values
+    other Quotation Fields like:
+    total subtotal and shipping price
+- service: Update Status Quotation (Reject)
+- service: Submit Quotation (changes Quotation Details, sets Total and subTotal)
+- service: Update Status Quotation (Completed)
+
+### PART 7 COMPLAINTS
+- service: Get Complaints by Supplier: (Supplierid, page size, page index)
+- service: Get Complaint Data by Id
+- service: Get Related Quotations for Supplier (Id, Supplier)
+- service: Get Complaint Types
+- service: Create Complaint
+
+### PART 8 NOTIFICATIONS
+- service: get related notifications by retailerId
+
+### PART 9 GENERAL
+- service: update user data
+- service: update Supplier data
+- service: update Factory Data + Cover
+- service: get policies
+- service: logout
+
+
+## ADMINSTRATOR PART
+
+### PART 1 Signup
+- service: check user name is already in database
+- service: sign up
+### PART 2 Login
+- service: forget password -> send an email with a unique code, listen to the user input new code, compare sent code and entered code 
+if matching -> update password from payload if not -> handle error
+- service: Actual Login
+- TO BE DETERMINED
