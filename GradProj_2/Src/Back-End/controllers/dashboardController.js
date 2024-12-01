@@ -9,7 +9,7 @@ const { executeQuery } = require("../config/database");
 // - service: Insights (postponed)
 const getRetailerAllDetails = async (req, res) => {
   try {
-    if (
+    if ( //THIS IS IGNORED
       req.body.pageSize == null ||
       req.body.pageIndex == null ||
       req.body.pageIndex <= 0
