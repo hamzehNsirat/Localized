@@ -79,10 +79,102 @@ const submitApplication = async (req, res) => {
     return errorHandler.handleError(res, "E0019");
   }
 };
+const checkUsernameAvailability = async (req, res) => {
+  try {
+    if (!req.body.username) {
+      return errorHandler.handleError(res, "E0020");
+    }
+    const result = await authService.checkUsernameAvailability(
+      req.body.username
+    );
+
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0021", result);
+    }
+    return errorHandler.handleSuccess(res, result, 200);
+  } catch (error) {
+    console.error("Check Username error:", error);
+    return errorHandler.handleError(res, "E0021");
+  }
+
+};
+const checkApplicationStatus = async (req, res) => {
+  try {
+    if (!req.body.username && !req.body.email) {
+      return errorHandler.handleError(res, "E0021");
+    }
+    const result = await authService.checkApplicationStatus(req.body);
+
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0022", result);
+    }
+    return errorHandler.handleSuccess(res, result, 200);
+  } catch (error) {
+    console.error("Check App error:", error);
+    return errorHandler.handleError(res, "E0022");
+  }
+};
+const getApplicationsList = async (req, res) => {
+  try {
+    if (
+      req.body.pageSize == null ||
+      (req.body.pageIndex == null ||
+      req.body.pageIndex <= 0)
+    ) {
+      return errorHandler.handleError(res, "E0023");
+    }
+    const result = await authService.getApplicationsList(
+      req.body.pageSize,
+      req.body.pageIndex
+    );
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0024", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0024");
+  }
+};
+const getApplicationById = async (req, res) => {
+  try {
+    if (req.body.applicationId == null || parseInt(req.body.applicationId) <= 0) {
+      return errorHandler.handleError(res, "E0025");
+    }
+    const result = await authService.getApplicationById(req.body.applicationId);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0026", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0026");
+  }
+};
+const updateApplicationStatus = async (req, res) => {
+  try {
+    if (!req.body.applicationId && !req.body.status) {
+      return errorHandler.handleError(res, "E0027");
+    }
+    const result = await authService.updateApplicationStatus(req.body);
+
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0028", result);
+    }
+    return errorHandler.handleSuccess(res, result, 200);
+  } catch (error) {
+    console.error("Update App error:", error);
+    return errorHandler.handleError(res, "E0028");
+  }
+};
+
 
 module.exports = {
   signUp,
   signIn,
   signOut,
   submitApplication,
+  checkUsernameAvailability,
+  checkApplicationStatus,
+  getApplicationsList,
+  getApplicationById,
+  updateApplicationStatus,
 };

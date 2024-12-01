@@ -285,7 +285,6 @@ const authService = {
 
       const applicationResult =
         await applicationModel.insertApplication(applicationData);
-      console.log(applicationResult);
 
       if (!applicationResult || applicationResult == -1) {
         return {
@@ -295,6 +294,132 @@ const authService = {
       }
       return {
         success: true,
+      };
+    } catch (error) {
+      throw error;
+    }
+  },
+  async checkUsernameAvailability(username) {
+    try {
+      const dBRes = await executeQuery(
+        "SELECT COUNT(*) AS exists FROM user_localized WHERE user_name_lclzd = $1",
+        [username]
+      );
+      const isAvailableDB = parseInt(dBRes[0].exists) > 0 ? false : true;
+      return {
+        success: true,
+        isAvailable: isAvailableDB,
+      };
+    } catch (error) {
+      throw error;
+    }
+  },
+  async checkApplicationStatus(userData) {
+    try {
+      const applicationResult = await applicationModel.checkApplicationStatus(
+        userData.email,
+        userData.username,
+        userData.password
+      );
+      if (!applicationResult) {
+        return {
+          success: false,
+          error: "Unable to Check Application in Database",
+        };
+      }
+      return {
+        success: true,
+        applicationStatus: applicationResult,
+      };
+    } catch (error) {
+      throw error;
+    }
+  },
+  async getApplicationsList(pageSize, pageIndex) {
+    try {
+      const applicationResult = await applicationModel.getAllApplications(
+        pageSize,
+        pageIndex
+      );
+      if (!applicationResult) {
+        return {
+          success: false,
+          error: "Unable to Get Applications from Database",
+        };
+      }
+      const applicationListLcl = { applicationItem: [] };
+      for (let i = 0; i < applicationResult.length; i++) {
+        const applicationItem = {};
+        applicationItem.id = applicationResult[i].out_application_id;
+        applicationItem.establishmentName =
+          applicationResult[i].out_establishment_name;
+        applicationItem.establishmentLogo =
+          applicationResult[i].out_establishment_logo;
+        applicationItem.status = applicationResult[i].out_application_status;
+        applicationListLcl.applicationItem.push(applicationItem);
+      }
+      return {
+        success: true,
+        applicationList: applicationListLcl,
+      };
+    } catch (error) {
+      throw error;
+    }
+  },
+  async getApplicationById(applicationId) {
+    try {
+      const applicationResult =
+        await applicationModel.getApplicationById(applicationId);
+      if (!applicationResult) {
+        return {
+          success: false,
+          error: "Unable to Get Applications from Database",
+        };
+      }
+      return {
+        success: true,
+        application: {
+          id: applicationResult[0].out_application_id,
+          userType: applicationResult[0].out_user_type,
+          firstName: applicationResult[0].out_first_name,
+          lastName: applicationResult[0].out_last_name,
+          userEmail: applicationResult[0].out_user_email,
+          userPhoneNumber: applicationResult[0].out_user_phone_number,
+          establishmentName: applicationResult[0].out_establishment_name,
+          establishmentDescription:
+            applicationResult[0].out_establishment_description,
+          establihsmentCommercialRegistrationNumber:
+            applicationResult[0]
+              .out_establishment_commercial_registration_number,
+          establishmentContactNumber:
+            applicationResult[0].out_establishment_contact_number,
+          establishmentEmail: applicationResult[0].out_establishment_email,
+          establishmentCity: applicationResult[0].out_establishment_city,
+          estbalishmentBuildingNumber:
+            applicationResult[0].out_establishment_building_number,
+          establishmentIndustryTypes:
+            applicationResult[0].out_establishment_industry_type_spec,
+          establishmentLogo: applicationResult[0].out_establishment_logo,
+        },
+      };
+    } catch (error) {
+      throw error;
+    }
+  },
+  async updateApplicationStatus(userData) {
+    try {
+      const applicationResult = await applicationModel.updateApplicationStatus(
+        userData.applicationId,
+        userData.status
+      );
+      if (!applicationResult) {
+        return {
+          success: false,
+          error: "Unable to Update Application in Database",
+        };
+      }
+      return {
+        success: true
       };
     } catch (error) {
       throw error;

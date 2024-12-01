@@ -1,40 +1,42 @@
 # TODO Backend
-## PRE
-* APPLICATION
-    - payload:
-        - USER:
-            FIRST NAME 
-            LAST NAME
-            USERNAME
-            Email
-            PASSWORD
-            PHONE
-        - ESTABLISHMENT:
-            ESTABLISHMENT NAME 
-            ESTABLISHMENT Email
-            ESTABLISHMENT PHONE
-            ESTABLISHMENT DESC
-            ESTABLISHMENT CMRCL REG NUM
-            ESTABLISHMENT CITY
-            ESTABLISHMENT STREET 
-            ESTABLISHMENT BUILDING NUMBER
-            ESTABLISHMENT LOGO
 
-    - actions: 
-        - Insert,
-        - View, 
-        - Update, 
-        - Get, 
-        - Status
-    - todo: 
-        - add to Auth Controller
-        - add to Auth Service
+## RETAILER PART [COMPLETION PERCENTAGE:]
 
-
-## RETAILER PART
 
 ### PART 1 Signup
 - service: check user name is already in database
+    - payload:
+    ```json
+                {
+                    "username": "value"
+                }
+    - expected Response/s:
+        1- Error
+        ```json
+                    {
+                        "header": {
+                            "errorCode": "E0020",
+                            "errorDescription": "Missing Data",
+                            "statusCode": "E0020",
+                            "message": "Username is Mandatory for this Operation"
+                        }
+                    }
+
+        2- Succcess
+        ```json
+                    {
+                        "header": {
+                            "errorCode": "0000",
+                            "errorDescription": "SUCCESS",
+                            "statusCode": 200,
+                            "message": "Operation completed successfully"
+                        },
+                        "body": {
+                            "success": true,
+                            "isAvailable": false // or true if available
+                        }
+                    }
+
 - service: submit APPLICATION
 
 ### PART 2 Login
@@ -45,8 +47,8 @@ if matching -> update password from payload if not -> handle error
 
 ### PART 3 DASHBOARD Init
 - service: fetch user / Retailer data,
-- service: get progress bar profile, user id returns percantge of completed data in terms of User / - Supplier-RETAILER
-- service: get progress bar establishment, returns percantge of completed data
+- service: get progress bar profile, user id returns percantage of completed data in terms of User / - Supplier-RETAILER
+- service: get progress bar establishment, returns percantage of completed data
 - service: Insights (postponed)
 
 ### PART 4 MARKETPLACE RETAILER
@@ -109,7 +111,7 @@ qid, logo supplier, factory name, status
 - service: get policies
 - service: logout
 
-## SUPPLIER PART
+## SUPPLIER PART  [COMPLETION PERCENTAGE:]
 
 ### PART 1 Signup
 - service: check user name is already in database
@@ -167,7 +169,7 @@ qid, logo retailer, retailstore name, status
 - service: logout
 
 
-## ADMINSTRATOR PART
+## ADMINSTRATOR PART  [COMPLETION PERCENTAGE:]
 
 ### PART 1 Signup
 - service: check user name is already in database

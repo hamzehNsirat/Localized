@@ -56,7 +56,6 @@ const reviewUser = async (req, res) => {
       userStatus: req.body.userStatus,
       lastModifiedBy: req.user.userId,
     };
-console.log(userData)
 
     const result = await userService.reviewUser(userData);
     if (result.success == false) {
