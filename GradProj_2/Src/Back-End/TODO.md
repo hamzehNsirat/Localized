@@ -5,38 +5,38 @@
 
 ### PART 1 Signup
 - service: check user name is already in database
- - payload:
-    ```json
-                {
-                    "username": "value"
-                }
-   
- - expected Response/s:
-    - Error
+    - payload:
         ```json
                     {
-                        "header": {
-                            "errorCode": "E0020",
-                            "errorDescription": "Missing Data",
-                            "statusCode": "E0020",
-                            "message": "Username is Mandatory for this Operation"
-                        }
+                        "username": "value"
                     }
+    
+    - expected Response/s:
+        - Error
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "E0020",
+                                "errorDescription": "Missing Data",
+                                "statusCode": "E0020",
+                                "message": "Username is Mandatory for this Operation"
+                            }
+                        }
 
-    - Succcess
-        ```json
-                    {
-                        "header": {
-                            "errorCode": "0000",
-                            "errorDescription": "SUCCESS",
-                            "statusCode": 200,
-                            "message": "Operation completed successfully"
-                        },
-                        "body": {
-                            "success": true,
-                            "isAvailable": false // or true if available
+        - Succcess
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "0000",
+                                "errorDescription": "SUCCESS",
+                                "statusCode": 200,
+                                "message": "Operation completed successfully"
+                            },
+                            "body": {
+                                "success": true,
+                                "isAvailable": false // or true if available
+                            }
                         }
-                    }
 - service: submit APPLICATION
 
 ### PART 2 Login
