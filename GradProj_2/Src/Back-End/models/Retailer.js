@@ -7,7 +7,11 @@ const Retailer = {
       retailerId,
     ]);
   },
-
+  async getRetailerByUserId(retailerUserId) {
+    return await executeQuery("SELECT * FROM retailer_get_by_user($1)", [
+      retailerUserId,
+    ]);
+  },
   async getRetailerComplianceStatistics(retailerId) {
     return await executeQuery(
       "SELECT * FROM get_retailer_compliance_statistics($1)",

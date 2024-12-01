@@ -178,6 +178,7 @@ EXCEPTION WHEN OTHERS THEN
 END;
 $$ LANGUAGE plpgsql;
 ------------------------------------------------------------------------------------
+-- PLUS APPLICATION.SQL FILE
 -- VALIDATE USER LOGIN
 DROP FUNCTION validate_user_login;
 CREATE OR REPLACE FUNCTION validate_user_login (
@@ -214,3 +215,19 @@ BEGIN
 	END IF;
 END;
 $$ LANGUAGE plpgsql;
+-----------------------------------------------------------------------------
+ALTER TABLE user_localized
+ADD COLUMN reset_password_token VARCHAR(255) DEFAULT NULL,
+ADD COLUMN reset_password_expires TIMESTAMP DEFAULT NULL;
+-----------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION insert_salt_user_password()
+  RETURNS TRIGGER 
+  LANGUAGE PLPGSQL
+  AS
+$$
+BEGIN
+	NEW.user_password = (SELECT crypt(NEW.user_password, gen_salt('md5'))) ;
+	NEW.is_pass_change = FALSE;
+	RETURN NEW;
+END;
+$$

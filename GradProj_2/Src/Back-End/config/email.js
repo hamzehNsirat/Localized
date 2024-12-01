@@ -1,32 +1,51 @@
-const nodemailer = require('nodemailer');
-const {
-  EMAIL_SERVICE,
-  EMAIL_USERNAME,
-  EMAIL_PASSWORD,
-  CLIENT_ID,
-  CLIENT_SECRET,
-  REFRESH_TOKEN,
-} = require("./env");
+const nodemailer = require("nodemailer");
+const { google } = require("googleapis");
+const env = require("./env");
+// OAuth2 setup
+const oAuth2Client = new google.auth.OAuth2(
+  env.oauthClientId, // Client ID
+  env.oauthClientSecret, // Client Secret
+  env.oauthRedirectUri // Redirect URI
+);
 
-const transporter = nodemailer.createTransport({
-  service: EMAIL_SERVICE,
-  auth: {
-    type: "OAuth2",
-    user: EMAIL_USERNAME,
-    clientId: CLIENT_ID,
-    clientSecret: CLIENT_SECRET,
-    refreshToken: REFRESH_TOKEN,
-    accessToken: "",
-  },
+// Set refresh token
+oAuth2Client.setCredentials({
+  refresh_token:
+    env.oauthRefreshToken,
 });
+// Create a nodemailer transporter
+const createTransporter = async () => {
+  try {
+    const accessToken = await oAuth2Client.getAccessToken(); // Generate a new access token
+
+    return nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        type: "OAuth2",
+        user: env.emailUsername,
+        clientId: env.oauthClientId,
+        clientSecret: env.oauthClientSecret,
+        refreshToken: env.oauthRefreshToken,
+        accessToken: accessToken.token,
+      },
+    });
+  } catch (error) {
+    console.error("Failed to create transporter:", error);
+    throw error;
+  }
+};
+
+// Function to send emails
 const sendEmail = async (to, subject, text, html) => {
   try {
+    const transporter = await createTransporter();
+
     const mailOptions = {
-      from: EMAIL_USERNAME, // Sender address from .env
-      to, // List of recipients
-      subject, // Subject line
-      text, // Plain text body
-      html, // HTML body (optional)
+      from: "localized.jo@gmail.com", // Sender email
+      to, // Recipient email
+      subject: subject || 'no reply Localized', // Email subject
+      text, // Plain text
+      html, // HTML content (optional)
     };
 
     const result = await transporter.sendMail(mailOptions);

@@ -10,6 +10,9 @@ const logDBModel = require("../models/Log");
 const jwt = require("jsonwebtoken");
 const keys = require("../config/keys");
 const applicationModel = require("../models/Application");
+const crypto = require("crypto");
+const { sendEmail } = require("../config/email");
+const env = require("../config/env");
 
 const {
   executeQuery,
@@ -225,10 +228,29 @@ const authService = {
     try {
       // Validate User
       const userResult = await User.validate(userData);
+      if (userResult[0].out_user_id == 0) {
+        const checkData = {
+          username: userData.userName,
+          email: userData.userEmail,
+          password: userData.userPassword,
+        };
+        const checkAppInternal = await this.checkApplicationStatus(checkData);
+        if (checkAppInternal.applicationStatus != "NEW") {
+          return {
+            success: false,
+            error: "No User Found",
+          };
+        }
+        return {
+          success: true,
+          error: "Application for this User is still Pending Review",
+        };
+      }
 
       if (userResult[0].out_is_valid != 1) {
         return {
           success: false,
+          error: "Invalid Credentials",
         };
       }
 
@@ -419,12 +441,85 @@ const authService = {
         };
       }
       return {
-        success: true
+        success: true,
       };
     } catch (error) {
       throw error;
     }
   },
+
+  async requestPasswordReset(email) {
+    try {
+      // Check if the user exists
+      const user = await executeQuery(
+        "SELECT COUNT(*) AS is_in_db FROM user_localized WHERE user_email = $1",
+        [email]
+      );
+      if (user[0].is_in_db == '0') {
+        return {
+          success: false,
+          error: "Email not registered",
+        };
+      }
+
+      // Generate a reset token and expiry time
+      const resetToken = crypto.randomBytes(32).toString("hex");
+      const now = new Date();
+      const localExpiry = new Date(now.getTime() + 3600000); // Add 1 hour in milliseconds
+
+
+      // Save the token to the database
+      await executeQuery(
+        "UPDATE user_localized SET reset_password_token = $1, reset_password_expires =  localtimestamp + interval '1hour' WHERE user_email = $2",
+        [resetToken, email]
+      );
+      // Generate a password reset URL
+      const resetUrl = `${env.frontEndURL}/reset-password?token=${resetToken}`;
+      // Send reset email
+      // commented till needed
+      // await sendEmail(
+      //   email,
+      //   "Password Reset | Localized",
+      //   `You requested to reset your password. Use the link below to reset it: ${resetUrl}`,
+      //   `<p>You requested to reset your password. Use the link below to reset it:</p><p><a href="${resetUrl}">${resetUrl}</a></p>`
+      // );
+      return {
+        success: true,
+      };
+    } catch (error) {
+      console.error("Error in password reset request:", error.message);
+      throw error;
+    }
+  },
+  async resetPassword(token, newPassword) {
+  try {
+    // Check if the token is valid and not expired
+    const user = await executeQuery(
+      "SELECT count(*) AS db_res FROM user_localized WHERE reset_password_token = $1 AND reset_password_expires > NOW()",
+      [token]
+    );
+
+    if (user[0].db_res == '0') {
+        return {
+          success: false,
+          error: "Invalid or expired reset token"
+        };
+    }
+
+
+    // Update the user's password and clear the reset token
+    await executeQuery(
+      "UPDATE user_localized SET user_password = $1, reset_password_token = NULL, reset_password_expires = NULL, is_pass_change = true WHERE reset_password_token = $2",
+      [newPassword, token]
+    );
+    return {
+      success: true,
+    };
+  } catch (error) {
+    console.error("Error resetting password:", error.message);
+    throw error;
+  }
+  }
 };
 
 module.exports = authService;

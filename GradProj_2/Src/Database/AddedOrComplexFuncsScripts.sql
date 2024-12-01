@@ -1,5 +1,6 @@
 -- THIS IS THE COMPLEX FUNCTIONS CODE FILE
 -- SP NO.:#1, 
+-- Complexity: EASY,
 -- Creation Data: 28112024,
 -- Desc: Gets List of User in order to be displayed by admin paginated
 -- NodeJS Model: User
@@ -42,3 +43,31 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 ----------------------------------------------------------------------------------
+-- SP NO.:#2, 
+-- Complexity: EASY,
+-- Creation Data: 01122024,
+-- Desc: Gets Retailer Data By UserID in order to be displayed
+-- NodeJS Model: Retailer
+-- GET A Retailer BY UserID
+CREATE OR REPLACE FUNCTION retailer_get_by_user(IN in_ret_user_id BIGINT)
+RETURNS TABLE(		
+	out_retailer_id    BIGINT,
+	out_retailer_tax_identification_num    VARCHAR,
+	out_retailer_bank_account_num    VARCHAR,
+	out_retailer_iban    VARCHAR,
+	out_retailer_compliance_indicator FLOAT,
+	out_retailer_complaint_count 	    INTEGER
+) AS $$
+BEGIN
+    RETURN QUERY 
+	SELECT
+	CAST(retailer_id AS BIGINT),
+	retailer_tax_identification_num,
+	retailer_bank_account_num,
+	retailer_iban,
+	retailer_compliance_indicator,
+	retailer_compliance_count 
+	FROM retailer
+	WHERE CAST(retailer_user_id AS BIGINT) = in_ret_user_id;
+END;
+$$ LANGUAGE plpgsql;

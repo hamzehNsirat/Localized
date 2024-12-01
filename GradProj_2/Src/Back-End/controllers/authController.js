@@ -31,7 +31,7 @@ const signIn = async (req, res) => {
 
     const result = await authService.loginUser(user);
 
-    if (!result.success) {
+    if (result.success != true) {
       return errorHandler.handleError(res, "E0008", result);
     }
     return errorHandler.handleSuccess(res, result, 200);
@@ -165,6 +165,41 @@ const updateApplicationStatus = async (req, res) => {
     return errorHandler.handleError(res, "E0028");
   }
 };
+const requestPasswordReset = async (req, res) => {
+  try {
+    if (!req.body.email) {
+      return errorHandler.handleError(res, "E0029");
+    }
+    const result = await authService.requestPasswordReset(req.body.email);
+
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0030", result);
+    }
+    return errorHandler.handleSuccess(res, result, 200);
+  } catch (error) {
+    console.error("Request Password Reset error:", error);
+    return errorHandler.handleError(res, "E0030");
+  }
+};
+const resetPassword = async (req, res) => {
+  try {
+    if (!req.body.newPassword || !req.body.resetToken) {
+      return errorHandler.handleError(res, "E0031");
+    }
+    const result = await authService.resetPassword(
+      req.body.resetToken,
+      req.body.newPassword
+    );
+
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0032", result);
+    }
+    return errorHandler.handleSuccess(res, result, 200);
+  } catch (error) {
+    console.error("Request Password Reset error:", error);
+    return errorHandler.handleError(res, "E0032");
+  }
+};
 
 
 module.exports = {
@@ -177,4 +212,6 @@ module.exports = {
   getApplicationsList,
   getApplicationById,
   updateApplicationStatus,
+  requestPasswordReset,
+  resetPassword,
 };

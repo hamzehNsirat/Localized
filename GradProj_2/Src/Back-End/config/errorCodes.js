@@ -173,6 +173,30 @@ module.exports = {
     message: "Updating Application Status failed",
     errorCode: "E0028",
   },
+  E0029: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "Email is Mandatory",
+    errorCode: "E0029",
+  },
+  E0030: {
+    errorDescription: "Reset Failure",
+    statusCode: 400,
+    message: "Requesting Reset Password failed",
+    errorCode: "E0030",
+  },
+  E0031: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "newPassword and resetToken are Mandatory",
+    errorCode: "E0031",
+  },
+  E0032: {
+    errorDescription: "Reset Failure",
+    statusCode: 400,
+    message: "Resetting Password failed",
+    errorCode: "E0032",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,

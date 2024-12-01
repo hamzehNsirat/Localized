@@ -13,5 +13,6 @@ router.post("/checkapplicationstatus", controller.checkApplicationStatus);
 router.post("/getapplicationslist", validateToken, controller.getApplicationsList);
 router.post("/getapplicationbyid", validateToken, controller.getApplicationById);
 router.post("/updateapplicationstatus", validateToken, controller.updateApplicationStatus);
-router.use(validateToken);
+router.post("/requestpasswordreset", controller.requestPasswordReset);
+router.post("/resetpassword", controller.resetPassword);
 module.exports = router;

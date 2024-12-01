@@ -1,10 +1,10 @@
 //  Loads environment variables (optional, depending on project setup)
-const config = {
+const env = {
   // Essential server and application settings
   port: 5055,
   baseUrl: "http://localhost:5055",
   environment: "development",
-
+  frontEndURL: "http://localhost:5055",
   // Database credentials
   dbHost: "localhost",
   dbPort: 5432,
@@ -27,7 +27,7 @@ const config = {
   oauthClientSecret: "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",
   oauthRedirectUri: "https://developers.google.com/oauthplayground",
   oauthRefreshToken:
-    "1//04AfbS5JcX9RPCgYIARAAGAQSNwF-L9IrWqxhnxKWE6Kgls3aySwbISG8IgVmrQ5xZYpAKVmYqJIQEOKdDYgb0YS9842uvdsZo_I",
+    "1//040v03cqvkW4vCgYIARAAGAQSNwF-L9Irf3TT5DWpy4-vk8K0_wo3PxewwO7UdtrK-2lYrtBwcjvtv4EWkoYaXnvup1k6N1rwKIk",
 
   // Security settings
   rateLimitWindow: 15, // Rate limit window in minutes
@@ -40,12 +40,12 @@ const config = {
 ;
 
 // Validate Existence of Essential Configs
-if (!config.jwt.secret) {
-    throw new Error('Unable to Fetch JWT Secret from Environment');
+if (!env.jwtSecret) {
+  throw new Error("Unable to Fetch JWT Secret from Environment");
 }
 
-if(!config.database.name || !config.database.password || !config.database.user) {
-    throw new Error("Incomplete Database Configuration Fields");
+if (!env.dbName || !env.dbPass || !env.dbUser) {
+  throw new Error("Incomplete Database Configuration Fields");
 }
 
-module.exports = config;
+module.exports = env;
