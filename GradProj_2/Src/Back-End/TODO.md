@@ -5,14 +5,14 @@
 
 ### PART 1 Signup
 - service: check user name is already in database
-    - payload:
+ - payload:
     ```json
                 {
                     "username": "value"
                 }
-    json```
-    - expected Response/s:
-        1- Error
+   
+ - expected Response/s:
+    - Error
         ```json
                     {
                         "header": {
@@ -23,7 +23,7 @@
                         }
                     }
 
-        2- Succcess
+    - Succcess
         ```json
                     {
                         "header": {
@@ -37,7 +37,6 @@
                             "isAvailable": false // or true if available
                         }
                     }
-
 - service: submit APPLICATION
 
 ### PART 2 Login
