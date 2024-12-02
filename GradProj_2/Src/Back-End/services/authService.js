@@ -23,7 +23,7 @@ const {
 
 const authService = {
   async registerUser(userData, establishmentData) {
-    //const client = await beginTransaction();
+    await beginTransaction();
     try {
       // Validate userType
       if (![1, 2, 3].includes(userData.userType)) {
@@ -54,15 +54,17 @@ const authService = {
         // Admin creation logic (if needed)
         const adminResult = await Admin.insertAdministrator(1, newUserId);
         if (!adminResult[0].out_admin_id || adminResult[0].out_admin_id == -1) {
+          await rollbackTransaction();
           return {
             success: false,
-            error: "Unable to Create User in Database",
+            error: "Unable to Create Admin in Database",
           };
         }
         newAdminId = adminResult[0].out_admin_id;
       } else if (userData.userType === 2) {
         // Supplier creation logic
         if (!establishmentData) {
+          await rollbackTransaction();
           return {
             success: false,
             error: "Establishment data is required for suppliers",
@@ -84,6 +86,7 @@ const authService = {
           !establishmentResult[0].out_establishment_id ||
           establishmentResult[0].out_establishment_id == -1
         ) {
+          await rollbackTransaction();
           return {
             success: false,
             error: "Unable to Create Establishment in Database",
@@ -108,6 +111,7 @@ const authService = {
           !supplierResult[0].out_supplier_id ||
           supplierResult[0].out_supplier_id == -1
         ) {
+          await rollbackTransaction();
           return {
             success: false,
             error: "Unable to Create Supplier in Database",
@@ -121,6 +125,7 @@ const authService = {
       } else {
         // Retailer creation logic
         if (!establishmentData) {
+          await rollbackTransaction();
           return {
             success: false,
             error: "Establishment data is required for retailers",
@@ -129,24 +134,25 @@ const authService = {
 
         // Insert establishment
         // Default Values for every Establishment
-        establishmentData.lastModifiedBy = newUserId;
         establishmentData.establishmentStatus = 1;
         establishmentData.establishmentCover = null;
-        establishmentData.establishmentType = false;
+        establishmentData.establishmentType = true;
         establishmentData.estComplianceIndicator = 1;
         establishmentData.estComplianceIndicatorDesc = "GOOD";
         establishmentData.lastModifiedBy = newUserId;
         const establishmentResult =
           await Establishment.insertEstablishment(establishmentData);
-        if (
+          if (
           !establishmentResult[0].out_establishment_id ||
           establishmentResult[0].out_establishment_id == -1
         ) {
+          await rollbackTransaction();
           return {
             success: false,
             error: "Unable to Create Establishment in Database",
           };
         }
+
         establishmentId = establishmentResult[0].out_establishment_id;
 
         // Insert retailer
@@ -164,21 +170,23 @@ const authService = {
           !retailerResult[0].out_retailer_id ||
           retailerResult[0].out_retailer_id == -1
         ) {
+          await rollbackTransaction();
           return {
             success: false,
             error: "Unable to Create Retailer in Database",
           };
         }
+
         newRetailerId = retailerResult[0].out_retailer_id;
         // Insert factory
         const RetailStoreResult = await RetailStore.insertRetailStore(
-          newSupplierId,
+          newRetailerId,
           establishmentId,
           newUserId
         );
       }
 
-      //await commitTransaction(client);
+      await commitTransaction();
       // Generate JWT Token
       const tokenDBRes = await executeQuery(
         "SELECT token_version FROM user_localized WHERE user_id = $1",
@@ -220,7 +228,6 @@ const authService = {
       await logDBModel.insertLog(inputData);
       return response;
     } catch (error) {
-      //await rollbackTransaction(client);
       throw error;
     }
   },

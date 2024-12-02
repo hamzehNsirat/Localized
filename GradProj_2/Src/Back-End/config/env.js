@@ -33,9 +33,8 @@ const env = {
   rateLimitWindow: 15, // Rate limit window in minutes
   rateLimitMaxRequests: 100, // Max requests per window
   passwordSaltRounds: 10, // Salt rounds for password hashing
-
   // CORS settings
-  allowedOrigins: ["http://localhost:5055"],
+  allowedOrigins: ["http://localhost:5055", "http://localhost:5173"],
 };
 ;
 

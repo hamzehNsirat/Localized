@@ -1,6 +1,6 @@
 # TODO Backend
 
-## RETAILER PART [COMPLETION PERCENTAGE:20%]
+## RETAILER PART [COMPLETION PERCENTAGE:30%]
 
 
 ### PART 1 Signup
@@ -246,13 +246,96 @@ if matching -> update password from payload if not -> handle error
                                 "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDciLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluMDAwMDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzA4MDEyNSwiZXhwIjoxNzMzMTY2NTI1fQ.MbkDeEwg14Xv2pRiwSHpIAITu_H7PifYtE87_zkgy5c"
                             }
                         }
-
 ### PART 3 DASHBOARD Init
 - service: fetch user / Retailer data,
-
 - service: get progress bar profile, user id returns percantage of completed data in terms of User / - Supplier-RETAILER
 - service: get progress bar establishment, returns percantage of completed data
 - service: Insights (postponed)
+- one Call: Get Retailer All Data
+   - payload:
+        ```json
+                        {
+                            "userId":168
+                        }
+    - expected Response/s:
+        - Error
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "E0034",
+                                "errorDescription": "Fetch Failure",
+                                "statusCode": "E0034",
+                                "message": "Fetching Retailer Details failed"
+                            }
+                        }
+
+        - Success
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "0000",
+                                "errorDescription": "SUCCESS",
+                                "statusCode": 200,
+                                "message": "Operation completed successfully"
+                            },
+                            "body": {
+                                "success": true,
+                                "retailerDashboard": {
+                                    "userDetails": {
+                                        "nationalNumber": null,
+                                        "userName": "retailer99301",
+                                        "userType": "3",
+                                        "userStatus": "1",
+                                        "firstName": "retailer",
+                                        "middleName": null,
+                                        "lastName": "adam",
+                                        "dateOfBirth": null,
+                                        "userEmail": "retailer00032@mail.com",
+                                        "userPhone": "0700002030",
+                                        "userAddress": null
+                                    },
+                                    "retailerDetails": {
+                                        "retailerId": "11",
+                                        "retailerTaxIdentificationNumber": null,
+                                        "retailerBankAccountNumber": null,
+                                        "retailerIBAN": null,
+                                        "retailerComplianceIndicator": 1,
+                                        "retailerComplaintCount": 0
+                                    },
+                                    "retailStoreDetails": {
+                                        "retailStoreId": "3-11"
+                                    },
+                                    "establishmentDetails": {
+                                        "establishmentName": "test",
+                                        "establishmentIndustryType": [
+                                            "3"
+                                        ],
+                                        "establishmentStatus": "1",
+                                        "establishmentCommercialRegistrationNumber": "44450",
+                                        "establishmentRegistrationDate": "2024-01-01T20:00:00.000Z",
+                                        "establishmentContactNumber": "0777778485",
+                                        "establishmentEmail": "err@gmail.com",
+                                        "establishmentWebsite": null,
+                                        "establishmentDescription": "Main",
+                                        "establishmentType": true,
+                                        "establishmentCity": "Amman",
+                                        "establishmentStreet": "Abdali",
+                                        "establishmentBuildingNumber": "B1",
+                                        "establishmentLogo": null,
+                                        "establishmentCover": null,
+                                        "establishmentComplianceIndicator": 1,
+                                        "establishmentComplianceIndicatorDescription": "GOOD"
+                                    },
+                                    "progressBarUser": {
+                                        "percentage": 73
+                                    },
+                                    "progressBarEstablishment": {
+                                        "percentage": 85
+                                    },
+                                    "insights": "To Be Done"
+                                }
+                            }
+                        }
 
 ### PART 4 MARKETPLACE RETAILER
 - service: Get all Products Paginated (filtered by RetailStore Categories (retailerId -> EstablishmentId -> IndustryTypes -> Categories - > Products))

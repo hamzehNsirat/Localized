@@ -1,7 +1,7 @@
 /**
  * Converts a JavaScript array into a PostgreSQL-compatible array string.
  * If the input is not an array, it throws an error.
- * 
+ *
  * @param {Array} inputArray - The JavaScript array to format.
  * @returns {string} - A PostgreSQL-compatible array string.
  */
@@ -9,12 +9,12 @@ function handleArray(inputArray) {
   if (!Array.isArray(inputArray)) {
     throw new Error("Provided parameter is not an array.");
   }
-  return `{${inputArray.map(item => JSON.stringify(item)).join(',')}}`;
+  return `{${inputArray.map((item) => JSON.stringify(item)).join(",")}}`;
 }
 /**
  * Converts a JavaScript object into a PostgreSQL-compatible JSONB string.
  * If the input is not an object, it throws an error.
- * 
+ *
  * @param {Object} jsonObject - The JavaScript object to format.
  * @returns {string} - A PostgreSQL-compatible JSONB string.
  */
@@ -24,8 +24,6 @@ function handleJsonB(jsonObject) {
   }
   return JSON.stringify(jsonObject);
 }
-
-
 
 const { Pool } = require("pg");
 
@@ -38,64 +36,81 @@ const pool = new Pool({
   password: process.env.DB_PASS || "admin",
 });
 
+let transactionalClient = null;
+
 /**
- * Executes a query with properly formatted parameters.
+ * Starts a transaction by acquiring a database client.
+ */
+const beginTransaction = async () => {
+  if (transactionalClient) {
+    throw new Error("A transaction is already in progress!");
+  }
+  transactionalClient = await pool.connect();
+  await transactionalClient.query("BEGIN");
+};
+
+/**
+ * Executes a query within a transaction or standalone, depending on the context.
+ * Automatically determines whether to use the transactional client or pool.
  *
  * @param {string} query - The SQL query to execute.
- * @param {Array} params - The parameters to pass into the query.
- * @returns {Promise} - A promise resolving with the query result.
+ * @param {Array} params - The parameters for the query.
+ * @returns {Promise<any>} - Query result rows.
  */
-async function executeQuery(query, params) {
+const executeQuery = async (query, params = []) => {
+  const client = transactionalClient || pool; // Use transactional client if set, otherwise the pool
+
+  // Preprocess parameters
   const formattedParams = params.map((param) => {
     if (Array.isArray(param)) {
+      // Convert JavaScript array to PostgreSQL array format
       return handleArray(param);
     }
     if (typeof param === "object" && param !== null) {
+      // Convert JavaScript object to PostgreSQL JSONB format
       return handleJsonB(param);
     }
-    return param; // Pass other types (e.g., strings, numbers) directly.
+    return param; // Pass other types (e.g., strings, numbers) directly
   });
 
   try {
-    const result = await pool.query(query, formattedParams);
+    const result = await client.query(query, formattedParams);
     return result.rows;
   } catch (error) {
-    console.error("Database Query Error:", error);
-    throw error;
-  }
-}
-
-
-
-// Transaction Utility Functions
-const beginTransaction = async () => {
-  const client = await pool.connect();
-  try {
-    await client.query("BEGIN");
-    return client;
-  } catch (error) {
-    client.release();
+    console.error("Database Query Error:", error.message);
     throw error;
   }
 };
-
-const commitTransaction = async (client) => {
+/**
+ * Commits the current transaction and releases the transactional client.
+ */
+const commitTransaction = async () => {
+  if (!transactionalClient) {
+    throw new Error("No transaction in progress to commit!");
+  }
   try {
-    await client.query("COMMIT");
+    await transactionalClient.query("COMMIT");
   } catch (error) {
+    console.error("Error during transaction commit:", error.message);
     throw error;
   } finally {
-    client.release();
+    transactionalClient.release();
+    transactionalClient = null;
   }
 };
 
-const rollbackTransaction = async (client) => {
+const rollbackTransaction = async () => {
+  if (!transactionalClient) {
+    throw new Error("No transaction in progress to rollback!");
+  }
   try {
-    await client.query("ROLLBACK");
+    await transactionalClient.query("ROLLBACK");
   } catch (error) {
+    console.error("Error during transaction rollback:", error.message);
     throw error;
   } finally {
-    client.release();
+    transactionalClient.release();
+    transactionalClient = null;
   }
 };
 
@@ -105,5 +120,5 @@ module.exports = {
   commitTransaction,
   rollbackTransaction,
   handleArray,
-  handleJsonB
+  handleJsonB,
 };

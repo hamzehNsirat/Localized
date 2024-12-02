@@ -231,3 +231,9 @@ BEGIN
 	RETURN NEW;
 END;
 $$
+
+------------------------------------------------
+-- 02-12-2024
+alter table retailstore drop constraint fk_retailstore_owner_id;
+alter table retailstore add constraint fk_retailstore_owner_id foreign key (owner_id)
+references retailer(retailer_id);
