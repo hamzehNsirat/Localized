@@ -35,7 +35,7 @@ const keys = {
   passwordSaltRounds: 10, // Salt rounds for password hashing
 
   // CORS settings
-  allowedOrigins: ["http://localhost:5055"],
+  allowedOrigins: ["http://localhost:5055", "http://localhost:5173"],
 };
 
 module.exports = keys;
