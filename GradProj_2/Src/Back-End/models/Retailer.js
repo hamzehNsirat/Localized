@@ -55,6 +55,33 @@ const Retailer = {
       retailerUserId,
     ]);
   },
+
+  /**
+   * Calculate the retailer's overall completion percentage.
+   * This combines retailer-specific and user-specific data for a given user ID.
+   *
+   * @param {number} userId - The ID of the user associated with the retailer.
+   * @returns {Promise<number>} - The completion percentage as a float.
+   */
+  async calculateCompletionPercentage(userId) {
+    return await executeQuery(
+      "SELECT calculate_completion_percentage_retailer($1) AS completion_percentage",
+      [userId]
+    );
+  },
+
+  /**
+   * Calculate the establishment's completion percentage for a retailer.
+   *
+   * @param {number} ownerId - The ID of the owner associated with the establishment.
+   * @returns {Promise<number>} - The establishment's completion percentage as a float.
+   */
+  async calculateEstablishmentCompletionPercentage(ownerId) {
+    return await executeQuery(
+      "SELECT calculate_retailer_establishment_completion_percentage($1) AS establishment_completion_percentage",
+      [ownerId]
+    );
+  },
 };
 
 module.exports = Retailer;

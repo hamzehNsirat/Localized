@@ -31,15 +31,17 @@ app.use(logRequest);
 // Route Handlers
 
 // Import routes
-const authRoutes = require('./routes/authRoutes');
-const productRoutes = require('./routes/productRoutes');
-const orderRoutes = require('./routes/orderRoutes');
-const quotationRoutes = require('./routes/quotationRoutes');
+const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
+const productRoutes = require("./routes/productRoutes");
+const orderRoutes = require("./routes/orderRoutes");
+const quotationRoutes = require("./routes/quotationRoutes");
 
 // Mount routes
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 // unfinished
 // app.use('/api/products', productRoutes);
 // app.use('/api/orders', orderRoutes);

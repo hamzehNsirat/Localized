@@ -5,3 +5,4 @@ const controller = require("../controllers/dashboardController");
 const validateToken = require("../middlewares/validateToken");
 // Retailer Routes
 router.post("/getretailerdetails", validateToken, controller.getRetailerAllDetails);
+module.exports = router;

@@ -29,6 +29,8 @@ const userService = {
       dateOfBirth: dbFetch[0].date_of_birth,
       userEmail: dbFetch[0].user_email,
       userPhone: dbFetch[0].user_phone_number,
+      userName: dbFetch[0].user_name,
+      userAddress: dbFetch[0].user_address,
     };
   },
   async updateUser(userData) {

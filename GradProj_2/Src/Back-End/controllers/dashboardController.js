@@ -9,23 +9,18 @@ const { executeQuery } = require("../config/database");
 // - service: Insights (postponed)
 const getRetailerAllDetails = async (req, res) => {
   try {
-    if ( //THIS IS IGNORED
-      req.body.pageSize == null ||
-      req.body.pageIndex == null ||
-      req.body.pageIndex <= 0
-    ) {
-      return errorHandler.handleError(res, "E0023");
+    if (req.body.userId == null) {
+      return errorHandler.handleError(res, "E0033");
     }
-    const result = await authService.getApplicationsList(
-      req.body.pageSize,
-      req.body.pageIndex
+    const result = await dashboardService.getRetailerAllDetails(
+      req.body.userId
     );
     if (result.success == false) {
-      return errorHandler.handleError(res, "E0024", result);
+      return errorHandler.handleError(res, "E0034", result);
     }
     return errorHandler.handleSuccess(res, result);
   } catch (error) {
-    return errorHandler.handleError(res, "E0024");
+    return errorHandler.handleError(res, "E0034");
   }
 };
 

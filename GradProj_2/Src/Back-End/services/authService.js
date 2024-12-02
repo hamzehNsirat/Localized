@@ -477,12 +477,12 @@ const authService = {
       const resetUrl = `${env.frontEndURL}/reset-password?token=${resetToken}`;
       // Send reset email
       // commented till needed
-      // await sendEmail(
-      //   email,
-      //   "Password Reset | Localized",
-      //   `You requested to reset your password. Use the link below to reset it: ${resetUrl}`,
-      //   `<p>You requested to reset your password. Use the link below to reset it:</p><p><a href="${resetUrl}">${resetUrl}</a></p>`
-      // );
+      await sendEmail(
+        email,
+        "Password Reset | Localized",
+        `You requested to reset your password. Use the link below to reset it: ${resetUrl}`,
+        `<p>You requested to reset your password. Use the link below to reset it:</p><p><a href="${resetUrl}">${resetUrl}</a></p>`
+      );
       return {
         success: true,
       };

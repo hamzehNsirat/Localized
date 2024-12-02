@@ -197,6 +197,18 @@ module.exports = {
     message: "Resetting Password failed",
     errorCode: "E0032",
   },
+  E0033: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "User ID is Mandatory",
+    errorCode: "E0033",
+  },
+  E0034: {
+    errorDescription: "Fetch Failure",
+    statusCode: 400,
+    message: "Fetching Retailer Details failed",
+    errorCode: "E0034",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,
