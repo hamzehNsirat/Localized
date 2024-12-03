@@ -4,7 +4,7 @@ const env = {
   port: 5055,
   baseUrl: "http://localhost:5055",
   environment: "development",
-  frontEndURL: "http://localhost:5055",
+  frontEndURL: "http://localhost:5173",
   // Database credentials
   dbHost: "localhost",
   dbPort: 5432,
