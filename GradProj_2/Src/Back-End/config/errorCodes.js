@@ -209,6 +209,18 @@ module.exports = {
     message: "Fetching Retailer Details failed",
     errorCode: "E0034",
   },
+  E0035: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "retailerId, pageSize and pageIndex are Mandatory",
+    errorCode: "E0035",
+  },
+  E0036: {
+    errorDescription: "Fetch Failure",
+    statusCode: 400,
+    message: "Fetching Retailer Marketplace failed",
+    errorCode: "E0036",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,

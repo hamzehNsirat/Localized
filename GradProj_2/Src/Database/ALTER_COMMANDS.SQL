@@ -237,3 +237,32 @@ $$
 alter table retailstore drop constraint fk_retailstore_owner_id;
 alter table retailstore add constraint fk_retailstore_owner_id foreign key (owner_id)
 references retailer(retailer_id);
+------------------------------------------------
+-- GET Owned Factories Industry Type Categories
+CREATE OR REPLACE FUNCTION retailstore_categories_get (
+	retailstore_est_id           BIGINT
+)
+RETURNS TABLE(		
+	out_category_id INTEGER,
+	out_category_name VARCHAR
+) AS $$
+BEGIN
+    RETURN QUERY 
+	SELECT category_id, category_name
+	FROM  category WHERE  industry_type =  ANY(SELECT industry_type_id FROM retailstore_industry_get(retailstore_est_id));
+END;
+$$ LANGUAGE plpgsql;
+-- GET Owned Factories
+CREATE OR REPLACE FUNCTION retailstore_owned_get (
+	IN in_owner_id BIGINT
+)
+RETURNS TABLE(		
+	retailstore_est_id           BIGINT
+) AS $$
+BEGIN
+    RETURN QUERY 
+	SELECT
+	f.retailstore_est_id
+	FROM retailstore f WHERE f.owner_id = in_owner_id;
+END;
+$$ LANGUAGE plpgsql;

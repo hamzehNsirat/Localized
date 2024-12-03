@@ -339,6 +339,52 @@ if matching -> update password from payload if not -> handle error
 
 ### PART 4 MARKETPLACE RETAILER
 - service: Get all Products Paginated (filtered by RetailStore Categories (retailerId -> EstablishmentId -> IndustryTypes -> Categories - > Products))
+   - payload:
+        ```json
+                        {
+                            "retailerId":11,
+                            "pageSize":1,
+                            "pageIndex":1
+                        }
+    - expected Response/s:
+        - Error
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "E0035",
+                                "errorDescription": "Missing Data",
+                                "statusCode": "E0035",
+                                "message": "retailerId, pageSize and pageIndex are Mandatory"
+                            }
+                        }
+
+        - Success
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "0000",
+                                "errorDescription": "SUCCESS",
+                                "statusCode": 200,
+                                "message": "Operation completed successfully"
+                            },
+                            "body": {
+                                "success": true,
+                                "marketPlace": {
+                                    "productItem": [
+                                        {
+                                            "id": "2",
+                                            "name": "test",
+                                            "description": "in_product_description",
+                                            "image": null,
+                                            "retailPrice": null,
+                                            "unitPrice": 45.5,
+                                            "wholeSalePrice": null,
+                                            "supplier": "2"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
 - service: Get all Products By IndustryTypes Or Categories (filtered by RetailStore Categories (retailerId -> EstablishmentId -> IndustryTypes -> Categories - > Products))
 - service: Search by product Category, product name,factory name (filtered by search term, page size, page index)
 - service: gets Supplier Data (supplier id) 

@@ -80,7 +80,7 @@ BEGIN
     RETURN QUERY 
 	SELECT
 	f.retailstore_est_id
-	FROM retailstore f WHERE f.owner_id = owner_id;
+	FROM retailstore f WHERE f.owner_id = in_owner_id;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -111,6 +111,6 @@ RETURNS TABLE(
 BEGIN
     RETURN QUERY 
 	SELECT category_id, category_name
-	FROM  category WHERE  industry_type =  (SELECT industry_type_id FROM retailstore_industry_get(retailstore_est_id));
+	FROM  category WHERE  industry_type =  ANY(SELECT industry_type_id FROM retailstore_industry_get(retailstore_est_id));
 END;
 $$ LANGUAGE plpgsql;

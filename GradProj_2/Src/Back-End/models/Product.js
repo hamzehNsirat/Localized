@@ -50,6 +50,22 @@ const Product = {
       ]
     );
   },
+  async getMarketplaceProducts(retailerId, pageSize, pageIndex) {
+    try {
+      const query = `
+        SELECT * 
+        FROM retailer_get_marketplace_products($1, $2, $3);
+      `;
+
+      const params = [retailerId, pageSize, pageIndex];
+      const result = await executeQuery(query, params);
+
+      return result;
+    } catch (error) {
+      console.error("Error fetching marketplace products:", error.message);
+      throw error;
+    }
+  },
 };
 
 module.exports = Product;

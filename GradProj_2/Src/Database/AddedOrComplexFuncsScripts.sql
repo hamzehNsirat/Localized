@@ -288,3 +288,68 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 -----------------------------------------------------------------------------------
+-- SP NO.:#7, 
+-- Complexity: MODERATE,
+-- Creation Data: 03122024,
+-- Desc: Gets Products filtered by Retailers chosen industry types and ranked base on the suppliers compliance score
+-- NodeJS Model: Retailer
+CREATE OR REPLACE FUNCTION retailer_get_marketplace_products(
+  IN in_retailer_id BIGINT, 
+  IN in_page_size INTEGER, 
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(		
+  out_product_id BIGINT,
+  out_product_name VARCHAR,
+  out_product_description TEXT, 
+  out_product_image BYTEA,
+  out_product_retail_price FLOAT,
+  out_product_unit_price FLOAT,
+  out_product_whole_sale_price FLOAT,
+  out_product_supplier BIGINT
+) AS $$
+BEGIN
+RETURN QUERY 
+  WITH retailer_establishment AS (
+    SELECT retailstore_est_id 
+    FROM retailstore_owned_get(in_retailer_id)
+  ),
+  retailer_categories AS (
+    SELECT out_category_id 
+    FROM retailstore_categories_get((SELECT retailstore_est_id FROM retailer_establishment))
+  ),
+  products_with_compliance AS (
+    SELECT 
+      p.product_id,
+      p.product_name,
+      p.product_description,
+      p.product_image,
+      p.product_retail_price,
+      p.product_unit_price,
+      p.product_whole_sale_price,
+      s.supplier_compliance_indicator,
+      p.supplier_id
+    FROM product p
+    JOIN supplier s ON p.supplier_id = s.supplier_id
+    WHERE p.product_category = ANY(SELECT out_category_id FROM retailer_categories)
+      AND p.product_status_id = (
+        SELECT product_status_id 
+        FROM product_status 
+        WHERE product_status LIKE '%PUBLISHED%'
+      )
+  )
+  SELECT 
+    CAST(product_id AS BIGINT) AS out_product_id,
+    product_name AS out_product_name,
+    product_description AS out_product_description,
+    product_image AS out_product_image,
+    product_retail_price AS out_product_retail_price,
+    product_unit_price AS out_product_unit_price,
+    product_whole_sale_price AS out_product_whole_sale_price,
+    supplier_id
+  FROM products_with_compliance
+  ORDER BY supplier_compliance_indicator DESC
+  LIMIT in_page_size
+  OFFSET ((in_page_index - 1) * in_page_size);
+END;
+$$ LANGUAGE plpgsql;

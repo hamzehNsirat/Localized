@@ -42,6 +42,7 @@ const authService = {
       const userResult = await User.create(userData);
       const newUserId = userResult[0].res;
       if (!userResult[0].res || userResult[0].res == -1) {
+        await rollbackTransaction();
         return {
           success: false,
           error: "Unable to Create User in Database",

@@ -34,6 +34,8 @@ app.use(logRequest);
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
+const retailerRoutes = require("./routes/retailerRoutes");
+
 const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const quotationRoutes = require("./routes/quotationRoutes");
@@ -42,6 +44,7 @@ const quotationRoutes = require("./routes/quotationRoutes");
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/retailer", retailerRoutes);
 // unfinished
 // app.use('/api/products', productRoutes);
 // app.use('/api/orders', orderRoutes);
