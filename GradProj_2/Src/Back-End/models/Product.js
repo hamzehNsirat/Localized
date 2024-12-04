@@ -66,6 +66,68 @@ const Product = {
       throw error;
     }
   },
+  async fetchProductsByIndustryAndCategory(
+    industryTypes,
+    categories,
+    pageSize,
+    pageIndex
+  ) {
+    try {
+      const query = `
+        SELECT * 
+        FROM fetch_products_by_industry_and_category($1, $2, $3, $4);
+      `;
+
+      const params = [
+        industryTypes || null, // Pass null if industryTypes is undefined
+        categories || null, // Pass null if categories is undefined
+        pageSize,
+        pageIndex,
+      ];
+
+      const result = await executeQuery(query, params);
+
+      return result;
+    } catch (error) {
+      console.error(
+        "Error fetching products by industry and category:",
+        error.message
+      );
+      throw error;
+    }
+  },
+  async searchProducts(searchTerm, pageSize, pageIndex) {
+    try {
+      const query = `
+        SELECT * 
+        FROM search_products($1, $2, $3);
+      `;
+      const params = [searchTerm, pageSize, pageIndex];
+      const result = await executeQuery(query, params);
+
+      return result;
+    } catch (error) {
+      console.error("Error searching products:", error.message);
+      throw error;
+    }
+  },
+  async getSupplierDetails(supplierId, pageSize, pageIndex) {
+    try {
+      const result = await executeQuery(
+        "SELECT * FROM get_supplier_details($1, $2, $3)",
+        [supplierId, pageSize, pageIndex]
+      );
+
+      // Return the first row since the result contains aggregated data
+      return  result;  
+    } catch (error) {
+      console.error("Error fetching supplier details:", error.message);
+      return {
+        success: false,
+        error: "An error occurred while fetching supplier details.",
+      };
+    }
+  },
 };
 
 module.exports = Product;

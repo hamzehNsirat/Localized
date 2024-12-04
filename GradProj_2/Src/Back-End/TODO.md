@@ -1,6 +1,6 @@
 # TODO Backend
 
-## RETAILER PART [COMPLETION PERCENTAGE:30%]
+## RETAILER PART [COMPLETION PERCENTAGE:40%]
 
 
 ### PART 1 Signup
@@ -386,7 +386,124 @@ if matching -> update password from payload if not -> handle error
                             }
                         }
 - service: Get all Products By IndustryTypes Or Categories (filtered by RetailStore Categories (retailerId -> EstablishmentId -> IndustryTypes -> Categories - > Products))
+   - payload:
+        ```json
+                        {
+                            "industryList":[1,2],
+                            "categoryList":[3],
+                            "pageSize": 2,
+                            "pageIndex":1    
+                        }
+    - expected Response/s:
+        - Error
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "E0036",
+                                "errorDescription": "Fetch Failure",
+                                "statusCode": "E0036",
+                                "message": "Fetching Retailer Marketplace failed"
+                            }
+                        }
+
+        - Success
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "0000",
+                                "errorDescription": "SUCCESS",
+                                "statusCode": 200,
+                                "message": "Operation completed successfully"
+                            },
+                            "body": {
+                                "success": true,
+                                "marketPlace": {
+                                    "productItem": [
+                                        {
+                                            "id": "3",
+                                            "name": "batata",
+                                            "description": "in_product_description",
+                                            "image": null,
+                                            "retailPrice": 1.2,
+                                            "unitPrice": 1,
+                                            "wholeSalePrice": 0.8,
+                                            "supplier": "1"
+                                        },
+                                        {
+                                            "id": "5",
+                                            "name": "batata",
+                                            "description": "in_product_description",
+                                            "image": null,
+                                            "retailPrice": 1.2,
+                                            "unitPrice": 1,
+                                            "wholeSalePrice": 0.8,
+                                            "supplier": "1"
+                                        }
+                                    ]
+                                },
+                                "totalRecordsCount": "6"
+                            }
+                        }
+
 - service: Search by product Category, product name,factory name (filtered by search term, page size, page index)
+   - payload:
+        ```json
+                        {
+                            "searchTerm":"batat",
+                            "pageSize": 2,
+                            "pageIndex":1    
+                        }
+    - expected Response/s:
+        - Error
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "E0038",
+                                "errorDescription": "Missing Data",
+                                "statusCode": "E0038",
+                                "message": "searchTerm, pageSize and pageIndex are Mandatory"
+                            }
+                        }
+
+        - Success
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "0000",
+                                "errorDescription": "SUCCESS",
+                                "statusCode": 200,
+                                "message": "Operation completed successfully"
+                            },
+                            "body": {
+                                "success": true,
+                                "marketPlace": {
+                                    "productItem": [
+                                        {
+                                            "id": "6",
+                                            "name": "batata",
+                                            "description": "in_product_description",
+                                            "image": null,
+                                            "retailPrice": 1.2,
+                                            "unitPrice": 1,
+                                            "wholeSalePrice": 0.8,
+                                            "supplier": "1"
+                                        },
+                                        {
+                                            "id": "5",
+                                            "name": "batata",
+                                            "description": "in_product_description",
+                                            "image": null,
+                                            "retailPrice": 1.2,
+                                            "unitPrice": 1,
+                                            "wholeSalePrice": 0.8,
+                                            "supplier": "1"
+                                        }
+                                    ]
+                                },
+                                "totalRecordsCount": "4"
+                            }
+                        }
+
 - service: gets Supplier Data (supplier id) 
     Establishment Cover
     Establishment Logo
@@ -398,7 +515,66 @@ if matching -> update password from payload if not -> handle error
                             getSupplierReviewPaginated
     Supplier Review Count
     Establishment Rating
+   - payload:
+        ```json
+                        {
+                            "supplierId":1,
+                            "pageSize": 1,
+                            "pageIndex":1    
+                        }
+    - expected Response/s:
+        - Error
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "E0039",
+                                "errorDescription": "No Data",
+                                "statusCode": "E0039",
+                                "message": "Search Yielded No Data"
+                            }
+                        }
 
+        - Success
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "0000",
+                                "errorDescription": "SUCCESS",
+                                "statusCode": 200,
+                                "message": "Operation completed successfully"
+                            },
+                            "body": {
+                                "success": true,
+                                "supplierProfile": {
+                                    "supplierEstablishmentName": "test",
+                                    "supplierEstablishmentLogo": null,
+                                    "supplierEstablishmentCover": null,
+                                    "supplierIndustryTypes": [
+                                        "3"
+                                    ],
+                                    "products": {
+                                        "productItem": [
+                                            {
+                                                "id": 3,
+                                                "name": "batata",
+                                                "description": "in_product_description",
+                                                "image": null,
+                                                "retailPrice": 1.2,
+                                                "unitPrice": 1,
+                                                "wholeSalePrice": 0.8
+                                            }
+                                        ]
+                                    },
+                                    "totalProducts": "4",
+                                    "reviews": {
+                                        "reviewItem": []
+                                    },
+                                    "totalReviews": "0",
+                                    "reviewCount": "0",
+                                    "overallRating": null
+                                }
+                            }
+                        }
 
 #### Change Quotation Table and Functions, add Summations, remove Payment IBAN / Bank Account / Name .. etc ####
 #### Change Order Table and Functions, add Order Total Price, Remove Quantity

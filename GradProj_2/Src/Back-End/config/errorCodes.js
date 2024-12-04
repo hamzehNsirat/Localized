@@ -221,6 +221,31 @@ module.exports = {
     message: "Fetching Retailer Marketplace failed",
     errorCode: "E0036",
   },
+  E0037: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message:
+      "(one of industryList, categoriesList), pageSize and pageIndex are Mandatory",
+    errorCode: "E0037",
+  },
+  E0038: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "searchTerm, pageSize and pageIndex are Mandatory",
+    errorCode: "E0038",
+  },
+  E0039: {
+    errorDescription: "No Data",
+    statusCode: 400,
+    message: "Search Yielded No Data",
+    errorCode: "E0039",
+  },
+  E0040: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "supplierId, pageSize and pageIndex are Mandatory",
+    errorCode: "E0040",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,
