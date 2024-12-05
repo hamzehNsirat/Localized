@@ -14,15 +14,15 @@ const Quotation = {
     ]);
   },
 
-  async getByRetailer(retailerId) {
+  async getByRetailer(requesterId) {
     return await executeQuery("SELECT * FROM quotation_get_by_retailer($1)", [
-      retailerId,
+      requesterId,
     ]);
   },
 
-  async insert(inputData) {
+  async insertQuotation(inputData) {
     return await executeQuery(
-      "SELECT * FROM quotation_insert($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)",
+      "SELECT * FROM quotation_insert($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) AS out_quotation_id",
       [
         inputData.requesterId,
         inputData.supplierId,
@@ -30,26 +30,29 @@ const Quotation = {
         inputData.quotationRequestDate,
         inputData.quotationDetails,
         inputData.quotationAttachments,
-        inputData.paymentDetailsBank,
-        inputData.paymentDetailsIBAN,
-        inputData.paymentDetailsBankAccNum,
         inputData.fromEstablishmentName,
         inputData.toEstablishmentName,
         inputData.shipToAddress,
         inputData.billToAddress,
         inputData.supplierAddress,
         inputData.lastModifiedBy,
+        inputData.shippingCost,
+        inputData.subTotal,
+        inputData.total,
       ]
     );
   },
 
-  async updateDetails(inputData) {
+  async updateQuotationDetails(inputData) {
     return await executeQuery(
-      "SELECT * FROM quotation_update_details($1, $2, $3)",
+      "SELECT * FROM quotation_update_details($1, $2, $3, $4, $5, $6) AS update_res",
       [
         inputData.quotationId,
         inputData.quotationDetails,
         inputData.quotationAttachments,
+        inputData.shippingCost,
+        inputData.subTotal,
+        inputData.total,
       ]
     );
   },

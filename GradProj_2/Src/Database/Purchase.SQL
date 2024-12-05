@@ -17,6 +17,15 @@ CREATE TABLE purchase (
 	payment_exchange_rate	  FLOAT    NOT NULL DEFAULT 1,
 	last_modification_date  TIMESTAMP  NOT NULL,
 	last_modified_by		BIGINT     NOT NULL,
+	payment_method  	VARCHAR(30)  DEFAULT NULL,
+	credit_cardholder  	VARCHAR(70)  DEFAULT NULL,
+	credit_card_number  VARCHAR(120)  DEFAULT NULL,
+	credit_card_expiry  DATE  DEFAULT NULL,
+	credit_cvc CHAR(3) DEFAULT NULL,
+	supplier_iban  	VARCHAR(34)  DEFAULT NULL,
+	supplier_bank_account_num  	VARCHAR(18)  DEFAULT NULL,
+	supplier_bank_name  VARCHAR(140)  DEFAULT NULL,
+
 	CONSTRAINT fk_prchs_supplier_id FOREIGN KEY (supplier_id)
     REFERENCES supplier(supplier_id) ON DELETE SET NULL ON UPDATE CASCADE,
 	CONSTRAINT fk_prchs_retailer_id FOREIGN KEY (buyer_id)
@@ -93,7 +102,15 @@ RETURNS TABLE(
 	out_payment_currency	  	   CHAR,
 	out_payment_exchange_rate	   FLOAT ,
 	out_last_modification_date     TIMESTAMP,
-	out_last_modified_by		   BIGINT
+	out_last_modified_by		   BIGINT,
+	out_payment_method  	VARCHAR,
+	out_credit_cardholder  	VARCHAR,
+	out_credit_card_number  VARCHAR,
+	out_credit_card_expiry  DATE,
+	out_credit_cvc CHAR,
+	out_supplier_iban  	VARCHAR,
+	out_supplier_bank_account_num  	VARCHAR,
+	out_supplier_bank_name  VARCHAR	
 ) 
 AS $$ BEGIN
 	IF in_purchase_id IS NOT NULL THEN 
@@ -112,7 +129,16 @@ AS $$ BEGIN
 		payment_currency	  	   ,
 		payment_exchange_rate	   ,
 		last_modification_date     ,
-		last_modified_by		   
+		last_modified_by		   ,
+		payment_method  	,
+		credit_cardholder  	,
+		credit_card_number  ,
+		credit_card_expiry  ,
+		credit_cvc ,
+		supplier_iban  	,
+		supplier_bank_account_num  	,
+		supplier_bank_name  	
+
 		FROM	purchase
 		WHERE	CAST(purchase_id AS BIGINT) = in_purchase_id;
 	ELSIF in_quotation_id IS NOT NULL THEN 
@@ -131,7 +157,16 @@ AS $$ BEGIN
 		payment_currency	  	   ,
 		payment_exchange_rate	   ,
 		last_modification_date     ,
-		last_modified_by		   
+		last_modified_by		   ,
+		payment_method  	,
+		credit_cardholder  	,
+		credit_card_number  ,
+		credit_card_expiry  ,
+		credit_cvc ,
+		supplier_iban  	,
+		supplier_bank_account_num  	,
+		supplier_bank_name  	
+
 		FROM	purchase
 		WHERE	CAST(quotation_id AS BIGINT) = in_quotation_id;
 	ELSIF in_buyer_id IS NOT NULL THEN 
@@ -150,7 +185,16 @@ AS $$ BEGIN
 		payment_currency	  	   ,
 		payment_exchange_rate	   ,
 		last_modification_date     ,
-		last_modified_by		   
+		last_modified_by,
+		payment_method  	,
+		credit_cardholder  	,
+		credit_card_number  ,
+		credit_card_expiry  ,
+		credit_cvc ,
+		supplier_iban  	,
+		supplier_bank_account_num  	,
+		supplier_bank_name  	
+
 		FROM	purchase
 		WHERE	CAST(buyer_id AS BIGINT) = in_buyer_id;
 	ELSIF in_supplier_id IS NOT NULL THEN 
@@ -169,7 +213,16 @@ AS $$ BEGIN
 		payment_currency	  	   ,
 		payment_exchange_rate	   ,
 		last_modification_date     ,
-		last_modified_by		   
+		last_modified_by,
+		payment_method  	,
+		credit_cardholder  	,
+		credit_card_number  ,
+		credit_card_expiry  ,
+		credit_cvc ,
+		supplier_iban  	,
+		supplier_bank_account_num  	,
+		supplier_bank_name  	
+
 		FROM	purchase
 		WHERE	CAST(supplier_id AS BIGINT) = in_supplier_id;
 	END IF;
@@ -190,6 +243,15 @@ CREATE OR REPLACE FUNCTION purchase_insert (
 	IN in_payment_exchange_rate	   FLOAT ,
 	IN in_last_modification_date     TIMESTAMP,
 	IN in_last_modified_by		   BIGINT,
+	IN in_payment_method  	VARCHAR,
+	IN in_credit_cardholder  	VARCHAR,
+	IN in_credit_card_number  VARCHAR,
+	IN in_credit_card_expiry  DATE,
+	IN in_credit_cvc CHAR,
+	IN in_supplier_iban  	VARCHAR,
+	IN in_supplier_bank_account_num  	VARCHAR,
+	IN in_supplier_bank_name  	VARCHAR
+
 	OUT out_purchase_id BIGINT
 ) 
 RETURNS BIGINT 
@@ -215,7 +277,16 @@ BEGIN
 		payment_currency	  	   ,
 		payment_exchange_rate	   ,
 		last_modification_date     ,
-		last_modified_by		   
+		last_modified_by,
+		payment_method  	,
+		credit_cardholder  	,
+		credit_card_number  ,
+		credit_card_expiry  ,
+		credit_cvc ,
+		supplier_iban  	,
+		supplier_bank_account_num  	,
+		supplier_bank_name  	
+		   
 		)
 	VALUES
 	(
@@ -231,7 +302,15 @@ BEGIN
 		in_payment_currency	  	   ,
 		in_payment_exchange_rate	   ,
 		CURRENT_TIMESTAMP     ,
-		in_last_modified_by		   
+		in_last_modified_by,
+		in_payment_method  	,
+		in_credit_cardholder  	,
+		in_credit_card_number  ,
+		in_credit_card_expiry  ,
+		in_credit_cvc ,
+		in_supplier_iban  	,
+		in_supplier_bank_account_num  	,
+		in_supplier_bank_name  	
 	) RETURNING CAST(purchase_id AS BIGINT) INTO out_purchase_id;
 EXCEPTION
 WHEN OTHERS THEN 
@@ -268,6 +347,15 @@ CREATE OR REPLACE FUNCTION purchase_update (
 	IN in_payment_exchange_rate	   FLOAT ,
 	IN in_last_modification_date     TIMESTAMP,
 	IN in_last_modified_by		   BIGINT,
+	IN in_payment_method  	VARCHAR,
+	IN in_credit_cardholder  	VARCHAR,
+	IN in_credit_card_number  VARCHAR,
+	IN in_credit_card_expiry  DATE,
+	IN in_credit_cvc CHAR,
+	IN in_supplier_iban  	VARCHAR,
+	IN in_supplier_bank_account_num  	VARCHAR,
+	IN in_supplier_bank_name  	VARCHAR
+
 	OUT update_res INT
 ) 
 RETURNS INT 
@@ -293,7 +381,16 @@ BEGIN
 	payment_currency = COALESCE(in_payment_currency, payment_currency),
 	payment_exchange_rate = COALESCE(in_payment_exchange_rate, payment_exchange_rate),
 	last_modification_date = CURRENT_TIMESTAMP,
-	last_modified_by = COALESCE(in_last_modified_by, last_modified_by)	   
+	last_modified_by = COALESCE(in_last_modified_by, last_modified_by),
+	payment_method = COALESCE(in_payment_method,payment_method)  	,
+	credit_cardholder = COALESCE(in_credit_cardholder,credit_cardholder)  	,
+	credit_card_number = COALESCE(in_credit_card_number,credit_card_number)  ,
+	credit_card_expiry = COALESCE(in_credit_card_expiry,credit_card_expiry)  ,
+	credit_cvc = COALESCE(in_credit_cvc,credit_cvc) ,
+	supplier_iban = COALESCE(in_supplier_iban,supplier_iban)  	,
+	supplier_bank_account_num = COALESCE(in_supplier_bank_account_num,supplier_bank_account_num)  	,
+	supplier_bank_name  = COALESCE(in_supplier_bank_name,supplier_bank_name) 	
+
 	WHERE
 	CAST(purchase_id AS BIGINT) = in_purchase_id;
 	update_res := 0;

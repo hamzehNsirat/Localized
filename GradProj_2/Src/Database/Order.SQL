@@ -7,10 +7,10 @@ CREATE TABLE order_localized (
 	quotation_id 		 BIGINT NOT NULL,
 	product_id  		 BIGINT NOT NULL,
 	order_quantity   	 FLOAT  NOT NULL,
-	order_quantity_unit  VARCHAR(35),
 	order_date			    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	last_modification_date  TIMESTAMP NOT NULL,
 	last_modified_by		BIGINT   NOT NULL,
+	order_price  FLOAT DEFAULT NULL,
 	CONSTRAINT fk_ordr_quotation_id FOREIGN KEY (quotation_id)
     REFERENCES quotation(quotation_id) ON DELETE CASCADE,
 	CONSTRAINT fk_ordr_product_id FOREIGN KEY (product_id)
@@ -40,7 +40,7 @@ RETURNS TABLE(
 	out_quotation_id 		 BIGINT,
 	out_product_id  		 BIGINT,
 	out_order_quantity   	 FLOAT,
-	out_order_quantity_unit  VARCHAR,
+	out_order_price  FLOAT,
 	out_order_date			    TIMESTAMP,
 	out_last_modification_date  TIMESTAMP,
 	out_last_modified_by  		BIGINT
@@ -51,7 +51,7 @@ AS $$ BEGIN RETURN QUERY
 	quotation_id,
 	product_id,
 	order_quantity,
-	order_quantity_unit,
+	order_price,
 	order_date,
 	last_modification_date,
 	last_modified_by
@@ -65,7 +65,7 @@ RETURNS TABLE(
 	out_order_id 			 BIGINT,
 	out_product_id  		 BIGINT,
 	out_order_quantity   	 FLOAT,
-	out_order_quantity_unit  VARCHAR,
+	out_order_price  FLOAT,
 	out_order_date			    TIMESTAMP,
 	out_last_modification_date  TIMESTAMP,
 	out_last_modified_by  		BIGINT
@@ -75,7 +75,7 @@ AS $$ BEGIN RETURN QUERY
 	CAST(order_id AS BIGINT),
 	product_id,
 	order_quantity,
-	order_quantity_unit,
+	order_price,
 	order_date,
 	last_modification_date,
 	last_modified_by
@@ -88,7 +88,7 @@ CREATE OR REPLACE FUNCTION order_insert (
 	IN in_quotation_id 		 BIGINT,
 	IN in_product_id  		 BIGINT,
 	IN in_order_quantity   	 FLOAT,
-	IN in_order_quantity_unit  VARCHAR,
+	IN in_order_price  FLOAT,
 	IN in_order_date			    TIMESTAMP,
 	IN in_last_modification_date  TIMESTAMP,
 	IN in_last_modified_by  		BIGINT,
@@ -111,7 +111,8 @@ BEGIN
 			order_quantity_unit  ,
 			order_date			  ,
 			last_modification_date,
-			last_modified_by 
+			last_modified_by ,
+			order_price 
 		)
 	VALUES
 		(
@@ -121,7 +122,8 @@ BEGIN
 			in_order_quantity_unit,
 			in_order_date,
 			CURRENT_TIMESTAMP,
-			in_last_modified_by
+			in_last_modified_by,
+			in_order_price
 	) RETURNING CAST(order_id AS BIGINT) INTO out_order_id;
 EXCEPTION
 WHEN OTHERS THEN 

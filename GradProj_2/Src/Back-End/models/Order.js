@@ -3,55 +3,29 @@ const { executeQuery } = require("../config/database");
 
 const Order = {
   // Get order by ID
-  async getById(inputData) {
-    return await executeQuery("SELECT * FROM order_get_by_Id($1)", [
-      inputData.orderId,
-    ]);
+  async getById(orderId) {
+    return await executeQuery("SELECT * FROM order_get_by_Id($1)", [orderId]);
   },
 
-  // Get orders by Quotation ID
-  async getByQuotation(inputData) {
+  async getByQuotation(quotationId) {
     return await executeQuery("SELECT * FROM order_get_by_quotation($1)", [
-      inputData.quotationId,
+      quotationId,
     ]);
   },
 
-  // Insert a new order
-  async insert(inputData) {
+  async insertOrder(inputData) {
     return await executeQuery(
-      "SELECT * FROM order_insert($1, $2, $3, $4, $5, $6)",
+      "SELECT * FROM order_insert($1, $2, $3, $4, $5, $6, $7) AS out_order_id",
       [
         inputData.quotationId,
         inputData.productId,
         inputData.orderQuantity,
-        inputData.orderQuantityUnit,
+        inputData.orderPrice,
         inputData.orderDate,
+        inputData.lastModificationDate,
         inputData.lastModifiedBy,
       ]
     );
-  },
-
-  // Update an existing order
-  async update(inputData) {
-    return await executeQuery(
-      "SELECT * FROM order_update($1, $2, $3, $4, $5, $6, $7)",
-      [
-        inputData.orderId,
-        inputData.quotationId || null,
-        inputData.productId || null,
-        inputData.orderQuantity || null,
-        inputData.orderQuantityUnit || null,
-        inputData.orderDate || null,
-        inputData.lastModifiedBy,
-      ]
-    );
-  },
-
-  // Delete an order
-  async delete(inputData) {
-    return await executeQuery("SELECT * FROM order_delete($1)", [
-      inputData.orderId,
-    ]);
   },
 };
 

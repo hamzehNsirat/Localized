@@ -9,9 +9,6 @@ CREATE TABLE quotation (
 	quotation_request_date   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	quotation_details     JSONB,
 	quotation_attachments JSONB,
-	payment_details_bank		      VARCHAR(256)  NOT NULL,
-	payment_details_iban		      VARCHAR(34)  NOT NULL,
-	payment_details_bank_acc_num	  VARCHAR(18)  NOT NULL,
 	from_establishment_name	  TEXT  NOT NULL,
 	to_establishment_name	  TEXT  NOT NULL,
 	ship_to_address		      TEXT  NOT NULL,
@@ -20,6 +17,9 @@ CREATE TABLE quotation (
 	last_updater_type		BOOLEAN   NOT NULL,
 	last_modification_date  TIMESTAMP NOT NULL,
 	last_modified_by		BIGINT    NOT NULL,
+	shipping_cost FLOAT DEFAULT NULL,
+	sub_total FLOAT DEFAULT NULL,
+	total FLOAT DEFAULT NULL,
 	CONSTRAINT fk_qotn_supplier_id FOREIGN KEY (supplier_id)
     REFERENCES supplier(supplier_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT fk_qotn_retailer_id FOREIGN KEY (requester_id)
@@ -50,17 +50,17 @@ CREATE OR REPLACE FUNCTION quotation_get_all_data(in_quotation_id BIGINT)
 RETURNS TABLE (
 	out_quotation_id 		 BIGINT,
 	out_requester_id 		 BIGINT,
-	out_supplier_id 		 	 BIGINT,
-	out_quotation_status_id  BIGINT ,
+	out_supplier_id 		 BIGINT,
+	out_quotation_status_id  BIGINT,
 	out_quotation_request_date   TIMESTAMP,
 	out_quotation_details    	 JSONB,
 	out_quotation_attachments 	 JSONB,
-	out_payment_details_bank		    VARCHAR,
-	out_payment_details_iban		    VARCHAR,
-	out_payment_details_bank_acc_num	VARCHAR,
-	out_related_payment_referenece_no	VARCHAR,
+	out_related_payment_referenece_no		VARCHAR,
 	out_related_payment_reconciliation_no	VARCHAR,
-	out_related_payment_latest_trx_id	VARCHAR,
+	out_related_payment_latest_trx_id		VARCHAR,
+	out_shipping_cost	FLOAT,
+	out_sub_total		FLOAT,
+	out_total			FLOAT,
 	out_from_establishment_name	  TEXT,
 	out_to_establishment_name	  TEXT,
 	out_has_related_complaints	  INTEGER,
@@ -79,12 +79,12 @@ AS $$ BEGIN RETURN QUERY
 	D.quotation_request_date,
 	D.quotation_details,
 	D.quotation_attachments,
-	D.payment_details_bank,
-	D.payment_details_iban,
-	D.payment_details_bank_acc_num,
 	K.payment_reference,
 	K.reconciliation_reference,
 	CAST(L.purchase_transaction_id AS VARCHAR),
+	D.shipping_cost,
+	D.sub_total,
+	D.total,
 	D.from_establishment_name,
 	D.to_establishment_name,
 	CASE WHEN (SELECT COUNT(*) FROM complaint P WHERE P.quotation_id = D.quotation_id) > 0 THEN 1 ELSE 0 END AS out_has_related_complaints,
@@ -110,9 +110,9 @@ RETURNS TABLE (
 	out_quotation_request_date   TIMESTAMP,
 	out_quotation_details    	 JSONB,
 	out_quotation_attachments 	 JSONB,
-	out_payment_details_bank		    VARCHAR,
-	out_payment_details_iban		    VARCHAR,
-	out_payment_details_bank_acc_num	VARCHAR,
+	out_shipping_cost	FLOAT,
+	out_sub_total		FLOAT,
+	out_total			FLOAT,
 	out_from_establishment_name	  TEXT,
 	out_to_establishment_name	  TEXT,
 	out_ship_to_address		      TEXT,
@@ -127,9 +127,9 @@ AS $$ BEGIN RETURN QUERY
 	D.quotation_request_date,
 	D.quotation_details,
 	D.quotation_attachments,
-	D.payment_details_bank,
-	D.payment_details_iban,
-	D.payment_details_bank_acc_num,
+	D.shipping_cost	,
+	D.sub_total		,
+	D.total			,
 	D.from_establishment_name,
 	D.to_establishment_name,
 	D.ship_to_address,
@@ -151,9 +151,9 @@ RETURNS TABLE (
 	out_quotation_request_date   TIMESTAMP,
 	out_quotation_details    	 JSONB,
 	out_quotation_attachments 	 JSONB,
-	out_payment_details_bank		    VARCHAR,
-	out_payment_details_iban		    VARCHAR,
-	out_payment_details_bank_acc_num	VARCHAR,
+	out_shipping_cost	FLOAT,
+	out_sub_total		FLOAT,
+	out_total			FLOAT,
 	out_from_establishment_name	  TEXT,
 	out_to_establishment_name	  TEXT,
 	out_ship_to_address		      TEXT,
@@ -168,9 +168,9 @@ AS $$ BEGIN RETURN QUERY
 	D.quotation_request_date,
 	D.quotation_details,
 	D.quotation_attachments,
-	D.payment_details_bank,
-	D.payment_details_iban,
-	D.payment_details_bank_acc_num,
+	D.shipping_cost	,
+	D.sub_total		,
+	D.total			,
 	D.from_establishment_name,
 	D.to_establishment_name,
 	D.ship_to_address,
@@ -190,15 +190,15 @@ CREATE OR REPLACE FUNCTION quotation_insert (
 	IN in_quotation_request_date   TIMESTAMP, -- from inp
 	IN in_quotation_details     JSONB, -- from inp
 	IN in_quotation_attachments JSONB, -- null
-	IN in_payment_details_bank		      VARCHAR, -- null
-	IN in_payment_details_iban		      VARCHAR, -- null
-	IN in_payment_details_bank_acc_num	  VARCHAR, -- null
 	IN in_from_establishment_name	  TEXT, -- from inp
 	IN in_to_establishment_name	  TEXT, -- from inp
 	IN in_ship_to_address		      TEXT, -- from inp
 	IN in_bill_to_address		      TEXT, -- from inp 
 	IN in_supplier_address		  TEXT, -- null
 	IN in_last_modified_by		BIGINT, -- 1
+	IN in_shipping_cost	FLOAT,
+	IN in_sub_total		FLOAT,
+	IN in_total			FLOAT,
 	OUT out_quotation_id BIGINT
 ) 
 RETURNS BIGINT 
@@ -229,6 +229,10 @@ BEGIN
 	last_updater_type		,
 	last_modification_date  ,
 	last_modified_by		
+	shipping_cost	,
+	sub_total		,
+	total			
+
 		)
 	VALUES
 		(
@@ -249,6 +253,9 @@ BEGIN
 		TRUE,
 		CURRENT_TIMESTAMP,
 		in_last_modified_by
+		in_shipping_cost,
+		in_sub_total		,
+		in_total			
 	) RETURNING CAST(quotation_id AS BIGINT) INTO out_quotation_id;
 EXCEPTION
 WHEN OTHERS THEN 
@@ -273,7 +280,10 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION quotation_update_details (
 	IN in_quotation_id  BIGINT ,
 	IN in_quotation_details     JSONB,
-	IN in_quotation_attachments JSONB
+	IN in_quotation_attachments JSONB,
+	IN in_shipping_cost	FLOAT,
+	IN in_sub_total		FLOAT,
+	IN in_total			FLOAT
 ) 
 RETURNS INTEGER
 AS $$ 
@@ -288,7 +298,10 @@ BEGIN
 
 	SET 
 	quotation_details = COALESCE(in_quotation_details, quotation_details),
-	quotation_attachments = COALESCE(in_quotation_attachments, quotation_attachments) 
+	quotation_attachments = COALESCE(in_quotation_attachments, quotation_attachments),
+	shipping_cost = COALESCE(in_shipping_cost, shipping_cost),
+	sub_total = COALESCE(in_sub_total, sub_total),
+	total = COALESCE(in_total,total)
 
 	WHERE quotation_id = in_quotation_id;
 	RETURN 0;

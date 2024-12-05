@@ -45,6 +45,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/retailer", retailerRoutes);
+app.use('/api/quotations', quotationRoutes);
 // unfinished
 // app.use('/api/products', productRoutes);
 // app.use('/api/orders', orderRoutes);

@@ -336,7 +336,6 @@ if matching -> update password from payload if not -> handle error
                                 }
                             }
                         }
-
 ### PART 4 MARKETPLACE RETAILER
 - service: Get all Products Paginated (filtered by RetailStore Categories (retailerId -> EstablishmentId -> IndustryTypes -> Categories - > Products))
    - payload:
@@ -576,13 +575,12 @@ if matching -> update password from payload if not -> handle error
                             }
                         }
 
-#### Change Quotation Table and Functions, add Summations, remove Payment IBAN / Bank Account / Name .. etc ####
-#### Change Order Table and Functions, add Order Total Price, Remove Quantity
-
 ### PART 5 Request QUOTATION
 - service: Get Retailer Info and establishment Info (retailerId)
+already has required data from dashboard get reatiler all details service
 - service: Request QUOTATION -> insert in database returns success / error 
 - service: create orders enlisted in quotation
+
 ### PART 6 Manage QUOTATION
 - service: GetQuotations List by Retailer (retailerId, page sized, page number)
 qid, logo supplier, factory name, status

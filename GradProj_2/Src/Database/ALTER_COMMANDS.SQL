@@ -266,3 +266,746 @@ BEGIN
 	FROM retailstore f WHERE f.owner_id = in_owner_id;
 END;
 $$ LANGUAGE plpgsql;
+------------------------------------------------
+-- 05-12-2024
+ALTER TABLE quotation DROP COLUMN payment_details_bank;
+ALTER TABLE quotation DROP COLUMN payment_details_iban;
+ALTER TABLE quotation DROP COLUMN payment_details_bank_acc_num;
+ALTER TABLE quotation ADD COLUMN shipping_cost FLOAT DEFAULT NULL;
+ALTER TABLE quotation ADD COLUMN sub_total FLOAT DEFAULT NULL;
+ALTER TABLE quotation ADD COLUMN total FLOAT DEFAULT NULL;
+-- GET A Quotation ALL DATA
+DROP FUNCTION quotation_get_all_data;
+CREATE OR REPLACE FUNCTION quotation_get_all_data(in_quotation_id BIGINT) 
+RETURNS TABLE (
+	out_quotation_id 		 BIGINT,
+	out_requester_id 		 BIGINT,
+	out_supplier_id 		 BIGINT,
+	out_quotation_status_id  BIGINT,
+	out_quotation_request_date   TIMESTAMP,
+	out_quotation_details    	 JSONB,
+	out_quotation_attachments 	 JSONB,
+	out_related_payment_referenece_no		VARCHAR,
+	out_related_payment_reconciliation_no	VARCHAR,
+	out_related_payment_latest_trx_id		VARCHAR,
+	out_shipping_cost	FLOAT,
+	out_sub_total		FLOAT,
+	out_total			FLOAT,
+	out_from_establishment_name	  TEXT,
+	out_to_establishment_name	  TEXT,
+	out_has_related_complaints	  INTEGER,
+	out_ship_to_address		      TEXT,
+	out_bill_to_address		      TEXT,
+	out_supplier_address		  TEXT
+
+) 
+AS $$ BEGIN RETURN QUERY
+	SELECT 
+
+	CAST(D.quotation_id AS BIGINT),
+	D.requester_id,
+	D.supplier_id,
+	D.quotation_status_id,
+	D.quotation_request_date,
+	D.quotation_details,
+	D.quotation_attachments,
+	K.payment_reference,
+	K.reconciliation_reference,
+	CAST(L.purchase_transaction_id AS VARCHAR),
+	D.shipping_cost,
+	D.sub_total,
+	D.total,
+	D.from_establishment_name,
+	D.to_establishment_name,
+	CASE WHEN (SELECT COUNT(*) FROM complaint P WHERE P.quotation_id = D.quotation_id) > 0 THEN 1 ELSE 0 END AS out_has_related_complaints,
+	D.ship_to_address,
+	D.bill_to_address,
+	D.supplier_address
+
+	FROM	quotation AS D
+	LEFT JOIN purchase AS K ON K.quotation_id = D.quotation_id
+	LEFT JOIN purchase_transaction AS L ON L.purchase_id = K.purchase_id
+	WHERE D.quotation_id = in_quotation_id;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+-- GET A Quotation BY Supplier
+DROP FUNCTION quotation_get_by_supplier;
+CREATE OR REPLACE FUNCTION quotation_get_by_supplier(in_supplier_id 		 	 BIGINT) 
+RETURNS TABLE (
+	out_quotation_id 		 BIGINT,
+	out_requester_id 		 BIGINT,
+	out_quotation_status_id  BIGINT ,
+	out_quotation_request_date   TIMESTAMP,
+	out_quotation_details    	 JSONB,
+	out_quotation_attachments 	 JSONB,
+	out_shipping_cost	FLOAT,
+	out_sub_total		FLOAT,
+	out_total			FLOAT,
+	out_from_establishment_name	  TEXT,
+	out_to_establishment_name	  TEXT,
+	out_ship_to_address		      TEXT,
+	out_bill_to_address		      TEXT,
+	out_supplier_address		  TEXT
+) 
+AS $$ BEGIN RETURN QUERY
+	SELECT 
+	CAST(D.quotation_id AS BIGINT),
+	D.requester_id,
+	D.quotation_status_id,
+	D.quotation_request_date,
+	D.quotation_details,
+	D.quotation_attachments,
+	D.shipping_cost	,
+	D.sub_total		,
+	D.total			,
+	D.from_establishment_name,
+	D.to_establishment_name,
+	D.ship_to_address,
+	D.bill_to_address,
+	D.supplier_address
+
+	FROM	quotation AS D
+	WHERE D.supplier_id = in_supplier_id;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- GET A Quotation BY Retailer
+DROP FUNCTION quotation_get_by_retailer;
+CREATE OR REPLACE FUNCTION quotation_get_by_retailer(in_requester_id 		 BIGINT) 
+RETURNS TABLE (
+	out_quotation_id 		 BIGINT,
+	out_supplier_id 		 BIGINT,
+	out_quotation_status_id  BIGINT ,
+	out_quotation_request_date   TIMESTAMP,
+	out_quotation_details    	 JSONB,
+	out_quotation_attachments 	 JSONB,
+	out_shipping_cost	FLOAT,
+	out_sub_total		FLOAT,
+	out_total			FLOAT,
+	out_from_establishment_name	  TEXT,
+	out_to_establishment_name	  TEXT,
+	out_ship_to_address		      TEXT,
+	out_bill_to_address		      TEXT,
+	out_supplier_address		  TEXT
+) 
+AS $$ BEGIN RETURN QUERY
+	SELECT 
+	CAST(D.quotation_id AS BIGINT),
+	D.supplier_id,
+	D.quotation_status_id,
+	D.quotation_request_date,
+	D.quotation_details,
+	D.quotation_attachments,
+	D.shipping_cost	,
+	D.sub_total		,
+	D.total			,
+	D.from_establishment_name,
+	D.to_establishment_name,
+	D.ship_to_address,
+	D.bill_to_address,
+	D.supplier_address
+
+	FROM	quotation AS D
+	WHERE D.requester_id = in_requester_id;
+END;
+$$ LANGUAGE plpgsql;
+
+-- INSERT A Quotation
+DROP FUNCTION quotation_insert;
+CREATE OR REPLACE FUNCTION quotation_insert (
+	IN in_requester_id 		 BIGINT , -- from inp
+	IN in_supplier_id 		 BIGINT , -- from inp
+	IN in_quotation_status_id  BIGINT , -- 1 
+	IN in_quotation_request_date   TIMESTAMP, -- from inp
+	IN in_quotation_details     JSONB, -- from inp
+	IN in_quotation_attachments JSONB, -- null
+	IN in_from_establishment_name	  TEXT, -- from inp
+	IN in_to_establishment_name	  TEXT, -- from inp
+	IN in_ship_to_address		      TEXT, -- from inp
+	IN in_bill_to_address		      TEXT, -- from inp 
+	IN in_supplier_address		  TEXT, -- null
+	IN in_last_modified_by		BIGINT, -- 1
+	IN in_shipping_cost	FLOAT,
+	IN in_sub_total		FLOAT,
+	IN in_total			FLOAT,
+	OUT out_quotation_id BIGINT
+) 
+RETURNS BIGINT 
+AS $$ 
+DECLARE 
+v_state TEXT;
+v_msg TEXT;
+v_detail TEXT;
+v_hint TEXT;
+v_context TEXT;
+BEGIN
+	INSERT INTO
+		quotation (
+	requester_id 		,
+	supplier_id 		,
+	quotation_status_id ,
+	quotation_request_date ,
+	quotation_details      ,
+	quotation_attachments ,
+	payment_details_bank		      ,
+	payment_details_iban		     ,
+	payment_details_bank_acc_num	,
+	from_establishment_name	  ,
+	to_establishment_name	  ,
+	ship_to_address		      ,
+	bill_to_address		      ,
+	supplier_address		  ,
+	last_updater_type		,
+	last_modification_date  ,
+	last_modified_by,		
+	shipping_cost	,
+	sub_total		,
+	total			
+
+		)
+	VALUES
+		(
+		in_requester_id 		  ,
+		in_supplier_id 		  ,
+		in_quotation_status_id   ,
+		in_quotation_request_date   ,
+		in_quotation_details     ,
+		in_quotation_attachments ,
+		in_payment_details_bank		      ,
+		in_payment_details_iban		      ,
+		in_payment_details_bank_acc_num	  ,
+		in_from_establishment_name	  ,
+		in_to_establishment_name	  ,
+		in_ship_to_address		      ,
+		in_bill_to_address		      ,
+		in_supplier_address		  ,
+		TRUE,
+		CURRENT_TIMESTAMP,
+		in_last_modified_by,
+		in_shipping_cost,
+		in_sub_total		,
+		in_total			
+	) RETURNING CAST(quotation_id AS BIGINT) INTO out_quotation_id;
+EXCEPTION
+WHEN OTHERS THEN 
+	out_quotation_id := -1;
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
+END;
+$$ LANGUAGE plpgsql;
+ 
+
+-- UPDATE A Quotation Details
+DROP FUNCTION quotation_update_details;
+CREATE OR REPLACE FUNCTION quotation_update_details (
+	IN in_quotation_id  BIGINT ,
+	IN in_quotation_details     JSONB,
+	IN in_quotation_attachments JSONB,
+	IN in_shipping_cost	FLOAT,
+	IN in_sub_total		FLOAT,
+	IN in_total			FLOAT
+) 
+RETURNS INTEGER
+AS $$ 
+DECLARE 
+    v_state TEXT;
+    v_msg TEXT;
+    v_detail TEXT;
+    v_hint TEXT;
+    v_context TEXT;
+BEGIN
+	UPDATE quotation 
+
+	SET 
+	quotation_details = COALESCE(in_quotation_details, quotation_details),
+	quotation_attachments = COALESCE(in_quotation_attachments, quotation_attachments),
+	shipping_cost = COALESCE(in_shipping_cost, shipping_cost),
+	sub_total = COALESCE(in_sub_total, sub_total),
+	total = COALESCE(in_total,total)
+
+	WHERE quotation_id = in_quotation_id;
+	RETURN 0;
+EXCEPTION
+WHEN OTHERS THEN 
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
+	RETURN -1;
+END;
+$$ LANGUAGE plpgsql;
+-------------------------------------------------
+ALTER TABLE order_localized DROP COLUMN order_quantity_unit;
+ALTER TABLE order_localized ADD COLUMN order_price FLOAT DEFAULT NULL;
+DROP FUNCTION order_get_by_Id;
+CREATE OR REPLACE FUNCTION order_get_by_Id(IN in_order_id BIGINT) 
+RETURNS TABLE(
+	out_order_id 			 BIGINT,
+	out_quotation_id 		 BIGINT,
+	out_product_id  		 BIGINT,
+	out_order_quantity   	 FLOAT,
+	out_order_price  FLOAT,
+	out_order_date			    TIMESTAMP,
+	out_last_modification_date  TIMESTAMP,
+	out_last_modified_by  		BIGINT
+) 
+AS $$ BEGIN RETURN QUERY
+	SELECT
+	CAST(order_id AS BIGINT),
+	quotation_id,
+	product_id,
+	order_quantity,
+	order_price,
+	order_date,
+	last_modification_date,
+	last_modified_by
+	FROM	order_localized
+	WHERE	CAST(order_id AS BIGINT) = in_order_id;
+END;
+$$ LANGUAGE plpgsql;
+-- GET AN Order BY Quotation
+DROP FUNCTION order_get_by_quotation;
+CREATE OR REPLACE FUNCTION order_get_by_quotation(IN in_quotation_id BIGINT) 
+RETURNS TABLE(
+	out_order_id 			 BIGINT,
+	out_product_id  		 BIGINT,
+	out_order_quantity   	 FLOAT,
+	out_order_price  FLOAT,
+	out_order_date			    TIMESTAMP,
+	out_last_modification_date  TIMESTAMP,
+	out_last_modified_by  		BIGINT
+) 
+AS $$ BEGIN RETURN QUERY
+	SELECT
+	CAST(order_id AS BIGINT),
+	product_id,
+	order_quantity,
+	order_price,
+	order_date,
+	last_modification_date,
+	last_modified_by
+	FROM	order_localized
+	WHERE	CAST(quotation_id AS BIGINT) = in_quotation_id;
+END;
+$$ LANGUAGE plpgsql;
+-- INSERT AN Order
+DROP FUNCTION order_insert;
+CREATE OR REPLACE FUNCTION order_insert (
+	IN in_quotation_id 		 BIGINT,
+	IN in_product_id  		 BIGINT,
+	IN in_order_quantity   	 FLOAT,
+	IN in_order_price  FLOAT,
+	IN in_order_date			    TIMESTAMP,
+	IN in_last_modification_date  TIMESTAMP,
+	IN in_last_modified_by  		BIGINT,
+	OUT out_order_id BIGINT
+) 
+RETURNS BIGINT 
+AS $$ 
+DECLARE 
+v_state TEXT;
+v_msg TEXT;
+v_detail TEXT;
+v_hint TEXT;
+v_context TEXT;
+BEGIN
+	INSERT INTO
+		order_localized (
+			quotation_id 		 ,
+			product_id  		 ,
+			order_quantity   	 ,
+			order_quantity_unit  ,
+			order_date			  ,
+			last_modification_date,
+			last_modified_by ,
+			order_price 
+		)
+	VALUES
+		(
+			in_quotation_id,
+			in_product_id,
+			in_order_quantity,
+			in_order_quantity_unit,
+			in_order_date,
+			CURRENT_TIMESTAMP,
+			in_last_modified_by,
+			in_order_price
+	) RETURNING CAST(order_id AS BIGINT) INTO out_order_id;
+EXCEPTION
+WHEN OTHERS THEN 
+	out_order_id := -1;
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
+END;
+$$ LANGUAGE plpgsql;
+-------------------------------------------------
+ALTER TABLE purchase ADD COLUMN	payment_method  	VARCHAR(30)  DEFAULT NULL;
+ALTER TABLE purchase ADD COLUMN	credit_cardholder  	VARCHAR(70)  DEFAULT NULL;
+ALTER TABLE purchase ADD COLUMN	credit_card_number  VARCHAR(120)  DEFAULT NULL;
+ALTER TABLE purchase ADD COLUMN	credit_card_expiry  DATE  DEFAULT NULL;
+ALTER TABLE purchase ADD COLUMN	credit_cvc CHAR(3) DEFAULT NULL;
+ALTER TABLE purchase ADD COLUMN	supplier_iban  	VARCHAR(34)  DEFAULT NULL;
+ALTER TABLE purchase ADD COLUMN	supplier_bank_account_num  	VARCHAR(18)  DEFAULT NULL;
+ALTER TABLE purchase ADD COLUMN	supplier_bank_name  VARCHAR(140)  DEFAULT NULL;
+-- GET A Purchase BY ID
+DROP FUNCTION purchase_get_by_ids;
+CREATE OR REPLACE FUNCTION purchase_get_by_ids(IN in_purchase_id BIGINT, IN in_supplier_id BIGINT, IN in_buyer_id BIGINT, IN in_quotation_id BIGINT) 
+RETURNS TABLE(
+	out_purchase_id 			   BIGINT,
+	out_quotation_id 	       	   BIGINT,
+	out_buyer_id 		           BIGINT,
+	out_supplier_id 		       BIGINT,
+	out_purchase_status_id 	       BIGINT,
+	out_purchase_date              TIMESTAMP,
+	out_payment_reference	  	   VARCHAR,
+	out_reconciliation_reference   VARCHAR,
+	out_external_pay_reference     VARCHAR,
+	out_payment_amount		  	   FLOAT,
+	out_payment_currency	  	   CHAR,
+	out_payment_exchange_rate	   FLOAT ,
+	out_last_modification_date     TIMESTAMP,
+	out_last_modified_by		   BIGINT,
+	out_payment_method  	VARCHAR,
+	out_credit_cardholder  	VARCHAR,
+	out_credit_card_number  VARCHAR,
+	out_credit_card_expiry  DATE,
+	out_credit_cvc CHAR,
+	out_supplier_iban  	VARCHAR,
+	out_supplier_bank_account_num  	VARCHAR,
+	out_supplier_bank_name  VARCHAR	
+) 
+AS $$ BEGIN
+	IF in_purchase_id IS NOT NULL THEN 
+		RETURN QUERY
+		SELECT
+		CAST(purchase_id AS BIGINT)			   ,
+		quotation_id 	       	   ,
+		buyer_id 		           ,
+		supplier_id 		       ,
+		purchase_status_id 	       ,
+		purchase_date              ,
+		payment_reference	  	   ,
+		reconciliation_reference   ,
+		external_pay_reference     ,
+		payment_amount		  	   ,
+		payment_currency	  	   ,
+		payment_exchange_rate	   ,
+		last_modification_date     ,
+		last_modified_by		   ,
+		payment_method  	,
+		credit_cardholder  	,
+		credit_card_number  ,
+		credit_card_expiry  ,
+		credit_cvc ,
+		supplier_iban  	,
+		supplier_bank_account_num  	,
+		supplier_bank_name  	
+
+		FROM	purchase
+		WHERE	CAST(purchase_id AS BIGINT) = in_purchase_id;
+	ELSIF in_quotation_id IS NOT NULL THEN 
+		RETURN QUERY
+		SELECT
+		CAST(purchase_id AS BIGINT)			   ,
+		quotation_id 	       	   ,
+		buyer_id 		           ,
+		supplier_id 		       ,
+		purchase_status_id 	       ,
+		purchase_date              ,
+		payment_reference	  	   ,
+		reconciliation_reference   ,
+		external_pay_reference     ,
+		payment_amount		  	   ,
+		payment_currency	  	   ,
+		payment_exchange_rate	   ,
+		last_modification_date     ,
+		last_modified_by		   ,
+		payment_method  	,
+		credit_cardholder  	,
+		credit_card_number  ,
+		credit_card_expiry  ,
+		credit_cvc ,
+		supplier_iban  	,
+		supplier_bank_account_num  	,
+		supplier_bank_name  	
+
+		FROM	purchase
+		WHERE	CAST(quotation_id AS BIGINT) = in_quotation_id;
+	ELSIF in_buyer_id IS NOT NULL THEN 
+		RETURN QUERY
+		SELECT
+		CAST(purchase_id AS BIGINT)			   ,
+		quotation_id 	       	   ,
+		buyer_id 		           ,
+		supplier_id 		       ,
+		purchase_status_id 	       ,
+		purchase_date              ,
+		payment_reference	  	   ,
+		reconciliation_reference   ,
+		external_pay_reference     ,
+		payment_amount		  	   ,
+		payment_currency	  	   ,
+		payment_exchange_rate	   ,
+		last_modification_date     ,
+		last_modified_by,
+		payment_method  	,
+		credit_cardholder  	,
+		credit_card_number  ,
+		credit_card_expiry  ,
+		credit_cvc ,
+		supplier_iban  	,
+		supplier_bank_account_num  	,
+		supplier_bank_name  	
+
+		FROM	purchase
+		WHERE	CAST(buyer_id AS BIGINT) = in_buyer_id;
+	ELSIF in_supplier_id IS NOT NULL THEN 
+		RETURN QUERY
+		SELECT
+		CAST(purchase_id AS BIGINT)			   ,
+		quotation_id 	       	   ,
+		buyer_id 		           ,
+		supplier_id 		       ,
+		purchase_status_id 	       ,
+		purchase_date              ,
+		payment_reference	  	   ,
+		reconciliation_reference   ,
+		external_pay_reference     ,
+		payment_amount		  	   ,
+		payment_currency	  	   ,
+		payment_exchange_rate	   ,
+		last_modification_date     ,
+		last_modified_by,
+		payment_method  	,
+		credit_cardholder  	,
+		credit_card_number  ,
+		credit_card_expiry  ,
+		credit_cvc ,
+		supplier_iban  	,
+		supplier_bank_account_num  	,
+		supplier_bank_name  	
+
+		FROM	purchase
+		WHERE	CAST(supplier_id AS BIGINT) = in_supplier_id;
+	END IF;
+END;
+$$ LANGUAGE plpgsql;
+-- INSERT A purchase
+DROP FUNCTION purchase_insert;
+CREATE OR REPLACE FUNCTION purchase_insert (
+	IN in_quotation_id 	       	   BIGINT,
+	IN in_buyer_id 		           BIGINT,
+	IN in_supplier_id 		       BIGINT,
+	IN in_purchase_status_id 	       BIGINT,
+	IN in_purchase_date              TIMESTAMP,
+	IN in_payment_reference	  	   VARCHAR,
+	IN in_reconciliation_reference   VARCHAR,
+	IN in_external_pay_reference     VARCHAR,
+	IN in_payment_amount		  	   FLOAT,
+	IN in_payment_currency	  	   CHAR,
+	IN in_payment_exchange_rate	   FLOAT ,
+	IN in_last_modification_date     TIMESTAMP,
+	IN in_last_modified_by		   BIGINT,
+	IN in_payment_method  	VARCHAR,
+	IN in_credit_cardholder  	VARCHAR,
+	IN in_credit_card_number  VARCHAR,
+	IN in_credit_card_expiry  DATE,
+	IN in_credit_cvc CHAR,
+	IN in_supplier_iban  	VARCHAR,
+	IN in_supplier_bank_account_num  	VARCHAR,
+	IN in_supplier_bank_name  	VARCHAR,
+
+	OUT out_purchase_id BIGINT
+) 
+RETURNS BIGINT 
+AS $$ 
+DECLARE 
+v_state TEXT;
+v_msg TEXT;
+v_detail TEXT;
+v_hint TEXT;
+v_context TEXT;
+BEGIN
+	INSERT INTO
+	purchase (
+		quotation_id 	       	   ,
+		buyer_id 		           ,
+		supplier_id 		       ,
+		purchase_status_id 	       ,
+		purchase_date              ,
+		payment_reference	  	   ,
+		reconciliation_reference   ,
+		external_pay_reference     ,
+		payment_amount		  	   ,
+		payment_currency	  	   ,
+		payment_exchange_rate	   ,
+		last_modification_date     ,
+		last_modified_by,
+		payment_method  	,
+		credit_cardholder  	,
+		credit_card_number  ,
+		credit_card_expiry  ,
+		credit_cvc ,
+		supplier_iban  	,
+		supplier_bank_account_num  	,
+		supplier_bank_name  	
+		   
+		)
+	VALUES
+	(
+		in_quotation_id 	       	   ,
+		in_buyer_id 		           ,
+		in_supplier_id 		       ,
+		in_purchase_status_id 	       ,
+		in_purchase_date              ,
+		in_payment_reference	  	   ,
+		in_reconciliation_reference   ,
+		in_external_pay_reference     ,
+		in_payment_amount		  	   ,
+		in_payment_currency	  	   ,
+		in_payment_exchange_rate	   ,
+		CURRENT_TIMESTAMP     ,
+		in_last_modified_by,
+		in_payment_method  	,
+		in_credit_cardholder  	,
+		in_credit_card_number  ,
+		in_credit_card_expiry  ,
+		in_credit_cvc ,
+		in_supplier_iban  	,
+		in_supplier_bank_account_num  	,
+		in_supplier_bank_name  	
+	) RETURNING CAST(purchase_id AS BIGINT) INTO out_purchase_id;
+EXCEPTION
+WHEN OTHERS THEN 
+	out_purchase_id := -1;
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- UPDATE A purchase
+DROP FUNCTION purchase_update;
+CREATE OR REPLACE FUNCTION purchase_update (
+	IN in_purchase_id 			   BIGINT,
+	IN in_quotation_id 	       	   BIGINT,
+	IN in_buyer_id 		           BIGINT,
+	IN in_supplier_id 		       BIGINT,
+	IN in_purchase_status_id 	       BIGINT,
+	IN in_purchase_date              TIMESTAMP,
+	IN in_payment_reference	  	   VARCHAR,
+	IN in_reconciliation_reference   VARCHAR,
+	IN in_external_pay_reference     VARCHAR,
+	IN in_payment_amount		  	   FLOAT,
+	IN in_payment_currency	  	   CHAR,
+	IN in_payment_exchange_rate	   FLOAT ,
+	IN in_last_modification_date     TIMESTAMP,
+	IN in_last_modified_by		   BIGINT,
+	IN in_payment_method  	VARCHAR,
+	IN in_credit_cardholder  	VARCHAR,
+	IN in_credit_card_number  VARCHAR,
+	IN in_credit_card_expiry  DATE,
+	IN in_credit_cvc CHAR,
+	IN in_supplier_iban  	VARCHAR,
+	IN in_supplier_bank_account_num  	VARCHAR,
+	IN in_supplier_bank_name  	VARCHAR,
+
+	OUT update_res INT
+) 
+RETURNS INT 
+AS $$ 
+DECLARE
+v_state TEXT;
+v_msg TEXT;
+v_detail TEXT;
+v_hint TEXT;
+v_context TEXT;
+BEGIN
+	UPDATE	purchase 
+	SET
+	quotation_id = COALESCE(in_quotation_id, quotation_id) ,
+	buyer_id = COALESCE(in_buyer_id, buyer_id) ,
+	supplier_id = COALESCE(in_supplier_id, supplier_id),
+	purchase_status_id = COALESCE(in_purchase_status_id, purchase_status_id) ,
+	purchase_date = COALESCE(in_purchase_date, purchase_date) ,
+	payment_reference = COALESCE(in_payment_reference, payment_reference) ,
+	reconciliation_reference = COALESCE(in_reconciliation_reference, reconciliation_reference) ,
+	external_pay_reference = COALESCE(in_external_pay_reference, external_pay_reference),
+	payment_amount = COALESCE(in_payment_amount, payment_amount) ,
+	payment_currency = COALESCE(in_payment_currency, payment_currency),
+	payment_exchange_rate = COALESCE(in_payment_exchange_rate, payment_exchange_rate),
+	last_modification_date = CURRENT_TIMESTAMP,
+	last_modified_by = COALESCE(in_last_modified_by, last_modified_by),
+	payment_method = COALESCE(in_payment_method,payment_method)  	,
+	credit_cardholder = COALESCE(in_credit_cardholder,credit_cardholder)  	,
+	credit_card_number = COALESCE(in_credit_card_number,credit_card_number)  ,
+	credit_card_expiry = COALESCE(in_credit_card_expiry,credit_card_expiry)  ,
+	credit_cvc = COALESCE(in_credit_cvc,credit_cvc) ,
+	supplier_iban = COALESCE(in_supplier_iban,supplier_iban)  	,
+	supplier_bank_account_num = COALESCE(in_supplier_bank_account_num,supplier_bank_account_num)  	,
+	supplier_bank_name  = COALESCE(in_supplier_bank_name,supplier_bank_name) 	
+
+	WHERE
+	CAST(purchase_id AS BIGINT) = in_purchase_id;
+	update_res := 0;
+
+EXCEPTION WHEN OTHERS THEN 
+
+	update_res := -1;
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
+END;
+$$ LANGUAGE plpgsql;
+----------------------------------------------------------------------------

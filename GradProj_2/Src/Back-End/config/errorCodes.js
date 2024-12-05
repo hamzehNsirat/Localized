@@ -246,6 +246,19 @@ module.exports = {
     message: "supplierId, pageSize and pageIndex are Mandatory",
     errorCode: "E0040",
   },
+  E0041: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message:
+      "supplierId, retailerId, quotationDetails, supplierEstablishmentName, retailerEstablishmentName, shippingAddress are Mandatory",
+    errorCode: "E0040",
+  },
+  E0042: {
+    errorDescription: "Creation Failure",
+    statusCode: 400,
+    message: "Requesting Quotation has Failed",
+    errorCode: "E0042",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,
