@@ -18,7 +18,8 @@ RETURNS TABLE (
 		user_address 	TEXT,
 		user_email 		VARCHAR,
 		is_email_verified BOOLEAN,
-		user_phone_number VARCHAR
+		user_phone_number VARCHAR,
+    user_image TEXT
 ) AS $$
 BEGIN
     RETURN QUERY 
@@ -35,7 +36,8 @@ BEGIN
 		D.user_address,
 		D.user_email,
 		D.is_email_verified,
-		D.user_phone_number
+		D.user_phone_number,
+    D.user_image
 	FROM user_localized AS D
 	ORDER BY user_id ASC
 	LIMIT in_page_size
@@ -302,7 +304,7 @@ RETURNS TABLE(
   out_product_id BIGINT,
   out_product_name VARCHAR,
   out_product_description TEXT, 
-  out_product_image BYTEA,
+  out_product_image TEXT,
   out_product_retail_price FLOAT,
   out_product_unit_price FLOAT,
   out_product_whole_sale_price FLOAT,
@@ -369,7 +371,7 @@ RETURNS TABLE(
   out_product_id BIGINT,
   out_product_name VARCHAR,
   out_product_description TEXT, 
-  out_product_image BYTEA,
+  out_product_image TEXT,
   out_product_retail_price FLOAT,
   out_product_unit_price FLOAT,
   out_product_whole_sale_price FLOAT,
@@ -442,7 +444,7 @@ RETURNS TABLE(
   out_product_id BIGINT,
   out_product_name VARCHAR,
   out_product_description TEXT, 
-  out_product_image BYTEA,
+  out_product_image TEXT,
   out_product_retail_price FLOAT,
   out_product_unit_price FLOAT,
   out_product_whole_sale_price FLOAT,
@@ -509,8 +511,8 @@ CREATE OR REPLACE FUNCTION get_supplier_details(
 )
 RETURNS TABLE(
   supplier_establishment_name TEXT,
-  supplier_establishment_logo BYTEA,
-  supplier_establishment_cover BYTEA,
+  supplier_establishment_logo TEXT,
+  supplier_establishment_cover TEXT,
   supplier_industry_type BIGINT[],
   total_products_count BIGINT,
   paginated_products JSONB,

@@ -47,6 +47,7 @@ const dashboardService = {
        userEmail: basicData.userEmail,
        userPhone: basicData.userPhone,
        userAddress: basicData.userAddress,
+       userImage: basicData.userImage,
      },
      retailerDetails: {
        retailerId: retailerData[0].out_retailer_id,

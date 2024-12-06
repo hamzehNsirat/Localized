@@ -89,8 +89,6 @@ CREATE OR REPLACE FUNCTION order_insert (
 	IN in_product_id  		 BIGINT,
 	IN in_order_quantity   	 FLOAT,
 	IN in_order_price  FLOAT,
-	IN in_order_date			    TIMESTAMP,
-	IN in_last_modification_date  TIMESTAMP,
 	IN in_last_modified_by  		BIGINT,
 	OUT out_order_id BIGINT
 ) 
@@ -108,7 +106,6 @@ BEGIN
 			quotation_id 		 ,
 			product_id  		 ,
 			order_quantity   	 ,
-			order_quantity_unit  ,
 			order_date			  ,
 			last_modification_date,
 			last_modified_by ,
@@ -119,8 +116,7 @@ BEGIN
 			in_quotation_id,
 			in_product_id,
 			in_order_quantity,
-			in_order_quantity_unit,
-			in_order_date,
+			CURRENT_TIMESTAMP,
 			CURRENT_TIMESTAMP,
 			in_last_modified_by,
 			in_order_price

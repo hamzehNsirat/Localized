@@ -322,6 +322,14 @@ const authService = {
           error: "Unable to Create Application in Database",
         };
       }
+      const sendEmailNotif = await sendEmail(
+        applicationData.email,
+        "New Application | Localized",
+        `your Application to join Localized platform has been submitted and will be reviewed promptly,
+        Application ID: ${applicationResult}`,
+        `<p>your Application to join Localized platform has been submitted and will be reviewed promptly,
+        Application ID: ${applicationResult}</p>`
+      );
       return {
         success: true,
       };

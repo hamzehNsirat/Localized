@@ -201,7 +201,28 @@ const resetPassword = async (req, res) => {
   }
 };
 
-
+const checkEstablishmentEligibility = async (req, res) => {
+  try {
+    if (!req.body.establishmentCommercialRegistrationNumber) {
+      return errorHandler.handleError(res, "E0043");
+    }
+    const result = {};
+    if (
+      !String(req.body.establishmentCommercialRegistrationNumber).startsWith("12") ||
+      !String(req.body.establishmentCommercialRegistrationNumber).endsWith("3")
+    ) {
+      result.success = true;
+      result.isValid = false;
+    } else {
+      result.success = true;
+      result.isValid = true;
+    }
+   return errorHandler.handleSuccess(res, result, 200);
+  } catch (error) {
+    console.error("Check Error:", error);
+    return errorHandler.handleError(res, "E0044");
+  }
+};
 module.exports = {
   signUp,
   signIn,
@@ -214,4 +235,5 @@ module.exports = {
   updateApplicationStatus,
   requestPasswordReset,
   resetPassword,
+  checkEstablishmentEligibility,
 };

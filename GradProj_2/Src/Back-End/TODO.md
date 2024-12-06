@@ -1,6 +1,6 @@
 # TODO Backend
 
-## RETAILER PART [COMPLETION PERCENTAGE:40%]
+## RETAILER PART [COMPLETION PERCENTAGE:50%]
 
 
 ### PART 1 Signup
@@ -574,12 +574,60 @@ if matching -> update password from payload if not -> handle error
                                 }
                             }
                         }
-
 ### PART 5 Request QUOTATION
 - service: Get Retailer Info and establishment Info (retailerId)
 already has required data from dashboard get reatiler all details service
 - service: Request QUOTATION -> insert in database returns success / error 
 - service: create orders enlisted in quotation
+   - payload:
+        ```json
+                        {
+                            "retailerId": 1,
+                            "supplierId": 1,
+                            "retailerEstablishmentName": "Sha",
+                            "supplierEstablishmentName": "Aaa",
+                            "shippingAddress": "",
+                            "billingAddress": "",
+                            "quotationDetails": {
+                                "detailsItem": [
+                                    {
+                                        "productId": 1,
+                                        "quantity": 4,
+                                        "price": 1.5
+                                    },
+                                    {
+                                        "productId": 2,
+                                        "quantity": 4,
+                                        "price": 1
+                                    }
+                                ]
+                            }
+                        }
+    - expected Response/s:
+        - Error
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "E0040",
+                                "errorDescription": "Missing Data",
+                                "statusCode": "E0040",
+                                "message": "supplierId, retailerId, quotationDetails, supplierEstablishmentName, retailerEstablishmentName, shippingAddress are Mandatory"
+                            }
+                        }
+
+        - Success
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "0000",
+                                "errorDescription": "SUCCESS",
+                                "statusCode": 200,
+                                "message": "Operation completed successfully"
+                            },
+                            "body": {
+                                "success": true
+                            }
+                        }
 
 ### PART 6 Manage QUOTATION
 - service: GetQuotations List by Retailer (retailerId, page sized, page number)
@@ -681,7 +729,25 @@ qid, logo retailer, retailstore name, status
 - service: check user name is already in database
 - service: sign up
 ### PART 2 Login
+
+
 - service: forget password -> send an email with a unique code, listen to the user input new code, compare sent code and entered code 
 if matching -> update password from payload if not -> handle error
 - service: Actual Login
 - TO BE DETERMINED
+
+## UTILITIES
+- service: Upload Image
+    - request
+                form-data
+                key: image
+                Type: file
+                Value: image to be uploaded
+    - response
+    ```json
+                {
+                    "success": true,
+                    "message": "Image uploaded successfully",
+                    "imageUrl": "http://localhost:5055/uploads/images/default-1733500510538-241284316.png",
+                    "description": "No description provided"
+                }

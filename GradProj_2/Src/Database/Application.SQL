@@ -28,7 +28,7 @@ CREATE OR REPLACE FUNCTION application_get_all(IN page_size INTEGER, IN page_ind
 RETURNS TABLE(	
 		out_application_id BIGINT,
 		out_establishment_name TEXT,
-		out_establishment_logo       BYTEA,
+		out_establishment_logo       TEXT,
 		out_application_status    VARCHAR
 ) 
 AS $$
@@ -65,7 +65,7 @@ RETURNS TABLE(
         out_establishment_street VARCHAR,
         out_establishment_building_num VARCHAR,
         out_establishment_industry_type_spec    BIGINT[],
-        out_establishment_logo       BYTEA,
+        out_establishment_logo       TEXT,
         out_user_type INT
 ) 
 AS $$
@@ -111,7 +111,7 @@ CREATE OR REPLACE FUNCTION application_insert(
         IN in_establishment_street VARCHAR,
         IN in_establishment_building_num VARCHAR,
         IN in_establishment_industry_type_spec    BIGINT[],
-        IN in_establishment_logo       BYTEA,
+        IN in_establishment_logo       TEXT,
         IN in_user_type INTEGER,
         OUT out_application_id BIGINT
 )

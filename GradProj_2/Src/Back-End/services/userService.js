@@ -31,6 +31,7 @@ const userService = {
       userPhone: dbFetch[0].user_phone_number,
       userName: dbFetch[0].user_name,
       userAddress: dbFetch[0].user_address,
+      userImage: dbFetch[0].user_image,
     };
   },
   async updateUser(userData) {
@@ -100,6 +101,7 @@ const userService = {
       userObject.dateOfBirth = item.date_of_birth;
       userObject.userAddress = item.user_address;
       userObject.isEmailVerified = item.is_email_verified;
+      userObject.userImage = item.user_image;
 
       // Add the userObject to the user array
       userList.user.push(userObject);

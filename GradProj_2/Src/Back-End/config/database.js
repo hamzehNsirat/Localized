@@ -72,7 +72,6 @@ const executeQuery = async (query, params = []) => {
     }
     return param; // Pass other types (e.g., strings, numbers) directly
   });
-
   try {
     const result = await client.query(query, formattedParams);
     return result.rows;

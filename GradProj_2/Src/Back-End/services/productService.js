@@ -29,9 +29,7 @@ const productService = {
           id: retMarketPlaceResult[i].out_product_id,
           name: retMarketPlaceResult[i].out_product_name,
           description: retMarketPlaceResult[i].out_product_description,
-          image: retMarketPlaceResult[i].out_product_image
-            ? retMarketPlaceResult[i].out_product_image.toString("base64")
-            : null,
+          image: retMarketPlaceResult[i].out_product_image,
           retailPrice: retMarketPlaceResult[i].out_product_retail_price,
           unitPrice: retMarketPlaceResult[i].out_product_unit_price,
           wholeSalePrice: retMarketPlaceResult[i].out_product_whole_sale_price,
@@ -74,10 +72,7 @@ const productService = {
           id: retMarketPlaceResult[i].out_product_id,
           name: retMarketPlaceResult[i].out_product_name,
           description: retMarketPlaceResult[i].out_product_description,
-          image: null,
-          // retMarketPlaceResult[i].out_product_image
-          //? retMarketPlaceResult[i].out_product_image.toString("base64")
-          //: null,
+          image: retMarketPlaceResult[i].out_product_image,
           retailPrice: retMarketPlaceResult[i].out_product_retail_price,
           unitPrice: retMarketPlaceResult[i].out_product_unit_price,
           wholeSalePrice: retMarketPlaceResult[i].out_product_whole_sale_price,
@@ -119,10 +114,7 @@ const productService = {
           id: retMarketPlaceResult[i].out_product_id,
           name: retMarketPlaceResult[i].out_product_name,
           description: retMarketPlaceResult[i].out_product_description,
-          image: null,
-          // retMarketPlaceResult[i].out_product_image
-          //? retMarketPlaceResult[i].out_product_image.toString("base64")
-          //: null,
+          image: retMarketPlaceResult[i].out_product_image,
           retailPrice: retMarketPlaceResult[i].out_product_retail_price,
           unitPrice: retMarketPlaceResult[i].out_product_unit_price,
           wholeSalePrice: retMarketPlaceResult[i].out_product_whole_sale_price,
@@ -184,10 +176,7 @@ const productService = {
             name: retMarketPlaceResult[0].paginated_products[i].product_name,
             description:
               retMarketPlaceResult[0].paginated_products[i].product_description,
-            image: null,
-            // retMarketPlaceResult[i].product_image
-            //? retMarketPlaceResult[i].product_image.toString("base64")
-            //: null,
+            image: retMarketPlaceResult[i].product_image,
             retailPrice:
               retMarketPlaceResult[0].paginated_products[i]
                 .product_retail_price,

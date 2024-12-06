@@ -259,6 +259,18 @@ module.exports = {
     message: "Requesting Quotation has Failed",
     errorCode: "E0042",
   },
+  E0043: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "establishmentCommercialRegistrationNumber is Mandatory",
+    errorCode: "E0043",
+  },
+  E0044: {
+    errorDescription: "Check Failure",
+    statusCode: 400,
+    message: "Checking Commercial Reg. Number has Failed",
+    errorCode: "E0044",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,

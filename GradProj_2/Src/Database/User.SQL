@@ -18,7 +18,7 @@ CREATE TABLE user_localized (
 	user_phone_number VARCHAR(15)  UNIQUE,
 	last_modification_date  TIMESTAMP NOT NULL,
 	last_modified_by		 BIGINT   NOT NULL,
-	user_image BYTEA DEFAULT NULL,
+	user_image TEXT DEFAULT NULL,
 	CONSTRAINT fk_user_status FOREIGN KEY (user_status)
     REFERENCES user_status(user_status_id) ON DELETE SET NULL ON UPDATE CASCADE,
 	CONSTRAINT fk_user_type FOREIGN KEY (user_type)
@@ -89,7 +89,8 @@ RETURNS TABLE(
 		user_address 	TEXT,
 		user_email 		VARCHAR,
 		is_email_verified BOOLEAN,
-		user_phone_number VARCHAR
+		user_phone_number VARCHAR,
+		user_image TEXT
 ) AS $$
 BEGIN
     RETURN QUERY 
@@ -105,7 +106,8 @@ BEGIN
 		D.user_address,
 		D.user_email,
 		D.is_email_verified,
-		D.user_phone_number
+		D.user_phone_number,
+		D.user_image
 	FROM user_localized AS D
 	WHERE CAST(D.user_id AS BIGINT) = in_user_id;
 END;
@@ -161,7 +163,7 @@ CREATE OR REPLACE FUNCTION user_insert (
 	IN in_is_email_verified BOOLEAN,
 	IN in_user_phone_number VARCHAR,
 	IN in_last_modified_by	 BIGINT,
-	IN in_image BYTEA,
+	IN in_image TEXT,
 	OUT out_user_id BIGINT
 )
 RETURNS BIGINT AS $$
@@ -226,7 +228,7 @@ CREATE OR REPLACE FUNCTION user_update (
 	IN in_is_email_verified BOOLEAN,
 	IN in_user_phone_number VARCHAR,
 	IN in_last_modified_by	 BIGINT,
-	IN in_user_image BYTEA,
+	IN in_user_image TEXT,
 	IN in_user_id BIGINT,
 	IN in_is_pass_change BOOLEAN,
 	OUT update_res INT

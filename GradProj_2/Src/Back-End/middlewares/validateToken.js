@@ -11,8 +11,6 @@ const validateToken = async (req, res, next) => {
   }
  
   const token = authHeader.split(" ")[1]; // Extract token after "Bearer"
-  const decoded = jwt.verify(token, keys.jwtSecret);
-
   try {
     // Verify and decode the token
     const decoded = jwt.verify(token, keys.jwtSecret);

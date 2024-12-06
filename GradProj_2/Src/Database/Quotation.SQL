@@ -181,13 +181,10 @@ AS $$ BEGIN RETURN QUERY
 	WHERE D.requester_id = in_requester_id;
 END;
 $$ LANGUAGE plpgsql;
-
--- INSERT A Quotation
-CREATE OR REPLACE FUNCTION quotation_insert (
+-- INSERT A QuotationCREATE OR REPLACE FUNCTION quotation_insert (
 	IN in_requester_id 		 BIGINT , -- from inp
 	IN in_supplier_id 		 BIGINT , -- from inp
 	IN in_quotation_status_id  BIGINT , -- 1 
-	IN in_quotation_request_date   TIMESTAMP, -- from inp
 	IN in_quotation_details     JSONB, -- from inp
 	IN in_quotation_attachments JSONB, -- null
 	IN in_from_establishment_name	  TEXT, -- from inp
@@ -218,9 +215,6 @@ BEGIN
 	quotation_request_date ,
 	quotation_details      ,
 	quotation_attachments ,
-	payment_details_bank		      ,
-	payment_details_iban		     ,
-	payment_details_bank_acc_num	,
 	from_establishment_name	  ,
 	to_establishment_name	  ,
 	ship_to_address		      ,
@@ -228,7 +222,7 @@ BEGIN
 	supplier_address		  ,
 	last_updater_type		,
 	last_modification_date  ,
-	last_modified_by		
+	last_modified_by	,	
 	shipping_cost	,
 	sub_total		,
 	total			
@@ -239,12 +233,9 @@ BEGIN
 		in_requester_id 		  ,
 		in_supplier_id 		  ,
 		in_quotation_status_id   ,
-		in_quotation_request_date   ,
+		CURRENT_TIMESTAMP   ,
 		in_quotation_details     ,
 		in_quotation_attachments ,
-		in_payment_details_bank		      ,
-		in_payment_details_iban		      ,
-		in_payment_details_bank_acc_num	  ,
 		in_from_establishment_name	  ,
 		in_to_establishment_name	  ,
 		in_ship_to_address		      ,
@@ -252,7 +243,7 @@ BEGIN
 		in_supplier_address		  ,
 		TRUE,
 		CURRENT_TIMESTAMP,
-		in_last_modified_by
+		in_last_modified_by,
 		in_shipping_cost,
 		in_sub_total		,
 		in_total			
@@ -274,8 +265,6 @@ WHEN OTHERS THEN
     context: %',  v_state, v_msg, v_detail, v_hint, v_context;
 END;
 $$ LANGUAGE plpgsql;
-
-
 -- UPDATE A Quotation Details
 CREATE OR REPLACE FUNCTION quotation_update_details (
 	IN in_quotation_id  BIGINT ,

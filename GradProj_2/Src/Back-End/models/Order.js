@@ -15,14 +15,12 @@ const Order = {
 
   async insertOrder(inputData) {
     return await executeQuery(
-      "SELECT * FROM order_insert($1, $2, $3, $4, $5, $6, $7) AS out_order_id",
+      "SELECT * FROM order_insert($1, $2, $3, $4, $5)",
       [
         inputData.quotationId,
         inputData.productId,
         inputData.orderQuantity,
         inputData.orderPrice,
-        inputData.orderDate,
-        inputData.lastModificationDate,
         inputData.lastModifiedBy,
       ]
     );
