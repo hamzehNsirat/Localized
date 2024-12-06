@@ -12,6 +12,7 @@ CREATE TABLE supplier (
 	supplier_positive_review_count INTEGER NOT NULL DEFAULT 0,	
 	last_modification_date  TIMESTAMP NOT NULL,
 	last_modified_by		 BIGINT   NOT NULL,
+	supplier_overall_rating  INTEGER DEFAULT NULL,
 	CONSTRAINT fk_supplier_user_id FOREIGN KEY (supplier_user_id)
     REFERENCES user_localized(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT chk_supp_compliance_ind CHECK(supplier_compliance_indicator BETWEEN 0 AND 1),
@@ -47,7 +48,9 @@ RETURNS TABLE(
 	out_supplier_iban    VARCHAR,
 	out_supplier_compliance_indicator FLOAT,
 	out_supplier_complaint_count 	    INTEGER,
-	out_supplier_positive_review_count INTEGER
+	out_supplier_positive_review_count INTEGER,
+	out_supplier_overall_rating INTEGER
+
 ) AS $$
 BEGIN
     RETURN QUERY 
@@ -58,7 +61,8 @@ BEGIN
 	supplier_iban,
 	supplier_compliance_indicator,
 	supplier_complaint_count 	,
-	supplier_positive_review_count
+	supplier_positive_review_count,
+	supplier_overall_rating
 	FROM supplier
 	WHERE CAST(supplier_id AS BIGINT) = in_supplier_id;
 END;
@@ -70,14 +74,16 @@ IN in_supplier_id BIGINT
 RETURNS TABLE(		
 	out_supplier_compliance_indicator FLOAT,
 	out_supplier_complaint_count 	    INTEGER,
-	out_supplier_positive_review_count INTEGER
+	out_supplier_positive_review_count INTEGER,
+	out_supplier_overall_rating INTEGER
 ) AS $$
 BEGIN
     RETURN QUERY 
 	SELECT
 	supplier_compliance_indicator,
 	supplier_complaint_count 	,
-	supplier_positive_review_count
+	supplier_positive_review_count,
+	supplier_overall_rating
 	FROM supplier
 	WHERE CAST(supplier_id AS BIGINT) = in_supplier_id;
 END;

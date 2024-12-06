@@ -11,20 +11,18 @@ const Purchase = {
 
   async insertPurchase(inputData) {
     return await executeQuery(
-      "SELECT * FROM purchase_insert($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21) AS out_purchase_id",
+      "SELECT * FROM purchase_insert($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)",
       [
         inputData.quotationId,
         inputData.buyerId,
         inputData.supplierId,
         inputData.purchaseStatusId,
-        inputData.purchaseDate,
         inputData.paymentReference,
         inputData.reconciliationReference,
         inputData.externalPayReference,
         inputData.paymentAmount,
         inputData.paymentCurrency,
         inputData.paymentExchangeRate,
-        inputData.lastModificationDate,
         inputData.lastModifiedBy,
         inputData.paymentMethod,
         inputData.creditCardHolder,
@@ -40,7 +38,7 @@ const Purchase = {
 
   async updatePurchase(inputData) {
     return await executeQuery(
-      "SELECT * FROM purchase_update($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21) AS update_res",
+      "SELECT * FROM purchase_update($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)",
       [
         inputData.purchaseId,
         inputData.quotationId,

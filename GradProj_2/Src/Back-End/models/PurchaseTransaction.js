@@ -16,8 +16,8 @@ const PurchaseTransaction = {
       [
         inputData.purchaseId,
         inputData.transactionStatusId,
-        inputData.transactionDate,
         inputData.transactionDetails,
+        inputData.lastModifiedDate,
         inputData.lastModifiedBy,
       ]
     );

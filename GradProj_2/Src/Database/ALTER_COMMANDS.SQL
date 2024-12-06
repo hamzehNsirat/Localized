@@ -2431,3 +2431,294 @@ WHEN OTHERS THEN
 END;
 $$ LANGUAGE plpgsql;
 -------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION purchase_insert (
+	IN in_quotation_id 	       	   BIGINT,
+	IN in_buyer_id 		           BIGINT,
+	IN in_supplier_id 		       BIGINT,
+	IN in_purchase_status_id 	       BIGINT,
+	IN in_payment_reference	  	   VARCHAR,
+	IN in_reconciliation_reference   VARCHAR,
+	IN in_external_pay_reference     VARCHAR,
+	IN in_payment_amount		  	   FLOAT,
+	IN in_payment_currency	  	   CHAR,
+	IN in_payment_exchange_rate	   FLOAT ,
+	IN in_last_modified_by		   BIGINT,
+	IN in_payment_method  	VARCHAR,
+	IN in_credit_cardholder  	VARCHAR,
+	IN in_credit_card_number  VARCHAR,
+	IN in_credit_card_expiry  DATE,
+	IN in_credit_cvc CHAR,
+	IN in_supplier_iban  	VARCHAR,
+	IN in_supplier_bank_account_num  	VARCHAR,
+	IN in_supplier_bank_name  	VARCHAR,
+
+	OUT out_purchase_id BIGINT
+) 
+RETURNS BIGINT 
+AS $$ 
+DECLARE 
+v_state TEXT;
+v_msg TEXT;
+v_detail TEXT;
+v_hint TEXT;
+v_context TEXT;
+BEGIN
+	INSERT INTO
+	purchase (
+		quotation_id 	       	   ,
+		buyer_id 		           ,
+		supplier_id 		       ,
+		purchase_status_id 	       ,
+		purchase_date              ,
+		payment_reference	  	   ,
+		reconciliation_reference   ,
+		external_pay_reference     ,
+		payment_amount		  	   ,
+		payment_currency	  	   ,
+		payment_exchange_rate	   ,
+		last_modification_date     ,
+		last_modified_by,
+		payment_method  	,
+		credit_cardholder  	,
+		credit_card_number  ,
+		credit_card_expiry  ,
+		credit_cvc ,
+		supplier_iban  	,
+		supplier_bank_account_num  	,
+		supplier_bank_name  	
+		   
+		)
+	VALUES
+	(
+		in_quotation_id 	       	   ,
+		in_buyer_id 		           ,
+		in_supplier_id 		       ,
+		in_purchase_status_id 	       ,
+		CURRENT_TIMESTAMP              ,
+		in_payment_reference	  	   ,
+		in_reconciliation_reference   ,
+		in_external_pay_reference     ,
+		in_payment_amount		  	   ,
+		in_payment_currency	  	   ,
+		in_payment_exchange_rate	   ,
+		CURRENT_TIMESTAMP     ,
+		in_last_modified_by,
+		in_payment_method  	,
+		in_credit_cardholder  	,
+		in_credit_card_number  ,
+		in_credit_card_expiry  ,
+		in_credit_cvc ,
+		in_supplier_iban  	,
+		in_supplier_bank_account_num  	,
+		in_supplier_bank_name  	
+	) RETURNING CAST(purchase_id AS BIGINT) INTO out_purchase_id;
+EXCEPTION
+WHEN OTHERS THEN 
+	out_purchase_id := -1;
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
+END;
+$$ LANGUAGE plpgsql;
+-------------------------------------------------------------
+drop function purchase_transaction_insert;
+-- INSERT A purchase
+CREATE OR REPLACE FUNCTION purchase_transaction_insert (
+	IN in_purchase_id 			 BIGINT,
+	IN in_transaction_status_id 	 BIGINT,
+	IN in_transaction_details     JSONB,
+	IN in_last_modification_date     TIMESTAMP,
+	IN in_last_modified_by		   BIGINT,
+	OUT out_purchase_transaction_id BIGINT
+) 
+RETURNS BIGINT 
+AS $$ 
+DECLARE 
+v_state TEXT;
+v_msg TEXT;
+v_detail TEXT;
+v_hint TEXT;
+v_context TEXT;
+BEGIN
+	INSERT INTO
+	purchase_transaction (
+		purchase_id 			 ,
+		transaction_status_id 	 ,
+		transaction_date	     ,
+		transaction_details     ,
+		last_modification_date     ,
+		last_modified_by		   
+	)
+	VALUES
+	(
+		in_purchase_id,
+		in_transaction_status_id,
+		CURRENT_TIMESTAMP,
+		in_transaction_details,
+		CURRENT_TIMESTAMP,
+		in_last_modified_by	
+	) RETURNING CAST(purchase_transaction_id AS BIGINT) INTO out_purchase_transaction_id;
+EXCEPTION
+WHEN OTHERS THEN 
+	out_purchase_transaction_id := -1;
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
+END;
+$$ LANGUAGE plpgsql;
+-------------------------------------------------------------
+ALTER TABLE supplier ADD COLUMN supplier_overall_rating INTEGER DEFAULT NULL;
+DROP FUNCTION supplier_get_by_id;
+CREATE OR REPLACE FUNCTION supplier_get_by_id(IN in_supplier_id BIGINT)
+RETURNS TABLE(		
+	out_supplier_user_id    BIGINT,
+	out_supplier_tax_identification_num    VARCHAR,
+	out_supplier_bank_account_num    VARCHAR,
+	out_supplier_iban    VARCHAR,
+	out_supplier_compliance_indicator FLOAT,
+	out_supplier_complaint_count 	    INTEGER,
+	out_supplier_positive_review_count INTEGER,
+	out_supplier_overall_rating INTEGER
+
+) AS $$
+BEGIN
+    RETURN QUERY 
+	SELECT
+	supplier_user_id,
+	supplier_tax_identification_num,
+	supplier_bank_account_num,
+	supplier_iban,
+	supplier_compliance_indicator,
+	supplier_complaint_count 	,
+	supplier_positive_review_count,
+	supplier_overall_rating
+	FROM supplier
+	WHERE CAST(supplier_id AS BIGINT) = in_supplier_id;
+END;
+$$ LANGUAGE plpgsql;
+DROP FUNCTION get_supplier_compliance_statistics;
+-- GET A Supplier Statistics 
+CREATE OR REPLACE FUNCTION get_supplier_compliance_statistics (
+IN in_supplier_id BIGINT
+)
+RETURNS TABLE(		
+	out_supplier_compliance_indicator FLOAT,
+	out_supplier_complaint_count 	    INTEGER,
+	out_supplier_positive_review_count INTEGER,
+	out_supplier_overall_rating INTEGER
+) AS $$
+BEGIN
+    RETURN QUERY 
+	SELECT
+	supplier_compliance_indicator,
+	supplier_complaint_count 	,
+	supplier_positive_review_count,
+	supplier_overall_rating
+	FROM supplier
+	WHERE CAST(supplier_id AS BIGINT) = in_supplier_id;
+END;
+$$ LANGUAGE plpgsql;
+-------------------------------------------------------------
+DROP FUNCTION review_get_by_supplier;
+CREATE OR REPLACE FUNCTION review_get_by_supplier(IN in_supplier_id BIGINT) 
+RETURNS TABLE (
+	out_review_id      BIGINT,
+	out_retailer_id    BIGINT,
+	out_rating  	   INT,
+	out_rating_type    INT,
+	out_review_comment TEXT,
+	out_review_date    TIMESTAMP
+) 
+AS $$ 
+BEGIN 
+    RETURN QUERY
+    SELECT 
+	CAST(review_id AS BIGINT)	   ,
+	retailer_id    ,
+	rating  	   ,
+	CASE WHEN rating_type = TRUE THEN 1 ELSE 0 END AS out_rating_type ,
+	review_comment ,
+	review_date    
+    FROM 
+        review 
+    WHERE 
+        CAST(supplier_id AS BIGINT) = in_supplier_id;
+END;
+$$ LANGUAGE plpgsql;
+DROP FUNCTION review_get_by_retailer;
+
+CREATE OR REPLACE FUNCTION review_get_by_retailer(IN in_retailer_id BIGINT) 
+RETURNS TABLE (
+	out_review_id    BIGINT,
+	out_retailer_id    BIGINT,
+	out_rating  	   INT,
+	out_rating_type    INT,
+	out_review_comment TEXT,
+	out_review_date    TIMESTAMP
+) 
+AS $$ 
+BEGIN 
+    RETURN QUERY
+    SELECT 
+	CAST(review_id AS BIGINT)	   ,
+	supplier_id    ,
+	rating  	   ,
+	CASE WHEN rating_type = TRUE THEN 1 ELSE 0 END AS out_rating_type ,
+	review_comment ,
+	review_date    
+    FROM 
+        review 
+    WHERE 
+        CAST(retailer_id AS BIGINT) = in_retailer_id;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP FUNCTION review_get_by_id;
+
+CREATE OR REPLACE FUNCTION review_get_by_id(IN in_review_id BIGINT) 
+RETURNS TABLE (
+	out_review_id 	   BIGINT,
+	out_supplier_id    BIGINT,
+	out_retailer_id    BIGINT,
+	out_rating  	   INT,
+	out_rating_type    INT,
+	out_review_comment TEXT,
+	out_review_date    TIMESTAMP
+) 
+AS $$ 
+BEGIN 
+    RETURN QUERY
+    SELECT 
+	CAST(review_id AS BIGINT)	   ,
+	supplier_id    ,
+	retailer_id    ,
+	rating  	   ,
+	CASE WHEN rating_type = TRUE THEN 1 ELSE 0 END AS out_rating_type ,
+	review_comment ,
+	review_date    
+    FROM 
+        review 
+    WHERE 
+        CAST(review_id AS BIGINT) = in_review_id;
+END;
+$$ LANGUAGE plpgsql;
+-----------------------------------------------------------------------

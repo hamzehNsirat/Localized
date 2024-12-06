@@ -62,6 +62,14 @@ const Quotation = {
       inputData.quotationStatusId,
     ]);
   },
+  async getQuotationsByRetailer(retailerId, pageSize, pageIndex) {
+    const query = `
+      SELECT * 
+      FROM get_quotations_by_retailer($1, $2, $3)
+    `;
+    const params = [retailerId, pageSize, pageIndex];
+    return await executeQuery(query, params);
+  },
 };
 
 module.exports = Quotation;

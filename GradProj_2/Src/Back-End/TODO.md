@@ -1,6 +1,6 @@
 # TODO Backend
 
-## RETAILER PART [COMPLETION PERCENTAGE:50%]
+## RETAILER PART [COMPLETION PERCENTAGE:70%]
 
 
 ### PART 1 Signup
@@ -628,25 +628,302 @@ already has required data from dashboard get reatiler all details service
                                 "success": true
                             }
                         }
-
 ### PART 6 Manage QUOTATION
 - service: GetQuotations List by Retailer (retailerId, page sized, page number)
 qid, logo supplier, factory name, status
+   - payload:
+     ```json
+                        {
+                            "retailerId": 1,
+                            "pageSize": 5,
+                            "pageIndex": 1
+                        }
+    - expected Response/s:
+        - Error
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "E0045",
+                                "errorDescription": "Missing Data",
+                                "statusCode": "E0045",
+                                "message": "retailerId, pageSize, pageIndex are Mandatory"
+                            }
+                        }
+
+        - Success
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "0000",
+                                "errorDescription": "SUCCESS",
+                                "statusCode": 200,
+                                "message": "Operation completed successfully"
+                            },
+                            "body": {
+                                "success": true,
+                                "quotationsList": {
+                                    "quotationItem": [
+                                        {
+                                            "id": "23",
+                                            "logo": null,
+                                            "factoryName": "test",
+                                            "status": "REQUESTED"
+                                        },
+                                        {
+                                            "id": "22",
+                                            "logo": null,
+                                            "factoryName": "test",
+                                            "status": "REQUESTED"
+                                        },
+                                        {
+                                            "id": "21",
+                                            "logo": null,
+                                            "factoryName": "test",
+                                            "status": "REQUESTED"
+                                        },
+                                        {
+                                            "id": "5",
+                                            "logo": null,
+                                            "factoryName": "test",
+                                            "status": "REQUESTED"
+                                        },
+                                        {
+                                            "id": "4",
+                                            "logo": null,
+                                            "factoryName": "test",
+                                            "status": "REQUESTED"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
 - service: Get Quotation BY ID
     Quotation Details
     List Of Orders with supplier entered values
     other Quotation Fields like:
     SubTotal 
     Total 
+   - payload:
+     ```json
+                        {
+                            "quotationId":21
+                        }
+    - expected Response/s:
+        - Error
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "E0048",
+                                "errorDescription": "Fetch Failure",
+                                "statusCode": "E0048",
+                                "message": "Fetching Quotation Details has Failed"
+                            },
+                            "body": {
+                                "details": {
+                                    "success": false,
+                                    "error": "Failed to Fetch Quotations"
+                                }
+                            }
+                        }
+
+        - Success
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "0000",
+                                "errorDescription": "SUCCESS",
+                                "statusCode": 200,
+                                "message": "Operation completed successfully"
+                            },
+                            "body": {
+                                "success": true,
+                                "quotationDetails": {
+                                    "id": "21",
+                                    "requesterId": "1",
+                                    "supplierId": "1",
+                                    "retailStore": "Sha",
+                                    "factory": "Aaa",
+                                    "requestDate": "2024-12-06T15:47:00.902Z",
+                                    "statusId": "1",
+                                    "details": {
+                                        "detailsItem": [
+                                            {
+                                                "price": 1,
+                                                "quantity": 4,
+                                                "productId": 1
+                                            }
+                                        ]
+                                    },
+                                    "attachments": null,
+                                    "paymentReferenceNumber": null,
+                                    "reconciliationNumber": null,
+                                    "latestTransactionID": null,
+                                    "shippingCost": null,
+                                    "subTotal": null,
+                                    "total": null,
+                                    "shipToAddress": "",
+                                    "billToAddress": "",
+                                    "factoryAddress": null,
+                                    "hasRelatedComplaints": 0
+                                }
+                            }
+                        }
 - service: Update Status Quotation (Reject)
+   - payload:
+     ```json
+                        {
+                            "quotationId": 21,
+                            "quotationStatusId": 5
+                        }
+    - expected Response/s:
+        - Error
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "E0050",
+                                "errorDescription": "Update Failure",
+                                "statusCode": "E0050",
+                                "message": "Updating Quotation Status has Failed"
+                            },
+                            "body": {
+                                "details": {
+                                    "success": false,
+                                    "error": "Failed to Update Quotation Status"
+                                }
+                            }
+                        }
+
+        - Success
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "0000",
+                                "errorDescription": "SUCCESS",
+                                "statusCode": 200,
+                                "message": "Operation completed successfully"
+                            },
+                            "body": {
+                                "success": true
+                            }
+                        }
 - service: Update Status Quotation (Accepted)
+   - payload:
+     ```json
+                        {
+                            "quotationId": 21,
+                            "quotationStatusId": 3
+                        }
+    - expected Response/s:
+        - Error
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "E0050",
+                                "errorDescription": "Update Failure",
+                                "statusCode": "E0050",
+                                "message": "Updating Quotation Status has Failed"
+                            },
+                            "body": {
+                                "details": {
+                                    "success": false,
+                                    "error": "Failed to Update Quotation Status"
+                                }
+                            }
+                        }
+
+        - Success
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "0000",
+                                "errorDescription": "SUCCESS",
+                                "statusCode": 200,
+                                "message": "Operation completed successfully"
+                            },
+                            "body": {
+                                "success": true
+                            }
+                        }
 - service: Purchase (Creates Purchase)
 
-#### Adjust Supplier to have Overall Rating Score ####
+  - payload:
+     ```json
+                        {
+                            "quotationId": 21,
+                            "buyerId": 1,
+                            "supplierId": 1,
+                            "paymentAmount": 2.5
+                        }
+    - expected Response/s:
+        - Error
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "E0052",
+                                "errorDescription": "Creation Failure",
+                                "statusCode": "E0052",
+                                "message": "Creating Purchase has Failed"
+                            },
+                            "body": {
+                                "details": {
+                                    "success": false,
+                                    "error": "Failed to Create Transaction Details"
+                                }
+                            }
+                        }
 
+        - Success
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "0000",
+                                "errorDescription": "SUCCESS",
+                                "statusCode": 200,
+                                "message": "Operation completed successfully"
+                            },
+                            "body": {
+                                "success": true
+                            }
+                        }
 ### PART 7 REVIEW 
+#### Adjust Supplier to have Overall Rating Score ####
 - service: submit Review (supplier,retailerId, Review Object)
 - service: Calculate Overall Rating Supplier
+  - payload:
+     ```json
+                        {
+                            "retailerId": 1,
+                            "supplierId": 1,
+                            "rating":2,
+                            "reviewComment":"NA"
+                        }
+    - expected Response/s:
+        - Error
+            ```json
+                    {
+                        "header": {
+                            "errorCode": "E0053",
+                            "errorDescription": "Missing Data",
+                            "statusCode": "E0053",
+                            "message": "supplierId, retailerId, rating and reviewComment are Mandatory"
+                        }
+                    }
+
+        - Success
+            ```json
+                        {
+                            "header": {
+                                "errorCode": "0000",
+                                "errorDescription": "SUCCESS",
+                                "statusCode": 200,
+                                "message": "Operation completed successfully"
+                            },
+                            "body": {
+                                "success": true
+                            }
+                        }
+
+
 
 ### PART 8 COMPLAINTS
 - service: Get Complaints by Retailer: (retailerid, page size, page index)

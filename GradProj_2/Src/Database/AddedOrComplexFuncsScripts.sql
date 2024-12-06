@@ -610,4 +610,65 @@ BEGIN
   WHERE s.supplier_id = in_supplier_id;
 END;
 $$ LANGUAGE plpgsql;
+--------------------------------------------------------------------------------------------------------------
+-- SP NO.:#9, 
+-- Complexity: MODERATE,
+-- Creation Data: 06122024,
+-- Desc: Get Retailer Related Quotations
+-- NodeJS Model: Quotation
+CREATE OR REPLACE FUNCTION get_quotations_by_retailer(
+  IN in_retailer_id BIGINT,
+  IN in_page_size INTEGER,
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(
+  out_quotation_id BIGINT,
+  out_supplier_establishment_logo TEXT,
+  out_supplier_establishment_name TEXT,
+  out_quotation_status VARCHAR
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    CAST(q.quotation_id AS BIGINT) AS out_quotation_id ,
+    e.establishment_logo AS out_supplier_establishment_logo,
+    e.establishment_name AS out_supplier_establishment_name,
+    qs.quotation_status AS out_quotation_status
+  FROM
+    quotation q
+  JOIN factory f ON q.supplier_id = f.owner_id
+  JOIN establishment e ON f.factory_est_id = e.establishment_id
+  JOIN quotation_status qs ON q.quotation_status_id = qs.quotation_status_id
+  WHERE
+    q.requester_id = in_retailer_id
+  ORDER BY q.quotation_request_date DESC
+  LIMIT in_page_size
+  OFFSET (in_page_index - 1) * in_page_size;
+END;
+$$ LANGUAGE plpgsql;
+------------------------------------------------------------------------------------------------
+-- SP NO.:#10, 
+-- Complexity: MODERATE,
+-- Creation Data: 06122024,
+-- Desc: Calculate Supplier Overall Rating
+-- NodeJS Model: Supplier
+CREATE OR REPLACE FUNCTION update_supplier_overall_rating(
+  IN in_supplier_id BIGINT
+)
+RETURNS VOID AS $$
+DECLARE
+  v_avg_rating FLOAT;
+BEGIN
+  -- Calculate the average rating for the specific supplier
+  SELECT AVG(rating)
+  INTO v_avg_rating
+  FROM review
+  WHERE supplier_id = in_supplier_id;
+
+  -- Update the supplier's overall rating
+  UPDATE supplier
+  SET supplier_overall_rating = COALESCE(v_avg_rating, 0)
+  WHERE supplier_id = in_supplier_id;
+END;
+$$ LANGUAGE plpgsql;
 

@@ -52,6 +52,12 @@ const Supplier = {
       supplierUserId,
     ]);
   },
+  async updateOverallRatingBySupplier(supplierId) {
+    const query = `
+      SELECT update_supplier_overall_rating($1);
+    `;
+    return await executeQuery(query, [supplierId]);
+  },
 };
 
 module.exports = Supplier;

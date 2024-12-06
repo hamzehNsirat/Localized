@@ -1,17 +1,6 @@
-const User = require("../models/User"); // User model
-const Establishment = require("../models/Establishment"); // Establishment model
 const Supplier = require("../models/supplier");
-const Retailer = require("../models/retailer");
-const Admin = require("../models/Adminstrator");
-const Factory = require("../models/Factory");
-const RetailStore = require("../models/RetailStore");
 const Quotation = require("../models/Quotation");
 const Order = require("../models/Order");
-const logDBModel = require("../models/Log");
-const jwt = require("jsonwebtoken");
-const keys = require("../config/keys");
-const applicationModel = require("../models/Application");
-const crypto = require("crypto");
 const { sendEmail } = require("../config/email");
 const env = require("../config/env");
 const {
@@ -28,7 +17,6 @@ const quotationService = {
       requesterId: inputData.retailerId,
       supplierId: inputData.supplierId,
       quotationStatusId: 1,
-      quotationRequestDate: "2024-11-19 19:19:03.295244",
       quotationDetails: inputData.quotationDetails,
       quotationAttachments: null,
       fromEstablishmentName: inputData.retailerEstablishmentName,
@@ -53,39 +41,115 @@ const quotationService = {
       };
     }
     if (inputData.quotationDetails) {
-       for (let i = 0; i < inputData.quotationDetails.detailsItem.length; i++) {
-         try {
-           const orderItem = {
-             quotationId: quotationInsertDb[0].out_quotation_id,
-             productId: inputData.quotationDetails.detailsItem[i].productId,
-             orderQuantity: inputData.quotationDetails.detailsItem[i].quantity,
-             orderPrice:
-               inputData.quotationDetails.detailsItem[i].price || null,
-             lastModifiedBy: quotationInsertDb[0].out_quotation_id,
-           };
-           const orderResDB = await Order.insertOrder(orderItem);
-           if (
-             !orderResDB[0].out_order_id ||
-             orderResDB[0].out_order_id == "-1"
-           ) {
-             await rollbackTransaction();
-             return {
-               success: false,
-               error: "Failed to Create Quotation Details",
-             };
-           }
-         } catch {
-           await rollbackTransaction();
-           return {
-             success: false,
-             error: "Failed to Create Quotation Details",
-           };
-         }
-       }
+      for (let i = 0; i < inputData.quotationDetails.detailsItem.length; i++) {
+        try {
+          const orderItem = {
+            quotationId: quotationInsertDb[0].out_quotation_id,
+            productId: inputData.quotationDetails.detailsItem[i].productId,
+            orderQuantity: inputData.quotationDetails.detailsItem[i].quantity,
+            orderPrice: inputData.quotationDetails.detailsItem[i].price || null,
+            lastModifiedBy: quotationInsertDb[0].out_quotation_id,
+          };
+          const orderResDB = await Order.insertOrder(orderItem);
+          if (
+            !orderResDB[0].out_order_id ||
+            orderResDB[0].out_order_id == "-1"
+          ) {
+            await rollbackTransaction();
+            return {
+              success: false,
+              error: "Failed to Create Quotation Details",
+            };
+          }
+        } catch {
+          await rollbackTransaction();
+          return {
+            success: false,
+            error: "Failed to Create Quotation Details",
+          };
+        }
+      }
     }
     await commitTransaction();
     return {
       success: true,
+    };
+  },
+  async getQuotationByRetailer(inputData) {
+    quotationFetchDb = await Quotation.getQuotationsByRetailer(
+      inputData.retailerId,
+      inputData.pageSize,
+      inputData.pageIndex
+    );
+    if (!quotationFetchDb[0]) {
+      return {
+        success: false,
+        error: "Failed to Fetch Quotations",
+      };
+    }
+    const quotationsList = { quotationItem: [] };
+    for (let i = 0; i < quotationFetchDb.length; i++) {
+      const item = {
+        id: quotationFetchDb[i].out_quotation_id,
+        logo: quotationFetchDb[i].out_supplier_establishment_logo,
+        factoryName: quotationFetchDb[i].out_supplier_establishment_name,
+        status: quotationFetchDb[i].out_quotation_status,
+      };
+      quotationsList.quotationItem.push(item);
+    }
+    return {
+      success: true,
+      quotationsList,
+    };
+  },
+
+  async getQuotationById(inputData) {
+    quotationFetchDb = await Quotation.getAllData(inputData.quotationId);
+    if (!quotationFetchDb[0]) {
+      return {
+        success: false,
+        error: "Failed to Fetch Quotations",
+      };
+    }
+    return {
+      success: true,
+      quotationDetails: {
+        id: quotationFetchDb[0].out_quotation_id,
+        requesterId: quotationFetchDb[0].out_requester_id,
+        supplierId: quotationFetchDb[0].out_supplier_id,
+        retailStore: quotationFetchDb[0].out_from_establishment_name,
+        factory: quotationFetchDb[0].out_to_establishment_name,
+        requestDate: quotationFetchDb[0].out_quotation_request_date,
+        statusId: quotationFetchDb[0].out_quotation_status_id,
+        details: quotationFetchDb[0].out_quotation_details,
+        attachments: quotationFetchDb[0].out_quotation_attachments,
+        paymentReferenceNumber:
+          quotationFetchDb[0].out_related_payment_referenece_no,
+        reconciliationNumber:
+          quotationFetchDb[0].out_related_payment_reconciliation_no,
+        latestTransactionID:
+          quotationFetchDb[0].out_related_payment_latest_trx_id,
+        shippingCost: quotationFetchDb[0].out_shipping_cost,
+        subTotal: quotationFetchDb[0].out_sub_total,
+        total: quotationFetchDb[0].out_total,
+        shipToAddress: quotationFetchDb[0].out_ship_to_address,
+        billToAddress: quotationFetchDb[0].out_bill_to_address,
+        factoryAddress: quotationFetchDb[0].out_supplier_address,
+        hasRelatedComplaints: quotationFetchDb[0].out_has_related_complaints,
+      },
+    };
+  },
+
+  async updateQuotationStatus(inputData) {
+    quotationUpdateDb = await Quotation.updateStatus(inputData);
+    if (!quotationUpdateDb[0] || quotationUpdateDb[0].quotation_update_status == '-1') {
+      return {
+        success: false,
+        error: "Failed to Update Quotation Status",
+      };
+    }
+    return {
+      success: true
     };
   },
 };

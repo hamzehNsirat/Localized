@@ -62,7 +62,6 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION purchase_transaction_insert (
 	IN in_purchase_id 			 BIGINT,
 	IN in_transaction_status_id 	 BIGINT,
-	IN in_transaction_date	     TIMESTAMP,
 	IN in_transaction_details     JSONB,
 	IN in_last_modification_date     TIMESTAMP,
 	IN in_last_modified_by		   BIGINT,
@@ -90,7 +89,7 @@ BEGIN
 	(
 		in_purchase_id,
 		in_transaction_status_id,
-		in_transaction_date,
+		CURRENT_TIMESTAMP,
 		in_transaction_details,
 		CURRENT_TIMESTAMP,
 		in_last_modified_by	

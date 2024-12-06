@@ -60,7 +60,7 @@ AS $$
 BEGIN 
     RETURN QUERY
     SELECT 
-	review_id 	   ,
+	CAST(review_id AS BIGINT)	   ,
 	retailer_id    ,
 	rating  	   ,
 	CASE WHEN rating_type = TRUE THEN 1 ELSE 0 END AS out_rating_type ,
@@ -86,7 +86,7 @@ AS $$
 BEGIN 
     RETURN QUERY
     SELECT 
-	review_id 	   ,
+	CAST(review_id AS BIGINT)	   ,
 	supplier_id    ,
 	rating  	   ,
 	CASE WHEN rating_type = TRUE THEN 1 ELSE 0 END AS out_rating_type ,
@@ -114,7 +114,7 @@ AS $$
 BEGIN 
     RETURN QUERY
     SELECT 
-	review_id 	   ,
+	CAST(review_id AS BIGINT)	   ,
 	supplier_id    ,
 	retailer_id    ,
 	rating  	   ,

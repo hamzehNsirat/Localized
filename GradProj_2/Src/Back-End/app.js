@@ -36,9 +36,9 @@ const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const retailerRoutes = require("./routes/retailerRoutes");
-
+const platformComplianceRoutes = require("./routes/platformComplianceRoutes");
 const productRoutes = require("./routes/productRoutes");
-const orderRoutes = require("./routes/orderRoutes");
+const purchaseRoutes = require("./routes/purchaseRoutes");
 const quotationRoutes = require("./routes/quotationRoutes");
 const imageUpload = require("./config/images");
 // Mount routes
@@ -47,6 +47,8 @@ app.use('/api/user', userRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/retailer", retailerRoutes);
 app.use('/api/quotations', quotationRoutes);
+app.use("/api/purchase", purchaseRoutes);
+app.use("/api/platformservices", platformComplianceRoutes);
 // IMAGE HANDLING
 app.use("/uploads/images", imageUpload);
 app.use(
@@ -56,8 +58,6 @@ app.use(
 //
 // unfinished
 // app.use('/api/products', productRoutes);
-// app.use('/api/orders', orderRoutes);
-// app.use('/api/quotations', quotationRoutes);
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
