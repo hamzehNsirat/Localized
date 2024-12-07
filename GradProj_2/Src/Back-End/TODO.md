@@ -1,6 +1,6 @@
 # TODO Backend
 
-## RETAILER PART [COMPLETION PERCENTAGE:70%]
+## RETAILER PART [COMPLETION PERCENTAGE:95%]
 
 
 ### PART 1 Signup
@@ -886,7 +886,6 @@ qid, logo supplier, factory name, status
                             }
                         }
 ### PART 7 REVIEW 
-#### Adjust Supplier to have Overall Rating Score ####
 - service: submit Review (supplier,retailerId, Review Object)
 - service: Calculate Overall Rating Supplier
   - payload:
@@ -922,25 +921,424 @@ qid, logo supplier, factory name, status
                                 "success": true
                             }
                         }
-
-
-
 ### PART 8 COMPLAINTS
-- service: Get Complaints by Retailer: (retailerid, page size, page index)
-- service: Get Complaint Data by Id
-- service: Get Related Quotations for Retailer (Id, Supplier)
-- service: Get Complaint Types
-- service: Create Complaint
 
+- service: Get Complaints by Retailer: (retailerid, page size, page index)
+ - payload:
+    ```json
+                    {
+                        "retailerId":1,
+                        "pageSize":5,
+                        "pageIndex":1
+                    }
+ - expected Response/s:
+    - Error
+      ```json
+                    {
+                        "header": {
+                            "errorCode": "E0055",
+                            "errorDescription": "Missing Data",
+                            "statusCode": "E0055",
+                            "message": "retailerId, pageSize and pageIndex are Mandatory"
+                        }
+                    }
+
+    - Success
+        ```json
+                    {
+                        "header": {
+                            "errorCode": "0000",
+                            "errorDescription": "SUCCESS",
+                            "statusCode": 200,
+                            "message": "Operation completed successfully"
+                        },
+                        "body": {
+                            "success": true,
+                            "complaintsList": {
+                                "complaintItem": [
+                                    {
+                                        "id": "23",
+                                        "title": "Not Responsive Supplier",
+                                        "date": "2024-12-07T14:15:26.193Z",
+                                        "status": "CREATED"
+                                    },
+                                    {
+                                        "id": "22",
+                                        "title": "Not Responsive Supplier",
+                                        "date": "2024-12-07T14:15:25.702Z",
+                                        "status": "CREATED"
+                                    },
+                                    {
+                                        "id": "21",
+                                        "title": "Not Responsive Supplier",
+                                        "date": "2024-12-07T14:15:24.104Z",
+                                        "status": "CREATED"
+                                    },
+                                    {
+                                        "id": "18",
+                                        "title": "Defective Items Received",
+                                        "date": "2024-12-07T14:13:52.695Z",
+                                        "status": "CREATED"
+                                    },
+                                    {
+                                        "id": "17",
+                                        "title": "Defective Items Received",
+                                        "date": "2024-12-07T14:13:18.489Z",
+                                        "status": "CREATED"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+
+- service: Get Complaint Data by Id
+ - payload:
+    ```json
+                    {
+                        "complaintId": 23
+                    }
+ - expected Response/s:
+    - Error
+      ```json
+                    {
+                        "header": {
+                            "errorCode": "E0055",
+                            "errorDescription": "Missing Data",
+                            "statusCode": "E0055",
+                            "message": "retailerId, pageSize and pageIndex are Mandatory"
+                        }
+                    }
+
+    - Success
+        ```json
+                    {
+                        "header": {
+                            "errorCode": "0000",
+                            "errorDescription": "SUCCESS",
+                            "statusCode": 200,
+                            "message": "Operation completed successfully"
+                        },
+                        "body": {
+                            "success": true,
+                            "complaintDetails": {
+                                "id": "23",
+                                "title": "Not Responsive Supplier",
+                                "type": "5",
+                                "quotationId": "2",
+                                "reviewerId": null,
+                                "supplierId": "2",
+                                "retailerId": "1",
+                                "complaintNotes": "Supplier is not responding to any inquiries regarding sales",
+                                "complaintStatus": "RESOLVED",
+                                "submitterType": "RETAILER",
+                                "creationDate": "2024-12-07T14:15:26.193Z",
+                                "resolutionNotes": "DONE",
+                                "isResolved": true
+                            }
+                        }
+                    }
+
+- service: Get Related Quotations for Retailer (Id, Supplier)
+ - payload:
+    ```json
+                    {
+                        "retailerId":11
+                    }
+ - expected Response/s:
+    - Error
+      ```json
+                    {
+                        "header": {
+                            "errorCode": "E0059",
+                            "errorDescription": "Fetch Failure",
+                            "statusCode": "E0059",
+                            "message": "Fetching Quotation Actors has Failed"
+                        },
+                        "body": {
+                            "details": {
+                                "success": false,
+                                "error": "Failed to Fetch Quotation Actors"
+                            }
+                        }
+                    }
+    - Success
+        ```json
+                    {
+                        "header": {
+                            "errorCode": "0000",
+                            "errorDescription": "SUCCESS",
+                            "statusCode": 200,
+                            "message": "Operation completed successfully"
+                        },
+                        "body": {
+                            "success": true,
+                            "quotationActors": {
+                                "quotationItem": [
+                                    {
+                                        "quotationId": 2,
+                                        "supplierId": "1",
+                                        "retailerId": "1"
+                                    },
+                                    {
+                                        "quotationId": 4,
+                                        "supplierId": "1",
+                                        "retailerId": "1"
+                                    },
+                                    {
+                                        "quotationId": 5,
+                                        "supplierId": "1",
+                                        "retailerId": "1"
+                                    },
+                                    {
+                                        "quotationId": 6,
+                                        "supplierId": "1",
+                                        "retailerId": "1"
+                                    },
+                                    {
+                                        "quotationId": 7,
+                                        "supplierId": "1",
+                                        "retailerId": "1"
+                                    },
+                                    {
+                                        "quotationId": 8,
+                                        "supplierId": "1",
+                                        "retailerId": "1"
+                                    },
+                                    {
+                                        "quotationId": 9,
+                                        "supplierId": "1",
+                                        "retailerId": "1"
+                                    },
+                                    {
+                                        "quotationId": 10,
+                                        "supplierId": "1",
+                                        "retailerId": "1"
+                                    },
+                                    {
+                                        "quotationId": 11,
+                                        "supplierId": "1",
+                                        "retailerId": "1"
+                                    },
+                                    {
+                                        "quotationId": 12,
+                                        "supplierId": "1",
+                                        "retailerId": "1"
+                                    },
+                                    {
+                                        "quotationId": 14,
+                                        "supplierId": "1",
+                                        "retailerId": "1"
+                                    },
+                                    {
+                                        "quotationId": 21,
+                                        "supplierId": "1",
+                                        "retailerId": "1"
+                                    },
+                                    {
+                                        "quotationId": 22,
+                                        "supplierId": "1",
+                                        "retailerId": "1"
+                                    },
+                                    {
+                                        "quotationId": 23,
+                                        "supplierId": "1",
+                                        "retailerId": "1"
+                                    },
+                                    {
+                                        "quotationId": 25,
+                                        "supplierId": "1",
+                                        "retailerId": "1"
+                                    },
+                                    {
+                                        "quotationId": 26,
+                                        "supplierId": "1",
+                                        "retailerId": "1"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+
+- service: Get Complaint Types
+ - payload: empty
+ - expected Response/s:
+    - Error
+    - Success
+        ```json
+            {
+                "header": {
+                    "errorCode": "0000",
+                    "errorDescription": "SUCCESS",
+                    "statusCode": 200,
+                    "message": "Operation completed successfully"
+                },
+                "body": {
+                    "success": true,
+                    "complaintTypes": [
+                        {
+                            "id": "1",
+                            "type": "Payment Defaulted"
+                        },
+                        {
+                            "id": "2",
+                            "type": "Order not Complete"
+                        },
+                        {
+                            "id": "3",
+                            "type": "Order not Delivered"
+                        },
+                        {
+                            "id": "4",
+                            "type": "Defective Cargo"
+                        },
+                        {
+                            "id": "5",
+                            "type": "Aftersales Ineffeciency"
+                        }
+                    ]
+                }
+            }
+- service: Create Complaint
+ - payload:
+    ```json
+                    {
+                        "complaintTitle": "Items Received are not in shape",
+                        "complaintTypeId": 4,
+                        "supplierId": 1,
+                        "retailerId": 1,
+                        "complaintNotes": "everything sucks",
+                        "quotationId":2
+                    }
+ - expected Response/s:
+    - Error
+      ```json
+                    {
+                        "header": {
+                            "errorCode": "E0062",
+                            "errorDescription": "Creation Failure",
+                            "statusCode": "E0062",
+                            "message": "Creating Complaint has Failed"
+                        },
+                        "body": {
+                            "details": {
+                                "success": false,
+                                "error": "Failed to Create Complaint"
+                            }
+                        }
+                    }
+    - Success
+        ```json
+                    {
+                        "header": {
+                            "errorCode": "0000",
+                            "errorDescription": "SUCCESS",
+                            "statusCode": 200,
+                            "message": "Operation completed successfully"
+                        },
+                        "body": {
+                            "success": true
+                        }
+                    }
 ### PART 9 NOTIFICATIONS
 - service: get related notifications by retailerId
+ - payload:
+    ```json
+                    {
+                        "userId": "3",
+                        "pageSize": 5,
+                        "pageIndex": 1
+                    }
+ - expected Response/s:
+    - Error
+      ```json
+                    {
+                        "header": {
+                            "errorCode": "E0064",
+                            "errorDescription": "Fetch Failure",
+                            "statusCode": "E0064",
+                            "message": "Fetching Retailer Notifications has Failed"
+                        },
+                        "body": {
+                            "details": {
+                                "success": false,
+                                "error": "Unable to Fetch Notifications for Retailer"
+                            }
+                        }
+                    }
+    - Success
+        ```json
+                    {
+                        "header": {
+                            "errorCode": "0000",
+                            "errorDescription": "SUCCESS",
+                            "statusCode": 200,
+                            "message": "Operation completed successfully"
+                        },
+                        "body": {
+                            "success": true,
+                            "notificationList": {
+                                "notificationItem": [
+                                    {
+                                        "id": "13",
+                                        "type": "10",
+                                        "priority": 1,
+                                        "subject": "Profile Updated",
+                                        "details": "your profile has been updated!",
+                                        "isRead": false,
+                                        "creationTime": "2024-12-07T18:01:38.519Z"
+                                    },
+                                    {
+                                        "id": "9",
+                                        "type": "7",
+                                        "priority": 1,
+                                        "subject": "New Complaint Submitted",
+                                        "details": "a Complaint has been Submitted regarding this Quotation: 2",
+                                        "isRead": false,
+                                        "creationTime": "2024-12-07T17:58:22.759Z"
+                                    },
+                                    {
+                                        "id": "7",
+                                        "type": "7",
+                                        "priority": 1,
+                                        "subject": "New Complaint Submitted",
+                                        "details": "a Complaint has been Submitted regarding this Quotation: 2",
+                                        "isRead": false,
+                                        "creationTime": "2024-12-07T17:58:21.971Z"
+                                    },
+                                    {
+                                        "id": "5",
+                                        "type": "7",
+                                        "priority": 1,
+                                        "subject": "New Complaint Submitted",
+                                        "details": "a Complaint has been Submitted regarding this Quotation: 2",
+                                        "isRead": false,
+                                        "creationTime": "2024-12-07T17:58:21.290Z"
+                                    },
+                                    {
+                                        "id": "3",
+                                        "type": "7",
+                                        "priority": 1,
+                                        "subject": "New Complaint Submitted",
+                                        "details": "a Complaint has been Submitted regarding this Quotation: 2",
+                                        "isRead": false,
+                                        "creationTime": "2024-12-07T17:47:00.592Z"
+                                    }
+                                ]
+                            }
+                        }
+                    }
 
 ### PART 10 GENERAL
 - service: update user data
+done
 - service: update Retailer data
+pending
 - service: get update RetailStore Data
+pending
 - service: get policies
+pending
 - service: logout
+done
 
 ## SUPPLIER PART  [COMPLETION PERCENTAGE:]
 

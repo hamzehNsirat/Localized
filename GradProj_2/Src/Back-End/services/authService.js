@@ -1,12 +1,13 @@
 // Handles password hashing, token generation, and validation
 const User = require("../models/User"); // User model
 const Establishment = require("../models/Establishment"); // Establishment model
-const Supplier = require("../models/supplier");
+const Supplier = require("../models/Supplier");
 const Retailer = require("../models/retailer");
 const Admin = require("../models/Adminstrator");
 const Factory = require("../models/Factory");
 const RetailStore = require("../models/RetailStore");
 const logDBModel = require("../models/Log");
+const Notification = require("../models/Notification");
 const jwt = require("jsonwebtoken");
 const keys = require("../config/keys");
 const applicationModel = require("../models/Application");
@@ -186,8 +187,16 @@ const authService = {
           newUserId
         );
       }
-
       await commitTransaction();
+      notificationData = {
+        notificationType: 1,
+        notifiedUserId: newUserId,
+        notificationPriority: 2,
+        notificationSubject: "Welcome Aboard",
+        notificationDetails: "Welcome to Our Platform",
+        lastModifiedBy: 1,
+      };
+      await Notification.insertNotification(notificationData);
       // Generate JWT Token
       const tokenDBRes = await executeQuery(
         "SELECT token_version FROM user_localized WHERE user_id = $1",
@@ -468,7 +477,7 @@ const authService = {
     try {
       // Check if the user exists
       const user = await executeQuery(
-        "SELECT COUNT(*) AS is_in_db FROM user_localized WHERE user_email = $1",
+        "SELECT COUNT(*) AS is_in_db, user_id FROM user_localized WHERE user_email = $1",
         [email]
       );
       if (user[0].is_in_db == '0') {
@@ -499,6 +508,16 @@ const authService = {
         `You requested to reset your password. Use the link below to reset it: ${resetUrl}`,
         `<p>You requested to reset your password. Use the link below to reset it:</p><p><a href="${resetUrl}">${resetUrl}</a></p>`
       );
+      notificationData = {
+        notificationType: 5,
+        notifiedUserId: user[0].user_id,
+        notificationPriority: 2,
+        notificationSubject: "Change Password Requested",
+        notificationDetails: "you Requested to Change your Password, kindly contact us if this was not you",
+        lastModifiedBy: 1,
+      };
+      await Notification.insertNotification(notificationData);
+
       return {
         success: true,
       };
@@ -511,7 +530,7 @@ const authService = {
   try {
     // Check if the token is valid and not expired
     const user = await executeQuery(
-      "SELECT count(*) AS db_res FROM user_localized WHERE reset_password_token = $1 AND reset_password_expires > NOW()",
+      "SELECT count(*) AS db_res, user_id FROM user_localized WHERE reset_password_token = $1 AND reset_password_expires > NOW()",
       [token]
     );
 
@@ -528,6 +547,17 @@ const authService = {
       "UPDATE user_localized SET user_password = $1, reset_password_token = NULL, reset_password_expires = NULL, is_pass_change = true WHERE reset_password_token = $2",
       [newPassword, token]
     );
+    notificationData = {
+      notificationType: 4,
+      notifiedUserId: user[0].user_id,
+      notificationPriority: 4,
+      notificationSubject: "Password Changed",
+      notificationDetails:
+        "Password Changed Successfully",
+      lastModifiedBy: 1,
+    };
+    await Notification.insertNotification(notificationData);
+
     return {
       success: true,
     };

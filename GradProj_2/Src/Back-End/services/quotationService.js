@@ -1,5 +1,6 @@
-const Supplier = require("../models/supplier");
+const Supplier = require("../models/Supplier");
 const Quotation = require("../models/Quotation");
+const Notification = require("../models/Notification");
 const Order = require("../models/Order");
 const { sendEmail } = require("../config/email");
 const env = require("../config/env");
@@ -71,6 +72,20 @@ const quotationService = {
       }
     }
     await commitTransaction();
+    const user = await executeQuery(
+      "SELECT supplier_user_id FROM supplier WHERE supplier_id = $1",
+      [inputData.supplierId]
+    );
+    notificationData = {
+      notificationType: 8,
+      notifiedUserId: user[0].supplier_user_id,
+      notificationPriority: 3,
+      notificationSubject: "New Quotation Requested",
+      notificationDetails: `a New Quotation has been Requested, Quotation ID: ${quotationInsertDb[0].out_quotation_id}`,
+      lastModifiedBy: 1,
+    };
+    await Notification.insertNotification(notificationData);
+
     return {
       success: true,
     };

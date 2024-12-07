@@ -15,6 +15,7 @@ CREATE TABLE complaint (
 	last_modified_by		 BIGINT   NOT NULL,
 	quotation_id BIGINT NOT NULL,
 	resolution_notes  TEXT,
+	complaint_title VARCHAR(400) DEFAULT 'default',
 	CONSTRAINT fk_cmpn_rtlr_id FOREIGN KEY (retailer_id)
     REFERENCES retailer(retailer_id) ON DELETE CASCADE,
 	CONSTRAINT fk_cmpn_supp_id FOREIGN KEY (supplier_id)
@@ -44,9 +45,10 @@ CREATE INDEX  idx_cmplnt_retailer_id ON complaint(retailer_id);
  Complaint CRUD Functions
 */
 -- GET A Complaint BY ID
-CREATE OR REPLACE FUNCTION complaint_get_all() 
+CREATE OR REPLACE FUNCTION complaint_get_all(IN page_size INT, IN page_index INT) 
 RETURNS TABLE (
 	out_complaint_id		   BIGINT, 
+	out_complaint_title 		VARCHAR,
 	out_complaint_type_id    BIGINT,
 	out_complaint_supplier_id   BIGINT ,
 	out_complaint_retailer_id BIGINT,
@@ -57,18 +59,24 @@ RETURNS TABLE (
 AS $$ BEGIN RETURN QUERY
 	SELECT 
 	CAST(D.complaint_id AS BIGINT),	
+	D.complaint_title,
 	CAST(D.complaint_type_id AS BIGINT),
 	CAST(D.supplier_id AS BIGINT),
 	CAST(D.retailer_id AS BIGINT),
 	D.complaint_status_id,
 	D.quotation_id,
 	D.creation_date
-	FROM	complaint AS D;
+	FROM	complaint AS D
+	ORDER BY creation_date DESC
+	LIMIT page_size
+	OFFSET ((page_index - 1) * page_size) ;
 END;
 $$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION complaint_get_by_id(IN in_complaint_id BIGINT) 
 RETURNS TABLE (
 	out_complaint_id  BIGINT,
+	out_complaint_title  VARCHAR,
 	out_complaint_type_id    BIGINT,
 	out_quotation_id    BIGINT,
 	out_reviewer_id BIGINT,
@@ -84,7 +92,8 @@ AS $$
 BEGIN 
     RETURN QUERY
     SELECT 
-	complaint_id, 
+	CAST(complaint_id AS BIGINT), 
+	complaint_title,
 	complaint_type_id , 
 	quotation_id,
 	reviewer_id , 
@@ -102,10 +111,67 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION get_complaints_by_retailer(
+  IN in_retailer_id BIGINT,
+  IN in_page_size INTEGER,
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(
+  complaint_id BIGINT,
+  complaint_title VARCHAR,
+  complaint_date TIMESTAMP,
+  complaint_status VARCHAR
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    CAST(c.complaint_id AS BIGINT),
+    c.complaint_title, 
+    c.creation_date,
+    c.complaint_status_id
+  FROM
+    complaint c
+  WHERE
+    c.retailer_id = in_retailer_id
+  ORDER BY
+    c.creation_date DESC
+  LIMIT in_page_size
+  OFFSET ((in_page_index - 1) * in_page_size);
+END;
+$$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION get_complaints_by_supplier(
+  IN in_supplier_id BIGINT,
+  IN in_page_size INTEGER,
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(
+  complaint_id BIGINT,
+  complaint_title VARCHAR,
+  complaint_date TIMESTAMP,
+  complaint_status VARCHAR
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    CAST(c.complaint_id AS BIGINT),
+    c.complaint_title, 
+    c.creation_date,
+    c.complaint_status_id
+  FROM
+    complaint c
+  WHERE
+    c.supplier_id = in_supplier_id
+  ORDER BY
+    c.creation_date DESC
+  LIMIT in_page_size
+  OFFSET ((in_page_index - 1) * in_page_size);
+END;
+$$ LANGUAGE plpgsql;
 -- INSERT A Complaint
 CREATE OR REPLACE FUNCTION complaint_insert(
-	IN in_complaint_type_id    BIGINT,
+	IN in_complaint_title VARCHAR,
+	IN in_complaint_type_id    BIGINT,	
 	IN in_reviewer_id BIGINT,
 	IN in_supplier_id   BIGINT,
 	IN in_retailer_id   BIGINT,
@@ -138,7 +204,8 @@ BEGIN
 		last_modification_date ,
 		last_modified_by,
 		resolution_notes,
-		quotation_id
+		quotation_id,
+		complaint_title
 	) VALUES
 	( 
 		in_complaint_type_id , 
@@ -152,7 +219,8 @@ BEGIN
 		CURRENT_TIMESTAMP,
 		in_last_modified_by,
 		in_resolution_notes,
-		in_quotation_id
+		in_quotation_id,
+		in_complaint_title
 	) RETURNING CAST(complaint_id AS BIGINT) INTO out_complaint_id;
 
 EXCEPTION WHEN OTHERS THEN 

@@ -5,4 +5,9 @@ const controller = require("../controllers/dashboardController");
 const validateToken = require("../middlewares/validateToken");
 // Retailer Routes
 router.post("/getretailerdetails", validateToken, controller.getRetailerAllDetails);
+router.post(
+  "/getretailernotifications",
+  validateToken,
+  controller.getRetailerNotifications
+);
 module.exports = router;

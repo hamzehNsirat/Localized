@@ -23,7 +23,27 @@ const getRetailerAllDetails = async (req, res) => {
     return errorHandler.handleError(res, "E0034");
   }
 };
-
+const getRetailerNotifications = async (req, res) => {
+  try {
+    if (
+      req.body.userId == null ||
+      req.body.pageSize == null ||
+      req.body.pageIndex == null
+    ) {
+      return errorHandler.handleError(res, "E0063");
+    }
+    const result = await dashboardService.getRetailerNotifications(
+      req.body
+    );
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0064", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0064");
+  }
+};
 module.exports = {
   getRetailerAllDetails,
+  getRetailerNotifications,
 };

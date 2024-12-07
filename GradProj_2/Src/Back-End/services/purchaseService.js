@@ -1,9 +1,10 @@
 // Contains purchase-related logic.
-const Supplier = require("../models/supplier");
+const Supplier = require("../models/Supplier");
 const Purchase = require("../models/Purchase");
 const Transaction = require("../models/PurchaseTransaction");
 const Quotation = require("../models/Quotation");
 const Order = require("../models/Order");
+const Notification = require("../models/Notification");
 const { sendEmail } = require("../config/email");
 const env = require("../config/env");
 const {
@@ -92,6 +93,36 @@ const purchaseService = {
       `<p>your Purchase Order for Quotation: ${inputData.quotationId} has been Created Successfully,
       Purchase ID: ${purchaseInsertDb[0].out_purchase_id}</p>`
     );
+
+    const user = await executeQuery(
+      "SELECT supplier_user_id FROM supplier WHERE supplier_id = $1",
+      [inputData.supplierId]
+    );
+    const userB = await executeQuery(
+      "SELECT retailer_user_id FROM retailer WHERE retailer_id = $1",
+      [inputData.buyerId]
+    );
+    notificationData = {
+      notificationType: 8,
+      notifiedUserId: user[0].supplier_user_id,
+      notificationPriority: 2,
+      notificationSubject: "New Purchase Created",
+      notificationDetails: `a Purchase has been Created regarding this Quotation: ${inputData.quotationId}`,
+      lastModifiedBy: 1,
+    };
+    await Notification.insertNotification(notificationData);
+
+    notificationData = {
+      notificationType: 8,
+      notifiedUserId: userB[0].retailer_user_id,
+      notificationPriority: 2,
+      notificationSubject: "New Purchase Created",
+      notificationDetails: `a Purchase has been Created regarding this Quotation: ${inputData.quotationId}`,
+      lastModifiedBy: 1,
+    };
+    await Notification.insertNotification(notificationData);
+
+
     return {
       success: true,
     };

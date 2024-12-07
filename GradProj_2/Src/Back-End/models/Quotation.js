@@ -20,6 +20,26 @@ const Quotation = {
     ]);
   },
 
+  async getQuotationActorsRetailer(Id) {
+    const query = `
+      SELECT quotation_id, supplier_id, requester_id
+      FROM quotation WHERE requester_id = $1;
+    `;
+    const params = [Id];
+    const result = await executeQuery(query, params);
+    return result;
+  },
+
+  async getQuotationActorsSupplier(Id) {
+    const query = `
+      SELECT quotation_id, supplier_id, requester_id
+      FROM quotation WHERE supplier_id = $1
+    `;
+    const params = [Id];
+    const result = await executeQuery(query, params);
+    return result;
+  },
+
   async insertQuotation(inputData) {
     return await executeQuery(
       "SELECT * FROM quotation_insert($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)",

@@ -2722,3 +2722,352 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 -----------------------------------------------------------------------
+alter table complaint add column complaint_title varchar(400) default 'default';
+drop function complaint_get_all;
+CREATE OR REPLACE FUNCTION complaint_get_all(IN page_size INT, IN page_index INT) 
+RETURNS TABLE (
+	out_complaint_id		   BIGINT, 
+	out_complaint_title 		VARCHAR,
+	out_complaint_type_id    BIGINT,
+	out_complaint_supplier_id   BIGINT ,
+	out_complaint_retailer_id BIGINT,
+	out_complaint_status_id 	 VARCHAR,
+	out_quotation_id BIGINT,
+	out_creation_date  TIMESTAMP 
+) 
+AS $$ BEGIN RETURN QUERY
+	SELECT 
+	CAST(D.complaint_id AS BIGINT),	
+	D.complaint_title,
+	CAST(D.complaint_type_id AS BIGINT),
+	CAST(D.supplier_id AS BIGINT),
+	CAST(D.retailer_id AS BIGINT),
+	D.complaint_status_id,
+	D.quotation_id,
+	D.creation_date
+	FROM	complaint AS D
+	ORDER BY creation_date DESC
+	LIMIT page_size
+	OFFSET ((page_index - 1) * page_size) ;
+END;
+$$ LANGUAGE plpgsql;
+
+drop function complaint_get_by_id;
+CREATE OR REPLACE FUNCTION complaint_get_by_id(IN in_complaint_id BIGINT) 
+RETURNS TABLE (
+	out_complaint_id  BIGINT,
+	out_complaint_title  VARCHAR,
+	out_complaint_type_id    BIGINT,
+	out_quotation_id    BIGINT,
+	out_reviewer_id BIGINT,
+	out_supplier_id   BIGINT,
+	out_retailer_id   BIGINT,
+	out_complaint_status_id   VARCHAR,
+	out_complaint_notes  TEXT,
+	out_submitter_type   BOOLEAN,
+	out_creation_date  TIMESTAMP,
+	out_resolution_notes  TEXT
+) 
+AS $$ 
+BEGIN 
+    RETURN QUERY
+    SELECT 
+	CAST(complaint_id AS BIGINT), 
+	complaint_title,
+	complaint_type_id , 
+	quotation_id,
+	reviewer_id , 
+	supplier_id , 
+	retailer_id , 
+	complaint_status_id , 
+	complaint_notes  , 
+	submitter_type  , 
+	creation_date  , 
+	resolution_notes
+    FROM 
+        complaint 
+    WHERE 
+        CAST(complaint_id AS BIGINT) = in_complaint_id;
+END;
+$$ LANGUAGE plpgsql;
+
+
+drop function complaint_insert;
+-- INSERT A Complaint
+CREATE OR REPLACE FUNCTION complaint_insert(
+	IN in_complaint_title VARCHAR,
+	IN in_complaint_type_id    BIGINT,	
+	IN in_reviewer_id BIGINT,
+	IN in_supplier_id   BIGINT,
+	IN in_retailer_id   BIGINT,
+	IN in_complaint_status_id 	 VARCHAR,
+	IN in_complaint_notes  TEXT,
+	IN in_submitter_type   BOOLEAN,
+	IN in_creation_date  TIMESTAMP,
+	IN in_last_modified_by		 BIGINT,
+	IN in_resolution_notes  TEXT,
+	IN in_quotation_id BIGINT,
+	OUT out_complaint_id     BIGINT
+)
+RETURNS BIGINT AS $$
+DECLARE
+    v_state TEXT;
+    v_msg TEXT;
+    v_detail TEXT;
+    v_hint TEXT;
+    v_context TEXT;
+BEGIN
+	INSERT INTO complaint (
+		complaint_type_id , 
+		reviewer_id , 
+		supplier_id , 
+		retailer_id , 
+		complaint_status_id , 
+		complaint_notes  , 
+		submitter_type  , 
+		creation_date  , 
+		last_modification_date ,
+		last_modified_by,
+		resolution_notes,
+		quotation_id,
+		complaint_title
+	) VALUES
+	( 
+		in_complaint_type_id , 
+		in_reviewer_id , 
+		in_supplier_id , 
+		in_retailer_id , 
+		in_complaint_status_id , 
+		in_complaint_notes  , 
+		in_submitter_type  , 
+		CURRENT_TIMESTAMP, 
+		CURRENT_TIMESTAMP,
+		in_last_modified_by,
+		in_resolution_notes,
+		in_quotation_id,
+		in_complaint_title
+	) RETURNING CAST(complaint_id AS BIGINT) INTO out_complaint_id;
+
+EXCEPTION WHEN OTHERS THEN 
+
+	out_complaint_id := -1;	
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION get_complaints_by_retailer(
+  IN in_retailer_id BIGINT,
+  IN in_page_size INTEGER,
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(
+  complaint_id BIGINT,
+  complaint_title VARCHAR,
+  complaint_date TIMESTAMP,
+  complaint_status VARCHAR
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    CAST(c.complaint_id AS BIGINT),
+    c.complaint_title, 
+    c.creation_date,
+    c.complaint_status_id
+  FROM
+    complaint c
+  WHERE
+    c.retailer_id = in_retailer_id
+  ORDER BY
+    c.creation_date DESC
+  LIMIT in_page_size
+  OFFSET ((in_page_index - 1) * in_page_size);
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION get_complaints_by_supplier(
+  IN in_supplier_id BIGINT,
+  IN in_page_size INTEGER,
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(
+  complaint_id BIGINT,
+  complaint_title VARCHAR,
+  complaint_date TIMESTAMP,
+  complaint_status VARCHAR
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    CAST(c.complaint_id AS BIGINT),
+    c.complaint_title, 
+    c.creation_date,
+    c.complaint_status_id
+  FROM
+    complaint c
+  WHERE
+    c.supplier_id = in_supplier_id
+  ORDER BY
+    c.creation_date DESC
+  LIMIT in_page_size
+  OFFSET ((in_page_index - 1) * in_page_size);
+END;
+$$ LANGUAGE plpgsql;
+
+-----------------------------------------------------------------------
+-- TABLE: Notification
+-- TYPE: Main
+
+CREATE TABLE notification ( 
+	notification_id SERIAL PRIMARY KEY,
+	notification_type    BIGINT,
+	notified_user_id    BIGINT,
+	notification_priority INTEGER NOT NULL,
+	notification_subject   VARCHAR(254) NOT NULL,
+	notification_details   TEXT DEFAULT NULL,
+	is_read BOOLEAN NOT NULL DEFAULT FALSE,
+	creation_date  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	last_modification_date  TIMESTAMP NOT NULL,
+	last_modified_by		 BIGINT   NOT NULL,
+	CONSTRAINT fk_notified_user_id FOREIGN KEY (notified_user_id)
+    REFERENCES user_localized(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_notification_type FOREIGN KEY (notification_type)
+    REFERENCES notification_type(notification_type_id) ON DELETE SET NULL ON UPDATE CASCADE,
+	CONSTRAINT chk_notif_priority 	  CHECK(notification_priority IN(0, 1, 2))
+);
+/*
+Notification Indexes  / Triggers
+*/
+
+-- Notification User ID Index
+-- to optimize the Retrieval Based on a given Notification's UserID
+CREATE INDEX  idx_notification_user_id ON notification(notified_user_id);
+-- Notification Priority Index
+-- to optimize the Retrieval Based on a given Notification's Number of Priority
+CREATE INDEX  idx_notification_priority ON notification(notification_priority);
+
+/*
+Notification CRUD Functions
+*/
+
+CREATE OR REPLACE FUNCTION notification_insert(
+    IN in_notification_type BIGINT,
+    IN in_notified_user_id BIGINT,
+    IN in_notification_priority INTEGER,
+    IN in_notification_subject VARCHAR,
+    IN in_notification_details TEXT,
+    IN in_last_modified_by BIGINT,
+    OUT out_notification_id BIGINT
+)
+RETURNS BIGINT AS $$
+BEGIN
+    INSERT INTO notification (
+        notification_type,
+        notified_user_id,
+        notification_priority,
+        notification_subject,
+        notification_details,
+        is_read,
+        creation_date,
+        last_modification_date,
+        last_modified_by
+    ) VALUES (
+        in_notification_type,
+        in_notified_user_id,
+        in_notification_priority,
+        in_notification_subject,
+        in_notification_details,
+        FALSE,
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP,
+        in_last_modified_by
+    )
+    RETURNING CAST(notification_id AS BIGINT) INTO out_notification_id;
+EXCEPTION
+    WHEN OTHERS THEN
+        out_notification_id := -1;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION get_notifications_by_user_id(
+    IN in_user_id BIGINT,
+    IN in_page_size INTEGER,
+    IN in_page_index INTEGER
+)
+RETURNS TABLE(
+    notification_id BIGINT,
+    notification_type BIGINT,
+    notification_priority INTEGER,
+    notification_subject VARCHAR,
+    notification_details TEXT,
+    is_read BOOLEAN,
+    creation_date TIMESTAMP
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        CAST(n.notification_id AS BIGINT),
+        n.notification_type,
+        n.notification_priority,
+        n.notification_subject,
+        n.notification_details,
+        n.is_read,
+        n.creation_date
+    FROM notification n
+    WHERE n.notified_user_id = in_user_id
+    ORDER BY n.creation_date DESC
+    LIMIT in_page_size
+    OFFSET ((in_page_index - 1) * in_page_size);
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION mark_notification_as_read(
+    IN in_notification_id BIGINT,
+    IN in_last_modified_by BIGINT
+)
+RETURNS INTEGER AS $$
+BEGIN
+    UPDATE notification
+    SET is_read = TRUE,
+        last_modification_date = CURRENT_TIMESTAMP,
+        last_modified_by = in_last_modified_by
+    WHERE CAST(notification_id AS BIGINT)= in_notification_id;
+
+    RETURN 0;
+EXCEPTION
+    WHEN OTHERS THEN
+        RETURN -1;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION delete_notification(
+    IN in_notification_id BIGINT
+)
+RETURNS INTEGER AS $$
+BEGIN
+    DELETE FROM notification
+    WHERE CAST(notification_id AS BIGINT)= in_notification_id;
+
+    RETURN 0;
+EXCEPTION
+    WHEN OTHERS THEN
+        RETURN -1;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-----------------------------------------------------------------------

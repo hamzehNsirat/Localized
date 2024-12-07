@@ -331,6 +331,67 @@ module.exports = {
     message: "Creating Review has Failed",
     errorCode: "E0054",
   },
+  E0055: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "retailerId, pageSize and pageIndex are Mandatory",
+    errorCode: "E0055",
+  },
+  E0056: {
+    errorDescription: "Fetch Failure",
+    statusCode: 400,
+    message: "Fetching Retailer Complaints has Failed",
+    errorCode: "E0056",
+  },
+  E0057: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "complaintId is Mandatory",
+    errorCode: "E0057",
+  },
+  E0058: {
+    errorDescription: "Fetch Failure",
+    statusCode: 400,
+    message: "Fetching Complaint Details has Failed",
+    errorCode: "E0058",
+  },
+  E0059: {
+    errorDescription: "Fetch Failure",
+    statusCode: 400,
+    message: "Fetching Quotation Actors has Failed",
+    errorCode: "E0059",
+  },
+  E0060: {
+    errorDescription: "Fetch Failure",
+    statusCode: 400,
+    message: "Fetching Complaint Types has Failed",
+    errorCode: "E0060",
+  },
+  E0061: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message:
+      "complaintTitle, complaintTypeId,supplierId, retailerId, complaintNotes and quotationId are Mandatory",
+    errorCode: "E0061",
+  },
+  E0062: {
+    errorDescription: "Creation Failure",
+    statusCode: 400,
+    message: "Creating Complaint has Failed",
+    errorCode: "E0062",
+  },
+  E0063: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "userId, pageSize and pageIndex are Mandatory",
+    errorCode: "E0063",
+  },
+  E0064: {
+    errorDescription: "Fetch Failure",
+    statusCode: 400,
+    message: "Fetching Retailer Notifications has Failed",
+    errorCode: "E0064",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,

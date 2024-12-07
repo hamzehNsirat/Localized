@@ -1,6 +1,7 @@
 const userModel = require("../models/User");
 const logDBModel = require('../models/Log'); 
 const usrReviewModel = require("../models/UserReview"); 
+const Notification = require("../models/Notification");
 
 const userService = {
   async getUserById(userData) {
@@ -56,7 +57,17 @@ const userService = {
       isTransactional: true,
     };
     await logDBModel.insertLog(inputData);
+    notificationData = {
+      notificationType: 10,
+      notifiedUserId: userData.userId,
+      notificationPriority: 1,
+      notificationSubject: "Profile Updated",
+      notificationDetails: `your profile has been updated!`,
+      lastModifiedBy: 1,
+    };
+    await Notification.insertNotification(notificationData);
 
+    
     return {
       success: true,
     };
@@ -112,7 +123,6 @@ const userService = {
     };
   },
   async reviewUser(userData) {
-    console.log(userData);
     // Update user details
     const dbUpdate = await userModel.updateStatus(userData);
     if (dbUpdate[0].update_res != 0) {
