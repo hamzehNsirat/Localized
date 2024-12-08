@@ -392,6 +392,24 @@ module.exports = {
     message: "Fetching Retailer Notifications has Failed",
     errorCode: "E0064",
   },
+  E0065: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "retailerId is Mandatory",
+    errorCode: "E0065",
+  },
+  E0066: {
+    errorDescription: "Update Failure",
+    statusCode: 400,
+    message: "Updating Retailer Details has Failed",
+    errorCode: "E0066",
+  },
+  E0067: {
+    errorDescription: "Update Failure",
+    statusCode: 400,
+    message: "Updating Retailstore Details has Failed",
+    errorCode: "E0067",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,

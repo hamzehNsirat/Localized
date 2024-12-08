@@ -1,7 +1,6 @@
 # TODO Backend
 
-## RETAILER PART [COMPLETION PERCENTAGE:95%]
-
+## RETAILER PART [COMPLETION PERCENTAGE:100%]
 
 ### PART 1 Signup
 - service: check user name is already in database
@@ -1327,18 +1326,163 @@ qid, logo supplier, factory name, status
                             }
                         }
                     }
-
 ### PART 10 GENERAL
 - service: update user data
-done
+ - payload:
+    ```json
+                    {
+                        "user": {
+                            "userId":140,
+                            "nationalNumber": null,
+                            "userStatus": 1,
+                            "firstName": null,
+                            "middleName": "Nihaaa",
+                            "lastName": null,
+                            "dateOfBirth": null,
+                            "userAddress": null,
+                            "userEmail": null,
+                            "userPassword": null,
+                            "isEmailVerified": null,
+                            "userPhoneNumber": null,
+                            "userImage": null
+                        }
+                    }
+ - expected Response/s:
+    - Error
+    - Success
+        ```json
+                    {
+                        "header": {
+                            "errorCode": "0000",
+                            "errorDescription": "SUCCESS",
+                            "statusCode": 200,
+                            "message": "Operation completed successfully"
+                        },
+                        "body": {
+                            "success": true
+                        }
+                    }
+
 - service: update Retailer data
-pending
+ - payload:
+    ```json
+                    {
+                        "retailerId": 1,
+                        "retailerUserId": null,
+                        "retailerTaxIdentificationNum": 6545645,
+                        "retailerBankAccountNum": null,
+                        "retailerIban": "JO94CBJO0010000000000131000008"
+                    }
+ - expected Response/s:
+    - Error
+      ```json
+                    {
+                        "header": {
+                            "errorCode": "E0066",
+                            "errorDescription": "Update Failure",
+                            "statusCode": "E0066",
+                            "message": "Updating Retailer Details has Failed"
+                        },
+                        "body": {
+                            "details": {
+                                "success": false,
+                                "error": "Failed to Update Retailer Details"
+                            }
+                        }
+                    }
+    - Success
+        ```json
+                    {
+                        "header": {
+                            "errorCode": "0000",
+                            "errorDescription": "SUCCESS",
+                            "statusCode": 200,
+                            "message": "Operation completed successfully"
+                        },
+                        "body": {
+                            "success": true
+                        }
+                    }
+
 - service: get update RetailStore Data
-pending
+ - payload:
+    ```json
+                    {
+                        "retailerId": 1,
+                        "establishmentStatus": null,
+                        "industryType": null,
+                        "establishmentName": null,
+                        "commercialRegistrationNum": null,    
+                        "establishmentRegistrationDate": "2023-04-04",
+                        "contactNumber": null,
+                        "establishmentEmail": null,
+                        "establishmentWebsite": null,
+                        "establishmentDescription": null,
+                        "establishmentCity": null,
+                        "establishmentStreet": null,
+                        "establishmentBuildingNum": null,
+                        "establishmentLogo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                        "establishmentCover": null,
+                        "estComplianceIndicator": null,
+                        "estComplianceIndicatorDesc": null
+                    }
+ - expected Response/s:
+    - Error
+      ```json
+                    {
+                        "header": {
+                            "errorCode": "E0067",
+                            "errorDescription": "Update Failure",
+                            "statusCode": "E0067",
+                            "message": "Updating Retailstore Details has Failed"
+                        }
+                    }
+    - Success
+        ```json
+                    {
+                        "header": {
+                            "errorCode": "0000",
+                            "errorDescription": "SUCCESS",
+                            "statusCode": 200,
+                            "message": "Operation completed successfully"
+                        },
+                        "body": {
+                            "success": true
+                        }
+                    }
+
 - service: get policies
-pending
+front end level
 - service: logout
-done
+ - payload: NONE
+ - expected Response/s:
+    - Error
+      ```json
+                    {
+                        "header": {
+                            "errorCode": "TOKEN_EXPIRED",
+                            "errorDescription": "Authentication Failure",
+                            "statusCode": "TOKEN_EXPIRED",
+                            "message": "token is expired."
+                        }
+                    }
+    - Success
+        ```json
+
+                    {
+                        "header": {
+                            "errorCode": "0000",
+                            "errorDescription": "SUCCESS",
+                            "statusCode": 200,
+                            "message": "Operation completed successfully"
+                        },
+                        "body": {
+                            "success": true,
+                            "message": "User successfully logged out"
+                        }
+                    }
+
+
 
 ## SUPPLIER PART  [COMPLETION PERCENTAGE:]
 

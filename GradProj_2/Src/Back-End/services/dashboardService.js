@@ -13,6 +13,7 @@ const applicationModel = require("../models/Application");
 const crypto = require("crypto");
 const { sendEmail } = require("../config/email");
 const env = require("../config/env");
+const moment = require("moment");
 const {
   executeQuery,
   beginTransaction,
@@ -118,6 +119,79 @@ const dashboardService = {
       retailerDashboard,
     };
   },
+  async updateRetailerDetails(inObj) {
+    // Update Details in Retailer Table
+    const retailerId = inObj.retailerId;
+    const inputData = {
+      retailerUserId: inObj.retailerUserId,
+      retailerTaxIdentificationNum: inObj.retailerTaxIdentificationNum,
+      retailerBankAccountNum: inObj.retailerBankAccountNum,
+      retailerIban: inObj.retailerIban,
+      retailerComplianceIndicator: inObj.retailerComplianceIndicator,
+      retailerComplaintCount: inObj.retailerComplaintCount,
+      lastModifiedBy: 1,
+    };
+
+    await beginTransaction(inObj);
+    const updateRetDb = await Retailer.updateRetailer(retailerId, inputData);
+    if (!updateRetDb[0] || updateRetDb[0].update_res === -1) {
+      await rollbackTransaction();
+      return {
+        success: false,
+        error: "Failed to Update Retailer Details",
+      };
+    }
+    //    console.log(moment(Date().now).format("YYYY-MM-DD HH:mm:ss"));
+    await commitTransaction();
+    return {
+      success: true,
+    };
+  },
+  async updateRetailstoreDetails(inObj) {
+    // Update Details in Establishment Table
+    const retailerId = inObj.retailerId;
+    const fetchEstId = await RetailStore.getOwnedRetailStores(retailerId);
+    const inputData = {
+      establishmentStatus: inObj.establishmentStatus,
+      industryType: inObj.industryType,
+      establishmentName: inObj.establishmentName,
+      commercialRegistrationNum: inObj.commercialRegistrationNum,
+      establishmentRegistrationDate: inObj.establishmentRegistrationDate,
+      contactNumber: inObj.contactNumber,
+      establishmentEmail: inObj.establishmentEmail,
+      establishmentWebsite: inObj.establishmentWebsite,
+      establishmentDescription: inObj.establishmentDescription,
+      establishmentCity: inObj.establishmentCity,
+      establishmentStreet: inObj.establishmentStreet,
+      establishmentBuildingNum: inObj.establishmentBuildingNum,
+      establishmentLogo: inObj.establishmentLogo,
+      establishmentCover: inObj.establishmentCover,
+      estComplianceIndicator: inObj.estComplianceIndicator,
+      estComplianceIndicatorDesc: inObj.estComplianceIndicatorDesc,
+      lastModifiedBy: 1,
+    };
+
+    await beginTransaction(inObj);
+    const updateRetStoreDb = await Establishment.updateEstablishment(
+      fetchEstId[0].retailstore_est_id,
+      inputData
+    );
+    if (
+      !updateRetStoreDb[0] ||
+      updateRetStoreDb[0].establishment_update === -1
+    ) {
+      await rollbackTransaction();
+      return {
+        success: false,
+        error: "Failed to Update RetailStore Details",
+      };
+    }
+    await commitTransaction();
+    return {
+      success: true,
+    };
+  },
+
   async getRetailerNotifications(input) {
     const notifFetch = await Notification.getNotificationsByUserId(
       input.userId,

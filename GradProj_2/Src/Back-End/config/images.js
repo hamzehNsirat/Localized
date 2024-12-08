@@ -79,5 +79,20 @@ router.post(
     }
   }
 );
+router.get("/fetch/:filename", (req, res) => {
+  try {
+    const filename = req.params.filename; // Get the filename from the URL
+    const filePath = path.join(__dirname, "../uploads/images", filename); // Construct full path
 
+    // Check if the file exists and send it
+    res.sendFile(filePath, (err) => {
+      if (err) {
+        res.status(404).json({ error: "Image not found" });
+      }
+    });
+  } catch (error) {
+    console.error("Error fetching image:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 module.exports = router;

@@ -146,6 +146,20 @@ BEGIN
 
 EXCEPTION WHEN OTHERS THEN 
 	update_res := -1;	
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
+	out_establishment_id:= -1;
+
 END;
 $$ LANGUAGE plpgsql;
 

@@ -23,6 +23,34 @@ const getRetailerAllDetails = async (req, res) => {
     return errorHandler.handleError(res, "E0034");
   }
 };
+const updateRetailerDetails = async (req, res) => {
+  try {
+    if (req.body.retailerId == null) {
+      return errorHandler.handleError(res, "E0065");
+    }
+    const result = await dashboardService.updateRetailerDetails(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0066", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0066");
+  }
+};
+const updateRetailstoreDetails = async (req, res) => {
+  try {
+    if (req.body.retailerId == null) {
+      return errorHandler.handleError(res, "E0065");
+    }
+    const result = await dashboardService.updateRetailstoreDetails(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0067", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0067");
+  }
+};
 const getRetailerNotifications = async (req, res) => {
   try {
     if (
@@ -46,4 +74,6 @@ const getRetailerNotifications = async (req, res) => {
 module.exports = {
   getRetailerAllDetails,
   getRetailerNotifications,
+  updateRetailerDetails,
+  updateRetailstoreDetails,
 };

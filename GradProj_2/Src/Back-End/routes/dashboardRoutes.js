@@ -6,6 +6,17 @@ const validateToken = require("../middlewares/validateToken");
 // Retailer Routes
 router.post("/getretailerdetails", validateToken, controller.getRetailerAllDetails);
 router.post(
+  "/updateretailerdetails",
+  validateToken,
+  controller.updateRetailerDetails
+);
+router.post(
+  "/updateretailstoredetails",
+  validateToken,
+  controller.updateRetailstoreDetails
+);
+
+router.post(
   "/getretailernotifications",
   validateToken,
   controller.getRetailerNotifications

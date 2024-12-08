@@ -53,8 +53,9 @@ app.use("/api/platformservices", platformComplianceRoutes);
 app.use("/uploads/images", imageUpload);
 app.use(
   "/uploads/images",
-  express.static(path.join(__dirname, "uploads/images"))
+  express.static(path.join(__dirname, "usables/uploads/images"))
 );
+
 //
 // unfinished
 // app.use('/api/products', productRoutes);

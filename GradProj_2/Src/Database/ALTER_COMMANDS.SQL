@@ -3071,3 +3071,54 @@ $$ LANGUAGE plpgsql;
 
 
 -----------------------------------------------------------------------
+-- UPDATE A Retailer
+CREATE OR REPLACE FUNCTION retailer_update (
+	IN in_retailer_id    BIGINT,
+	IN in_retailer_user_id    BIGINT,
+	IN in_retailer_tax_identification_num    VARCHAR,
+	IN in_retailer_bank_account_num    VARCHAR,
+	IN in_retailer_iban    VARCHAR,
+	IN in_retailer_compliance_indicator FLOAT,
+	IN in_retailer_complaint_count 	    INTEGER,
+	IN in_last_modified_by	 BIGINT,
+	OUT update_res INT
+)
+RETURNS INT AS $$
+DECLARE
+    v_state TEXT;
+    v_msg TEXT;
+    v_detail TEXT;
+    v_hint TEXT;
+    v_context TEXT;
+BEGIN
+    UPDATE retailer 
+	SET	
+	retailer_tax_identification_num = COALESCE(in_retailer_tax_identification_num, retailer_tax_identification_num),
+	retailer_bank_account_num= COALESCE(in_retailer_bank_account_num, retailer_bank_account_num),
+	retailer_iban= COALESCE(in_retailer_iban, retailer_iban),
+	retailer_compliance_indicator= COALESCE(in_retailer_compliance_indicator, retailer_compliance_indicator),
+	retailer_compliance_count= COALESCE(in_retailer_complaint_count, retailer_compliance_count),
+	last_modification_date = CURRENT_TIMESTAMP,
+	last_modified_by =	COALESCE(in_last_modified_by, last_modified_by)
+
+	WHERE CAST(retailer_id AS BIGINT) = in_retailer_id;
+	update_res := 0;	
+
+EXCEPTION WHEN OTHERS THEN 
+	update_res := -1;	
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
+END;
+$$ LANGUAGE plpgsql;
+
+-----------------------------------------------------------------------
