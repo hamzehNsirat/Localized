@@ -58,6 +58,31 @@ const Supplier = {
     `;
     return await executeQuery(query, [supplierId]);
   },
+
+  async getSupplierByUser(userId) {
+    const query = `
+      SELECT * FROM supplier_get_by_user($1);
+    `;
+    const params = [userId];
+    return await executeQuery(query, params);
+  },
+
+  async calculateSupplierEstablishmentCompletionPercentage(ownerId) {
+    const query = `
+      SELECT calculate_supplier_establishment_completion_percentage($1) AS completion_percentage;
+    `;
+    const params = [ownerId];
+    const result = await executeQuery(query, params);
+    return result[0]?.completion_percentage || 0;
+  },
+  async calculateCompletionPercentageSupplier(userId) {
+    const query = `
+      SELECT calculate_completion_percentage_supplier($1) AS completion_percentage;
+    `;
+    const params = [userId];
+    const result = await executeQuery(query, params);
+    return result[0]?.completion_percentage || 0;
+  },
 };
 
 module.exports = Supplier;

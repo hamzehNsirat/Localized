@@ -1,4 +1,17 @@
-// Manages quotations (request, send, accept, reject)
+/*
+--------------------
+-- RETAILER CYCLE --
+- Get Quotation Retailer 
+- Update Status (Approve Reject)
+- Get Quotation By ID
+- Request Quotation
+-- SUPPLIER CYCLE --
+- Get Quotation Supplier 
+- Update Status (Submit Completed)
+- Get Quotation By ID
+- Submit Quotation
+---------------------
+*/ 
 const productService = require("../services/productService");
 const quotationService = require("../services/quotationService");
 const errorHandler = require("../middlewares/errorHandler");
@@ -44,9 +57,7 @@ const getQuotationByRetailer = async (req, res) => {
 };
 const getQuotationById = async (req, res) => {
   try {
-    if (
-      req.body.quotationId == null 
-    ) {
+    if (req.body.quotationId == null) {
       return errorHandler.handleError(res, "E0047");
     }
     const result = await quotationService.getQuotationById(req.body);

@@ -52,8 +52,11 @@ CREATE OR REPLACE FUNCTION insert_salt_user_password()
   AS
 $$
 BEGIN
+	IF NEW.is_pass_change IS TRUE THEN
+	-- Hash the new password
 	NEW.user_password = (SELECT crypt(NEW.user_password, gen_salt('md5'))) ;
 	NEW.is_pass_change = FALSE;
+	END IF;
 	RETURN NEW;
 END;
 $$

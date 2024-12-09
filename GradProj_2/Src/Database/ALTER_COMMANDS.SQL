@@ -3122,3 +3122,93 @@ END;
 $$ LANGUAGE plpgsql;
 
 -----------------------------------------------------------------------
+
+-- INSERT AN Establishment
+CREATE OR REPLACE FUNCTION establishment_insert(
+	IN in_establishment_status    BIGINT,
+	IN in_industry_type    BIGINT[],
+	IN in_establishment_name TEXT,
+	IN in_commercial_registration_num BIGINT,
+	IN in_establishment_registration_date TIMESTAMP,
+	IN in_contact_number VARCHAR,
+	IN in_establishment_email VARCHAR,
+	IN in_establishment_website TEXT,
+	IN in_establishment_description TEXT,
+	IN in_establishment_type BOOLEAN,
+	IN in_establishment_city VARCHAR,
+	IN in_establishment_street VARCHAR,
+	IN in_establishment_building_num VARCHAR,
+	IN in_establishment_logo       TEXT,
+	IN in_establishment_cover       TEXT,
+	IN in_est_compliance_indicator FLOAT,
+	IN in_est_compliance_indicator_desc VARCHAR,
+	IN last_modifier BIGINT,
+	OUT out_establishment_id BIGINT
+)
+RETURNS BIGINT AS $$
+DECLARE
+    v_state TEXT;
+    v_msg TEXT;
+    v_detail TEXT;
+    v_hint TEXT;
+    v_context TEXT;
+BEGIN
+INSERT INTO establishment (
+		establishment_status,
+		establishment_name,
+		commercial_registration_num,
+		establishment_registration_date,
+		contact_number,
+		establishment_email,
+		establishment_website,
+		establishment_description,
+		establishment_type,
+		establishment_city,
+		establishment_street,
+		establishment_building_num,
+		industry_type_spec,
+		establishment_logo      ,
+		establishment_cover      ,
+		est_compliance_indicator,
+		est_compliance_indicator_desc,
+		last_modification_date,
+		last_modified_by
+	) VALUES
+	(
+		in_establishment_status,
+		in_establishment_name,
+		in_commercial_registration_num,
+		in_establishment_registration_date,
+		in_contact_number,
+		in_establishment_email,
+		in_establishment_website,
+		in_establishment_description,
+		in_establishment_type,
+		in_establishment_city,
+		in_establishment_street,
+		in_establishment_building_num,
+		in_industry_type,
+		in_establishment_logo,
+		in_establishment_cover,
+		in_est_compliance_indicator,
+		in_est_compliance_indicator_desc,
+		CURRENT_TIMESTAMP,
+		last_modifier
+	) RETURNING CAST(establishment_id AS BIGINT) INTO out_establishment_id;		
+EXCEPTION WHEN OTHERS THEN 
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
+	out_establishment_id:= -1;
+END;
+$$ LANGUAGE plpgsql;
+-----------------------------------------------------------------------

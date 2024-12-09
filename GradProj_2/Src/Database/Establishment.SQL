@@ -311,6 +311,7 @@ INSERT INTO establishment (
 		in_establishment_cover,
 		in_est_compliance_indicator,
 		in_est_compliance_indicator_desc,
+		CURRENT_TIMESTAMP,
 		last_modifier
 	) RETURNING CAST(establishment_id AS BIGINT) INTO out_establishment_id;		
 EXCEPTION WHEN OTHERS THEN 

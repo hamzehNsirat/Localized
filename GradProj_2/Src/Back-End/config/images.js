@@ -3,34 +3,25 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const router = express.Router();
-
-// Set the directory for image uploads
 const UPLOAD_DIR = path.join(
   __dirname,
   "../../../Src/Back-End/usables/uploads/images"
 );
-
-// Ensure the upload directory exists
 if (!fs.existsSync(UPLOAD_DIR)) {
   fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 }
-
-// Multer configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, UPLOAD_DIR); // Set the destination folder
+    cb(null, UPLOAD_DIR); 
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     const fileExtension = path.extname(file.originalname);
-
-    // Use the description field for naming
     const description = req.body.description || "default";
     cb(null, `${description}-${uniqueSuffix}${fileExtension}`);
   },
 });
 
-// File filter to accept only images
 const fileFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image/")) {
     cb(null, true);
@@ -38,8 +29,6 @@ const fileFilter = (req, file, cb) => {
     cb(new Error("Only image files are allowed!"), false);
   }
 };
-
-// Multer instance
 const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
@@ -49,7 +38,7 @@ const upload = multer({
 // API route for image upload
 router.post(
   "/upload",
-  upload.single("image"), // Handle the "image" field
+  upload.single("image"),                       // Handle the "image" field
   (req, res) => {
     try {
       const file = req.file;
@@ -81,9 +70,8 @@ router.post(
 );
 router.get("/fetch/:filename", (req, res) => {
   try {
-    const filename = req.params.filename; // Get the filename from the URL
+    const filename = req.params.filename;                                 // Get the filename from the URL
     const filePath = path.join(__dirname, "../uploads/images", filename); // Construct full path
-
     // Check if the file exists and send it
     res.sendFile(filePath, (err) => {
       if (err) {

@@ -1,3 +1,4 @@
+// Error Codes File, to Dynamically Generate JSON Response Headers with Desired Description
 module.exports = {
   E0001: {
     errorDescription: "Invalid Input",
@@ -409,6 +410,18 @@ module.exports = {
     statusCode: 400,
     message: "Updating Retailstore Details has Failed",
     errorCode: "E0067",
+  },
+  E0068: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "userId is Mandatory",
+    errorCode: "E0068",
+  },
+  E0069: {
+    errorDescription: "Fetch Failure",
+    statusCode: 400,
+    message: "Fetching Supplier Details has Failed",
+    errorCode: "E0069",
   },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",

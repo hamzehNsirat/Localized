@@ -1,7 +1,32 @@
-//  Manages orders, status updates, cancellations// Manages quotations (request, send, accept, reject)
+// Controls the Route / Service Interaction for the following:
+/*
+-----------------
+-- REVIEW CYCLE--
+- Submit Review
+----------------------
+-- COMPLAINTS CYCLE --
+- Get Complaint Details
+- Get Complaints List
+- Get Retailer Complaints
+- Get Supplier Complaints
+- Update Complaint
+- Update Complaint Status
+- Create Complaint
+- Get Complaint Types
+- Get Quotation Actors for Supplier
+- Get Quotation Actors for Retailer
+---------------------
+-- PENALTIES CYCLE --
+- Get Penalties List 
+- Get Penalty Detailes 
+- Get Complaint Related Establishments 
+- Create Penalty
+- Update Penalty 
+- Update Penalty Status
+- Reflect Penalty on Establishment Indicator Calculations
+*/ 
 const platformCompService = require("../services/platformComplianceService");
 const errorHandler = require("../middlewares/errorHandler");
-const { executeQuery } = require("../config/database");
 const submitReview = async (req, res) => {
   try {
     if (
@@ -26,7 +51,7 @@ const getComplaintsRetailer = async (req, res) => {
     if (
       req.body.retailerId == null ||
       req.body.pageSize == null ||
-      req.body.pageIndex == null 
+      req.body.pageIndex == null
     ) {
       return errorHandler.handleError(res, "E0055");
     }
@@ -39,12 +64,9 @@ const getComplaintsRetailer = async (req, res) => {
     return errorHandler.handleError(res, "E0056");
   }
 };
-
 const getComplaintById = async (req, res) => {
   try {
-    if (
-      req.body.complaintId == null
-    ) {
+    if (req.body.complaintId == null) {
       return errorHandler.handleError(res, "E0057");
     }
     const result = await platformCompService.getComplaintById(req.body);
@@ -85,7 +107,6 @@ const getQuotationRetailerComplaint = async (req, res) => {
     return errorHandler.handleError(res, "E0059");
   }
 };
-
 const getComplaintTypes = async (req, res) => {
   try {
     const result = await platformCompService.getComplaintTypes();

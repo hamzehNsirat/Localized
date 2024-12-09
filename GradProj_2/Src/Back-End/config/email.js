@@ -1,23 +1,23 @@
+// Import Packages, Configurable Properties
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const env = require("./env");
-// OAuth2 setup
+// Set oAuth2 Client
 const oAuth2Client = new google.auth.OAuth2(
-  env.oauthClientId, // Client ID
+  env.oauthClientId,     // Client ID
   env.oauthClientSecret, // Client Secret
-  env.oauthRedirectUri // Redirect URI
+  env.oauthRedirectUri   // Redirect URI
 );
-
 // Set refresh token
 oAuth2Client.setCredentials({
   refresh_token:
     env.oauthRefreshToken,
 });
-// Create a nodemailer transporter
+
+// Nodemailer Transporter for Email sending Delegation
 const createTransporter = async () => {
   try {
     const accessToken = await oAuth2Client.getAccessToken(); // Generate a new access token
-
     return nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -35,19 +35,17 @@ const createTransporter = async () => {
   }
 };
 
-// Function to send emails
 const sendEmail = async (to, subject, text, html) => {
   try {
     const transporter = await createTransporter();
 
     const mailOptions = {
-      from: "localized.jo@gmail.com", // Sender email
-      to, // Recipient email
+      from: "localized.jo@gmail.com",           // Sender email
+      to,                                       // Recipient email
       subject: subject || 'no reply Localized', // Email subject
-      text, // Plain text
-      html, // HTML content (optional)
+      text,                                     // Plain text
+      html,                                     // HTML content (optional)
     };
-
     const result = await transporter.sendMail(mailOptions);
     console.log(`Email sent successfully: ${result.messageId}`);
     return result.messageId;

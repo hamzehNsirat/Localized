@@ -1,21 +1,29 @@
-// Manages user profiles and account actions
+/*
+--------------------
+-- USER CYCLE --
+- Get Single User 
+- Get List of Users
+- Update Single User
+- Review User
+- Delete User
+---------------------
+*/ 
 const userService = require("../services/userService");
 const errorHandler = require("../middlewares/errorHandler");
 // done -> needs testing
-const getSingleUser =  async (req, res) => {
-    try {
-      const result = await userService.getUserById(req.body);
-      if (result.success == false)
-      {
-        return errorHandler.handleError(res, "E0011", result);
-      }
-      return errorHandler.handleSuccess(res, result);
-    } catch (error) {    
-      return errorHandler.handleError(res, "E0010", error.message);
+const getSingleUser = async (req, res) => {
+  try {
+    const result = await userService.getUserById(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0011", result);
     }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0010", error.message);
+  }
 };
 
-const updateSingleUser = async (req, res) =>  {
+const updateSingleUser = async (req, res) => {
   try {
     const userData = req.body.user;
     const result = await userService.updateUser(userData);

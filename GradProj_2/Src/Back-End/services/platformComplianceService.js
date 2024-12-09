@@ -154,7 +154,6 @@ const platformComplianceService = {
       complaintsList,
     };
   },
-
   async getComplaintById(inputData) {
     const complaintFetchDb = await Complaint.getComplaintById(
       inputData.complaintId
@@ -187,7 +186,6 @@ const platformComplianceService = {
       complaintDetails,
     };
   },
-
   async getQuotationSupplierComplaint(inputData) {
     const actorFetchDb = await Quotation.getQuotationActorsSupplier(
       inputData.supplierId
@@ -212,7 +210,6 @@ const platformComplianceService = {
       quotationActors,
     };
   },
-
   async getQuotationRetailerComplaint(inputData) {
     const actorFetchDb = await Quotation.getQuotationActorsRetailer(
       inputData.retailerId
@@ -237,7 +234,6 @@ const platformComplianceService = {
       quotationActors,
     };
   },
-
   async getComplaintTypes() {
     const typesFetchDb = await ComplaintType.getAllComplaintTypes();
     if (!typesFetchDb[0]) {

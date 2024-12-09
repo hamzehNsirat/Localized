@@ -1,33 +1,18 @@
-/**
- * Converts a JavaScript array into a PostgreSQL-compatible array string.
- * If the input is not an array, it throws an error.
- *
- * @param {Array} inputArray - The JavaScript array to format.
- * @returns {string} - A PostgreSQL-compatible array string.
- */
+// Query Parameters Handlers
 function handleArray(inputArray) {
   if (!Array.isArray(inputArray)) {
     throw new Error("Provided parameter is not an array.");
   }
   return `{${inputArray.map((item) => JSON.stringify(item)).join(",")}}`;
 }
-/**
- * Converts a JavaScript object into a PostgreSQL-compatible JSONB string.
- * If the input is not an object, it throws an error.
- *
- * @param {Object} jsonObject - The JavaScript object to format.
- * @returns {string} - A PostgreSQL-compatible JSONB string.
- */
 function handleJsonB(jsonObject) {
   if (typeof jsonObject !== "object" || jsonObject === null) {
     throw new Error("Provided parameter is not a valid JSON object.");
   }
   return JSON.stringify(jsonObject);
 }
-
+// Database Connection
 const { Pool } = require("pg");
-
-// Database connection pool
 const pool = new Pool({
   host: process.env.DB_HOST || "localhost",
   port: process.env.DB_PORT || "5432",
@@ -36,8 +21,8 @@ const pool = new Pool({
   password: process.env.DB_PASS || "admin",
 });
 
+// Handle Each Atomic Transaction
 let transactionalClient = null;
-
 /**
  * Starts a transaction by acquiring a database client.
  */
@@ -48,7 +33,6 @@ const beginTransaction = async () => {
   transactionalClient = await pool.connect();
   await transactionalClient.query("BEGIN");
 };
-
 /**
  * Executes a query within a transaction or standalone, depending on the context.
  * Automatically determines whether to use the transactional client or pool.
@@ -59,7 +43,6 @@ const beginTransaction = async () => {
  */
 const executeQuery = async (query, params = []) => {
   const client = transactionalClient || pool; // Use transactional client if set, otherwise the pool
-
   // Preprocess parameters
   const formattedParams = params.map((param) => {
     if (Array.isArray(param)) {
@@ -97,7 +80,9 @@ const commitTransaction = async () => {
     transactionalClient = null;
   }
 };
-
+/**
+ * Rolls Back the current transaction and releases the transactional client.
+ */
 const rollbackTransaction = async () => {
   if (!transactionalClient) {
     throw new Error("No transaction in progress to rollback!");

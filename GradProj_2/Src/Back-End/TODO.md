@@ -1484,17 +1484,152 @@ front end level
 
 
 
-## SUPPLIER PART  [COMPLETION PERCENTAGE:]
+## SUPPLIER PART  [COMPLETION PERCENTAGE: 33%]
 
 ### PART 1 Signup
 - service: check user name is already in database
+ - payload:
+    ```json
+                    {
+                        "username": "supplier091224"
+                    }
+ - expected Response/s:
+    - Error
+    - Success
+        ```json
+                    {
+                        "header": {
+                            "errorCode": "0000",
+                            "errorDescription": "SUCCESS",
+                            "statusCode": 200,
+                            "message": "Operation completed successfully"
+                        },
+                        "body": {
+                            "success": true,
+                            "isAvailable": true
+                        }
+                    }
 - service: submit APPLICATION
-
+ - payload:
+    ```json
+                    {
+                        "userType": 2,
+                        "firstName": "sample",
+                        "lastName": "supplier",
+                        "userName": "supplier091224",
+                        "email": "hamnoi9991@gmail.com",
+                        "password": "sudo9991",
+                        "phoneNumber": "0770606067",
+                        "establishmentName": "Smartech",
+                        "establishmentContactNumber": "0770707076",
+                        "establishmentEmail": "est.supp9991@mail.com",
+                        "establishmentDescription": "sells Electronics",
+                        "establishmentCommercialRegistrationNum": 878965321,
+                        "establishmentCity": "Amman",
+                        "establishmentStreet": "Abdali",
+                        "establishmentBuildingNum": "C12",
+                        "establishmentIndustryType": [
+                            2
+                        ],
+                        "establishmentLogo": "http://localhost:5055/uploads/images/default-1733749653337-468698296.png"
+                    }
+ - expected Response/s:
+    - Error
+        ```json
+                         {
+                            "header": {
+                                "errorCode": "E0019",
+                                "errorDescription": "Submit Failure",
+                                "statusCode": "E0019",
+                                "message": "Submitting an Application has failed"
+                            },
+                            "body": {
+                                "details": {
+                                    "success": false,
+                                    "error": "Unable to Create Application in Database"
+                                }
+                            }
+                        }
+    - Success
+        ```json
+                    {
+                        "header": {
+                            "errorCode": "0000",
+                            "errorDescription": "SUCCESS",
+                            "statusCode": 201,
+                            "message": "Operation completed successfully"
+                        },
+                        "body": {
+                            "success": true
+                        }
+                    }
 ### PART 2 Login
 - service: is the most recent application approved, and username/email is in the database
 - service: forget password -> send an email with a unique code, listen to the user input new code, compare sent code and entered code 
 if matching -> update password from payload if not -> handle error
+ - payload:
+    ```json
+    {
+        "email": "hamnoi9991@gmail.com"
+    }
+ - expected Response/s:
+    - Error
+        ```json
+    - Success
+        ```json
+        {
+            "header": {
+                "errorCode": "0000",
+                "errorDescription": "SUCCESS",
+                "statusCode": 200,
+                "message": "Operation completed successfully"
+            },
+            "body": {
+                "success": true
+            }
+        }
 - service: Actual Login
+ - payload:
+    ```json
+        {
+            "user": {
+                "userName": "supplier091224",
+                "userPassword": "Aff"
+            }
+        }
+ - expected Response/s:
+    - Error
+        ```json
+            {
+                "header": {
+                    "errorCode": "E0008",
+                    "errorDescription": "Operation Failure",
+                    "statusCode": "E0008",
+                    "message": "Sign in operation has failed."
+                },
+                "body": {
+                    "details": {
+                        "success": false,
+                        "error": "Invalid Credentials"
+                    }
+                }
+            }
+    - Success
+        ```json
+        {
+            "header": {
+                "errorCode": "0000",
+                "errorDescription": "SUCCESS",
+                "statusCode": 200,
+                "message": "Operation completed successfully"
+            },
+            "body": {
+                "success": true,
+                "userId": "187",
+                "userType": "2",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM3NjM3MjksImV4cCI6MTczMzg1MDEyOX0.NTXj9G0NuOe-H76hut9DdoqCM1EI205dEI4RGn09D5I"
+            }
+        }
 
 
 ### PART 3 DASHBOARD Init
@@ -1502,6 +1637,91 @@ if matching -> update password from payload if not -> handle error
 - service: get progress bar profile, user id returns percantge of completed data in terms of User / - Supplier-RETAILER
 - service: get progress bar establishment, returns percantge of completed data
 - service: Insights (postponed)
+ - payload:
+    ```json
+            {
+                "userId": 187
+            }
+ - expected Response/s:
+    - Error
+        ```json
+            {
+                "header": {
+                    "errorCode": "E0069",
+                    "errorDescription": "Fetch Failure",
+                    "statusCode": "E0069",
+                    "message": "Fetching Supplier Details has Failed"
+                }
+            }
+    - Success
+        ```json
+                {
+                    "header": {
+                        "errorCode": "0000",
+                        "errorDescription": "SUCCESS",
+                        "statusCode": 200,
+                        "message": "Operation completed successfully"
+                    },
+                    "body": {
+                        "success": true,
+                        "supplierDashboard": {
+                            "userDetails": {
+                                "nationalNumber": null,
+                                "userName": "supplier091225",
+                                "userType": "2",
+                                "userStatus": "1",
+                                "firstName": "sample",
+                                "middleName": null,
+                                "lastName": "supplier",
+                                "dateOfBirth": null,
+                                "userEmail": "hanoi09991@gmail.com",
+                                "userPhone": "0740606067",
+                                "userAddress": null,
+                                "userImage": null
+                            },
+                            "supplierDetails": {
+                                "supplierId": "9",
+                                "supplierTaxIdentificationNumber": null,
+                                "supplierBankAccountNumber": null,
+                                "supplierIBAN": null,
+                                "supplierComplianceIndicator": 1,
+                                "supplierComplaintCount": 0
+                            },
+                            "factoryDetails": {
+                                "factoryId": "38-9"
+                            },
+                            "establishmentDetails": {
+                                "establishmentName": "Smartech",
+                                "establishmentIndustryType": [
+                                    "2"
+                                ],
+                                "establishmentStatus": "1",
+                                "establishmentCommercialRegistrationNumber": "478905321",
+                                "establishmentRegistrationDate": null,
+                                "establishmentContactNumber": "0770004455",
+                                "establishmentEmail": "est.sup9991@mail.com",
+                                "establishmentWebsite": null,
+                                "establishmentDescription": "sells Electronics",
+                                "establishmentType": false,
+                                "establishmentCity": "Amman",
+                                "establishmentStreet": "Abdali",
+                                "establishmentBuildingNumber": "12C",
+                                "establishmentLogo": null,
+                                "establishmentCover": null,
+                                "establishmentComplianceIndicator": 1,
+                                "establishmentComplianceIndicatorDescription": "GOOD"
+                            },
+                            "progressBarUser": {
+                                "percentage": 75
+                            },
+                            "progressBarEstablishment": {
+                                "percentage": 85
+                            },
+                            "insights": "To Be Done"
+                        }
+                    }
+                }
+
 
 ### PART 4 MARKETPLACE SUPPLIER
 - service: Get all Products Paginated (filtered by Factory Categories (supplierId -> EstablishmentId -> IndustryTypes -> Categories - > Products))

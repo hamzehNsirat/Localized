@@ -1,6 +1,5 @@
-// Handles password hashing, token generation, and validation
-const User = require("../models/User"); // User model
-const Establishment = require("../models/Establishment"); // Establishment model
+const User = require("../models/User");
+const Establishment = require("../models/Establishment");
 const Supplier = require("../models/Supplier");
 const Retailer = require("../models/retailer");
 const Admin = require("../models/Adminstrator");
@@ -263,7 +262,6 @@ const authService = {
           error: "Application for this User is still Pending Review",
         };
       }
-
       if (userResult[0].out_is_valid != 1) {
         return {
           success: false,
@@ -472,12 +470,11 @@ const authService = {
       throw error;
     }
   },
-
   async requestPasswordReset(email) {
     try {
       // Check if the user exists
       const user = await executeQuery(
-        "SELECT COUNT(*) AS is_in_db, user_id FROM user_localized WHERE user_email = $1",
+        "SELECT COUNT(*) AS is_in_db, user_id FROM user_localized WHERE user_email = $1  GROUP BY USER_ID",
         [email]
       );
       if (user[0].is_in_db == '0') {
@@ -530,7 +527,7 @@ const authService = {
   try {
     // Check if the token is valid and not expired
     const user = await executeQuery(
-      "SELECT count(*) AS db_res, user_id FROM user_localized WHERE reset_password_token = $1 AND reset_password_expires > NOW()",
+      "SELECT count(*) AS db_res, user_id FROM user_localized WHERE reset_password_token = $1 AND reset_password_expires > NOW()  GROUP BY USER_ID",
       [token]
     );
 

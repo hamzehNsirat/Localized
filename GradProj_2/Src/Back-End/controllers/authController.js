@@ -1,7 +1,27 @@
+// Controls the Route / Service Interaction for the following:
+/*
+--------------------------
+-- AUTHENTICATION CYCLE --
+- User Login
+- User Signup
+- User Signout
+-----------------------
+-- APPLICATION CYCLE --
+- Application Submit
+- Application Get List
+- Application Get Individual Details
+- Application Update Status
+- Application Check Status
+-------------------
+-- UTILITY CYCLE --
+- Check Username Availability
+- Check Establishment Eligibility
+- Request Password Reset
+- Reset Password
+*/
 const authService = require("../services/authService");
 const errorHandler = require("../middlewares/errorHandler");
 const { executeQuery } = require("../config/database");
-// Manages user authentication (login, signup, password reset)
 const signUp = async (req, res) => {
   try {
     const { user, establishment } = req.body;
@@ -40,10 +60,9 @@ const signIn = async (req, res) => {
     return errorHandler.handleError(res, "9999");
   }
 };
-
 const signOut = async (req, res, next) => {
   try {
-    const userId  = req.user.userId; // Extract user information from the decoded token (middleware-provided)
+    const userId = req.user.userId; // Extract user information from the decoded token (middleware-provided)
     // Invalidate the token by incrementing the user's token version in the database
     await executeQuery(
       "UPDATE user_localized SET token_version = token_version + 1 WHERE user_id = $1",
@@ -57,14 +76,13 @@ const signOut = async (req, res, next) => {
     );
   } catch (error) {
     // Handle any errors
-    return errorHandler.handleError(res,'E0009');
+    return errorHandler.handleError(res, "E0009");
   }
 };
-
 const submitApplication = async (req, res) => {
   try {
     const applicationData = req.body;
-    
+
     if (!req.body.userType) {
       return errorHandler.handleError(res, "E0005");
     }
@@ -96,7 +114,6 @@ const checkUsernameAvailability = async (req, res) => {
     console.error("Check Username error:", error);
     return errorHandler.handleError(res, "E0021");
   }
-
 };
 const checkApplicationStatus = async (req, res) => {
   try {
@@ -118,8 +135,8 @@ const getApplicationsList = async (req, res) => {
   try {
     if (
       req.body.pageSize == null ||
-      (req.body.pageIndex == null ||
-      req.body.pageIndex <= 0)
+      req.body.pageIndex == null ||
+      req.body.pageIndex <= 0
     ) {
       return errorHandler.handleError(res, "E0023");
     }
@@ -137,7 +154,10 @@ const getApplicationsList = async (req, res) => {
 };
 const getApplicationById = async (req, res) => {
   try {
-    if (req.body.applicationId == null || parseInt(req.body.applicationId) <= 0) {
+    if (
+      req.body.applicationId == null ||
+      parseInt(req.body.applicationId) <= 0
+    ) {
       return errorHandler.handleError(res, "E0025");
     }
     const result = await authService.getApplicationById(req.body.applicationId);
@@ -200,7 +220,6 @@ const resetPassword = async (req, res) => {
     return errorHandler.handleError(res, "E0032");
   }
 };
-
 const checkEstablishmentEligibility = async (req, res) => {
   try {
     if (!req.body.establishmentCommercialRegistrationNumber) {
@@ -208,7 +227,9 @@ const checkEstablishmentEligibility = async (req, res) => {
     }
     const result = {};
     if (
-      !String(req.body.establishmentCommercialRegistrationNumber).startsWith("12") ||
+      !String(req.body.establishmentCommercialRegistrationNumber).startsWith(
+        "12"
+      ) ||
       !String(req.body.establishmentCommercialRegistrationNumber).endsWith("3")
     ) {
       result.success = true;
@@ -217,7 +238,7 @@ const checkEstablishmentEligibility = async (req, res) => {
       result.success = true;
       result.isValid = true;
     }
-   return errorHandler.handleSuccess(res, result, 200);
+    return errorHandler.handleSuccess(res, result, 200);
   } catch (error) {
     console.error("Check Error:", error);
     return errorHandler.handleError(res, "E0044");

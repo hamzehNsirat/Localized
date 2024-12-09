@@ -1,5 +1,5 @@
-const User = require("../models/User"); // User model
-const Establishment = require("../models/Establishment"); // Establishment model
+const User = require("../models/User"); 
+const Establishment = require("../models/Establishment");
 const Supplier = require("../models/Supplier");
 const Retailer = require("../models/retailer");
 const Admin = require("../models/Adminstrator");
@@ -191,7 +191,6 @@ const dashboardService = {
       success: true,
     };
   },
-
   async getRetailerNotifications(input) {
     const notifFetch = await Notification.getNotificationsByUserId(
       input.userId,
@@ -221,6 +220,100 @@ const dashboardService = {
     return {
       success: true,
       notificationList,
+    };
+  },
+  async getSupplierAllDetails(userId) {
+    const input = {
+      userId: userId,
+    };
+    // Fetch Data from each table
+    const basicData = await userService.getUserById(input);
+    const supplierData = await Supplier.getSupplierByUser(userId);
+    const factoryData = await Factory.getOwnedFactories(
+      supplierData[0].out_supplier_id
+    );
+    const establishmentData = await Establishment.getEstablishmentById(
+      factoryData[0].factory_est_id
+    );
+
+    const progressBarSupplier =
+    await Supplier.calculateCompletionPercentageSupplier(userId);
+    const progressBarFactory=
+    await Supplier.calculateSupplierEstablishmentCompletionPercentage(
+      supplierData[0].out_supplier_id
+    );
+
+    const supplierInsights = { Insights: "To Be Done" };
+    // Consilidate Data and Format it
+    const supplierDashboard = {
+      userDetails: {
+        nationalNumber: basicData.nationalNumber,
+        userName: basicData.userName,
+        userType: basicData.userType,
+        userStatus: basicData.userStatus,
+        firstName: basicData.firstName,
+        middleName: basicData.middleName,
+        lastName: basicData.lastName,
+        dateOfBirth: basicData.dateOfBirth,
+        userEmail: basicData.userEmail,
+        userPhone: basicData.userPhone,
+        userAddress: basicData.userAddress,
+        userImage: basicData.userImage,
+      },
+      supplierDetails: {
+        supplierId: supplierData[0].out_supplier_id,
+        supplierTaxIdentificationNumber:
+          supplierData[0].out_supplier_tax_identification_num,
+        supplierBankAccountNumber:
+          supplierData[0].out_supplier_bank_account_num,
+        supplierIBAN: supplierData[0].out_supplier_iban,
+        supplierComplianceIndicator:
+          supplierData[0].out_supplier_compliance_indicator,
+        supplierComplaintCount: supplierData[0].out_supplier_complaint_count,
+      },
+      factoryDetails: {
+        factoryId:
+          factoryData[0].factory_est_id + "-" + supplierData[0].out_supplier_id,
+      },
+      establishmentDetails: {
+        establishmentName: establishmentData[0].out_establishment_name,
+        establishmentIndustryType: establishmentData[0].out_industry_type,
+        establishmentStatus: establishmentData[0].out_establishment_status,
+        establishmentCommercialRegistrationNumber:
+          establishmentData[0].out_commercial_registration_num,
+        establishmentRegistrationDate:
+          establishmentData[0].out_establishment_registration_date,
+        establishmentCommercialRegistrationNumber:
+          establishmentData[0].out_commercial_registration_num,
+        establishmentContactNumber: establishmentData[0].out_contact_number,
+        establishmentEmail: establishmentData[0].out_establishment_email,
+        establishmentWebsite: establishmentData[0].out_establishment_website,
+        establishmentDescription:
+          establishmentData[0].out_establishment_description,
+        establishmentType: establishmentData[0].out_establishment_type,
+        establishmentCity: establishmentData[0].out_establishment_city,
+        establishmentStreet: establishmentData[0].out_establishment_street,
+        establishmentBuildingNumber:
+          establishmentData[0].out_establishment_building_num,
+        establishmentLogo: establishmentData[0].out_establishment_logo,
+        establishmentCover: establishmentData[0].out_establishment_cover,
+        establishmentComplianceIndicator:
+          establishmentData[0].out_est_compliance_indicator,
+        establishmentComplianceIndicatorDescription:
+          establishmentData[0].out_est_compliance_indicator_desc,
+      },
+      progressBarUser: {
+        percentage: progressBarSupplier,
+      },
+      progressBarEstablishment: {
+        percentage: progressBarFactory,
+      },
+      insights: supplierInsights.Insights,
+    };
+    // Return Data Object as Response
+    return {
+      success: true,
+      supplierDashboard,
     };
   },
 };

@@ -672,3 +672,36 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+--------------------------------------------------------------------
+-- SP NO.:#11, 
+-- Complexity: EASY,
+-- Creation Data: 09122024,
+-- Desc: Calculate Supplier Details
+-- NodeJS Model: Supplier
+CREATE OR REPLACE FUNCTION supplier_get_by_user(IN in_user_id BIGINT)
+RETURNS TABLE(		
+	out_supplier_user_id    BIGINT,
+	out_supplier_tax_identification_num    VARCHAR,
+	out_supplier_bank_account_num    VARCHAR,
+	out_supplier_iban    VARCHAR,
+	out_supplier_compliance_indicator FLOAT,
+	out_supplier_complaint_count 	    INTEGER,
+	out_supplier_positive_review_count INTEGER,
+	out_supplier_overall_rating INTEGER
+
+) AS $$
+BEGIN
+    RETURN QUERY 
+	SELECT
+	CAST(supplier_id AS BIGINT),
+	supplier_tax_identification_num,
+	supplier_bank_account_num,
+	supplier_iban,
+	supplier_compliance_indicator,
+	supplier_complaint_count 	,
+	supplier_positive_review_count,
+	supplier_overall_rating
+	FROM supplier
+	WHERE CAST(supplier_user_id AS BIGINT) = in_user_id;
+END;
+$$ LANGUAGE plpgsql;

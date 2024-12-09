@@ -117,7 +117,6 @@ const quotationService = {
       quotationsList,
     };
   },
-
   async getQuotationById(inputData) {
     quotationFetchDb = await Quotation.getAllData(inputData.quotationId);
     if (!quotationFetchDb[0]) {
@@ -154,7 +153,6 @@ const quotationService = {
       },
     };
   },
-
   async updateQuotationStatus(inputData) {
     quotationUpdateDb = await Quotation.updateStatus(inputData);
     if (!quotationUpdateDb[0] || quotationUpdateDb[0].quotation_update_status == '-1') {
