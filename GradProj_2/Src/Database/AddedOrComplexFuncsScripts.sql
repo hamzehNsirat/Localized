@@ -430,7 +430,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 ----------------------------------------------------------------------------------------------
--- SP NO.:#8, 
+-- SP NO.:#9, 
 -- Complexity: MODERATE,
 -- Creation Data: 04122024,
 -- Desc: Search Products by Search Term
@@ -498,7 +498,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 --------------------------------------------------------------------------
--- SP NO.:#9, 
+-- SP NO.:#10, 
 -- Complexity: MODERATE,
 -- Creation Data: 04122024,
 -- Desc: Get Supplier Related Products
@@ -611,7 +611,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 --------------------------------------------------------------------------------------------------------------
--- SP NO.:#9, 
+-- SP NO.:#11, 
 -- Complexity: MODERATE,
 -- Creation Data: 06122024,
 -- Desc: Get Retailer Related Quotations
@@ -647,7 +647,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 ------------------------------------------------------------------------------------------------
--- SP NO.:#10, 
+-- SP NO.:#12, 
 -- Complexity: MODERATE,
 -- Creation Data: 06122024,
 -- Desc: Calculate Supplier Overall Rating
@@ -673,7 +673,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 --------------------------------------------------------------------
--- SP NO.:#11, 
+-- SP NO.:#13, 
 -- Complexity: EASY,
 -- Creation Data: 09122024,
 -- Desc: Calculate Supplier Details
@@ -705,3 +705,67 @@ BEGIN
 	WHERE CAST(supplier_user_id AS BIGINT) = in_user_id;
 END;
 $$ LANGUAGE plpgsql;
+--------------------------------------------------------------
+-- SP NO.:#14, 
+-- Complexity: MODERATE,
+-- Creation Data: 10122024,
+-- Desc: Get Supplier Marketplace
+-- NodeJS Model: Supplier
+CREATE OR REPLACE FUNCTION supplier_get_marketplace_products(
+  IN in_supplier_id BIGINT, 
+  IN in_page_size INTEGER, 
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(		
+  out_product_id BIGINT,
+  out_product_name VARCHAR,
+  out_product_description TEXT, 
+  out_product_image TEXT,
+  out_product_retail_price FLOAT,
+  out_product_unit_price FLOAT,
+  out_product_whole_sale_price FLOAT
+) AS $$
+BEGIN
+RETURN QUERY 
+  WITH factory AS (
+    SELECT factory_est_id 
+    FROM factory_owned_get(in_supplier_id)
+  ),
+  supplier_categories AS (
+    SELECT out_category_id 
+    FROM factory_categories_get((SELECT factory_est_id FROM factory))
+  ),
+  products_with_compliance AS (
+    SELECT 
+      p.product_id,
+      p.product_name,
+      p.product_description,
+      p.product_image,
+      p.product_retail_price,
+      p.product_unit_price,
+      p.product_whole_sale_price,
+      s.supplier_compliance_indicator,
+      p.supplier_id
+    FROM product p
+    JOIN supplier s ON p.supplier_id = s.supplier_id
+    WHERE p.product_category = ANY(SELECT out_category_id FROM supplier_categories)
+      AND p.product_status_id = (
+        SELECT product_status_id 
+        FROM product_status 
+        WHERE product_status LIKE '%PUBLISHED%'
+      )
+  )
+  SELECT 
+    CAST(product_id AS BIGINT) AS out_product_id,
+    product_name AS out_product_name,
+    product_description AS out_product_description,
+    product_image AS out_product_image,
+    product_retail_price AS out_product_retail_price,
+    product_unit_price AS out_product_unit_price,
+    product_whole_sale_price AS out_product_whole_sale_price
+  FROM products_with_compliance
+  LIMIT in_page_size
+  OFFSET ((in_page_index - 1) * in_page_size);
+END;
+$$ LANGUAGE plpgsql;
+--------------------------------------------------------------

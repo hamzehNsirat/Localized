@@ -7,10 +7,11 @@ const Product = {
     ]);
   },
 
-  async getBySupplier(supplierId) {
-    return await executeQuery("SELECT * FROM product_get_by_supplier($1)", [
-      supplierId,
-    ]);
+  async getBySupplier(supplierId, pageSize, pageIndex) {
+    return await executeQuery(
+      "SELECT * FROM product_get_by_supplier($1,$2,$3)",
+      [supplierId, pageSize, pageIndex]
+    );
   },
 
   async insert(inputData) {
@@ -119,13 +120,28 @@ const Product = {
       );
 
       // Return the first row since the result contains aggregated data
-      return  result;  
+      return result;
     } catch (error) {
       console.error("Error fetching supplier details:", error.message);
       return {
         success: false,
         error: "An error occurred while fetching supplier details.",
       };
+    }
+  },
+  async getMarketplaceProductsSupplier(supplierId, pageSize, pageIndex) {
+    try {
+      const query = `
+        SELECT * 
+        FROM supplier_get_marketplace_products($1, $2, $3);
+      `;
+
+      const params = [supplierId, pageSize, pageIndex];
+      const result = await executeQuery(query, params);
+      return result;
+    } catch (error) {
+      console.error("Error fetching marketplace products:", error.message);
+      throw error;
     }
   },
 };

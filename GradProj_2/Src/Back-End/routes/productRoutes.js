@@ -20,9 +20,24 @@ router.post(
   controller.getRetProductsByCategory
 );
 router.post(
-  "/searchretproducts",
+  "/getretsupplierproducts",
   validateToken,
-  controller.searchRetProducts
+  controller.getRetSupplierProducts
 );
-router.post("/getretsupplierproducts", validateToken, controller.getRetSupplierProducts);
+router.post("/searchretproducts", validateToken, controller.searchProducts);
+// Supplier Routes
+router.post(
+  "/getsuppliermarketplace",
+  validateToken,
+  controller.getSupplierMarketplace
+);
+router.post("/searchsuppproducts", validateToken, controller.searchProducts);
+router.post(
+  "/getsupplierownedproducts",
+  validateToken,
+  controller.getSupplierOwnedProducts
+);
+router.post("/add", validateToken, controller.addProduct);
+router.post("/update", validateToken, controller.updateProduct);
+
 module.exports = router;

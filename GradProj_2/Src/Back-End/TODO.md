@@ -1484,7 +1484,7 @@ front end level
 
 
 
-## SUPPLIER PART  [COMPLETION PERCENTAGE: 33%]
+## SUPPLIER PART  [COMPLETION PERCENTAGE: 50%]
 
 ### PART 1 Signup
 - service: check user name is already in database
@@ -1630,8 +1630,6 @@ if matching -> update password from payload if not -> handle error
                 "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM3NjM3MjksImV4cCI6MTczMzg1MDEyOX0.NTXj9G0NuOe-H76hut9DdoqCM1EI205dEI4RGn09D5I"
             }
         }
-
-
 ### PART 3 DASHBOARD Init
 - service: fetch user / supplier data,
 - service: get progress bar profile, user id returns percantge of completed data in terms of User / - Supplier-RETAILER
@@ -1721,46 +1719,170 @@ if matching -> update password from payload if not -> handle error
                         }
                     }
                 }
-
-
 ### PART 4 MARKETPLACE SUPPLIER
 - service: Get all Products Paginated (filtered by Factory Categories (supplierId -> EstablishmentId -> IndustryTypes -> Categories - > Products))
+ - payload:
+    ```json
+            {
+                "supplierId": 9,
+                "pageSize": 5,
+                "pageIndex": 1
+            }
+ - expected Response/s:
+    - Error
+        ```json
+            {
+                "header": {
+                    "errorCode": "E0071",
+                    "errorDescription": "Fetch Failure",
+                    "statusCode": "E0071",
+                    "message": "Fetching Supplier Marketplace has Failed"
+                }
+            }
+    - Success
+        ```json
+            {
+                "header": {
+                    "errorCode": "0000",
+                    "errorDescription": "SUCCESS",
+                    "statusCode": 200,
+                    "message": "Operation completed successfully"
+                },
+                "body": {
+                    "success": true,
+                    "marketPlace": {
+                        "productItem": [
+                            {
+                                "id": "2",
+                                "name": "test",
+                                "description": "in_product_description",
+                                "image": null,
+                                "retailPrice": null,
+                                "unitPrice": 45.5,
+                                "wholeSalePrice": null
+                            },
+                            {
+                                "id": "4",
+                                "name": "batata",
+                                "description": "in_product_description",
+                                "image": null,
+                                "retailPrice": 1.2,
+                                "unitPrice": 1,
+                                "wholeSalePrice": 0.8
+                            }
+                        ]
+                    }
+                }
+            }
 - service: Search by product Category, product name,factory name (filtered by search term, page size, page index)
-
+- payload:
+    ```json
+            {
+                "searchTerm":"bata",
+                "pageSize": 2,
+                "pageIndex":1    
+            }
+ - expected Response/s:
+    - Error
+        ```json
+            {
+                "header": {
+                    "errorCode": "E0039",
+                    "errorDescription": "No Data",
+                    "statusCode": "E0039",
+                    "message": "Search Yielded No Data"
+                }
+            }
+    - Success
+        ```json
+            {
+                "header": {
+                    "errorCode": "0000",
+                    "errorDescription": "SUCCESS",
+                    "statusCode": 200,
+                    "message": "Operation completed successfully"
+                },
+                "body": {
+                    "success": true,
+                    "marketPlace": {
+                        "productItem": [
+                            {
+                                "id": "3",
+                                "name": "batata",
+                                "description": "in_product_description",
+                                "image": null,
+                                "retailPrice": 1.2,
+                                "unitPrice": 1,
+                                "wholeSalePrice": 0.8,
+                                "supplier": "1"
+                            },
+                            {
+                                "id": "5",
+                                "name": "batata",
+                                "description": "in_product_description",
+                                "image": null,
+                                "retailPrice": 1.2,
+                                "unitPrice": 1,
+                                "wholeSalePrice": 0.8,
+                                "supplier": "1"
+                            }
+                        ]
+                    },
+                    "totalRecordsCount": "4"
+                }
+            }
 ### PART 5 PRODUCTS
 - service: Get all Products Paginated (supplierId)
+done; sample to be provided
 - service: Insert Product
+done; sample to be provided
 - service: Update Product
+pending
 
 ### PART 6 Manage QUOTATION
 - service: GetQuotations List by Supplier (supplierId, page sized, page number)
 qid, logo retailer, retailstore name, status
+pending
 - service: Get Quotation BY ID
     Quotation Details
     List Of Orders with default values
     other Quotation Fields like:
     total subtotal and shipping price
+done
 - service: Update Status Quotation (Reject)
+done
 - service: Submit Quotation (changes Quotation Details, sets Total and subTotal)
+pending
 - service: Update Status Quotation (Completed)
+done
 
 ### PART 7 COMPLAINTS
 - service: Get Complaints by Supplier: (Supplierid, page size, page index)
+pending
 - service: Get Complaint Data by Id
+done
 - service: Get Related Quotations for Supplier (Id, Supplier)
+done
 - service: Get Complaint Types
+done
 - service: Create Complaint
+done
 
 ### PART 8 NOTIFICATIONS
-- service: get related notifications by retailerId
+- service: get related notifications by supplierId
+pending testing and expansion
 
 ### PART 9 GENERAL
 - service: update user data
+done
 - service: update Supplier data
+pending
 - service: update Factory Data + Cover
+pending
 - service: get policies
+frontend level
 - service: logout
-
+done
 
 ## ADMINSTRATOR PART  [COMPLETION PERCENTAGE:]
 

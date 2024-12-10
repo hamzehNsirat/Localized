@@ -423,6 +423,37 @@ module.exports = {
     message: "Fetching Supplier Details has Failed",
     errorCode: "E0069",
   },
+  E0070: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "supplierId, pageSize, pageIndex are Mandatory",
+    errorCode: "E0070",
+  },
+  E0071: {
+    errorDescription: "Fetch Failure",
+    statusCode: 400,
+    message: "Fetching Supplier Marketplace has Failed",
+    errorCode: "E0071",
+  },
+  E0072: {
+    errorDescription: "Fetch Failure",
+    statusCode: 400,
+    message: "Fetching Supplier Owned Products has Failed",
+    errorCode: "E0072",
+  },
+  E0073: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message:
+      "supplierId, productStatusId, productUnitPrice, productWholeSalePrice, productRetailPrice, productUnitPriceDiscount, productCategory, productDescription, productImage and productName are Mandatory",
+    errorCode: "E0073",
+  },
+  E0074: {
+    errorDescription: "Creation Failure",
+    statusCode: 400,
+    message: "Creating Product has Failed",
+    errorCode: "E0074",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,

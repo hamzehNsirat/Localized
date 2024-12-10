@@ -88,7 +88,7 @@ AS $$ BEGIN RETURN QUERY
 END;
 $$ LANGUAGE plpgsql;
 -- GET A Product BY SUPPLIER ID
-CREATE OR REPLACE FUNCTION product_get_by_supplier(IN in_supplier_id BIGINT) 
+CREATE OR REPLACE FUNCTION product_get_by_supplier(IN in_supplier_id BIGINT, IN in_page_size INT, IN in_page_index INT) 
 RETURNS TABLE(
 	out_product_id BIGINT,
 	out_product_status_id BIGINT,
@@ -127,7 +127,9 @@ AS $$ BEGIN RETURN QUERY
 	last_modification_date,
 	last_modified_by
 	FROM	product
-	WHERE	CAST(supplier_id AS BIGINT) = in_supplier_id;
+	WHERE	CAST(supplier_id AS BIGINT) = in_supplier_id
+	LIMIT in_page_size
+  	OFFSET ((in_page_index - 1) * in_page_size);
 END;
 $$ LANGUAGE plpgsql;
 -- INSERT A Product

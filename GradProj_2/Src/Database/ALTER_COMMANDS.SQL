@@ -3212,3 +3212,43 @@ EXCEPTION WHEN OTHERS THEN
 END;
 $$ LANGUAGE plpgsql;
 -----------------------------------------------------------------------
+-- GET A Product BY SUPPLIER ID
+drop function product_get_by_supplier;
+CREATE OR REPLACE FUNCTION product_get_by_supplier(IN in_supplier_id BIGINT, IN in_page_size INT, IN in_page_index INT) 
+RETURNS TABLE(
+	out_product_id BIGINT,
+	out_product_status_id BIGINT,
+	out_product_unit_price FLOAT,
+	out_product_whole_sale_price FLOAT,
+	out_product_retail_price FLOAT,
+	out_product_unit_price_discount FLOAT,
+	out_product_category BIGINT,
+	out_product_description TEXT,
+	out_product_image TEXT,
+	out_product_name VARCHAR,
+	out_product_addition_date TIMESTAMP,
+	out_last_modification_date TIMESTAMP,
+	out_last_modified_by BIGINT
+) 
+AS $$ BEGIN RETURN QUERY
+	SELECT
+	CAST(product_id AS BIGINT),
+	product_status_id,
+	product_unit_price,
+	product_whole_sale_price,
+	product_retail_price,
+	product_unit_price_discount,
+	product_category,
+	product_description,
+	product_image,
+	product_name,
+	product_addition_date,
+	last_modification_date,
+	last_modified_by
+	FROM	product
+	WHERE	CAST(supplier_id AS BIGINT) = in_supplier_id
+	LIMIT in_page_size
+  	OFFSET ((in_page_index - 1) * in_page_size);
+END;
+$$ LANGUAGE plpgsql;
+-----------------------------------------------------------------------------

@@ -96,7 +96,7 @@ const productService = {
       throw error;
     }
   },
-  async searchRetProducts(inputData) {
+  async searchProducts(inputData) {
     try {
       const retMarketPlaceResult = await Product.searchProducts(
         inputData.searchTerm,
@@ -212,6 +212,118 @@ const productService = {
     } catch (error) {
       throw error;
     }
+  },
+  async getSupplierMarketplace(inputData) {
+    try {
+      const suppMarketPlaceResult =
+        await Product.getMarketplaceProductsSupplier(
+          inputData.supplierId,
+          inputData.pageSize,
+          inputData.pageIndex
+        );
+      if (!suppMarketPlaceResult) {
+        return {
+          success: false,
+          error: "Unable to Fetch MarketPlace for Supplier",
+        };
+      } else if (suppMarketPlaceResult.length === 0) {
+        return {
+          success: true,
+          error: "No Data Found",
+        };
+      }
+      const marketPlace = { productItem: [] };
+      for (let i = 0; i < suppMarketPlaceResult.length; i++) {
+        const item = {
+          id: suppMarketPlaceResult[i].out_product_id,
+          name: suppMarketPlaceResult[i].out_product_name,
+          description: suppMarketPlaceResult[i].out_product_description,
+          image: suppMarketPlaceResult[i].out_product_image,
+          retailPrice: suppMarketPlaceResult[i].out_product_retail_price,
+          unitPrice: suppMarketPlaceResult[i].out_product_unit_price,
+          wholeSalePrice: suppMarketPlaceResult[i].out_product_whole_sale_price,
+        };
+        marketPlace.productItem.push(item);
+      }
+      return {
+        success: true,
+        marketPlace: marketPlace,
+      };
+    } catch (error) {
+      throw error;
+    }
+  },
+  async getSupplierOwnedProducts(inputData) {
+    try {
+      const suppMarketPlaceResult = await Product.getBySupplier(
+        inputData.supplierId,
+        inputData.pageSize,
+        inputData.pageIndex
+      );
+      if (!suppMarketPlaceResult) {
+        return {
+          success: false,
+          error: "Unable to Fetch MarketPlace for Supplier",
+        };
+      } else if (suppMarketPlaceResult.length === 0) {
+        return {
+          success: true,
+          error: "No Data Found",
+        };
+      }
+      const marketPlace = { productItem: [] };
+      for (let i = 0; i < suppMarketPlaceResult.length; i++) {
+        const item = {
+          id: suppMarketPlaceResult[i].out_product_id,
+          status: suppMarketPlaceResult[i].out_product_status_id,
+          name: suppMarketPlaceResult[i].out_product_name,
+          description: suppMarketPlaceResult[i].out_product_description,
+          image: suppMarketPlaceResult[i].out_product_image,
+          retailPrice: suppMarketPlaceResult[i].out_product_retail_price,
+          unitPrice: suppMarketPlaceResult[i].out_product_unit_price,
+          wholeSalePrice: suppMarketPlaceResult[i].out_product_whole_sale_price,
+        };
+        marketPlace.productItem.push(item);
+      }
+      return {
+        success: true,
+        productsList: marketPlace,
+      };
+    } catch (error) {
+      throw error;
+    }
+  },
+  async addProduct(inputData) {
+    await beginTransaction();
+    const productDetails = {
+      supplierId: inputData.supplierId,
+      productStatusId: inputData.productStatusId,
+      productUnitPrice: inputData.productUnitPrice,
+      productWholeSalePrice: inputData.productWholeSalePrice,
+      productRetailPrice: inputData.productRetailPrice,
+      productUnitPriceDiscount: inputData.productUnitPriceDiscount,
+      productCategory: inputData.productCategory,
+      productDescription: inputData.productDescription,
+      productImage: inputData.productImage,
+      productName: inputData.productName,
+      lastModifiedBy: 1,
+    };
+    const productInsertDb = await Product.insert(productDetails);
+    if (
+      !productInsertDb[0].out_product_id ||
+       productInsertDb[0].out_product_id == "-1"
+    ) {
+      await rollbackTransaction();
+      return {
+        success: false,
+        error: "Failed to Add Product",
+      };
+    }
+
+    await commitTransaction();
+    return {
+      success: true,
+    };
   },
 };
 

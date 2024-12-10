@@ -23,8 +23,8 @@ const getRetMarketplaceProducts = async (req, res) => {
   try {
     if (
       req.body.retailerId == null ||
-      req.body.pageSize   == null ||
-      req.body.pageIndex  == null
+      req.body.pageSize == null ||
+      req.body.pageIndex == null
     ) {
       return errorHandler.handleError(res, "E0035");
     }
@@ -42,7 +42,7 @@ const getRetProductsByCategory = async (req, res) => {
     if (
       (req.body.industryList == null && req.body.categoriesList == null) ||
       req.body.pageIndex == null ||
-      req.body.pageSize  == null
+      req.body.pageSize == null
     ) {
       return errorHandler.handleError(res, "E0037");
     }
@@ -56,7 +56,7 @@ const getRetProductsByCategory = async (req, res) => {
   }
 };
 
-const searchRetProducts = async (req, res) => {
+const searchProducts = async (req, res) => {
   try {
     if (
       req.body.searchTerm == null ||
@@ -65,7 +65,7 @@ const searchRetProducts = async (req, res) => {
     ) {
       return errorHandler.handleError(res, "E0038");
     }
-    const result = await productService.searchRetProducts(req.body);
+    const result = await productService.searchProducts(req.body);
     if (result.success == false) {
       return errorHandler.handleError(res, "E0039", result);
     }
@@ -92,10 +92,93 @@ const getRetSupplierProducts = async (req, res) => {
     return errorHandler.handleError(res, "E0039");
   }
 };
+const getSupplierMarketplace = async (req, res) => {
+  try {
+    if (
+      req.body.supplierId == null ||
+      req.body.pageSize == null ||
+      req.body.pageIndex == null
+    ) {
+      return errorHandler.handleError(res, "E0070");
+    }
+    const result = await productService.getSupplierMarketplace(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0071", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0071");
+  }
+};
+const getSupplierOwnedProducts = async (req, res) => {
+  try {
+    if (
+      req.body.supplierId == null ||
+      req.body.pageSize == null ||
+      req.body.pageIndex == null
+    ) {
+      return errorHandler.handleError(res, "E0070");
+    }
+    const result = await productService.getSupplierOwnedProducts(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0072", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0072");
+  }
+};
 
+const addProduct = async (req, res) => {
+  try {
+    if (
+      req.body.supplierId == null ||
+      req.body.productStatusId == null ||
+      req.body.productUnitPrice == null ||
+      req.body.productWholeSalePrice == null ||
+      req.body.productRetailPrice == null ||
+      req.body.productUnitPriceDiscount == null ||
+      req.body.productCategory == null ||
+      req.body.productDescription == null ||
+      req.body.productImage == null ||
+      req.body.productName == null
+    ) {
+      return errorHandler.handleError(res, "E0073");
+    }
+    const result = await productService.addProduct(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0074", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0074");
+  }
+};
+const updateProduct = async (req, res) => {
+  try {
+    if (
+      req.body.supplierId == null ||
+      req.body.pageSize == null ||
+      req.body.pageIndex == null
+    ) {
+      return errorHandler.handleError(res, "E0070");
+    }
+    const result = await productService.getSupplierOwnedProducts(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0072", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0072");
+  }
+};
 module.exports = {
   getRetMarketplaceProducts,
   getRetProductsByCategory,
-  searchRetProducts,
+  searchProducts,
   getRetSupplierProducts,
+  getSupplierMarketplace,
+  getSupplierOwnedProducts,
+  addProduct,
+  updateProduct,
 };
