@@ -1,5 +1,13 @@
 # TODO Backend
 
+# Project Distribution
+
+- Analytics: Hamzeh
+- Admin: Husam
+- Integration: Abu Ayyash
+- Document: Rafeeq
+- Poster / Video: Husam
+
 ## RETAILER PART [COMPLETION PERCENTAGE:100%]
 
 ### PART 1 Signup
@@ -1838,6 +1846,9 @@ done; sample to be provided
 done; sample to be provided
 - service: Update Product
 pending
+
+### Add Product View, Supplier Profile Veiw and Functions to incerement in Database
+### Add IsApplied Penalty to Complaint with a function to update it
 
 ### PART 6 Manage QUOTATION
 - service: GetQuotations List by Supplier (supplierId, page sized, page number)
