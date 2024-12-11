@@ -26,6 +26,11 @@ router.post(
 );
 // Supplier Routes
 router.post(
+  "/getcomplaintssupplier",
+  validateToken,
+  controller.getComplaintsSupplier
+);
+router.post(
   "/getquotationactorssupp",
   validateToken,
   controller.getQuotationSupplierComplaint

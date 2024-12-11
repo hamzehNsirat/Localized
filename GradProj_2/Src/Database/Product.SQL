@@ -15,6 +15,7 @@ CREATE TABLE product (
 	product_addition_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	last_modification_date TIMESTAMP NOT NULL,
 	last_modified_by BIGINT NOT NULL,
+	product_view BIGINT DEFAULT 0,
 	CONSTRAINT fk_prdct_supplier_id FOREIGN KEY (supplier_id) REFERENCES supplier(supplier_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT fk_prdct_status_id FOREIGN KEY (product_status_id) REFERENCES product_status(product_status_id) ON DELETE SET NULL ON UPDATE CASCADE,
 	CONSTRAINT fk_prdct_cat FOREIGN KEY (product_category) REFERENCES category(category_id) ON DELETE SET NULL,
@@ -43,6 +44,16 @@ CREATE INDEX idx_product_status ON product(product_status_id);
 /*
  Product CRUD Functions
  */
+
+-- UPDATE VIEWS
+CREATE OR REPLACE FUNCTION product_update_view(IN in_product_id BIGINT) 
+RETURNS VOID
+AS $$ BEGIN RETURN QUERY
+	UPDATE	product
+	SET product_view = product_view + 1
+	WHERE	CAST(product_id AS BIGINT) = in_product_id;
+END;
+$$ LANGUAGE plpgsql;
 
 -- GET A Product BY ID
 CREATE OR REPLACE FUNCTION product_get_by_id(IN in_product_id BIGINT) 

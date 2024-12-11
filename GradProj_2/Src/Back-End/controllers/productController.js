@@ -157,19 +157,17 @@ const addProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
   try {
     if (
-      req.body.supplierId == null ||
-      req.body.pageSize == null ||
-      req.body.pageIndex == null
+      req.body.productId == null
     ) {
-      return errorHandler.handleError(res, "E0070");
+      return errorHandler.handleError(res, "E0075");
     }
-    const result = await productService.getSupplierOwnedProducts(req.body);
+    const result = await productService.updateProduct(req.body);
     if (result.success == false) {
-      return errorHandler.handleError(res, "E0072", result);
+      return errorHandler.handleError(res, "E0076", result);
     }
     return errorHandler.handleSuccess(res, result);
   } catch (error) {
-    return errorHandler.handleError(res, "E0072");
+    return errorHandler.handleError(res, "E0076");
   }
 };
 module.exports = {

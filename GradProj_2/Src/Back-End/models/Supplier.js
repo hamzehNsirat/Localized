@@ -83,6 +83,14 @@ const Supplier = {
     const result = await executeQuery(query, params);
     return result[0]?.completion_percentage || 0;
   },
+  async updateProfileViewsSupplier(supplierId) {
+    const query = `
+      SELECT supplier_update_profile_views($1);
+    `;
+    const params = [supplierId];
+    const result = await supplierId(query, params);
+    return 0;
+  },
 };
 
 module.exports = Supplier;

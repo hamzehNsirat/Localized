@@ -83,9 +83,43 @@ const updateQuotationStatus = async (req, res) => {
     return errorHandler.handleError(res, "E0050");
   }
 };
+const getQuotationBySupplier = async (req, res) => {
+  try {
+    if (
+      req.body.supplierId == null ||
+      req.body.pageSize == null ||
+      req.body.pageIndex == null
+    ) {
+      return errorHandler.handleError(res, "E0070");
+    }
+    const result = await quotationService.getQuotationBySupplier(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0077", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0077");
+  }
+};
+const submitQuotation = async (req, res) => {
+  try {
+    if (req.body.quotationId == null) {
+      return errorHandler.handleError(res, "E0079");
+    }
+    const result = await quotationService.submitQuotation(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0078", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0078");
+  }
+};
 module.exports = {
   requestQuotation,
   getQuotationByRetailer,
   getQuotationById,
   updateQuotationStatus,
+  getQuotationBySupplier,
+  submitQuotation,
 };

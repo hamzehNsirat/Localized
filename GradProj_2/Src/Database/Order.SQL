@@ -138,3 +138,43 @@ WHEN OTHERS THEN
     context: %',  v_state, v_msg, v_detail, v_hint, v_context;
 END;
 $$ LANGUAGE plpgsql;
+-- UPDATE AN Order
+CREATE OR REPLACE FUNCTION order_update (
+	IN in_order_id 		     BIGINT,
+	IN in_order_quantity   	 FLOAT,
+	IN in_order_price 		 FLOAT,
+	IN in_last_modified_by   BIGINT,
+) 
+RETURNS INTEGER
+AS $$ 
+DECLARE 
+v_state TEXT;
+v_msg TEXT;
+v_detail TEXT;
+v_hint TEXT;
+v_context TEXT;
+BEGIN
+	UPDATE
+	order_localized 
+	SET
+	order_quantity = COALESCE(in_order_quantity,order_quantity),
+	order_price = COALESCE(in_order_price,order_price) 
+	WHERE CAST(order_id AS BIGINT) = in_order_id;
+	RETURN 0;
+EXCEPTION
+WHEN OTHERS THEN 
+	RETURN -1;
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
+END;
+$$ LANGUAGE plpgsql;

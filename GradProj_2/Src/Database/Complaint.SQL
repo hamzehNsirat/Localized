@@ -16,6 +16,7 @@ CREATE TABLE complaint (
 	quotation_id BIGINT NOT NULL,
 	resolution_notes  TEXT,
 	complaint_title VARCHAR(400) DEFAULT 'default',
+	is_penalty_resulted BOOLEAN DEFAULT FALSE,
 	CONSTRAINT fk_cmpn_rtlr_id FOREIGN KEY (retailer_id)
     REFERENCES retailer(retailer_id) ON DELETE CASCADE,
 	CONSTRAINT fk_cmpn_supp_id FOREIGN KEY (supplier_id)
@@ -44,6 +45,16 @@ CREATE INDEX  idx_cmplnt_retailer_id ON complaint(retailer_id);
 /*
  Complaint CRUD Functions
 */
+-- UPDATE Ispenalty Flag
+CREATE OR REPLACE FUNCTION complaint_is_penalty(IN in_complaint_id BIGINT) 
+RETURNS VOID
+AS $$ BEGIN 
+	UPDATE	complaint
+	SET is_penalty_resulted = TRUE 
+	WHERE CAST(complaint_id AS BIGINT) = in_complaint_id;
+END;
+$$ LANGUAGE plpgsql;
+
 -- GET A Complaint BY ID
 CREATE OR REPLACE FUNCTION complaint_get_all(IN page_size INT, IN page_index INT) 
 RETURNS TABLE (

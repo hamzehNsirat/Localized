@@ -8,18 +8,6 @@ const Quotation = {
     ]);
   },
 
-  async getBySupplier(supplierId) {
-    return await executeQuery("SELECT * FROM quotation_get_by_supplier($1)", [
-      supplierId,
-    ]);
-  },
-
-  async getByRetailer(requesterId) {
-    return await executeQuery("SELECT * FROM quotation_get_by_retailer($1)", [
-      requesterId,
-    ]);
-  },
-
   async getQuotationActorsRetailer(Id) {
     const query = `
       SELECT quotation_id, supplier_id, requester_id
@@ -88,6 +76,14 @@ const Quotation = {
       FROM get_quotations_by_retailer($1, $2, $3)
     `;
     const params = [retailerId, pageSize, pageIndex];
+    return await executeQuery(query, params);
+  },
+  async getQuotationsBySupplier(supplierId, pageSize, pageIndex) {
+    const query = `
+      SELECT * 
+      FROM get_quotations_by_supplier($1, $2, $3)
+    `;
+    const params = [supplierId, pageSize, pageIndex];
     return await executeQuery(query, params);
   },
 };

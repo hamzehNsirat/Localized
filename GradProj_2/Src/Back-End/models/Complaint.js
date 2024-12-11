@@ -31,7 +31,6 @@ const Complaint = {
     return result[0];
   },
 
-  
   /**
    * Get complaints by retailer ID with pagination.
    * @param {number} retailerId - Retailer ID.
@@ -129,6 +128,14 @@ const Complaint = {
       FROM complaint_delete($1, $2)
     `;
     const params = [complaintId, lastModifiedBy];
+    const result = await executeQuery(query, params);
+    return result[0];
+  },
+  async updateIsPenalty(complaintId) {
+    const query = `
+      SELECT complaint_is_penalty($1)
+    `;
+    const params = [complaintId];
     const result = await executeQuery(query, params);
     return result[0];
   },

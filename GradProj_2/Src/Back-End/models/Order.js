@@ -25,6 +25,17 @@ const Order = {
       ]
     );
   },
+  async updateOrder(inputData) {
+    return await executeQuery(
+      "SELECT * FROM order_update($1, $2, $3, $4)",
+      [
+        inputData.orderId,
+        inputData.orderQuantity,
+        inputData.orderPrice,
+        inputData.lastModifiedBy,
+      ]
+    );
+  },
 };
 
 module.exports = Order;

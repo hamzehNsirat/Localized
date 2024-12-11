@@ -13,6 +13,7 @@ CREATE TABLE supplier (
 	last_modification_date  TIMESTAMP NOT NULL,
 	last_modified_by		 BIGINT   NOT NULL,
 	supplier_overall_rating  INTEGER DEFAULT NULL,
+	profile_view BIGINT DEFAULT 0,
 	CONSTRAINT fk_supplier_user_id FOREIGN KEY (supplier_user_id)
     REFERENCES user_localized(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT chk_supp_compliance_ind CHECK(supplier_compliance_indicator BETWEEN 0 AND 1),
@@ -39,6 +40,15 @@ CREATE INDEX  idx_fk_supp_compliance ON supplier(supplier_compliance_indicator);
 /*
 Supplier CRUD Functions
 */
+-- UPDATE PROFILE VIEWS
+CREATE OR REPLACE FUNCTION supplier_update_profile_views(IN in_supplier_id BIGINT)
+RETURNS VOID AS $$
+BEGIN
+	UPDATE supplier
+	SET profile_view = profile_view + 1
+	WHERE CAST(supplier_id AS BIGINT) = in_supplier_id;
+END;
+$$ LANGUAGE plpgsql;
 -- GET A Supplier BY ID
 CREATE OR REPLACE FUNCTION supplier_get_by_id(IN in_supplier_id BIGINT)
 RETURNS TABLE(		

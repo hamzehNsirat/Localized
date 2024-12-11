@@ -454,6 +454,48 @@ module.exports = {
     message: "Creating Product has Failed",
     errorCode: "E0074",
   },
+  E0075: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "productId is Mandatory",
+    errorCode: "E0075",
+  },
+  E0076: {
+    errorDescription: "Update Failure",
+    statusCode: 400,
+    message: "Updating Product has Failed",
+    errorCode: "E0076",
+  },
+  E0077: {
+    errorDescription: "Fetch Failure",
+    statusCode: 400,
+    message: "Fetching Supplier Quotations has Failed",
+    errorCode: "E0077",
+  },
+  E0078: {
+    errorDescription: "Update Failure",
+    statusCode: 400,
+    message: "Updating Quotation Details has Failed",
+    errorCode: "E0078",
+  },
+  E0079: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "quotationId is Mandatory",
+    errorCode: "E0079",
+  },
+  E0080: {
+    errorDescription: "Fetch Failure",
+    statusCode: 400,
+    message: "Fetching Complaints for Supplier has Failed",
+    errorCode: "E0080",
+  },
+  E0081: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "supplierId, pageSize and pageIndex are Mandatory",
+    errorCode: "E0081",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,

@@ -311,12 +311,44 @@ const productService = {
     const productInsertDb = await Product.insert(productDetails);
     if (
       !productInsertDb[0].out_product_id ||
-       productInsertDb[0].out_product_id == "-1"
+      productInsertDb[0].out_product_id == "-1"
     ) {
       await rollbackTransaction();
       return {
         success: false,
         error: "Failed to Add Product",
+      };
+    }
+
+    await commitTransaction();
+    return {
+      success: true,
+    };
+  },
+  async updateProduct(inputData) {
+    await beginTransaction();
+    const productDetails = {
+      productId: inputData.productId,
+      productStatusId: inputData.productStatusId,
+      productUnitPrice: inputData.productUnitPrice,
+      productWholeSalePrice: inputData.productWholeSalePrice,
+      productRetailPrice: inputData.productRetailPrice,
+      productUnitPriceDiscount: inputData.productUnitPriceDiscount,
+      productCategory: inputData.productCategory,
+      productDescription: inputData.productDescription,
+      productImage: inputData.productImage,
+      productName: inputData.productName,
+      lastModifiedBy: 1,
+    };
+    const productUpdateDb = await Product.update(productDetails);
+    if (
+      !productUpdateDb[0] ||
+      productUpdateDb[0].update_res === -1
+    ) {
+      await rollbackTransaction();
+      return {
+        success: false,
+        error: "Failed to Update Product",
       };
     }
 

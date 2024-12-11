@@ -769,3 +769,85 @@ RETURN QUERY
 END;
 $$ LANGUAGE plpgsql;
 --------------------------------------------------------------
+-- SP NO.:#15, 
+-- Complexity: MODERATE,
+-- Creation Data: 11122024,
+-- Desc: Get Supplier Related Quotations
+-- NodeJS Model: Quotation
+CREATE OR REPLACE FUNCTION get_quotations_by_supplier(
+  IN in_supplier_id BIGINT,
+  IN in_page_size INTEGER,
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(
+  out_quotation_id BIGINT,
+  out_supplier_establishment_logo TEXT,
+  out_supplier_establishment_name TEXT,
+  out_quotation_status VARCHAR
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    CAST(q.quotation_id AS BIGINT) AS out_quotation_id ,
+    e.establishment_logo AS out_supplier_establishment_logo,
+    e.establishment_name AS out_supplier_establishment_name,
+    qs.quotation_status AS out_quotation_status
+  FROM
+    quotation q
+  JOIN retailstore f ON q.requester_id = f.owner_id
+  JOIN establishment e ON f.retailstore_est_id = e.establishment_id
+  JOIN quotation_status qs ON q.quotation_status_id = qs.quotation_status_id
+  WHERE
+    q.supplier_id = in_supplier_id
+  ORDER BY q.quotation_request_date DESC
+  LIMIT in_page_size
+  OFFSET (in_page_index - 1) * in_page_size;
+END;
+$$ LANGUAGE plpgsql;
+---------------------------------------------------------------------
+-- SP NO.:#15, 
+-- Complexity: MODERATE,
+-- Creation Data: 11122024,
+-- Desc: UPDATE AN Order
+-- NodeJS Model: ORDER
+CREATE OR REPLACE FUNCTION order_update (
+	IN in_order_id 		     BIGINT,
+	IN in_order_quantity   	 FLOAT,
+	IN in_order_price 		 FLOAT,
+	IN in_last_modified_by   BIGINT
+) 
+RETURNS INTEGER
+AS $$ 
+DECLARE 
+v_state TEXT;
+v_msg TEXT;
+v_detail TEXT;
+v_hint TEXT;
+v_context TEXT;
+BEGIN
+	UPDATE
+	order_localized 
+	SET
+	order_quantity = COALESCE(in_order_quantity,order_quantity),
+	order_price = COALESCE(in_order_price,order_price), 
+  	last_modification_date = CURRENT_TIMESTAMP,
+  	last_modified_by = in_last_modified_by
+	WHERE CAST(order_id AS BIGINT) = in_order_id;
+	RETURN 0;
+EXCEPTION
+WHEN OTHERS THEN 
+	RETURN -1;
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
+END;
+$$ LANGUAGE plpgsql;

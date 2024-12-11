@@ -80,7 +80,7 @@ const getComplaintById = async (req, res) => {
 };
 const getQuotationSupplierComplaint = async (req, res) => {
   try {
-    if (req.body.complaintId == null) {
+    if (req.body.supplierId == null) {
       return errorHandler.handleError(res, "E0059");
     }
     const result = await platformCompService.getQuotationSupplierComplaint(
@@ -140,6 +140,24 @@ const createComplaint = async (req, res) => {
     return errorHandler.handleError(res, "E0062");
   }
 };
+const getComplaintsSupplier = async (req, res) => {
+  try {
+    if (
+      req.body.supplierId == null ||
+      req.body.pageSize == null ||
+      req.body.pageIndex == null
+    ) {
+      return errorHandler.handleError(res, "E0081");
+    }
+    const result = await platformCompService.getComplaintsSupplier(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0080", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0080");
+  }
+};
 module.exports = {
   submitReview,
   getComplaintsRetailer,
@@ -148,4 +166,5 @@ module.exports = {
   getQuotationRetailerComplaint,
   getComplaintTypes,
   createComplaint,
+  getComplaintsSupplier,
 };

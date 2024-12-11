@@ -3176,25 +3176,7 @@ INSERT INTO establishment (
 	) VALUES
 	(
 		in_establishment_status,
-		in_establishment_name,
-		in_commercial_registration_num,
-		in_establishment_registration_date,
-		in_contact_number,
-		in_establishment_email,
-		in_establishment_website,
-		in_establishment_description,
-		in_establishment_type,
-		in_establishment_city,
-		in_establishment_street,
-		in_establishment_building_num,
-		in_industry_type,
-		in_establishment_logo,
-		in_establishment_cover,
-		in_est_compliance_indicator,
-		in_est_compliance_indicator_desc,
-		CURRENT_TIMESTAMP,
-		last_modifier
-	) RETURNING CAST(establishment_id AS BIGINT) INTO out_establishment_id;		
+		in_establishment_name,tablishment_id;		
 EXCEPTION WHEN OTHERS THEN 
 	get stacked diagnostics
 	v_state = returned_sqlstate,
@@ -3216,6 +3198,24 @@ $$ LANGUAGE plpgsql;
 drop function product_get_by_supplier;
 CREATE OR REPLACE FUNCTION product_get_by_supplier(IN in_supplier_id BIGINT, IN in_page_size INT, IN in_page_index INT) 
 RETURNS TABLE(
+		in_commercial_registration_num,
+		in_establishment_registration_date,
+		in_contact_number,
+		in_establishment_email,
+		in_establishment_website,
+		in_establishment_description,
+		in_establishment_type,
+		in_establishment_city,
+		in_establishment_street,
+		in_establishment_building_num,
+		in_industry_type,
+		in_establishment_logo,
+		in_establishment_cover,
+		in_est_compliance_indicator,
+		in_est_compliance_indicator_desc,
+		CURRENT_TIMESTAMP,
+		last_modifier
+	) RETURNING CAST(establishment_id AS BIGINT) INTO out_es
 	out_product_id BIGINT,
 	out_product_status_id BIGINT,
 	out_product_unit_price FLOAT,
@@ -3249,6 +3249,37 @@ AS $$ BEGIN RETURN QUERY
 	WHERE	CAST(supplier_id AS BIGINT) = in_supplier_id
 	LIMIT in_page_size
   	OFFSET ((in_page_index - 1) * in_page_size);
+END;
+$$ LANGUAGE plpgsql;
+-----------------------------------------------------------------------------
+-- 11-12-2024
+ALTER TABLE product ADD COLUMN product_view BIGINT DEFAULT 0;
+CREATE OR REPLACE FUNCTION product_update_view(IN in_product_id BIGINT) 
+RETURNS VOID
+AS $$ BEGIN 
+	UPDATE	product
+	SET product_view = product_view + 1
+	WHERE	CAST(product_id AS BIGINT) = in_product_id;
+END;
+$$ LANGUAGE plpgsql;
+-----------------------------------------------------------------------------
+ALTER TABLE supplier ADD COLUMN profile_view BIGINT DEFAULT 0;
+CREATE OR REPLACE FUNCTION supplier_update_profile_views(IN in_supplier_id BIGINT)
+RETURNS VOID AS $$
+BEGIN
+	UPDATE supplier
+	SET profile_view = profile_view + 1
+	WHERE CAST(supplier_id AS BIGINT) = in_supplier_id;
+END;
+$$ LANGUAGE plpgsql;
+-----------------------------------------------------------------------------
+ALTER TABLE complaint ADD COLUMN is_penalty_resulted BOOLEAN DEFAULT FALSE;
+CREATE OR REPLACE FUNCTION complaint_is_penalty(IN in_complaint_id BIGINT) 
+RETURNS VOID
+AS $$ BEGIN 
+	UPDATE	complaint
+	SET is_penalty_resulted = TRUE 
+	WHERE CAST(complaint_id AS BIGINT) = in_complaint_id;
 END;
 $$ LANGUAGE plpgsql;
 -----------------------------------------------------------------------------

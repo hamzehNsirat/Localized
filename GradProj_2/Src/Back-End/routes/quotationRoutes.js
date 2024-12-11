@@ -14,4 +14,8 @@ router.post("/getbyid", validateToken, controller.getQuotationById);
 // Retailer Routes
 router.post("/request", validateToken, controller.requestQuotation);
 router.post("/getbyretailer", validateToken, controller.getQuotationByRetailer);
+// Supplier Routes
+router.post("/getbysupplier", validateToken, controller.getQuotationBySupplier);
+router.post("/submit", validateToken, controller.submitQuotation);
+
 module.exports = router;

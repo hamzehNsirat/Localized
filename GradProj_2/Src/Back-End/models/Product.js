@@ -144,6 +144,15 @@ const Product = {
       throw error;
     }
   },
+
+  async updateProductViews(productId) {
+    const query = `
+      SELECT product_update_view($1);
+    `;
+    const params = [productId];
+    const result = await supplierId(query, params);
+    return 0;
+  },
 };
 
 module.exports = Product;

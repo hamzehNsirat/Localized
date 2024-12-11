@@ -251,5 +251,32 @@ const platformComplianceService = {
       complaintTypes,
     };
   },
+  async getComplaintsSupplier(inputData) {
+    const complaintsFetchDb = await Complaint.getComplaintsBySupplier(
+      inputData.supplierId,
+      inputData.pageSize,
+      inputData.pageIndex
+    );
+    if (!complaintsFetchDb[0]) {
+      return {
+        success: false,
+        error: "Failed to Fetch Complaints",
+      };
+    }
+    const complaintsList = { complaintItem: [] };
+    for (let i = 0; i < complaintsFetchDb.length; i++) {
+      const item = {
+        id: complaintsFetchDb[i].complaint_id,
+        title: complaintsFetchDb[i].complaint_title,
+        date: complaintsFetchDb[i].complaint_date,
+        status: complaintsFetchDb[i].complaint_status,
+      };
+      complaintsList.complaintItem.push(item);
+    }
+    return {
+      success: true,
+      complaintsList,
+    };
+  },
 };
 module.exports = platformComplianceService;
