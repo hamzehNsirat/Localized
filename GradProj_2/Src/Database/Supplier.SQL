@@ -143,6 +143,7 @@ EXCEPTION WHEN OTHERS THEN
 END;
 $$ LANGUAGE plpgsql;
 
+
 -- UPDATE A Supplier
 CREATE OR REPLACE FUNCTION supplier_update (
 	IN in_supplier_id    BIGINT,
@@ -157,6 +158,12 @@ CREATE OR REPLACE FUNCTION supplier_update (
 	OUT update_res INT
 )
 RETURNS INT AS $$
+DECLARE
+    v_state TEXT;
+    v_msg TEXT;
+    v_detail TEXT;
+    v_hint TEXT;
+    v_context TEXT;
 BEGIN
     UPDATE supplier 
 	SET	
@@ -170,12 +177,25 @@ BEGIN
 	last_modified_by =	COALESCE(in_last_modified_by, last_modified_by)
 
 	WHERE CAST(supplier_id AS BIGINT) = in_supplier_id;
-	SET update_res = 0;	
+	update_res := 0;	
 
 EXCEPTION WHEN OTHERS THEN 
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
 	 update_res := -1;	
 END;
 $$ LANGUAGE plpgsql;
+
 
 
 -- DELETE A Supplier

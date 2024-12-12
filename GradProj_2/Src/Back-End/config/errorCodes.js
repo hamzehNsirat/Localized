@@ -496,6 +496,24 @@ module.exports = {
     message: "supplierId, pageSize and pageIndex are Mandatory",
     errorCode: "E0081",
   },
+  E0082: {
+    errorDescription: "Update Failure",
+    statusCode: 400,
+    message: "Updating Supplier Details has Failed",
+    errorCode: "E0082",
+  },
+  E0083: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "supplierId  is Mandatory",
+    errorCode: "E0083",
+  },
+  E0084: {
+    errorDescription: "Update Failure",
+    statusCode: 400,
+    message: "Updating Factory Details has Failed",
+    errorCode: "E0084",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,

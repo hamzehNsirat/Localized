@@ -3283,3 +3283,91 @@ AS $$ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 -----------------------------------------------------------------------------
+-- 12-12 
+CREATE OR REPLACE FUNCTION log_insert(
+	IN in_log_user_id BIGINT,
+	IN in_action_details 	    TEXT,
+	IN in_action_json_payload JSONB,
+	IN in_action_description  VARCHAR,
+	IN in_is_transactional 	BOOLEAN,
+	OUT out_log_id BIGINT
+)
+RETURNS BIGINT AS $$
+BEGIN
+    INSERT INTO log
+	(	
+	log_user_id,
+	action_details,
+	action_json_payload,
+	action_description,
+	is_transactional,
+	log_timestamp
+	)
+	VALUES 
+	(
+	in_log_user_id,
+	in_action_details,
+	in_action_json_payload,
+	in_action_description,
+	in_is_transactional,
+	CURRENT_TIMESTAMP
+	) RETURNING CAST(log_id AS BIGINT) INTO out_log_id;
+
+EXCEPTION WHEN OTHERS THEN 
+	out_log_id := -1;	
+END;
+$$ LANGUAGE plpgsql;
+-----------------------------------------------------------------
+
+-- UPDATE A Supplier
+CREATE OR REPLACE FUNCTION supplier_update (
+	IN in_supplier_id    BIGINT,
+	IN in_supplier_user_id    BIGINT,
+	IN in_supplier_tax_identification_num    VARCHAR,
+	IN in_supplier_bank_account_num    VARCHAR,
+	IN in_supplier_iban    VARCHAR,
+	IN in_supplier_compliance_indicator FLOAT,
+	IN in_supplier_complaint_count 	    INTEGER,
+	IN in_supplier_positive_review_count INTEGER,
+	IN in_last_modified_by	 BIGINT,
+	OUT update_res INT
+)
+RETURNS INT AS $$
+DECLARE
+    v_state TEXT;
+    v_msg TEXT;
+    v_detail TEXT;
+    v_hint TEXT;
+    v_context TEXT;
+BEGIN
+    UPDATE supplier 
+	SET	
+	supplier_tax_identification_num = COALESCE(in_supplier_tax_identification_num, supplier_tax_identification_num),
+	supplier_bank_account_num= COALESCE(in_supplier_bank_account_num, supplier_bank_account_num),
+	supplier_iban= COALESCE(in_supplier_iban, supplier_iban),
+	supplier_compliance_indicator= COALESCE(in_supplier_compliance_indicator, supplier_compliance_indicator),
+	supplier_complaint_count= COALESCE(in_supplier_complaint_count, supplier_complaint_count),
+	supplier_positive_review_count= COALESCE(in_supplier_positive_review_count, supplier_positive_review_count),	
+	last_modification_date = CURRENT_TIMESTAMP,
+	last_modified_by =	COALESCE(in_last_modified_by, last_modified_by)
+
+	WHERE CAST(supplier_id AS BIGINT) = in_supplier_id;
+	update_res := 0;	
+
+EXCEPTION WHEN OTHERS THEN 
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
+	 update_res := -1;	
+END;
+$$ LANGUAGE plpgsql;
+---------------------------------------------------------------------

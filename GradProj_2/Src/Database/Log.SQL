@@ -76,6 +76,6 @@ BEGIN
 	) RETURNING CAST(log_id AS BIGINT) INTO out_log_id;
 
 EXCEPTION WHEN OTHERS THEN 
-	SET out_log_id = -1;	
+	out_log_id := -1;	
 END;
 $$ LANGUAGE plpgsql;

@@ -237,11 +237,11 @@ const dashboardService = {
     );
 
     const progressBarSupplier =
-    await Supplier.calculateCompletionPercentageSupplier(userId);
-    const progressBarFactory=
-    await Supplier.calculateSupplierEstablishmentCompletionPercentage(
-      supplierData[0].out_supplier_id
-    );
+      await Supplier.calculateCompletionPercentageSupplier(userId);
+    const progressBarFactory =
+      await Supplier.calculateSupplierEstablishmentCompletionPercentage(
+        supplierData[0].out_supplier_id
+      );
 
     const supplierInsights = { Insights: "To Be Done" };
     // Consilidate Data and Format it
@@ -314,6 +314,109 @@ const dashboardService = {
     return {
       success: true,
       supplierDashboard,
+    };
+  },
+  async getSupplierNotifications(input) {
+    const notifFetch = await Notification.getNotificationsByUserId(
+      input.userId,
+      input.pageSize,
+      input.pageIndex
+    );
+    if (!notifFetch[0]) {
+      return {
+        success: false,
+        error: "Unable to Fetch Notifications for Retailer",
+      };
+    }
+    // Return Data Object as Response
+    const notificationList = { notificationItem: [] };
+    for (let i = 0; i < notifFetch.length; i++) {
+      const item = {
+        id: notifFetch[i].notification_id,
+        type: notifFetch[i].notification_type,
+        priority: notifFetch[i].notification_priority,
+        subject: notifFetch[i].notification_subject,
+        details: notifFetch[i].notification_details,
+        isRead: notifFetch[i].is_read,
+        creationTime: notifFetch[i].creation_date,
+      };
+      notificationList.notificationItem.push(item);
+    }
+    return {
+      success: true,
+      notificationList,
+    };
+  },
+  async updateSupplierDetails(inObj) {
+    // Update Details in Retailer Table
+    const supplierId = inObj.supplierId;
+    const inputData = {
+      supplierUserId: inObj.supplierUserId,
+      supplierTaxIdentificationNum: inObj.supplierTaxIdentificationNum,
+      supplierBankAccountNum: inObj.supplierBankAccountNum,
+      supplierIban: inObj.supplierIban,
+      supplierComplianceIndicator: inObj.supplierComplianceIndicator,
+      supplierComplaintCount: inObj.supplierComplaintCount,
+      lastModifiedBy: 1,
+    };
+
+    await beginTransaction(inObj);
+    const updateRetDb = await Supplier.updateSupplier(supplierId, inputData);
+    if (!updateRetDb[0] || updateRetDb[0].update_res === -1) {
+      await rollbackTransaction();
+      return {
+        success: false,
+        error: "Failed to Update Supplier Details",
+      };
+    }
+    await commitTransaction();
+    return {
+      success: true,
+    };
+  },
+  
+  async updateFactoryDetails(inObj) {
+    // Update Details in Establishment Table
+    const supplierId = inObj.supplierId;
+    const fetchEstId = await Factory.getOwnedFactories(supplierId);
+    const inputData = {
+      establishmentStatus: inObj.establishmentStatus,
+      industryType: inObj.industryType,
+      establishmentName: inObj.establishmentName,
+      commercialRegistrationNum: inObj.commercialRegistrationNum,
+      establishmentRegistrationDate: inObj.establishmentRegistrationDate,
+      contactNumber: inObj.contactNumber,
+      establishmentEmail: inObj.establishmentEmail,
+      establishmentWebsite: inObj.establishmentWebsite,
+      establishmentDescription: inObj.establishmentDescription,
+      establishmentCity: inObj.establishmentCity,
+      establishmentStreet: inObj.establishmentStreet,
+      establishmentBuildingNum: inObj.establishmentBuildingNum,
+      establishmentLogo: inObj.establishmentLogo,
+      establishmentCover: inObj.establishmentCover,
+      estComplianceIndicator: inObj.estComplianceIndicator,
+      estComplianceIndicatorDesc: inObj.estComplianceIndicatorDesc,
+      lastModifiedBy: supplierId,
+    };
+
+    await beginTransaction(inObj);
+    const updateRetStoreDb = await Establishment.updateEstablishment(
+      fetchEstId[0].factory_est_id,
+      inputData
+    );
+    if (
+      !updateRetStoreDb[0] ||
+      updateRetStoreDb[0].establishment_update === -1
+    ) {
+      await rollbackTransaction();
+      return {
+        success: false,
+        error: "Failed to Update RetailStore Details",
+      };
+    }
+    await commitTransaction();
+    return {
+      success: true,
     };
   },
 };

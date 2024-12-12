@@ -36,4 +36,19 @@ router.post(
   validateToken,
   controller.getSupplierAllDetails
 );
+router.post(
+  "/getsuppliernotifications",
+  validateToken,
+  controller.getSupplierNotifications
+);
+router.post(
+  "/updatesupplierdetails", 
+  validateToken,
+  controller.updateSupplierDetails
+);
+router.post(
+  "/updatefactorydetails",
+  validateToken,
+  controller.updateFactoryDetails
+);
 module.exports = router;

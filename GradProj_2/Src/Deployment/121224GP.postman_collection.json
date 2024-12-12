@@ -603,7 +603,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDAiLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyOTEwIiwidG9rZW5WZXJzaW9uIjoyLCJpYXQiOjE3MzI4MTc0NTEsImV4cCI6MTczMjkwMzg1MX0.D9yXO8NGpyeKuzqewi7Yd_8GRkqLFqKY5DwpdEvMBwU",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5ODY5MTcsImV4cCI6MTczNDA3MzMxN30.gqNBd0ypg1M_p0akhMROBKLqbFIbHGz7OL98_WXpOpY",
 								"type": "text"
 							}
 						],
@@ -1924,13 +1924,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzQ4NzgwMCwiZXhwIjoxNzMzNTc0MjAwfQ.CCDhQanhKAfvnTqitoV_EoM2G542SUJRfJWuU7ylkxs",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5ODY5MTcsImV4cCI6MTczNDA3MzMxN30.gqNBd0ypg1M_p0akhMROBKLqbFIbHGz7OL98_WXpOpY",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userId\":114\r\n}",
+							"raw": "{\r\n    \"userId\":187\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2434,13 +2434,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjoxLCJpYXQiOjE3MzM5ODkxMjQsImV4cCI6MTczNDA3NTUyNH0.1Bm60Hr34vPv8_Ba6UXnIMM6Jr6QWSlJyr3SnPWMA6M",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user\": {\r\n        \"userId\":3,\r\n        \"nationalNumber\": 888877722,\r\n        \"userStatus\": 1,\r\n        \"firstName\": null,\r\n        \"middleName\": \"\",\r\n        \"lastName\": null,\r\n        \"dateOfBirth\": null,\r\n        \"userAddress\": \"\",\r\n        \"userEmail\": null,\r\n        \"userPassword\": null,\r\n        \"isEmailVerified\": null,\r\n        \"userPhoneNumber\": null,\r\n        \"userImage\": null\r\n    }\r\n}",
+							"raw": "{\r\n    \"user\": {\r\n        \"userId\": 187,\r\n        \"nationalNumber\": \"8040005522\",\r\n        \"userStatus\": 1,\r\n        \"firstName\": null,\r\n        \"middleName\": \"\",\r\n        \"lastName\": null,\r\n        \"dateOfBirth\": null,\r\n        \"userAddress\": \"5th Circle, Amman, Jordan\",\r\n        \"userEmail\": null,\r\n        \"userPassword\": null,\r\n        \"isEmailVerified\": null,\r\n        \"userPhoneNumber\": null,\r\n        \"userImage\": \"http://localhost:5055/uploads/images/default-1733986987998-922419739.png\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3403,7 +3403,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MTI1NTEsImV4cCI6MTczMzk5ODk1MX0.qzwkNgaD8_QEIchugUlfBcJXKC72Re-fYHfNFWmpi7Y",
 								"type": "text"
 							}
 						],
@@ -3633,7 +3633,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzQ5NzY2MSwiZXhwIjoxNzMzNTg0MDYxfQ.skYQWboxesI2Istklug3Gx9VrzTL-ICEV1sfsDUx8vc",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
 								"type": "text"
 							}
 						],
@@ -5333,7 +5333,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
 								"type": "text"
 							}
 						],
@@ -5526,7 +5526,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
 								"type": "text"
 							}
 						],
@@ -6960,13 +6960,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM4MzgzMTYsImV4cCI6MTczMzkyNDcxNn0.NBuFItkYZz_-bleY265iZW-OxF5_cPye0lqe-8nu4dw",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjoxLCJpYXQiOjE3MzQwMDQwMDYsImV4cCI6MTczNDA5MDQwNn0.9plsDhCORmDYMtYlJk0QLvXOFMoM3wdkrXxSw0WDc2U",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"supplierId\": 9,\r\n    \"productStatusId\": 1,\r\n    \"productUnitPrice\": 0.8,\r\n    \"productWholeSalePrice\": 1,\r\n    \"productRetailPrice\": 1.2,\r\n    \"productUnitPriceDiscount\": 0,\r\n    \"productCategory\": 1,\r\n    \"productDescription\": \"Test Product\",\r\n    \"productImage\": \"\",\r\n    \"productName\": \"Sample\"\r\n}",
+							"raw": "{\r\n    \"supplierId\": 9,\r\n    \"productStatusId\": 1,\r\n    \"productUnitPrice\": 0.8,\r\n    \"productWholeSalePrice\": 1,\r\n    \"productRetailPrice\": 1.2,\r\n    \"productUnitPriceDiscount\": 0,\r\n    \"productCategory\": 1,\r\n    \"productDescription\": \"Test Product\",\r\n    \"productImage\": \"\",\r\n    \"productName\": \"Sample2\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -7067,6 +7067,2357 @@
 							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true\n    }\n}"
 						}
 					]
+				},
+				{
+					"name": "UpdateProduct",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDg2MzQsImV4cCI6MTczMzk5NTAzNH0.nYYgjzctSp9w2jp290E_FhWTSPiaVBuFn9SxTFzbR6I",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"productId\": 1,\r\n      \"productStatusId\": 2,\r\n      \"productUnitPrice\": 3.5,\r\n      \"productWholeSalePrice\": 1.5,\r\n      \"productRetailPrice\": 3.5,\r\n      \"productUnitPriceDiscount\": 0,\r\n      \"productCategory\": 3,\r\n      \"productDescription\": null,\r\n      \"productImage\": null,\r\n      \"productName\": \"new Name\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/products/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"products",
+								"update"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDM2NTIsImV4cCI6MTczMzk5MDA1Mn0.g-G2lhCRZ499Vn8uKqhzn7X7ME1hnA3FhcR6EL_SL_o",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n      \"productId\": 1,\r\n      \"productStatusId\": 2,\r\n      \"productUnitPrice\": 3.5,\r\n      \"productWholeSalePrice\": 1.5,\r\n      \"productRetailPrice\": 3.5,\r\n      \"productUnitPriceDiscount\": 0,\r\n      \"productCategory\": 3,\r\n      \"productDescription\": null,\r\n      \"productImage\": null,\r\n      \"productName\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/products/update",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"products",
+										"update"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "146"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"92-2BRzeEqKenM2dYSIeQCS6XpvO00\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 11 Dec 2024 08:29:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "GetQuotationsList",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"supplierId\": 99,\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/quotations/getbysupplier",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"quotations",
+								"getbysupplier"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetQuotationDetails",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quotationId\":35\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/quotations/getbyid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"quotations",
+								"getbyid"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Failure",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzQ5NzY2MSwiZXhwIjoxNzMzNTg0MDYxfQ.skYQWboxesI2Istklug3Gx9VrzTL-ICEV1sfsDUx8vc",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quotationId\":45\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/quotations/getbyid",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"quotations",
+										"getbyid"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "212"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d4-o4zC+BsiZGXy6XefTzS4yMHYib8\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 06 Dec 2024 17:20:45 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0048\",\n        \"errorDescription\": \"Fetch Failure\",\n        \"statusCode\": \"E0048\",\n        \"message\": \"Fetching Quotation Details has Failed\"\n    },\n    \"body\": {\n        \"details\": {\n            \"success\": false,\n            \"error\": \"Failed to Fetch Quotations\"\n        }\n    }\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzQ5NzY2MSwiZXhwIjoxNzMzNTg0MDYxfQ.skYQWboxesI2Istklug3Gx9VrzTL-ICEV1sfsDUx8vc",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quotationId\":21\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/quotations/getbyid",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"quotations",
+										"getbyid"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "609"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"261-BHFkhTQpT4qGAizdP0b3IzmxBTo\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 06 Dec 2024 17:20:59 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"quotationDetails\": {\n            \"id\": \"21\",\n            \"requesterId\": \"1\",\n            \"supplierId\": \"1\",\n            \"retailStore\": \"Sha\",\n            \"factory\": \"Aaa\",\n            \"requestDate\": \"2024-12-06T15:47:00.902Z\",\n            \"statusId\": \"1\",\n            \"details\": {\n                \"detailsItem\": [\n                    {\n                        \"price\": 1,\n                        \"quantity\": 4,\n                        \"productId\": 1\n                    }\n                ]\n            },\n            \"attachments\": null,\n            \"paymentReferenceNumber\": null,\n            \"reconciliationNumber\": null,\n            \"latestTransactionID\": null,\n            \"shippingCost\": null,\n            \"subTotal\": null,\n            \"total\": null,\n            \"shipToAddress\": \"\",\n            \"billToAddress\": \"\",\n            \"factoryAddress\": null,\n            \"hasRelatedComplaints\": 0\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "UpdateQuotationStatus",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quotationId\": 21,\r\n    \"quotationStatusId\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/quotations/updatestatus",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"quotations",
+								"updatestatus"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzQ5NzY2MSwiZXhwIjoxNzMzNTg0MDYxfQ.skYQWboxesI2Istklug3Gx9VrzTL-ICEV1sfsDUx8vc",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quotationId\": 1,\r\n    \"quotationStatus\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/quotations/updatestatus",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"quotations",
+										"updatestatus"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "219"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"db-rAAy/IC4z8jP9w6Gjo1PfUV7g8I\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 06 Dec 2024 17:28:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0050\",\n        \"errorDescription\": \"Update Failure\",\n        \"statusCode\": \"E0050\",\n        \"message\": \"Updating Quotation Status has Failed\"\n    },\n    \"body\": {\n        \"details\": {\n            \"success\": false,\n            \"error\": \"Failed to Update Quotation Status\"\n        }\n    }\n}"
+						},
+						{
+							"name": "Approve",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzQ5NzY2MSwiZXhwIjoxNzMzNTg0MDYxfQ.skYQWboxesI2Istklug3Gx9VrzTL-ICEV1sfsDUx8vc",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quotationId\": 21,\r\n    \"quotationStatusId\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/quotations/updatestatus",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"quotations",
+										"updatestatus"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "146"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"92-2BRzeEqKenM2dYSIeQCS6XpvO00\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 06 Dec 2024 17:30:11 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true\n    }\n}"
+						},
+						{
+							"name": "Reject",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzQ5NzY2MSwiZXhwIjoxNzMzNTg0MDYxfQ.skYQWboxesI2Istklug3Gx9VrzTL-ICEV1sfsDUx8vc",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quotationId\": 21,\r\n    \"quotationStatusId\": 5\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/quotations/updatestatus",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"quotations",
+										"updatestatus"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "146"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"92-2BRzeEqKenM2dYSIeQCS6XpvO00\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 06 Dec 2024 17:30:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "SubmitQuotation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quotationId\": 35,\r\n    \"details\": {\r\n        \"detailsItem\": [\r\n            {\r\n                \"productId\": 1,\r\n                \"quantity\": 4,\r\n                \"price\": 1.5,\r\n                \"orderId\": \"30\"\r\n            },\r\n            {\r\n                \"productId\": 2,\r\n                \"quantity\": 4,\r\n                \"price\": 1,\r\n                \"orderId\": \"29\"\r\n            }\r\n        ]\r\n    },\r\n    \"quotationAttachments\": null,\r\n    \"shippingCost\": 10,\r\n    \"subTotal\": 2.5,\r\n    \"total\": 12.5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/quotations/submit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"quotations",
+								"submit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetComplaintsListSupp",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"supplierId\":88,\r\n    \"pageSize\":5,\r\n    \"pageIndex\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/platformservices/getcomplaintssupplier",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"platformservices",
+								"getcomplaintssupplier"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"retailerId\":1,\r\n    \"pageSize\":5,\r\n    \"pageIndex\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getcomplaintsretailer",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getcomplaintsretailer"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "680"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2a8-dLF6mNyX/wO/+aEj9czc7rYHqqY\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 14:36:42 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"complaintsList\": {\n            \"complaintItem\": [\n                {\n                    \"id\": \"23\",\n                    \"title\": \"Not Responsive Supplier\",\n                    \"date\": \"2024-12-07T14:15:26.193Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"22\",\n                    \"title\": \"Not Responsive Supplier\",\n                    \"date\": \"2024-12-07T14:15:25.702Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"21\",\n                    \"title\": \"Not Responsive Supplier\",\n                    \"date\": \"2024-12-07T14:15:24.104Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"18\",\n                    \"title\": \"Defective Items Received\",\n                    \"date\": \"2024-12-07T14:13:52.695Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"17\",\n                    \"title\": \"Defective Items Received\",\n                    \"date\": \"2024-12-07T14:13:18.489Z\",\n                    \"status\": \"CREATED\"\n                }\n            ]\n        }\n    }\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"retailerId\":1,\r\n    \"pageIndex\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getcomplaintsretailer",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getcomplaintsretailer"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "148"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"94-+Oo93KmCgmQdciX1qcoG4GdT0dM\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 14:36:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0055\",\n        \"errorDescription\": \"Missing Data\",\n        \"statusCode\": \"E0055\",\n        \"message\": \"retailerId, pageSize and pageIndex are Mandatory\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "GetComplaintDetails Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"complaintId\": 88\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/platformservices/getcomplaintbyid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"platformservices",
+								"getcomplaintbyid"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"complaintId\": 23\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getcomplaintbyid",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getcomplaintbyid"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "512"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"200-a6yr8XYGhq8ovzlNBtmYjSt2LI8\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 15:01:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"complaintDetails\": {\n            \"id\": \"23\",\n            \"title\": \"Not Responsive Supplier\",\n            \"type\": \"5\",\n            \"quotationId\": \"2\",\n            \"reviewerId\": null,\n            \"supplierId\": \"2\",\n            \"retailerId\": \"1\",\n            \"complaintNotes\": \"Supplier is not responding to any inquiries regarding sales\",\n            \"complaintStatus\": \"RESOLVED\",\n            \"submitterType\": \"RETAILER\",\n            \"creationDate\": \"2024-12-07T14:15:26.193Z\",\n            \"resolutionNotes\": \"DONE\",\n            \"isResolved\": true\n        }\n    }\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"complaintId\": 29\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getcomplaintbyid",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getcomplaintbyid"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "219"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"db-afdjNjZqLuDh7jeFurAqnZ+RwCs\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 15:01:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0058\",\n        \"errorDescription\": \"Fetch Failure\",\n        \"statusCode\": \"E0058\",\n        \"message\": \"Fetching Complaint Details has Failed\"\n    },\n    \"body\": {\n        \"details\": {\n            \"success\": false,\n            \"error\": \"Failed to Fetch Complaint Details\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "GetQuotationActorsSupp",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"supplierId\":11\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/platformservices/getquotationactorssupp",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"platformservices",
+								"getquotationactorssupp"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"retailerId\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getquotationactorsret",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getquotationactorsret"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "919"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"397-tzgF9BCWs0dy8TpFjuShL+h/mos\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 15:38:04 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"quotationActors\": {\n            \"quotationItem\": [\n                {\n                    \"quotationId\": 2,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 4,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 5,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 6,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 7,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 8,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 9,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 10,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 11,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 12,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 14,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 21,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 22,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 23,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                }\n            ]\n        }\n    }\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"retailerId\":11\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getquotationactorsret",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getquotationactorsret"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "217"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d9-2V050TLaF02rxof3sKGhnU9mZgo\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 15:38:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0059\",\n        \"errorDescription\": \"Fetch Failure\",\n        \"statusCode\": \"E0059\",\n        \"message\": \"Fetching Quotation Actors has Failed\"\n    },\n    \"body\": {\n        \"details\": {\n            \"success\": false,\n            \"error\": \"Failed to Fetch Quotation Actors\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "GetComplaintTypes",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/platformservices/getcomplainttypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"platformservices",
+								"getcomplainttypes"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"retailerId\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getquotationactorsret",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getquotationactorsret"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "919"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"397-tzgF9BCWs0dy8TpFjuShL+h/mos\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 15:38:04 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"quotationActors\": {\n            \"quotationItem\": [\n                {\n                    \"quotationId\": 2,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 4,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 5,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 6,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 7,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 8,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 9,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 10,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 11,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 12,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 14,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 21,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 22,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 23,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                }\n            ]\n        }\n    }\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"retailerId\":11\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getquotationactorsret",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getquotationactorsret"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "217"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d9-2V050TLaF02rxof3sKGhnU9mZgo\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 15:38:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0059\",\n        \"errorDescription\": \"Fetch Failure\",\n        \"statusCode\": \"E0059\",\n        \"message\": \"Fetching Quotation Actors has Failed\"\n    },\n    \"body\": {\n        \"details\": {\n            \"success\": false,\n            \"error\": \"Failed to Fetch Quotation Actors\"\n        }\n    }\n}"
+						},
+						{
+							"name": "Types/Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getcomplainttypes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getcomplainttypes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "362"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"16a-6/Z61SuDhSYwc8gEJAl1h4LVI0A\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 15:39:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"complaintTypes\": [\n            {\n                \"id\": \"1\",\n                \"type\": \"Payment Defaulted\"\n            },\n            {\n                \"id\": \"2\",\n                \"type\": \"Order not Complete\"\n            },\n            {\n                \"id\": \"3\",\n                \"type\": \"Order not Delivered\"\n            },\n            {\n                \"id\": \"4\",\n                \"type\": \"Defective Cargo\"\n            },\n            {\n                \"id\": \"5\",\n                \"type\": \"Aftersales Ineffeciency\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "CreateComplaint",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"complaintTitle\": \"Items Received are not in shape\",\r\n    \"complaintTypeId\": 4,\r\n    \"supplierId\": 1,\r\n    \"retailerId\": 1,\r\n    \"complaintNotes\": \"everything sucks\",\r\n    \"quotationId\":2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/platformservices/createcomplaint",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"platformservices",
+								"createcomplaint"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "CreateComplaint/Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"complaintTitle\": \"Items Received are not in shape\",\r\n    \"complaintTypeId\": 4,\r\n    \"supplierId\": 1,\r\n    \"retailerId\": 1,\r\n    \"complaintNotes\": \"everything sucks\",\r\n    \"quotationId\": 23\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/createcomplaint",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"createcomplaint"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "146"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"92-2BRzeEqKenM2dYSIeQCS6XpvO00\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 15:56:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true\n    }\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"complaintTitle\": \"Items Received are not in shape\",\r\n    \"complaintTypeId\": 4,\r\n    \"supplierId\": 80,\r\n    \"retailerId\": 1,\r\n    \"complaintNotes\": \"everything sucks\",\r\n    \"quotationId\": 23\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/createcomplaint",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"createcomplaint"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "207"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"cf-fUina+LtBqb1+Um59OFSTdRXwrM\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 15:57:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0062\",\n        \"errorDescription\": \"Creation Failure\",\n        \"statusCode\": \"E0062\",\n        \"message\": \"Creating Complaint has Failed\"\n    },\n    \"body\": {\n        \"details\": {\n            \"success\": false,\n            \"error\": \"Failed to Create Complaint\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "getNotifications",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjoxLCJpYXQiOjE3MzM5ODkxMjQsImV4cCI6MTczNDA3NTUyNH0.1Bm60Hr34vPv8_Ba6UXnIMM6Jr6QWSlJyr3SnPWMA6M",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"3\",\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/dashboard/getretailernotifications",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"dashboard",
+								"getretailernotifications"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"3\",\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/getretailernotifications",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"getretailernotifications"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1149"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"47d-xXnbyNJBUheL+lKeQSnRKRhz6zI\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 18:01:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"notificationList\": {\n            \"notificationItem\": [\n                {\n                    \"id\": \"13\",\n                    \"type\": \"10\",\n                    \"priority\": 1,\n                    \"subject\": \"Profile Updated\",\n                    \"details\": \"your profile has been updated!\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T18:01:38.519Z\"\n                },\n                {\n                    \"id\": \"9\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:58:22.759Z\"\n                },\n                {\n                    \"id\": \"7\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:58:21.971Z\"\n                },\n                {\n                    \"id\": \"5\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:58:21.290Z\"\n                },\n                {\n                    \"id\": \"3\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:47:00.592Z\"\n                }\n            ]\n        }\n    }\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"5\",\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/getretailernotifications",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"getretailernotifications"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "233"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"e9-dgXEbSz4WmLcJCCAk5imPLOzdLo\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 18:02:05 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0064\",\n        \"errorDescription\": \"Fetch Failure\",\n        \"statusCode\": \"E0064\",\n        \"message\": \"Fetching Retailer Notifications has Failed\"\n    },\n    \"body\": {\n        \"details\": {\n            \"success\": false,\n            \"error\": \"Unable to Fetch Notifications for Retailer\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "updateSupplierDetails",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjoxLCJpYXQiOjE3MzM5OTEzNjYsImV4cCI6MTczNDA3Nzc2Nn0.rTyucQGzpwMt3CeO6qz_wWguokQPCM3BM20xnm0CJ70",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"supplierId\": 1,\r\n    \"supplierUserId\": null,\r\n    \"supplierTaxIdentificationNum\": \"6545005\",\r\n    \"supplierBankAccountNum\": null,\r\n    \"supplierIban\": \"JO94CBJO0055000555050101000388\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/dashboard/updatesupplierdetails",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"dashboard",
+								"updatesupplierdetails"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjoxLCJpYXQiOjE3MzM5OTEzNjYsImV4cCI6MTczNDA3Nzc2Nn0.rTyucQGzpwMt3CeO6qz_wWguokQPCM3BM20xnm0CJ70",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"supplierId\": 1,\r\n    \"supplierUserId\": null,\r\n    \"supplierTaxIdentificationNum\": \"6545005\",\r\n    \"supplierBankAccountNum\": null,\r\n    \"supplierIban\": \"JO94CBJO0055000555050101000388\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/updatesupplierdetails",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"updatesupplierdetails"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "146"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"92-2BRzeEqKenM2dYSIeQCS6XpvO00\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Dec 2024 09:18:11 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "updateFactoryDetails",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjoxLCJpYXQiOjE3MzM5OTEzNjYsImV4cCI6MTczNDA3Nzc2Nn0.rTyucQGzpwMt3CeO6qz_wWguokQPCM3BM20xnm0CJ70",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"supplierId\": 9,\r\n      \"establishmentStatus\": null,\r\n      \"industryType\": null,\r\n      \"establishmentName\": null,\r\n      \"commercialRegistrationNum\": null,    \r\n      \"establishmentRegistrationDate\": \"2023-04-04\",\r\n      \"contactNumber\": null,\r\n      \"establishmentEmail\": null,\r\n      \"establishmentWebsite\": null,\r\n      \"establishmentDescription\": null,\r\n      \"establishmentCity\": null,\r\n      \"establishmentStreet\": null,\r\n      \"establishmentBuildingNum\": null,\r\n      \"establishmentLogo\": \"http://localhost:5055/uploads/images/default-1733679916980-324055511.png\",\r\n      \"establishmentCover\": null,\r\n      \"estComplianceIndicator\": null,\r\n      \"estComplianceIndicatorDesc\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/dashboard/updatefactorydetails",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"dashboard",
+								"updatefactorydetails"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzY3ODEwNywiZXhwIjoxNzMzNzY0NTA3fQ.1gkPhXJYgyfDcBEb7yNNy0HHmIJD9F83AIMCghiWHDM",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"retailerId\": 1,\r\n    \"retailerUserId\": null,\r\n    \"retailerTaxIdentificationNum\": 6545645,\r\n    \"retailerBankAccountNum\": null,\r\n    \"retailerIban\": \"JO94CBJO0010000000000131000008\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/updateretailerdetails",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"updateretailerdetails"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "146"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"92-2BRzeEqKenM2dYSIeQCS6XpvO00\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 08 Dec 2024 17:21:03 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true\n    }\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzY3ODEwNywiZXhwIjoxNzMzNzY0NTA3fQ.1gkPhXJYgyfDcBEb7yNNy0HHmIJD9F83AIMCghiWHDM",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"retailerId\": 1,\r\n    \"retailerUserId\": null,\r\n    \"retailerTaxIdentificationNum\": 6545645,\r\n    \"retailerBankAccountNum\": null,\r\n    \"retailerIban\": \"JO94CBJO001000000000013100044564564546456456456468\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/updateretailerdetails",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"updateretailerdetails"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "219"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"db-Pvlklq3Otfj7Frk2C1OgGsj+vcU\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 08 Dec 2024 17:21:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0066\",\n        \"errorDescription\": \"Update Failure\",\n        \"statusCode\": \"E0066\",\n        \"message\": \"Updating Retailer Details has Failed\"\n    },\n    \"body\": {\n        \"details\": {\n            \"success\": false,\n            \"error\": \"Failed to Update Retailer Details\"\n        }\n    }\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzY3ODEwNywiZXhwIjoxNzMzNzY0NTA3fQ.1gkPhXJYgyfDcBEb7yNNy0HHmIJD9F83AIMCghiWHDM",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n      \"retailerId\": 1,\r\n      \"establishmentStatus\": null,\r\n      \"industryType\": null,\r\n      \"establishmentName\": null,\r\n      \"commercialRegistrationNum\": null,    \r\n      \"establishmentRegistrationDate\": \"2023-04-04\",\r\n      \"contactNumber\": null,\r\n      \"establishmentEmail\": null,\r\n      \"establishmentWebsite\": null,\r\n      \"establishmentDescription\": null,\r\n      \"establishmentCity\": null,\r\n      \"establishmentStreet\": null,\r\n      \"establishmentBuildingNum\": null,\r\n      \"establishmentLogo\": \"http://localhost:5055/uploads/images/default-1733679916980-324055511.png\",\r\n      \"establishmentCover\": null,\r\n      \"estComplianceIndicator\": null,\r\n      \"estComplianceIndicatorDesc\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/updateretailstoredetails",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"updateretailstoredetails"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "146"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"92-2BRzeEqKenM2dYSIeQCS6XpvO00\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 08 Dec 2024 17:45:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true\n    }\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzY3ODEwNywiZXhwIjoxNzMzNzY0NTA3fQ.1gkPhXJYgyfDcBEb7yNNy0HHmIJD9F83AIMCghiWHDM",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n      \"retailerId\": 54,\r\n      \"establishmentStatus\": null,\r\n      \"industryType\": null,\r\n      \"establishmentName\": null,\r\n      \"commercialRegistrationNum\": null,    \r\n      \"establishmentRegistrationDate\": \"2023-04-04\",\r\n      \"contactNumber\": null,\r\n      \"establishmentEmail\": null,\r\n      \"establishmentWebsite\": null,\r\n      \"establishmentDescription\": null,\r\n      \"establishmentCity\": null,\r\n      \"establishmentStreet\": null,\r\n      \"establishmentBuildingNum\": null,\r\n      \"establishmentLogo\": \"http://localhost:5055/uploads/images/default-1733679916980-324055511.png\",\r\n      \"establishmentCover\": null,\r\n      \"estComplianceIndicator\": null,\r\n      \"estComplianceIndicatorDesc\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/updateretailstoredetails",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"updateretailstoredetails"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "141"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"8d-gbkqh8iAEZGYAy+K3ASJ5Pu2af0\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 08 Dec 2024 17:46:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0067\",\n        \"errorDescription\": \"Update Failure\",\n        \"statusCode\": \"E0067\",\n        \"message\": \"Updating Retailstore Details has Failed\"\n    }\n}"
+						}
+					]
 				}
 			]
 		},
@@ -7082,7 +9433,7 @@
 							"key": "image",
 							"description": "test",
 							"type": "file",
-							"src": "/C:/Users/inspire12/Desktop/download.png"
+							"src": "/C:/Users/inspire12/Pictures/Screenshots/Screenshot 2024-12-03 103527.png"
 						}
 					]
 				},

@@ -12,14 +12,13 @@
 ### PART 1 Signup
 #### service: check user name is already in database
 - payload:
-        ```json
+    ```json
                     {
                         "username": "value"
                     }
-    
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0020",
@@ -29,8 +28,8 @@
                             }
                         }
 
-        - Success
-            ```json
+    - Success
+        ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -88,7 +87,7 @@
                             }
                         }
 
-- Success
+    - Success
     ```json
                         {
                             "header": {
@@ -700,11 +699,11 @@ qid, logo supplier, factory name, status
                             }
                         }
 #### service: Get Quotation BY ID
-    Quotation Details
-    List Of Orders with supplier entered values
-    other Quotation Fields like:
-    SubTotal 
-    Total 
+Quotation Details
+List Of Orders with supplier entered values
+other Quotation Fields like:
+SubTotal 
+Total 
 - payload:
     ```json
                         {
@@ -795,7 +794,7 @@ qid, logo supplier, factory name, status
                             }
                         }
 
-- Success
+    - Success
     ```json
                         {
                             "header": {
@@ -899,32 +898,31 @@ qid, logo supplier, factory name, status
                             "reviewComment":"NA"
                         }
 - expected Response/s:
-- Error
-    ```json
-                    {
-                        "header": {
-                            "errorCode": "E0053",
-                            "errorDescription": "Missing Data",
-                            "statusCode": "E0053",
-                            "message": "supplierId, retailerId, rating and reviewComment are Mandatory"
-                        }
-                    }
-
-- Success
-    ```json
+    - Error
+        ```json
                         {
                             "header": {
-                                "errorCode": "0000",
-                                "errorDescription": "SUCCESS",
-                                "statusCode": 200,
-                                "message": "Operation completed successfully"
-                            },
-                            "body": {
-                                "success": true
+                                "errorCode": "E0053",
+                                "errorDescription": "Missing Data",
+                                "statusCode": "E0053",
+                                "message": "supplierId, retailerId, rating and reviewComment are Mandatory"
                             }
                         }
-### PART 8 COMPLAINTS
 
+    - Success
+        ```json
+                            {
+                                "header": {
+                                    "errorCode": "0000",
+                                    "errorDescription": "SUCCESS",
+                                    "statusCode": 200,
+                                    "message": "Operation completed successfully"
+                                },
+                                "body": {
+                                    "success": true
+                                }
+                            }
+### PART 8 COMPLAINTS
 #### service: Get Complaints by Retailer: (retailerid, page size, page index)
 - payload:
     ```json
@@ -1161,42 +1159,42 @@ qid, logo supplier, factory name, status
 #### service: Get Complaint Types
 - payload: empty
 - expected Response/s:
-- Error
-- Success
-    ```json
-        {
-            "header": {
-                "errorCode": "0000",
-                "errorDescription": "SUCCESS",
-                "statusCode": 200,
-                "message": "Operation completed successfully"
-            },
-            "body": {
-                "success": true,
-                "complaintTypes": [
-                    {
-                        "id": "1",
-                        "type": "Payment Defaulted"
-                    },
-                    {
-                        "id": "2",
-                        "type": "Order not Complete"
-                    },
-                    {
-                        "id": "3",
-                        "type": "Order not Delivered"
-                    },
-                    {
-                        "id": "4",
-                        "type": "Defective Cargo"
-                    },
-                    {
-                        "id": "5",
-                        "type": "Aftersales Ineffeciency"
-                    }
-                ]
+    - Error
+    - Success
+        ```json
+            {
+                "header": {
+                    "errorCode": "0000",
+                    "errorDescription": "SUCCESS",
+                    "statusCode": 200,
+                    "message": "Operation completed successfully"
+                },
+                "body": {
+                    "success": true,
+                    "complaintTypes": [
+                        {
+                            "id": "1",
+                            "type": "Payment Defaulted"
+                        },
+                        {
+                            "id": "2",
+                            "type": "Order not Complete"
+                        },
+                        {
+                            "id": "3",
+                            "type": "Order not Delivered"
+                        },
+                        {
+                            "id": "4",
+                            "type": "Defective Cargo"
+                        },
+                        {
+                            "id": "5",
+                            "type": "Aftersales Ineffeciency"
+                        }
+                    ]
+                }
             }
-        }
 #### service: Create Complaint
 - payload:
     ```json
@@ -1348,20 +1346,20 @@ qid, logo supplier, factory name, status
                     }
                 }
 - expected Response/s:
-- Error
-- Success
-    ```json
-                {
-                    "header": {
-                        "errorCode": "0000",
-                        "errorDescription": "SUCCESS",
-                        "statusCode": 200,
-                        "message": "Operation completed successfully"
-                    },
-                    "body": {
-                        "success": true
+    - Error
+    - Success
+        ```json
+                    {
+                        "header": {
+                            "errorCode": "0000",
+                            "errorDescription": "SUCCESS",
+                            "statusCode": 200,
+                            "message": "Operation completed successfully"
+                        },
+                        "body": {
+                            "success": true
+                        }
                     }
-                }
 #### service: update Retailer data
 - payload:
     ```json
@@ -1373,35 +1371,35 @@ qid, logo supplier, factory name, status
                     "retailerIban": "JO94CBJO0010000000000131000008"
                 }
 - expected Response/s:
-- Error
-    ```json
-                {
-                    "header": {
-                        "errorCode": "E0066",
-                        "errorDescription": "Update Failure",
-                        "statusCode": "E0066",
-                        "message": "Updating Retailer Details has Failed"
-                    },
-                    "body": {
-                        "details": {
-                            "success": false,
-                            "error": "Failed to Update Retailer Details"
+    - Error
+        ```json
+                    {
+                        "header": {
+                            "errorCode": "E0066",
+                            "errorDescription": "Update Failure",
+                            "statusCode": "E0066",
+                            "message": "Updating Retailer Details has Failed"
+                        },
+                        "body": {
+                            "details": {
+                                "success": false,
+                                "error": "Failed to Update Retailer Details"
+                            }
                         }
                     }
-                }
-- Success
-    ```json
-                {
-                    "header": {
-                        "errorCode": "0000",
-                        "errorDescription": "SUCCESS",
-                        "statusCode": 200,
-                        "message": "Operation completed successfully"
-                    },
-                    "body": {
-                        "success": true
+    - Success
+        ```json
+                    {
+                        "header": {
+                            "errorCode": "0000",
+                            "errorDescription": "SUCCESS",
+                            "statusCode": 200,
+                            "message": "Operation completed successfully"
+                        },
+                        "body": {
+                            "success": true
+                        }
                     }
-                }
 #### service: get update RetailStore Data
 - payload:
     ```json
@@ -1481,8 +1479,7 @@ front end level
 
 
 
-## SUPPLIER PART  [COMPLETION PERCENTAGE: 85%]
-
+## SUPPLIER PART  [COMPLETION PERCENTAGE: 100%]
 ### PART 1 Signup
 #### service: check user name is already in database
 - payload:
@@ -1491,21 +1488,21 @@ front end level
                     "username": "supplier091224"
                 }
 - expected Response/s:
-- Error
-- Success
-    ```json
-                {
-                    "header": {
-                        "errorCode": "0000",
-                        "errorDescription": "SUCCESS",
-                        "statusCode": 200,
-                        "message": "Operation completed successfully"
-                    },
-                    "body": {
-                        "success": true,
-                        "isAvailable": true
+    - Error
+    - Success
+        ```json
+                    {
+                        "header": {
+                            "errorCode": "0000",
+                            "errorDescription": "SUCCESS",
+                            "statusCode": 200,
+                            "message": "Operation completed successfully"
+                        },
+                        "body": {
+                            "success": true,
+                            "isAvailable": true
+                        }
                     }
-                }
 #### service: submit APPLICATION
 - payload:
     ```json
@@ -1726,51 +1723,51 @@ if matching -> update password from payload if not -> handle error
             "pageIndex": 1
         }
 - expected Response/s:
-- Error
-    ```json
-        {
-            "header": {
-                "errorCode": "E0071",
-                "errorDescription": "Fetch Failure",
-                "statusCode": "E0071",
-                "message": "Fetching Supplier Marketplace has Failed"
-            }
-        }
-- Success
-    ```json
-        {
-            "header": {
-                "errorCode": "0000",
-                "errorDescription": "SUCCESS",
-                "statusCode": 200,
-                "message": "Operation completed successfully"
-            },
-            "body": {
-                "success": true,
-                "marketPlace": {
-                    "productItem": [
-                        {
-                            "id": "2",
-                            "name": "test",
-                            "description": "in_product_description",
-                            "image": null,
-                            "retailPrice": null,
-                            "unitPrice": 45.5,
-                            "wholeSalePrice": null
-                        },
-                        {
-                            "id": "4",
-                            "name": "batata",
-                            "description": "in_product_description",
-                            "image": null,
-                            "retailPrice": 1.2,
-                            "unitPrice": 1,
-                            "wholeSalePrice": 0.8
-                        }
-                    ]
+    - Error
+        ```json
+            {
+                "header": {
+                    "errorCode": "E0071",
+                    "errorDescription": "Fetch Failure",
+                    "statusCode": "E0071",
+                    "message": "Fetching Supplier Marketplace has Failed"
                 }
             }
-        }
+    - Success
+        ```json
+            {
+                "header": {
+                    "errorCode": "0000",
+                    "errorDescription": "SUCCESS",
+                    "statusCode": 200,
+                    "message": "Operation completed successfully"
+                },
+                "body": {
+                    "success": true,
+                    "marketPlace": {
+                        "productItem": [
+                            {
+                                "id": "2",
+                                "name": "test",
+                                "description": "in_product_description",
+                                "image": null,
+                                "retailPrice": null,
+                                "unitPrice": 45.5,
+                                "wholeSalePrice": null
+                            },
+                            {
+                                "id": "4",
+                                "name": "batata",
+                                "description": "in_product_description",
+                                "image": null,
+                                "retailPrice": 1.2,
+                                "unitPrice": 1,
+                                "wholeSalePrice": 0.8
+                            }
+                        ]
+                    }
+                }
+            }
 #### service: Search by product Category, product name,factory name (filtered by search term, page size, page index)
 - payload:
     ```json
@@ -1839,22 +1836,22 @@ done; sample to be provided
             "pageIndex": 1
         }
 - expected Response/s:
-- Error
-    ```json
-        {
-            "header": {
-                "errorCode": "0000",
-                "errorDescription": "SUCCESS",
-                "statusCode": 200,
-                "message": "Operation completed successfully"
-            },
-            "body": {
-                "success": true,
-                "error": "No Data Found"
+    - Error
+        ```json
+            {
+                "header": {
+                    "errorCode": "0000",
+                    "errorDescription": "SUCCESS",
+                    "statusCode": 200,
+                    "message": "Operation completed successfully"
+                },
+                "body": {
+                    "success": true,
+                    "error": "No Data Found"
+                }
             }
-        }
-- Success
-    ```json
+    - Success
+        ```json
         {
             "header": {
                 "errorCode": "0000",
@@ -1881,7 +1878,6 @@ done; sample to be provided
             }
         }
 #### service: Insert Product
-done; sample to be provided
  - payload:
     ```json
             {
@@ -1901,10 +1897,16 @@ done; sample to be provided
         ```json
             {
                 "header": {
-                    "errorCode": "E0039",
-                    "errorDescription": "No Data",
-                    "statusCode": "E0039",
-                    "message": "Search Yielded No Data"
+                    "errorCode": "E0074",
+                    "errorDescription": "Creation Failure",
+                    "statusCode": "E0074",
+                    "message": "Creating Product has Failed"
+                },
+                "body": {
+                    "details": {
+                        "success": false,
+                        "error": "Failed to Add Product"
+                    }
                 }
             }
     - Success
@@ -1921,7 +1923,6 @@ done; sample to be provided
                 }
             }
 - service: Update Product
-pending
  - payload:
     ```json
             {
@@ -1971,74 +1972,74 @@ qid, logo retailer, retailstore name, status
             "pageIndex": 1
         }
 - expected Response/s:
-- Error
-    ```json
-        {
-            "header": {
-                "errorCode": "E0077",
-                "errorDescription": "Fetch Failure",
-                "statusCode": "E0077",
-                "message": "Fetching Supplier Quotations has Failed"
-            },
-            "body": {
-                "details": {
-                    "success": false,
-                    "error": "Failed to Fetch Quotations"
+    - Error
+        ```json
+            {
+                "header": {
+                    "errorCode": "E0077",
+                    "errorDescription": "Fetch Failure",
+                    "statusCode": "E0077",
+                    "message": "Fetching Supplier Quotations has Failed"
+                },
+                "body": {
+                    "details": {
+                        "success": false,
+                        "error": "Failed to Fetch Quotations"
+                    }
                 }
             }
-        }
-- Success
-    ```json
-        {
-            "header": {
-                "errorCode": "0000",
-                "errorDescription": "SUCCESS",
-                "statusCode": 200,
-                "message": "Operation completed successfully"
-            },
-            "body": {
-                "success": true,
-                "quotationsList": {
-                    "quotationItem": [
-                        {
-                            "id": "26",
-                            "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
-                            "retailStoreName": "test",
-                            "status": "REQUESTED"
-                        },
-                        {
-                            "id": "25",
-                            "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
-                            "retailStoreName": "test",
-                            "status": "REQUESTED"
-                        },
-                        {
-                            "id": "23",
-                            "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
-                            "retailStoreName": "test",
-                            "status": "REQUESTED"
-                        },
-                        {
-                            "id": "22",
-                            "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
-                            "retailStoreName": "test",
-                            "status": "REQUESTED"
-                        },
-                        {
-                            "id": "21",
-                            "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
-                            "retailStoreName": "test",
-                            "status": "REJECTED"
-                        }
-                    ]
+    - Success
+        ```json
+            {
+                "header": {
+                    "errorCode": "0000",
+                    "errorDescription": "SUCCESS",
+                    "statusCode": 200,
+                    "message": "Operation completed successfully"
+                },
+                "body": {
+                    "success": true,
+                    "quotationsList": {
+                        "quotationItem": [
+                            {
+                                "id": "26",
+                                "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                                "retailStoreName": "test",
+                                "status": "REQUESTED"
+                            },
+                            {
+                                "id": "25",
+                                "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                                "retailStoreName": "test",
+                                "status": "REQUESTED"
+                            },
+                            {
+                                "id": "23",
+                                "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                                "retailStoreName": "test",
+                                "status": "REQUESTED"
+                            },
+                            {
+                                "id": "22",
+                                "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                                "retailStoreName": "test",
+                                "status": "REQUESTED"
+                            },
+                            {
+                                "id": "21",
+                                "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                                "retailStoreName": "test",
+                                "status": "REJECTED"
+                            }
+                        ]
+                    }
                 }
             }
-        }
 #### service: Get Quotation BY ID
-    Quotation Details
-    List Of Orders with default values
-    other Quotation Fields like:
-    total subtotal and shipping price
+Quotation Details
+List Of Orders with default values
+other Quotation Fields like:
+total subtotal and shipping price
 - payload:
     ```json
             {
@@ -2633,16 +2634,157 @@ qid, logo retailer, retailstore name, status
         }
     }
 ### PART 9 GENERAL
-- service: update user data
-done
-- service: update Supplier data
-pending
-- service: update Factory Data + Cover
-pending
-- service: get policies
+#### service: update user data
+- payload
+    ```json
+    {
+        "user": {
+            "userId": 187,
+            "nationalNumber": 8840005522,
+            "userStatus": 1,
+            "firstName": null,
+            "middleName": "",
+            "lastName": null,
+            "dateOfBirth": null,
+            "userAddress": "5th Circle, Amman, Jordan",
+            "userEmail": null,
+            "userPassword": null,
+            "isEmailVerified": null,
+            "userPhoneNumber": null,
+            "userImage": "http://localhost:5055/uploads/images/default-1733986987998-922419739.png"
+        }
+    }
+- expected Response/s:
+    - Error
+      ```json
+            {
+                "header": {
+                    "errorCode": "E0012",
+                    "errorDescription": "Update Failure",
+                    "statusCode": "E0012",
+                    "message": "Updating User Data has failed"
+                },
+                "body": {
+                    "details": "unrecognized configuration parameter \"out_log_id\""
+                }
+            }
+    - Success
+    ```json 
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true
+        }
+    }
+#### service: update Supplier data
+- payload
+    ```json
+    {
+        "supplierId": 1,
+        "supplierUserId": null,
+        "supplierTaxIdentificationNum": "6545005",
+        "supplierBankAccountNum": null,
+        "supplierIban": "JO94CBJO0055000555050101000388"
+    }
+- expected Response/s:
+    - Error
+      ```json
+        {
+            "header": {
+                "errorCode": "E0082",
+                "errorDescription": "Update Failure",
+                "statusCode": "E0082",
+                "message": "Updating Supplier Details has Failed"
+            },
+            "body": {
+                "details": {
+                    "success": false,
+                    "error": "Failed to Update Supplier Details"
+                }
+            }
+        }
+    - Success
+    ```json 
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true
+        }
+    }
+#### service: update Factory Data + Cover
+- payload
+    ```json
+        {
+            "supplierId": 9,
+            "establishmentStatus": null,
+            "industryType": null,
+            "establishmentName": null,
+            "commercialRegistrationNum": null,    
+            "establishmentRegistrationDate": "2023-04-04",
+            "contactNumber": null,
+            "establishmentEmail": null,
+            "establishmentWebsite": null,
+            "establishmentDescription": null,
+            "establishmentCity": null,
+            "establishmentStreet": null,
+            "establishmentBuildingNum": null,
+            "establishmentLogo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+            "establishmentCover": null,
+            "estComplianceIndicator": null,
+            "estComplianceIndicatorDesc": null
+        }
+- expected Response/s:
+    - Error
+      ```json
+        {
+            "header": {
+                "errorCode": "E0084",
+                "errorDescription": "Update Failure",
+                "statusCode": "E0084",
+                "message": "Updating Factory Details has Failed"
+            }
+        }
+    - Success
+    ```json 
+        {
+            "header": {
+                "errorCode": "0000",
+                "errorDescription": "SUCCESS",
+                "statusCode": 200,
+                "message": "Operation completed successfully"
+            },
+            "body": {
+                "success": true
+            }
+        }
+#### service: get policies
 frontend level
-- service: logout
-done
+#### service: logout
+- payload
+- Expected Response
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "message": "User successfully logged out"
+        }
+    }
 
 ## ADMINSTRATOR PART  [COMPLETION PERCENTAGE:]
 

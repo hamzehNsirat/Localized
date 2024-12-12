@@ -100,6 +100,53 @@ const getSupplierAllDetails = async (req, res) => {
     return errorHandler.handleError(res, "E0069");
   }
 };
+const getSupplierNotifications = async (req, res) => {
+  try {
+    if (
+      req.body.userId == null ||
+      req.body.pageSize == null ||
+      req.body.pageIndex == null
+    ) {
+      return errorHandler.handleError(res, "E0063");
+    }
+    const result = await dashboardService.getSupplierNotifications(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0064", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0064");
+  }
+};
+
+const updateSupplierDetails = async (req, res) => {
+  try {
+    if (req.body.supplierId == null) {
+      return errorHandler.handleError(res, "E0083");
+    }
+    const result = await dashboardService.updateSupplierDetails(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0082", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0082");
+  }
+};
+const updateFactoryDetails = async (req, res) => {
+  try {
+    if (req.body.supplierId == null) {
+      return errorHandler.handleError(res, "E0083");
+    }
+    const result = await dashboardService.updateFactoryDetails(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0084", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0084");
+  }
+};
 // AdminstratorDashboard
 module.exports = {
   getRetailerAllDetails,
@@ -107,4 +154,7 @@ module.exports = {
   updateRetailerDetails,
   updateRetailstoreDetails,
   getSupplierAllDetails,
+  getSupplierNotifications,
+  updateSupplierDetails,
+  updateFactoryDetails,
 };
