@@ -1,3 +1,4 @@
+// Conatins Auth-related Logic (Sign up, Sign in, Sign out, Submit Application, Get Application, Check Eligibility, .. etc)
 const User = require("../models/User");
 const Establishment = require("../models/Establishment");
 const Supplier = require("../models/Supplier");

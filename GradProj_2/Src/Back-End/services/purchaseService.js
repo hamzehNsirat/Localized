@@ -1,9 +1,7 @@
 // Contains purchase-related logic.
 const Supplier = require("../models/Supplier");
 const Purchase = require("../models/Purchase");
-const Transaction = require("../models/PurchaseTransaction");
 const Quotation = require("../models/Quotation");
-const Order = require("../models/Order");
 const Notification = require("../models/Notification");
 const { sendEmail } = require("../config/email");
 const env = require("../config/env");

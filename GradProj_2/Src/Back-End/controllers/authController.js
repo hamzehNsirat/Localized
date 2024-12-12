@@ -97,40 +97,6 @@ const submitApplication = async (req, res) => {
     return errorHandler.handleError(res, "E0019");
   }
 };
-const checkUsernameAvailability = async (req, res) => {
-  try {
-    if (!req.body.username) {
-      return errorHandler.handleError(res, "E0020");
-    }
-    const result = await authService.checkUsernameAvailability(
-      req.body.username
-    );
-
-    if (result.success == false) {
-      return errorHandler.handleError(res, "E0021", result);
-    }
-    return errorHandler.handleSuccess(res, result, 200);
-  } catch (error) {
-    console.error("Check Username error:", error);
-    return errorHandler.handleError(res, "E0021");
-  }
-};
-const checkApplicationStatus = async (req, res) => {
-  try {
-    if (!req.body.username && !req.body.email) {
-      return errorHandler.handleError(res, "E0021");
-    }
-    const result = await authService.checkApplicationStatus(req.body);
-
-    if (result.success == false) {
-      return errorHandler.handleError(res, "E0022", result);
-    }
-    return errorHandler.handleSuccess(res, result, 200);
-  } catch (error) {
-    console.error("Check App error:", error);
-    return errorHandler.handleError(res, "E0022");
-  }
-};
 const getApplicationsList = async (req, res) => {
   try {
     if (
@@ -185,6 +151,64 @@ const updateApplicationStatus = async (req, res) => {
     return errorHandler.handleError(res, "E0028");
   }
 };
+const checkApplicationStatus = async (req, res) => {
+  try {
+    if (!req.body.username && !req.body.email) {
+      return errorHandler.handleError(res, "E0021");
+    }
+    const result = await authService.checkApplicationStatus(req.body);
+
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0022", result);
+    }
+    return errorHandler.handleSuccess(res, result, 200);
+  } catch (error) {
+    console.error("Check App error:", error);
+    return errorHandler.handleError(res, "E0022");
+  }
+};
+const checkUsernameAvailability = async (req, res) => {
+  try {
+    if (!req.body.username) {
+      return errorHandler.handleError(res, "E0020");
+    }
+    const result = await authService.checkUsernameAvailability(
+      req.body.username
+    );
+
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0021", result);
+    }
+    return errorHandler.handleSuccess(res, result, 200);
+  } catch (error) {
+    console.error("Check Username error:", error);
+    return errorHandler.handleError(res, "E0021");
+  }
+};
+const checkEstablishmentEligibility = async (req, res) => {
+  try {
+    if (!req.body.establishmentCommercialRegistrationNumber) {
+      return errorHandler.handleError(res, "E0043");
+    }
+    const result = {};
+    if (
+      !String(req.body.establishmentCommercialRegistrationNumber).startsWith(
+        "12"
+      ) ||
+      !String(req.body.establishmentCommercialRegistrationNumber).endsWith("3")
+    ) {
+      result.success = true;
+      result.isValid = false;
+    } else {
+      result.success = true;
+      result.isValid = true;
+    }
+    return errorHandler.handleSuccess(res, result, 200);
+  } catch (error) {
+    console.error("Check Error:", error);
+    return errorHandler.handleError(res, "E0044");
+  }
+};
 const requestPasswordReset = async (req, res) => {
   try {
     if (!req.body.email) {
@@ -218,30 +242,6 @@ const resetPassword = async (req, res) => {
   } catch (error) {
     console.error("Request Password Reset error:", error);
     return errorHandler.handleError(res, "E0032");
-  }
-};
-const checkEstablishmentEligibility = async (req, res) => {
-  try {
-    if (!req.body.establishmentCommercialRegistrationNumber) {
-      return errorHandler.handleError(res, "E0043");
-    }
-    const result = {};
-    if (
-      !String(req.body.establishmentCommercialRegistrationNumber).startsWith(
-        "12"
-      ) ||
-      !String(req.body.establishmentCommercialRegistrationNumber).endsWith("3")
-    ) {
-      result.success = true;
-      result.isValid = false;
-    } else {
-      result.success = true;
-      result.isValid = true;
-    }
-    return errorHandler.handleSuccess(res, result, 200);
-  } catch (error) {
-    console.error("Check Error:", error);
-    return errorHandler.handleError(res, "E0044");
   }
 };
 module.exports = {

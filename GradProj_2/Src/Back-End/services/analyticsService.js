@@ -1,2 +1,2 @@
-// Processes data analytics for dashboards 
+// Processes data analytics for dashboards Display
 const Notification = require("../models/Notification");

@@ -9,10 +9,8 @@
 ----------------------------
 -- PRODUCT Supplier CYCLE --
 - Get Supplier Products
-- Get Product Details
 - Add Product
-- Update Product Status
-- Update Product Details
+- Update Product Details & Status
 - Get Supplier Marketplace
 - Search Supplier Products
 ----------------------------
@@ -55,7 +53,6 @@ const getRetProductsByCategory = async (req, res) => {
     return errorHandler.handleError(res, "E0036");
   }
 };
-
 const searchProducts = async (req, res) => {
   try {
     if (
@@ -128,7 +125,6 @@ const getSupplierOwnedProducts = async (req, res) => {
     return errorHandler.handleError(res, "E0072");
   }
 };
-
 const addProduct = async (req, res) => {
   try {
     if (

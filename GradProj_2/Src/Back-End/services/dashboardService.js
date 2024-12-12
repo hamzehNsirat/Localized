@@ -1,4 +1,4 @@
-const User = require("../models/User"); 
+// Contains Dashboard-related logic.
 const Establishment = require("../models/Establishment");
 const Supplier = require("../models/Supplier");
 const Retailer = require("../models/retailer");
@@ -7,13 +7,7 @@ const Factory = require("../models/Factory");
 const RetailStore = require("../models/RetailStore");
 const logDBModel = require("../models/Log");
 const Notification = require("../models/Notification");
-const jwt = require("jsonwebtoken");
-const keys = require("../config/keys");
-const applicationModel = require("../models/Application");
-const crypto = require("crypto");
 const { sendEmail } = require("../config/email");
-const env = require("../config/env");
-const moment = require("moment");
 const {
   executeQuery,
   beginTransaction,
@@ -374,7 +368,7 @@ const dashboardService = {
       success: true,
     };
   },
-  
+
   async updateFactoryDetails(inObj) {
     // Update Details in Establishment Table
     const supplierId = inObj.supplierId;

@@ -5,7 +5,6 @@ const Complaint = require("../models/Complaint");
 const ComplaintType = require("../models/ComplaintType");
 const Quotation = require("../models/Quotation");
 const Notification = require("../models/Notification");
-
 const { sendEmail } = require("../config/email");
 const env = require("../config/env");
 const {

@@ -1,3 +1,4 @@
+// Conatins User Related Logic (Get/GetList/Update/Delete)
 const userModel = require("../models/User");
 const logDBModel = require('../models/Log'); 
 const usrReviewModel = require("../models/UserReview"); 

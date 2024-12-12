@@ -118,7 +118,6 @@ const getSupplierNotifications = async (req, res) => {
     return errorHandler.handleError(res, "E0064");
   }
 };
-
 const updateSupplierDetails = async (req, res) => {
   try {
     if (req.body.supplierId == null) {

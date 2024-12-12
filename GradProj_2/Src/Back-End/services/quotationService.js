@@ -1,16 +1,12 @@
-const Supplier = require("../models/Supplier");
 const Quotation = require("../models/Quotation");
 const Notification = require("../models/Notification");
 const Order = require("../models/Order");
-const { sendEmail } = require("../config/email");
-const env = require("../config/env");
 const {
   executeQuery,
   beginTransaction,
   commitTransaction,
   rollbackTransaction,
 } = require("../config/database");
-const userService = require("../services/userService");
 const quotationService = {
   async requestQuotation(inputData) {
     await beginTransaction();

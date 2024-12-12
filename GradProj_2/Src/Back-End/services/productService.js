@@ -1,14 +1,5 @@
 // Manages product-related business logic
-const User = require("../models/User"); // User model
-const Establishment = require("../models/Establishment"); // Establishment model
-const Supplier = require("../models/Supplier");
-const Retailer = require("../models/retailer");
-const Admin = require("../models/Adminstrator");
 const Product = require("../models/Product");
-const Notification = require("../models/Notification");
-const crypto = require("crypto");
-const { sendEmail } = require("../config/email");
-const env = require("../config/env");
 const {
   executeQuery,
   beginTransaction,
