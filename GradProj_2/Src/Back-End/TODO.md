@@ -1,6 +1,6 @@
 # TODO Backend
 
-# Project Distribution
+## Project Distribution
 
 - Analytics: Hamzeh
 - Admin: Husam
@@ -9,10 +9,9 @@
 - Poster / Video: Husam
 
 ## RETAILER PART [COMPLETION PERCENTAGE:100%]
-
 ### PART 1 Signup
-- service: check user name is already in database
-    - payload:
+#### service: check user name is already in database
+- payload:
         ```json
                     {
                         "username": "value"
@@ -44,9 +43,9 @@
                                 "isAvailable": false // or true if available
                             }
                         }
-- service: submit APPLICATION
-    - payload:
-        ```json
+#### service: submit APPLICATION
+- payload:
+    ```json
                         {
                             "userType": 2,
                             "firstName": "first",
@@ -71,9 +70,9 @@
                             "establishmentLogo": null
                         }
     
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0019",
@@ -89,8 +88,8 @@
                             }
                         }
 
-        - Success
-            ```json
+- Success
+    ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -103,9 +102,9 @@
                             }
                         }
 ### PART 2 Login
-- service: is the most recent application approved, and username/email is in the database
-    - payload:
-        ```json
+#### service: is the most recent application approved, and username/email is in the database
+- payload:
+    ```json
                         {
                             "user": {
                                 "userName": "usera7a22",
@@ -113,9 +112,9 @@
                                 "userPassword": "ppopopopop555"
                             }
                         }    
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0008",
@@ -131,8 +130,8 @@
                             }
                         }
 
-        - Success
-            ```json
+    - Success
+        ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -145,17 +144,16 @@
                                 "error": "Application for this User is still Pending Review"
                             }
                         }
-
-- service: forget password -> send an email with a unique token, listen to the user input new code, compare sent token and entered token 
+#### service: forget password -> send an email with a unique token, listen to the user input new code, compare sent token and entered token 
 if matching -> update password from payload if not -> handle error
-  - payload(1) (Request Password Reset):
+- payload(1) (Request Password Reset):
     ```json
                         {
                             "email": "hamzehnussirat99@gmail.com"
                         }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0029",
@@ -165,8 +163,8 @@ if matching -> update password from payload if not -> handle error
                             }
                         }
 
-        - Success
-            ```json
+    - Success
+        ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -178,15 +176,15 @@ if matching -> update password from payload if not -> handle error
                                 "success": true
                             }
                         }
-  - payload(2) (Actual Password Reset):
+- payload(2) (Actual Password Reset):
     ```json
                         {
                             "resetToken": "f1cecf1a67b27e51285c4fac0b46a2ad17df11d7af747eb3d81d4d542958e30c",
                             "newPassword": "APPROfffssaaVED"
                         }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0031",
@@ -195,8 +193,8 @@ if matching -> update password from payload if not -> handle error
                                 "message": "newPassword and resetToken are Mandatory"
                             }
                         }
-        - Success
-            ```json
+    - Success
+        ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -208,10 +206,9 @@ if matching -> update password from payload if not -> handle error
                                 "success": true
                             }
                         }
-
-- service: Actual Login
-    - payload:
-        ```json
+#### service: Actual Login
+- payload:
+    ```json
                     {
                         "user": {
                         "userName": "admin00001",
@@ -219,9 +216,9 @@ if matching -> update password from payload if not -> handle error
                         "userPassword": "APPROfffssaaVED"
                     }
                     }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0008",
@@ -237,8 +234,8 @@ if matching -> update password from payload if not -> handle error
                             }
                         }
 
-        - Success
-            ```json
+    - Success
+        ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -254,19 +251,19 @@ if matching -> update password from payload if not -> handle error
                             }
                         }
 ### PART 3 DASHBOARD Init
-- service: fetch user / Retailer data,
-- service: get progress bar profile, user id returns percantage of completed data in terms of User / - Supplier-RETAILER
-- service: get progress bar establishment, returns percantage of completed data
-- service: Insights (postponed)
+#### service: fetch user / Retailer data,
+##### service: get progress bar profile, user id returns percantage of completed data in terms of User / - Supplier-RETAILER
+##### service: get progress bar establishment, returns percantage of completed data
+##### service: Insights (postponed)
 - one Call: Get Retailer All Data
-   - payload:
-        ```json
+- payload:
+    ```json
                         {
                             "userId":168
                         }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0034",
@@ -276,8 +273,8 @@ if matching -> update password from payload if not -> handle error
                             }
                         }
 
-        - Success
-            ```json
+    - Success
+        ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -344,17 +341,17 @@ if matching -> update password from payload if not -> handle error
                             }
                         }
 ### PART 4 MARKETPLACE RETAILER
-- service: Get all Products Paginated (filtered by RetailStore Categories (retailerId -> EstablishmentId -> IndustryTypes -> Categories - > Products))
-   - payload:
-        ```json
+#### service: Get all Products Paginated (filtered by RetailStore Categories (retailerId -> EstablishmentId -> IndustryTypes -> Categories - > Products))
+- payload:
+    ```json
                         {
                             "retailerId":11,
                             "pageSize":1,
                             "pageIndex":1
                         }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0035",
@@ -364,8 +361,8 @@ if matching -> update password from payload if not -> handle error
                             }
                         }
 
-        - Success
-            ```json
+    - Success
+        ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -391,18 +388,18 @@ if matching -> update password from payload if not -> handle error
                                 }
                             }
                         }
-- service: Get all Products By IndustryTypes Or Categories (filtered by RetailStore Categories (retailerId -> EstablishmentId -> IndustryTypes -> Categories - > Products))
-   - payload:
-        ```json
+#### service: Get all Products By IndustryTypes Or Categories (filtered by RetailStore Categories (retailerId -> EstablishmentId -> IndustryTypes -> Categories - > Products))
+- payload:
+    ```json
                         {
                             "industryList":[1,2],
                             "categoryList":[3],
                             "pageSize": 2,
                             "pageIndex":1    
                         }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0036",
@@ -412,8 +409,8 @@ if matching -> update password from payload if not -> handle error
                             }
                         }
 
-        - Success
-            ```json
+    - Success
+        ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -450,18 +447,17 @@ if matching -> update password from payload if not -> handle error
                                 "totalRecordsCount": "6"
                             }
                         }
-
-- service: Search by product Category, product name,factory name (filtered by search term, page size, page index)
-   - payload:
-        ```json
+#### service: Search by product Category, product name,factory name (filtered by search term, page size, page index)
+- payload:
+    ```json
                         {
                             "searchTerm":"batat",
                             "pageSize": 2,
                             "pageIndex":1    
                         }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0038",
@@ -471,8 +467,8 @@ if matching -> update password from payload if not -> handle error
                             }
                         }
 
-        - Success
-            ```json
+    - Success
+        ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -509,8 +505,7 @@ if matching -> update password from payload if not -> handle error
                                 "totalRecordsCount": "4"
                             }
                         }
-
-- service: gets Supplier Data (supplier id) 
+#### service: gets Supplier Data (supplier id) 
     Establishment Cover
     Establishment Logo
     Establishment name
@@ -521,16 +516,16 @@ if matching -> update password from payload if not -> handle error
                             getSupplierReviewPaginated
     Supplier Review Count
     Establishment Rating
-   - payload:
-        ```json
+- payload:
+    ```json
                         {
                             "supplierId":1,
                             "pageSize": 1,
                             "pageIndex":1    
                         }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0039",
@@ -540,8 +535,8 @@ if matching -> update password from payload if not -> handle error
                             }
                         }
 
-        - Success
-            ```json
+    - Success
+        ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -582,12 +577,12 @@ if matching -> update password from payload if not -> handle error
                             }
                         }
 ### PART 5 Request QUOTATION
-- service: Get Retailer Info and establishment Info (retailerId)
+#### service: Get Retailer Info and establishment Info (retailerId)
 already has required data from dashboard get reatiler all details service
-- service: Request QUOTATION -> insert in database returns success / error 
-- service: create orders enlisted in quotation
-   - payload:
-        ```json
+#### service: Request QUOTATION -> insert in database returns success / error 
+#### service: create orders enlisted in quotation
+- payload:
+    ```json
                         {
                             "retailerId": 1,
                             "supplierId": 1,
@@ -610,9 +605,9 @@ already has required data from dashboard get reatiler all details service
                                 ]
                             }
                         }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0040",
@@ -622,8 +617,8 @@ already has required data from dashboard get reatiler all details service
                             }
                         }
 
-        - Success
-            ```json
+    - Success
+        ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -636,18 +631,18 @@ already has required data from dashboard get reatiler all details service
                             }
                         }
 ### PART 6 Manage QUOTATION
-- service: GetQuotations List by Retailer (retailerId, page sized, page number)
+#### service: GetQuotations List by Retailer (retailerId, page sized, page number)
 qid, logo supplier, factory name, status
-   - payload:
+- payload:
      ```json
                         {
                             "retailerId": 1,
                             "pageSize": 5,
                             "pageIndex": 1
                         }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0045",
@@ -657,8 +652,8 @@ qid, logo supplier, factory name, status
                             }
                         }
 
-        - Success
-            ```json
+    - Success
+        ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -704,20 +699,20 @@ qid, logo supplier, factory name, status
                                 }
                             }
                         }
-- service: Get Quotation BY ID
+#### service: Get Quotation BY ID
     Quotation Details
     List Of Orders with supplier entered values
     other Quotation Fields like:
     SubTotal 
     Total 
-   - payload:
-     ```json
+- payload:
+    ```json
                         {
                             "quotationId":21
                         }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0048",
@@ -733,8 +728,8 @@ qid, logo supplier, factory name, status
                             }
                         }
 
-        - Success
-            ```json
+    - Success
+        ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -775,16 +770,16 @@ qid, logo supplier, factory name, status
                                 }
                             }
                         }
-- service: Update Status Quotation (Reject)
-   - payload:
-     ```json
+#### service: Update Status Quotation (Reject)
+- payload:
+    ```json
                         {
                             "quotationId": 21,
                             "quotationStatusId": 5
                         }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0050",
@@ -800,8 +795,8 @@ qid, logo supplier, factory name, status
                             }
                         }
 
-        - Success
-            ```json
+- Success
+    ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -813,16 +808,16 @@ qid, logo supplier, factory name, status
                                 "success": true
                             }
                         }
-- service: Update Status Quotation (Accepted)
-   - payload:
+#### service: Update Status Quotation (Accepted)
+- payload:
      ```json
                         {
                             "quotationId": 21,
                             "quotationStatusId": 3
                         }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0050",
@@ -838,8 +833,8 @@ qid, logo supplier, factory name, status
                             }
                         }
 
-        - Success
-            ```json
+    - Success
+        ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -851,19 +846,19 @@ qid, logo supplier, factory name, status
                                 "success": true
                             }
                         }
-- service: Purchase (Creates Purchase)
+#### service: Purchase (Creates Purchase)
 
-  - payload:
-     ```json
+- payload:
+    ```json
                         {
                             "quotationId": 21,
                             "buyerId": 1,
                             "supplierId": 1,
                             "paymentAmount": 2.5
                         }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0052",
@@ -879,8 +874,8 @@ qid, logo supplier, factory name, status
                             }
                         }
 
-        - Success
-            ```json
+    - Success
+        ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -893,19 +888,19 @@ qid, logo supplier, factory name, status
                             }
                         }
 ### PART 7 REVIEW 
-- service: submit Review (supplier,retailerId, Review Object)
-- service: Calculate Overall Rating Supplier
-  - payload:
-     ```json
+#### service: submit Review (supplier,retailerId, Review Object)
+##### service: Calculate Overall Rating Supplier
+- payload:
+    ```json
                         {
                             "retailerId": 1,
                             "supplierId": 1,
                             "rating":2,
                             "reviewComment":"NA"
                         }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+- Error
+    ```json
                     {
                         "header": {
                             "errorCode": "E0053",
@@ -915,8 +910,8 @@ qid, logo supplier, factory name, status
                         }
                     }
 
-        - Success
-            ```json
+- Success
+    ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -930,15 +925,15 @@ qid, logo supplier, factory name, status
                         }
 ### PART 8 COMPLAINTS
 
-- service: Get Complaints by Retailer: (retailerid, page size, page index)
- - payload:
+#### service: Get Complaints by Retailer: (retailerid, page size, page index)
+- payload:
     ```json
                     {
                         "retailerId":1,
                         "pageSize":5,
                         "pageIndex":1
                     }
- - expected Response/s:
+- expected Response/s:
     - Error
       ```json
                     {
@@ -997,16 +992,15 @@ qid, logo supplier, factory name, status
                             }
                         }
                     }
-
-- service: Get Complaint Data by Id
- - payload:
+#### service: Get Complaint Data by Id
+- payload:
     ```json
                     {
                         "complaintId": 23
                     }
- - expected Response/s:
+- expected Response/s:
     - Error
-      ```json
+        ```json
                     {
                         "header": {
                             "errorCode": "E0055",
@@ -1044,14 +1038,13 @@ qid, logo supplier, factory name, status
                             }
                         }
                     }
-
-- service: Get Related Quotations for Retailer (Id, Supplier)
- - payload:
+#### service: Get Related Quotations for Retailer (Id, Supplier)
+- payload:
     ```json
                     {
                         "retailerId":11
                     }
- - expected Response/s:
+- expected Response/s:
     - Error
       ```json
                     {
@@ -1165,58 +1158,57 @@ qid, logo supplier, factory name, status
                             }
                         }
                     }
-
-- service: Get Complaint Types
- - payload: empty
- - expected Response/s:
-    - Error
-    - Success
-        ```json
-            {
-                "header": {
-                    "errorCode": "0000",
-                    "errorDescription": "SUCCESS",
-                    "statusCode": 200,
-                    "message": "Operation completed successfully"
-                },
-                "body": {
-                    "success": true,
-                    "complaintTypes": [
-                        {
-                            "id": "1",
-                            "type": "Payment Defaulted"
-                        },
-                        {
-                            "id": "2",
-                            "type": "Order not Complete"
-                        },
-                        {
-                            "id": "3",
-                            "type": "Order not Delivered"
-                        },
-                        {
-                            "id": "4",
-                            "type": "Defective Cargo"
-                        },
-                        {
-                            "id": "5",
-                            "type": "Aftersales Ineffeciency"
-                        }
-                    ]
-                }
-            }
-- service: Create Complaint
- - payload:
+#### service: Get Complaint Types
+- payload: empty
+- expected Response/s:
+- Error
+- Success
     ```json
+        {
+            "header": {
+                "errorCode": "0000",
+                "errorDescription": "SUCCESS",
+                "statusCode": 200,
+                "message": "Operation completed successfully"
+            },
+            "body": {
+                "success": true,
+                "complaintTypes": [
                     {
-                        "complaintTitle": "Items Received are not in shape",
-                        "complaintTypeId": 4,
-                        "supplierId": 1,
-                        "retailerId": 1,
-                        "complaintNotes": "everything sucks",
-                        "quotationId":2
+                        "id": "1",
+                        "type": "Payment Defaulted"
+                    },
+                    {
+                        "id": "2",
+                        "type": "Order not Complete"
+                    },
+                    {
+                        "id": "3",
+                        "type": "Order not Delivered"
+                    },
+                    {
+                        "id": "4",
+                        "type": "Defective Cargo"
+                    },
+                    {
+                        "id": "5",
+                        "type": "Aftersales Ineffeciency"
                     }
- - expected Response/s:
+                ]
+            }
+        }
+#### service: Create Complaint
+- payload:
+    ```json
+                {
+                    "complaintTitle": "Items Received are not in shape",
+                    "complaintTypeId": 4,
+                    "supplierId": 1,
+                    "retailerId": 1,
+                    "complaintNotes": "everything sucks",
+                    "quotationId":2
+                }
+- expected Response/s:
     - Error
       ```json
                     {
@@ -1247,15 +1239,15 @@ qid, logo supplier, factory name, status
                         }
                     }
 ### PART 9 NOTIFICATIONS
-- service: get related notifications by retailerId
- - payload:
+#### service: get related notifications by retailerId
+- payload:
     ```json
-                    {
-                        "userId": "3",
-                        "pageSize": 5,
-                        "pageIndex": 1
-                    }
- - expected Response/s:
+                {
+                    "userId": "3",
+                    "pageSize": 5,
+                    "pageIndex": 1
+                }
+- expected Response/s:
     - Error
       ```json
                     {
@@ -1335,85 +1327,83 @@ qid, logo supplier, factory name, status
                         }
                     }
 ### PART 10 GENERAL
-- service: update user data
- - payload:
+#### service: update user data
+- payload:
     ```json
-                    {
-                        "user": {
-                            "userId":140,
-                            "nationalNumber": null,
-                            "userStatus": 1,
-                            "firstName": null,
-                            "middleName": "Nihaaa",
-                            "lastName": null,
-                            "dateOfBirth": null,
-                            "userAddress": null,
-                            "userEmail": null,
-                            "userPassword": null,
-                            "isEmailVerified": null,
-                            "userPhoneNumber": null,
-                            "userImage": null
-                        }
+                {
+                    "user": {
+                        "userId":140,
+                        "nationalNumber": null,
+                        "userStatus": 1,
+                        "firstName": null,
+                        "middleName": "Nihaaa",
+                        "lastName": null,
+                        "dateOfBirth": null,
+                        "userAddress": null,
+                        "userEmail": null,
+                        "userPassword": null,
+                        "isEmailVerified": null,
+                        "userPhoneNumber": null,
+                        "userImage": null
                     }
- - expected Response/s:
-    - Error
-    - Success
-        ```json
-                    {
-                        "header": {
-                            "errorCode": "0000",
-                            "errorDescription": "SUCCESS",
-                            "statusCode": 200,
-                            "message": "Operation completed successfully"
-                        },
-                        "body": {
-                            "success": true
-                        }
-                    }
-
-- service: update Retailer data
- - payload:
+                }
+- expected Response/s:
+- Error
+- Success
     ```json
-                    {
-                        "retailerId": 1,
-                        "retailerUserId": null,
-                        "retailerTaxIdentificationNum": 6545645,
-                        "retailerBankAccountNum": null,
-                        "retailerIban": "JO94CBJO0010000000000131000008"
+                {
+                    "header": {
+                        "errorCode": "0000",
+                        "errorDescription": "SUCCESS",
+                        "statusCode": 200,
+                        "message": "Operation completed successfully"
+                    },
+                    "body": {
+                        "success": true
                     }
- - expected Response/s:
-    - Error
-      ```json
-                    {
-                        "header": {
-                            "errorCode": "E0066",
-                            "errorDescription": "Update Failure",
-                            "statusCode": "E0066",
-                            "message": "Updating Retailer Details has Failed"
-                        },
-                        "body": {
-                            "details": {
-                                "success": false,
-                                "error": "Failed to Update Retailer Details"
-                            }
+                }
+#### service: update Retailer data
+- payload:
+    ```json
+                {
+                    "retailerId": 1,
+                    "retailerUserId": null,
+                    "retailerTaxIdentificationNum": 6545645,
+                    "retailerBankAccountNum": null,
+                    "retailerIban": "JO94CBJO0010000000000131000008"
+                }
+- expected Response/s:
+- Error
+    ```json
+                {
+                    "header": {
+                        "errorCode": "E0066",
+                        "errorDescription": "Update Failure",
+                        "statusCode": "E0066",
+                        "message": "Updating Retailer Details has Failed"
+                    },
+                    "body": {
+                        "details": {
+                            "success": false,
+                            "error": "Failed to Update Retailer Details"
                         }
                     }
-    - Success
-        ```json
-                    {
-                        "header": {
-                            "errorCode": "0000",
-                            "errorDescription": "SUCCESS",
-                            "statusCode": 200,
-                            "message": "Operation completed successfully"
-                        },
-                        "body": {
-                            "success": true
-                        }
+                }
+- Success
+    ```json
+                {
+                    "header": {
+                        "errorCode": "0000",
+                        "errorDescription": "SUCCESS",
+                        "statusCode": 200,
+                        "message": "Operation completed successfully"
+                    },
+                    "body": {
+                        "success": true
                     }
-
-- service: get update RetailStore Data
- - payload:
+                }
+#### service: get update RetailStore Data
+- payload:
     ```json
                     {
                         "retailerId": 1,
@@ -1434,7 +1424,7 @@ qid, logo supplier, factory name, status
                         "estComplianceIndicator": null,
                         "estComplianceIndicatorDesc": null
                     }
- - expected Response/s:
+- expected Response/s:
     - Error
       ```json
                     {
@@ -1458,90 +1448,89 @@ qid, logo supplier, factory name, status
                             "success": true
                         }
                     }
-
-- service: get policies
+#### service: get policies
 front end level
-- service: logout
- - payload: NONE
- - expected Response/s:
+#### service: logout
+- payload: NONE
+- expected Response/s:
     - Error
-      ```json
-                    {
-                        "header": {
-                            "errorCode": "TOKEN_EXPIRED",
-                            "errorDescription": "Authentication Failure",
-                            "statusCode": "TOKEN_EXPIRED",
-                            "message": "token is expired."
-                        }
+        ```json
+                {
+                    "header": {
+                        "errorCode": "TOKEN_EXPIRED",
+                        "errorDescription": "Authentication Failure",
+                        "statusCode": "TOKEN_EXPIRED",
+                        "message": "token is expired."
                     }
+                }
     - Success
         ```json
 
-                    {
-                        "header": {
-                            "errorCode": "0000",
-                            "errorDescription": "SUCCESS",
-                            "statusCode": 200,
-                            "message": "Operation completed successfully"
-                        },
-                        "body": {
-                            "success": true,
-                            "message": "User successfully logged out"
-                        }
+                {
+                    "header": {
+                        "errorCode": "0000",
+                        "errorDescription": "SUCCESS",
+                        "statusCode": 200,
+                        "message": "Operation completed successfully"
+                    },
+                    "body": {
+                        "success": true,
+                        "message": "User successfully logged out"
                     }
+                }
 
 
 
 ## SUPPLIER PART  [COMPLETION PERCENTAGE: 85%]
 
 ### PART 1 Signup
-- service: check user name is already in database
- - payload:
+#### service: check user name is already in database
+- payload:
     ```json
-                    {
-                        "username": "supplier091224"
-                    }
- - expected Response/s:
-    - Error
-    - Success
-        ```json
-                    {
-                        "header": {
-                            "errorCode": "0000",
-                            "errorDescription": "SUCCESS",
-                            "statusCode": 200,
-                            "message": "Operation completed successfully"
-                        },
-                        "body": {
-                            "success": true,
-                            "isAvailable": true
-                        }
-                    }
-- service: submit APPLICATION
- - payload:
+                {
+                    "username": "supplier091224"
+                }
+- expected Response/s:
+- Error
+- Success
     ```json
-                    {
-                        "userType": 2,
-                        "firstName": "sample",
-                        "lastName": "supplier",
-                        "userName": "supplier091224",
-                        "email": "hamnoi9991@gmail.com",
-                        "password": "sudo9991",
-                        "phoneNumber": "0770606067",
-                        "establishmentName": "Smartech",
-                        "establishmentContactNumber": "0770707076",
-                        "establishmentEmail": "est.supp9991@mail.com",
-                        "establishmentDescription": "sells Electronics",
-                        "establishmentCommercialRegistrationNum": 878965321,
-                        "establishmentCity": "Amman",
-                        "establishmentStreet": "Abdali",
-                        "establishmentBuildingNum": "C12",
-                        "establishmentIndustryType": [
-                            2
-                        ],
-                        "establishmentLogo": "http://localhost:5055/uploads/images/default-1733749653337-468698296.png"
+                {
+                    "header": {
+                        "errorCode": "0000",
+                        "errorDescription": "SUCCESS",
+                        "statusCode": 200,
+                        "message": "Operation completed successfully"
+                    },
+                    "body": {
+                        "success": true,
+                        "isAvailable": true
                     }
- - expected Response/s:
+                }
+#### service: submit APPLICATION
+- payload:
+    ```json
+                {
+                    "userType": 2,
+                    "firstName": "sample",
+                    "lastName": "supplier",
+                    "userName": "supplier091224",
+                    "email": "hamnoi9991@gmail.com",
+                    "password": "sudo9991",
+                    "phoneNumber": "0770606067",
+                    "establishmentName": "Smartech",
+                    "establishmentContactNumber": "0770707076",
+                    "establishmentEmail": "est.supp9991@mail.com",
+                    "establishmentDescription": "sells Electronics",
+                    "establishmentCommercialRegistrationNum": 878965321,
+                    "establishmentCity": "Amman",
+                    "establishmentStreet": "Abdali",
+                    "establishmentBuildingNum": "C12",
+                    "establishmentIndustryType": [
+                        2
+                    ],
+                    "establishmentLogo": "http://localhost:5055/uploads/images/default-1733749653337-468698296.png"
+                }
+- expected Response/s:
     - Error
         ```json
                          {
@@ -1572,83 +1561,83 @@ front end level
                         }
                     }
 ### PART 2 Login
-- service: is the most recent application approved, and username/email is in the database
-- service: forget password -> send an email with a unique code, listen to the user input new code, compare sent code and entered code 
+#### service: is the most recent application approved, and username/email is in the database
+#### service: forget password -> send an email with a unique code, listen to the user input new code, compare sent code and entered code 
 if matching -> update password from payload if not -> handle error
- - payload:
+- payload:
     ```json
     {
         "email": "hamnoi9991@gmail.com"
     }
- - expected Response/s:
-    - Error
-        ```json
-    - Success
-        ```json
-        {
-            "header": {
-                "errorCode": "0000",
-                "errorDescription": "SUCCESS",
-                "statusCode": 200,
-                "message": "Operation completed successfully"
-            },
-            "body": {
-                "success": true
-            }
+- expected Response/s:
+- Error
+    ```json
+- Success
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true
         }
-- service: Actual Login
- - payload:
+    }
+#### service: Actual Login
+- payload:
+    ```json
+    {
+        "user": {
+            "userName": "supplier091224",
+            "userPassword": "Aff"
+        }
+    }
+- expected Response/s:
+- Error
     ```json
         {
-            "user": {
-                "userName": "supplier091224",
-                "userPassword": "Aff"
-            }
-        }
- - expected Response/s:
-    - Error
-        ```json
-            {
-                "header": {
-                    "errorCode": "E0008",
-                    "errorDescription": "Operation Failure",
-                    "statusCode": "E0008",
-                    "message": "Sign in operation has failed."
-                },
-                "body": {
-                    "details": {
-                        "success": false,
-                        "error": "Invalid Credentials"
-                    }
-                }
-            }
-    - Success
-        ```json
-        {
             "header": {
-                "errorCode": "0000",
-                "errorDescription": "SUCCESS",
-                "statusCode": 200,
-                "message": "Operation completed successfully"
+                "errorCode": "E0008",
+                "errorDescription": "Operation Failure",
+                "statusCode": "E0008",
+                "message": "Sign in operation has failed."
             },
             "body": {
-                "success": true,
-                "userId": "187",
-                "userType": "2",
-                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM3NjM3MjksImV4cCI6MTczMzg1MDEyOX0.NTXj9G0NuOe-H76hut9DdoqCM1EI205dEI4RGn09D5I"
+                "details": {
+                    "success": false,
+                    "error": "Invalid Credentials"
+                }
             }
         }
+- Success
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "userId": "187",
+            "userType": "2",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM3NjM3MjksImV4cCI6MTczMzg1MDEyOX0.NTXj9G0NuOe-H76hut9DdoqCM1EI205dEI4RGn09D5I"
+        }
+    }
 ### PART 3 DASHBOARD Init
-- service: fetch user / supplier data,
-- service: get progress bar profile, user id returns percantge of completed data in terms of User / - Supplier-RETAILER
-- service: get progress bar establishment, returns percantge of completed data
-- service: Insights (postponed)
- - payload:
+#### service: fetch user / supplier data,
+#### service: get progress bar profile, user id returns percantge of completed data in terms of User / - Supplier-RETAILER
+#### service: get progress bar establishment, returns percantge of completed data
+#### service: Insights (postponed)
+- payload:
     ```json
             {
                 "userId": 187
             }
- - expected Response/s:
+- expected Response/s:
     - Error
         ```json
             {
@@ -1728,61 +1717,61 @@ if matching -> update password from payload if not -> handle error
                     }
                 }
 ### PART 4 MARKETPLACE SUPPLIER
-- service: Get all Products Paginated (filtered by Factory Categories (supplierId -> EstablishmentId -> IndustryTypes -> Categories - > Products))
- - payload:
+#### service: Get all Products Paginated (filtered by Factory Categories (supplierId -> EstablishmentId -> IndustryTypes -> Categories - > Products))
+- payload:
     ```json
-            {
-                "supplierId": 9,
-                "pageSize": 5,
-                "pageIndex": 1
+        {
+            "supplierId": 9,
+            "pageSize": 5,
+            "pageIndex": 1
+        }
+- expected Response/s:
+- Error
+    ```json
+        {
+            "header": {
+                "errorCode": "E0071",
+                "errorDescription": "Fetch Failure",
+                "statusCode": "E0071",
+                "message": "Fetching Supplier Marketplace has Failed"
             }
- - expected Response/s:
-    - Error
-        ```json
-            {
-                "header": {
-                    "errorCode": "E0071",
-                    "errorDescription": "Fetch Failure",
-                    "statusCode": "E0071",
-                    "message": "Fetching Supplier Marketplace has Failed"
+        }
+- Success
+    ```json
+        {
+            "header": {
+                "errorCode": "0000",
+                "errorDescription": "SUCCESS",
+                "statusCode": 200,
+                "message": "Operation completed successfully"
+            },
+            "body": {
+                "success": true,
+                "marketPlace": {
+                    "productItem": [
+                        {
+                            "id": "2",
+                            "name": "test",
+                            "description": "in_product_description",
+                            "image": null,
+                            "retailPrice": null,
+                            "unitPrice": 45.5,
+                            "wholeSalePrice": null
+                        },
+                        {
+                            "id": "4",
+                            "name": "batata",
+                            "description": "in_product_description",
+                            "image": null,
+                            "retailPrice": 1.2,
+                            "unitPrice": 1,
+                            "wholeSalePrice": 0.8
+                        }
+                    ]
                 }
             }
-    - Success
-        ```json
-            {
-                "header": {
-                    "errorCode": "0000",
-                    "errorDescription": "SUCCESS",
-                    "statusCode": 200,
-                    "message": "Operation completed successfully"
-                },
-                "body": {
-                    "success": true,
-                    "marketPlace": {
-                        "productItem": [
-                            {
-                                "id": "2",
-                                "name": "test",
-                                "description": "in_product_description",
-                                "image": null,
-                                "retailPrice": null,
-                                "unitPrice": 45.5,
-                                "wholeSalePrice": null
-                            },
-                            {
-                                "id": "4",
-                                "name": "batata",
-                                "description": "in_product_description",
-                                "image": null,
-                                "retailPrice": 1.2,
-                                "unitPrice": 1,
-                                "wholeSalePrice": 0.8
-                            }
-                        ]
-                    }
-                }
-            }
-- service: Search by product Category, product name,factory name (filtered by search term, page size, page index)
+        }
+#### service: Search by product Category, product name,factory name (filtered by search term, page size, page index)
 - payload:
     ```json
             {
@@ -1790,7 +1779,7 @@ if matching -> update password from payload if not -> handle error
                 "pageSize": 2,
                 "pageIndex":1    
             }
- - expected Response/s:
+- expected Response/s:
     - Error
         ```json
             {
@@ -1840,58 +1829,58 @@ if matching -> update password from payload if not -> handle error
                 }
             }
 ### PART 5 PRODUCTS
-- service: Get all Products Paginated (supplierId)
+#### service: Get all Products Paginated (supplierId)
 done; sample to be provided
- - payload:
+- payload:
     ```json
-            {
-                "supplierId": 9,
-                "pageSize": 5,
-                "pageIndex": 1
+        {
+            "supplierId": 9,
+            "pageSize": 5,
+            "pageIndex": 1
+        }
+- expected Response/s:
+- Error
+    ```json
+        {
+            "header": {
+                "errorCode": "0000",
+                "errorDescription": "SUCCESS",
+                "statusCode": 200,
+                "message": "Operation completed successfully"
+            },
+            "body": {
+                "success": true,
+                "error": "No Data Found"
             }
- - expected Response/s:
-    - Error
-        ```json
-            {
-                "header": {
-                    "errorCode": "0000",
-                    "errorDescription": "SUCCESS",
-                    "statusCode": 200,
-                    "message": "Operation completed successfully"
-                },
-                "body": {
-                    "success": true,
-                    "error": "No Data Found"
+        }
+- Success
+    ```json
+        {
+            "header": {
+                "errorCode": "0000",
+                "errorDescription": "SUCCESS",
+                "statusCode": 200,
+                "message": "Operation completed successfully"
+            },
+            "body": {
+                "success": true,
+                "productsList": {
+                    "productItem": [
+                        {
+                            "id": "7",
+                            "status": "1",
+                            "name": "Sample",
+                            "description": "Test Product",
+                            "image": "",
+                            "retailPrice": 1.2,
+                            "unitPrice": 0.8,
+                            "wholeSalePrice": 1
+                        }
+                    ]
                 }
             }
-    - Success
-        ```json
-            {
-                "header": {
-                    "errorCode": "0000",
-                    "errorDescription": "SUCCESS",
-                    "statusCode": 200,
-                    "message": "Operation completed successfully"
-                },
-                "body": {
-                    "success": true,
-                    "productsList": {
-                        "productItem": [
-                            {
-                                "id": "7",
-                                "status": "1",
-                                "name": "Sample",
-                                "description": "Test Product",
-                                "image": "",
-                                "retailPrice": 1.2,
-                                "unitPrice": 0.8,
-                                "wholeSalePrice": 1
-                            }
-                        ]
-                    }
-                }
-            }
-- service: Insert Product
+        }
+#### service: Insert Product
 done; sample to be provided
  - payload:
     ```json
@@ -1972,158 +1961,158 @@ pending
                 }
             }
 ### PART 6 Manage QUOTATION
-- service: GetQuotations List by Supplier (supplierId, page sized, page number)
+#### service: GetQuotations List by Supplier (supplierId, page sized, page number)
 qid, logo retailer, retailstore name, status
- - payload:
+- payload:
     ```json
-            {
-                "supplierId": 1,
-                "pageSize": 5,
-                "pageIndex": 1
-            }
- - expected Response/s:
-    - Error
-        ```json
-            {
-                "header": {
-                    "errorCode": "E0077",
-                    "errorDescription": "Fetch Failure",
-                    "statusCode": "E0077",
-                    "message": "Fetching Supplier Quotations has Failed"
-                },
-                "body": {
-                    "details": {
-                        "success": false,
-                        "error": "Failed to Fetch Quotations"
-                    }
+        {
+            "supplierId": 1,
+            "pageSize": 5,
+            "pageIndex": 1
+        }
+- expected Response/s:
+- Error
+    ```json
+        {
+            "header": {
+                "errorCode": "E0077",
+                "errorDescription": "Fetch Failure",
+                "statusCode": "E0077",
+                "message": "Fetching Supplier Quotations has Failed"
+            },
+            "body": {
+                "details": {
+                    "success": false,
+                    "error": "Failed to Fetch Quotations"
                 }
             }
-    - Success
-        ```json
-            {
-                "header": {
-                    "errorCode": "0000",
-                    "errorDescription": "SUCCESS",
-                    "statusCode": 200,
-                    "message": "Operation completed successfully"
-                },
-                "body": {
-                    "success": true,
-                    "quotationsList": {
-                        "quotationItem": [
-                            {
-                                "id": "26",
-                                "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
-                                "retailStoreName": "test",
-                                "status": "REQUESTED"
-                            },
-                            {
-                                "id": "25",
-                                "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
-                                "retailStoreName": "test",
-                                "status": "REQUESTED"
-                            },
-                            {
-                                "id": "23",
-                                "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
-                                "retailStoreName": "test",
-                                "status": "REQUESTED"
-                            },
-                            {
-                                "id": "22",
-                                "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
-                                "retailStoreName": "test",
-                                "status": "REQUESTED"
-                            },
-                            {
-                                "id": "21",
-                                "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
-                                "retailStoreName": "test",
-                                "status": "REJECTED"
-                            }
-                        ]
-                    }
+        }
+- Success
+    ```json
+        {
+            "header": {
+                "errorCode": "0000",
+                "errorDescription": "SUCCESS",
+                "statusCode": 200,
+                "message": "Operation completed successfully"
+            },
+            "body": {
+                "success": true,
+                "quotationsList": {
+                    "quotationItem": [
+                        {
+                            "id": "26",
+                            "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                            "retailStoreName": "test",
+                            "status": "REQUESTED"
+                        },
+                        {
+                            "id": "25",
+                            "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                            "retailStoreName": "test",
+                            "status": "REQUESTED"
+                        },
+                        {
+                            "id": "23",
+                            "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                            "retailStoreName": "test",
+                            "status": "REQUESTED"
+                        },
+                        {
+                            "id": "22",
+                            "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                            "retailStoreName": "test",
+                            "status": "REQUESTED"
+                        },
+                        {
+                            "id": "21",
+                            "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                            "retailStoreName": "test",
+                            "status": "REJECTED"
+                        }
+                    ]
                 }
             }
-- service: Get Quotation BY ID
+        }
+#### service: Get Quotation BY ID
     Quotation Details
     List Of Orders with default values
     other Quotation Fields like:
     total subtotal and shipping price
- - payload:
+- payload:
     ```json
             {
                 "quotationId":21
             }
- - expected Response/s:
+- expected Response/s:
     - Error
         ```json
-            {
-                "header": {
-                    "errorCode": "E0048",
-                    "errorDescription": "Fetch Failure",
-                    "statusCode": "E0048",
-                    "message": "Fetching Quotation Details has Failed"
-                },
-                "body": {
-                    "details": {
-                        "success": false,
-                        "error": "Failed to Fetch Quotations"
-                    }
-                }
-            }   
- - Success
-     ```json
-            {
-                "header": {
-                    "errorCode": "0000",
-                    "errorDescription": "SUCCESS",
-                    "statusCode": 200,
-                    "message": "Operation completed successfully"
-                },
-                "body": {
-                    "success": true,
-                    "quotationDetails": {
-                        "id": "21",
-                        "requesterId": "1",
-                        "supplierId": "1",
-                        "retailStore": "Sha",
-                        "factory": "Aaa",
-                        "requestDate": "2024-12-06T15:47:00.902Z",
-                        "statusId": "5",
-                        "details": {
-                            "detailsItem": [
-                                {
-                                    "price": 1,
-                                    "quantity": 4,
-                                    "productId": 1
-                                }
-                            ]
-                        },
-                        "attachments": null,
-                        "paymentReferenceNumber": "PST241206f2bcfbb977c8a60cacb",
-                        "reconciliationNumber": null,
-                        "latestTransactionID": "14",
-                        "shippingCost": null,
-                        "subTotal": null,
-                        "total": null,
-                        "shipToAddress": "",
-                        "billToAddress": "",
-                        "factoryAddress": null,
-                        "hasRelatedComplaints": 1
-                    }
+        {
+            "header": {
+                "errorCode": "E0048",
+                "errorDescription": "Fetch Failure",
+                "statusCode": "E0048",
+                "message": "Fetching Quotation Details has Failed"
+            },
+            "body": {
+                "details": {
+                    "success": false,
+                    "error": "Failed to Fetch Quotations"
                 }
             }
-- service: Update Status Quotation (Reject)
-   - payload:
-     ```json
+        }   
+    - Success
+    ```json
+        {
+            "header": {
+                "errorCode": "0000",
+                "errorDescription": "SUCCESS",
+                "statusCode": 200,
+                "message": "Operation completed successfully"
+            },
+            "body": {
+                "success": true,
+                "quotationDetails": {
+                    "id": "21",
+                    "requesterId": "1",
+                    "supplierId": "1",
+                    "retailStore": "Sha",
+                    "factory": "Aaa",
+                    "requestDate": "2024-12-06T15:47:00.902Z",
+                    "statusId": "5",
+                    "details": {
+                        "detailsItem": [
+                            {
+                                "price": 1,
+                                "quantity": 4,
+                                "productId": 1
+                            }
+                        ]
+                    },
+                    "attachments": null,
+                    "paymentReferenceNumber": "PST241206f2bcfbb977c8a60cacb",
+                    "reconciliationNumber": null,
+                    "latestTransactionID": "14",
+                    "shippingCost": null,
+                    "subTotal": null,
+                    "total": null,
+                    "shipToAddress": "",
+                    "billToAddress": "",
+                    "factoryAddress": null,
+                    "hasRelatedComplaints": 1
+                }
+            }
+        }
+#### service: Update Status Quotation (Reject)
+- payload:
+    ```json
                         {
                             "quotationId": 21,
                             "quotationStatusId": 5
                         }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0050",
@@ -2139,8 +2128,8 @@ qid, logo retailer, retailstore name, status
                             }
                         }
 
-        - Success
-            ```json
+    - Success
+        ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -2152,16 +2141,16 @@ qid, logo retailer, retailstore name, status
                                 "success": true
                             }
                         }
-- service: Update Status Quotation (Completed)
-   - payload:
+#### service: Update Status Quotation (Completed)
+- payload:
      ```json
                         {
                             "quotationId": 21,
                             "quotationStatusId": 4
                         }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0050",
@@ -2177,8 +2166,8 @@ qid, logo retailer, retailstore name, status
                             }
                         }
 
-        - Success
-            ```json
+    - Success
+        ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -2190,8 +2179,8 @@ qid, logo retailer, retailstore name, status
                                 "success": true
                             }
                         }
-- service: Submit Quotation (changes Quotation Details, sets Total and subTotal)
-  - payload:
+#### service: Submit Quotation (changes Quotation Details, sets Total and subTotal)
+- payload:
      ```json
             {
                 "quotationId": 35,
@@ -2216,9 +2205,9 @@ qid, logo retailer, retailstore name, status
                 "subTotal": 2.5,
                 "total": 12.5
             }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0078",
@@ -2228,8 +2217,8 @@ qid, logo retailer, retailstore name, status
                             }
                         }
 
-        - Success
-            ```json
+    - Success
+        ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -2242,17 +2231,17 @@ qid, logo retailer, retailstore name, status
                             }
                         }
 ### PART 7 COMPLAINTS
-- service: Get Complaints by Supplier: (Supplierid, page size, page index) 
-  - payload:
+#### service: Get Complaints by Supplier: (Supplierid, page size, page index) 
+- payload:
      ```json
                         {
                             "supplierId":1,
                             "pageSize":5,
                             "pageIndex":1
                         }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0080",
@@ -2267,8 +2256,8 @@ qid, logo retailer, retailstore name, status
                                 }
                             }
                         }
-        - Success
-            ```json
+    - Success
+        ```json
                         {
                             "header": {
                                 "errorCode": "0000",
@@ -2314,15 +2303,15 @@ qid, logo retailer, retailstore name, status
                                 }
                             }
                         }
-- service: Get Complaint Data by Id
-  - payload:
+#### service: Get Complaint Data by Id
+- payload:
      ```json
                         {
                             "complaintId": 32
                         }
-    - expected Response/s:
-        - Error
-            ```json
+- expected Response/s:
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0058",
@@ -2338,7 +2327,7 @@ qid, logo retailer, retailstore name, status
                             }
                         }
 
-        - Success
+    - Success
         ```json
                         {
                             "header": {
@@ -2366,15 +2355,15 @@ qid, logo retailer, retailstore name, status
                                 }
                             }
                         }
-- service: Get Related Quotations for Supplier (Id, Supplier)
+#### service: Get Related Quotations for Supplier (Id, Supplier)
 - payload:
      ```json
                         {
                             "supplierId":1
                         }
 - expected Response/s:
-        - Error
-            ```json
+    - Error
+        ```json
                         {
                             "header": {
                                 "errorCode": "E0059",
@@ -2390,7 +2379,7 @@ qid, logo retailer, retailstore name, status
                             }
                         }
 
-        - Success
+    - Success
         ```json
                         {
                             "header": {
@@ -2492,9 +2481,9 @@ qid, logo retailer, retailstore name, status
                                 }
                             }
                         }
-- service: Get Complaint Types
- - payload: empty
- - expected Response/s:
+#### service: Get Complaint Types
+- payload: empty
+- expected Response/s:
     - Error
     - Success
         ```json
@@ -2531,8 +2520,8 @@ qid, logo retailer, retailstore name, status
                     ]
                 }
             }
-- service: Create Complaint
- - payload:
+#### service: Create Complaint
+- payload:
     ```json
                     {
                         "complaintTitle": "Items Received are not in shape",
@@ -2573,7 +2562,7 @@ qid, logo retailer, retailstore name, status
                         }
                     }
 ### PART 8 NOTIFICATIONS
-- service: get related notifications by supplierId
+#### service: get related notifications by supplierId
 - payload
     ```json
     {
