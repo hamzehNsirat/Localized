@@ -45,7 +45,7 @@ const signIn = async (req, res) => {
   try {
     const { user } = req.body;
 
-    if (!user.userName || !user.userPassword) {
+    if ((!user.userName && !user.userEmail) || !user.userPassword) {
       return errorHandler.handleError(res, "E0007");
     }
 

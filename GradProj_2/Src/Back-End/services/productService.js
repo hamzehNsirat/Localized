@@ -288,7 +288,7 @@ const productService = {
     await beginTransaction();
     const productDetails = {
       supplierId: inputData.supplierId,
-      productStatusId: inputData.productStatusId,
+      productStatusId: inputData.productStatusId || 2,
       productUnitPrice: inputData.productUnitPrice,
       productWholeSalePrice: inputData.productWholeSalePrice,
       productRetailPrice: inputData.productRetailPrice,

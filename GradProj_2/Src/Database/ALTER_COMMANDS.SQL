@@ -3371,3 +3371,42 @@ EXCEPTION WHEN OTHERS THEN
 END;
 $$ LANGUAGE plpgsql;
 ---------------------------------------------------------------------
+-- 13-12-2024
+ALTER TABLE complaint drop constraint chk_cmpn_status;
+alter table complaint add	CONSTRAINT chk_cmpn_status CHECK(complaint_status_id IN('CREATED', 'UNDERREVIEW', 'RESOLVED', 'REJECTED'));
+select * from product_status_get_all();
+update product_status set product_status = 'DRAFTED' WHERE product_status_id = 2;
+update product_status set product_status = 'PUBLISHED' WHERE product_status_id = 1;
+update quotation_status set quotation_status = 'CONFIRMED' WHERE QUOTATION_STATUS_ID = 3;
+update quotation_status set quotation_status = 'DECLINED' WHERE QUOTATION_STATUS_ID = 5;
+SELECT * FROM quotation_status_get_all() order by quot_status_id asc
+UPDATE USER_TYPE SET USER_TYPE = 'RETAILER' WHERE USER_TYPE_ID = 2;
+UPDATE USER_TYPE SET USER_TYPE = 'SUPPLIER' WHERE USER_TYPE_ID =3;
+SELECT * FROM user_type_get_all();
+UPDATE USER_STATUS SET USER_STATUS_ID = 5 WHERE USER_STATUS = 'SUSPENDED'
+UPDATE USER_STATUS SET USER_STATUS = 'SUSPENDED' WHERE USER_STATUS.user_status_id = 3;
+UPDATE USER_STATUS SET USER_STATUS = 'BANNED' WHERE USER_STATUS.user_status_id = 4;
+UPDATE USER_STATUS SET USER_STATUS = 'DELETED' WHERE USER_STATUS.user_status_id = 5;
+UPDATE INDUSTRY_TYPE SET INDUSTRY_TYPE_ID = 8 WHERE INDUSTRY_TYPE = 'FOODANDBEVERAGE';
+UPDATE INDUSTRY_TYPE SET INDUSTRY_TYPE_ID = 7 WHERE INDUSTRY_TYPE = 'AUTOMOTIVE';
+UPDATE INDUSTRY_TYPE SET INDUSTRY_TYPE_ID = 6 WHERE INDUSTRY_TYPE = 'TOYS';
+UPDATE INDUSTRY_TYPE SET INDUSTRY_TYPE_ID = 5 WHERE INDUSTRY_TYPE = 'OUTDOORS';
+CREATE OR REPLACE FUNCTION insert_salt_new_password()
+  RETURNS TRIGGER 
+  LANGUAGE PLPGSQL
+  AS
+$$
+BEGIN
+	-- Hash the new password
+	NEW.user_password = (SELECT crypt(NEW.user_password, gen_salt('md5'))) ;
+	RETURN NEW;
+END;
+$$
+DROP TRIGGER before_insert_userpass ON user_localized;
+CREATE TRIGGER before_insert_userpass
+BEFORE INSERT ON user_localized
+FOR EACH ROW
+EXECUTE FUNCTION insert_salt_new_password();
+
+ALTER TABLE CATEGORY ALTER COLUMN category_name TYPE VARCHAR(256);
+---------------------------------------------------------------------

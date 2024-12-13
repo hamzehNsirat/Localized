@@ -63,7 +63,7 @@ const authService = {
           };
         }
         newAdminId = adminResult[0].out_admin_id;
-      } else if (userData.userType === 2) {
+      } else if (userData.userType === 3) {
         // Supplier creation logic
         if (!establishmentData) {
           await rollbackTransaction();
@@ -263,6 +263,7 @@ const authService = {
           error: "Application for this User is still Pending Review",
         };
       }
+      console.log(userResult);
       if (userResult[0].out_is_valid != 1) {
         return {
           success: false,

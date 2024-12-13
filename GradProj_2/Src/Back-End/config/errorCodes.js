@@ -39,7 +39,7 @@ module.exports = {
   E0007: {
     errorDescription: "Missing Data",
     statusCode: 400,
-    message: "Username or Userpassword is missing.",
+    message: "userName/userEmail and Userpassword are Mandatory",
     errorCode: "E0007",
   },
   E0008: {
@@ -372,7 +372,7 @@ module.exports = {
     errorDescription: "Missing Data",
     statusCode: 400,
     message:
-      "complaintTitle, complaintTypeId,supplierId, retailerId, complaintNotes and quotationId are Mandatory",
+      "complaintTitle, complaintTypeId,supplierId, retailerId, complaintNotes, quotationId and submitterType are Mandatory",
     errorCode: "E0061",
   },
   E0062: {

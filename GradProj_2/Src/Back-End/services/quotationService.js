@@ -1,6 +1,8 @@
 const Quotation = require("../models/Quotation");
 const Notification = require("../models/Notification");
 const Order = require("../models/Order");
+const Product = require("../models/Product");
+
 const {
   executeQuery,
   beginTransaction,
@@ -60,6 +62,17 @@ const quotationService = {
               error: "Failed to Create Quotation Details",
             };
           }
+          const productDetailsDb = await Product.getById(inputData.quotationDetails.detailsItem[i].productId);
+          if (!productDetailsDb) {
+            return {
+              success: false,
+              error: "Failed to Create Quotation Details",
+            };
+          }
+
+          details.detailsItem[i].productName = productDetailsDb[0].out_product_name;
+          details.detailsItem[i].productImage = productDetailsDb[0].out_product_image;
+          details.detailsItem[i].productCategory = productDetailsDb[0].out_product_category;
           details.detailsItem[i].orderId = orderResDB[0].out_order_id;
         } catch {
           await rollbackTransaction();

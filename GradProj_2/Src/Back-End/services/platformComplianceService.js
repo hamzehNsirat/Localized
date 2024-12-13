@@ -75,7 +75,7 @@ const platformComplianceService = {
       retailerId: inputData.retailerId,
       complaintStatusId: "CREATED",
       complaintNotes: inputData.complaintNotes,
-      submitterType: true,
+      submitterType: inputData.submitterType,
       creationDate: null,
       lastModifiedBy: 1,
       resolutionNotes: null,

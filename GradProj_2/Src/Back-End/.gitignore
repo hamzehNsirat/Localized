@@ -1,3 +1,4 @@
 **/logs/
 coverage/
 **/node_modules/
+**/.env

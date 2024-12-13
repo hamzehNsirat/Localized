@@ -60,7 +60,17 @@ BEGIN
 	RETURN NEW;
 END;
 $$
-
+CREATE OR REPLACE FUNCTION insert_salt_new_password()
+  RETURNS TRIGGER 
+  LANGUAGE PLPGSQL
+  AS
+$$
+BEGIN
+	-- Hash the new password
+	NEW.user_password = (SELECT crypt(NEW.user_password, gen_salt('md5'))) ;
+	RETURN NEW;
+END;
+$$
 CREATE TRIGGER before_insert_userpass
 BEFORE INSERT ON user_localized
 FOR EACH ROW

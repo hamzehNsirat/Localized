@@ -27,7 +27,7 @@ CREATE TABLE complaint (
     REFERENCES complaint_type(complaint_type_id) ON DELETE SET NULL ON UPDATE CASCADE,
 	CONSTRAINT fk_cmpn_qttn_id FOREIGN KEY (quotation_id)
     REFERENCES quotation(quotation_id) ON DELETE SET NULL ON UPDATE CASCADE,
-	CONSTRAINT chk_cmpn_status CHECK(complaint_status_id IN('CREATED', 'REVIEWED', 'RESOLVED', 'DELETED'))
+	CONSTRAINT chk_cmpn_status CHECK(complaint_status_id IN('CREATED', 'UNDERREVIEW', 'RESOLVED', 'REJECTED'))
 );
 
 /*

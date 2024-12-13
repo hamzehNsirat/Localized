@@ -1204,7 +1204,9 @@ Total
                     "supplierId": 1,
                     "retailerId": 1,
                     "complaintNotes": "everything sucks",
-                    "quotationId":2
+                    "quotationId":2,
+                    "submitterType":true
+
                 }
 - expected Response/s:
     - Error
@@ -2525,12 +2527,13 @@ total subtotal and shipping price
 - payload:
     ```json
                     {
-                        "complaintTitle": "Items Received are not in shape",
-                        "complaintTypeId": 4,
+                        "complaintTitle": "Retailer Does not Pay on time",
+                        "complaintTypeId": 1,
                         "supplierId": 1,
                         "retailerId": 1,
-                        "complaintNotes": "everything sucks",
-                        "quotationId":2
+                        "complaintNotes": "i have bills to pay bro",
+                        "quotationId":2,
+                        "submitterType":false
                     }
 - expected Response/s:
     - Error

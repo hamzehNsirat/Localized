@@ -126,7 +126,8 @@ const createComplaint = async (req, res) => {
       req.body.supplierId == null ||
       req.body.retailerId == null ||
       req.body.complaintNotes == null ||
-      req.body.quotationId == null
+      req.body.quotationId == null ||
+      req.body.submitterType == null
     ) {
       return errorHandler.handleError(res, "E0061");
     }
