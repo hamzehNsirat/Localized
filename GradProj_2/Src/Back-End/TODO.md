@@ -3,9 +3,9 @@
 ## Project Distribution
 
 - Analytics: Hamzeh
-- Admin: Husam
+- Admin: Hamzeh
 - Integration: Abu Ayyash
-- Document: Rafeeq
+- Document: Husam / Rafeeq
 - Poster / Video: Husam
 
 ## RETAILER PART [COMPLETION PERCENTAGE:100%]
@@ -2803,14 +2803,14 @@ if matching -> update password from payload if not -> handle error
 - TO BE DETERMINED
 
 ## UTILITIES
-- service: Upload Image
-    - request
+#### service: Upload Image
+- request
                 form-data
                 key: image
                 Type: file
                 Value: image to be uploaded
-    - response
-    ```json
+- response
+```json
                 {
                     "success": true,
                     "message": "Image uploaded successfully",

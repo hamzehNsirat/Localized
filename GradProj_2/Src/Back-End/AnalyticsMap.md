@@ -32,7 +32,7 @@
 - Establishment Rate: Rate for Supplier Overall
 - Compliance Rate: for Establishment
 - Number of Quotations: All Quotations Participated In
-- Issues Reported: the Number of Complaints against the Retaler
+- Issues Reported: the Number of Complaints against the Supplier
 ### Row 2:
 - First Compartment: List of Purchases (Quotation Confirmed+Completed) and Done By Retailer (QuotationID, 
 - Retailstore Name, Amount, Percentage)
@@ -58,4 +58,4 @@
 - Best Selling Products: Top #3 Products
 - Confirmed Quotations : Requested Quotations
 - Weekly Sales: from Date requested going back 7 days
-- Weekly QuotationsL from Date requested going back 7 days  
+- Weekly Quotations: from Date requested going back 7 days  
