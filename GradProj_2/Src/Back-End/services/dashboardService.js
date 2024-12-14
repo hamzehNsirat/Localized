@@ -7,6 +7,7 @@ const Factory = require("../models/Factory");
 const RetailStore = require("../models/RetailStore");
 const logDBModel = require("../models/Log");
 const Notification = require("../models/Notification");
+const analytics = require("./analyticsService");
 const { sendEmail } = require("../config/email");
 const {
   executeQuery,
@@ -37,6 +38,7 @@ const dashboardService = {
         retailerData[0].out_retailer_id
       );
     const retailerInsights = { Insights: "To Be Done" };
+    //const retailerInsights = await analytics.getRetailerAnalytics(userId);
     // Consilidate Data and Format it
     const retailerDashboard = {
       userDetails: {
@@ -105,7 +107,7 @@ const dashboardService = {
           progressBarRetailstore[0].establishment_completion_percentage
         ),
       },
-      insights: retailerInsights.Insights,
+      insights: retailerInsights,
     };
     // Return Data Object as Response
     return {
@@ -368,7 +370,6 @@ const dashboardService = {
       success: true,
     };
   },
-
   async updateFactoryDetails(inObj) {
     // Update Details in Establishment Table
     const supplierId = inObj.supplierId;

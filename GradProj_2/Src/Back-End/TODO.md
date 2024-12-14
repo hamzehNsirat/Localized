@@ -2790,17 +2790,132 @@ frontend level
     }
 
 ## ADMINSTRATOR PART  [COMPLETION PERCENTAGE:]
-
 ### PART 1 Signup
 - service: check user name is already in database
 - service: sign up
 ### PART 2 Login
-
-
 - service: forget password -> send an email with a unique code, listen to the user input new code, compare sent code and entered code 
 if matching -> update password from payload if not -> handle error
 - service: Actual Login
-- TO BE DETERMINED
+### PART 3 DASHBOARD
+#### service: ANALYTICS
+#### service: BASIC USER DATA
+### PART 4 APPLICATION
+#### service: GET APPLICATION LIST
+#### service: SEARCH BY ID / NAME PAGINATED
+#### service: GET APPLICATION BY ID : ADDTO:(APPLICATION DATE, REGISTRATION NUMBER)
+#### service: UPDATE APPLICATION STATUS
+#### service: CHECK REGISTRATION NUMBER
+### PART 5 USER
+#### service: SEARCH BY NAME, ID FOR USER PAGINATED (ID, FIRST/LAST NAME, IMAGE,STATUS, USERTYPE)
+#### service: GET USERS LIST (ID, FIRST/LAST NAME, IMAGE,STATUS, USERTYPE)
+#### service: VIEW USER DATA:
+- ADMIN: FULL NAME, USERNAME, EMAIL, ADDRESS, NATIONALNUMBER, TAXNUMBER:NULL,PHONENUMBER, DOB, USETYPE, IMAGE
+- SUPPLIER: 
+    - FULL NAME, USERNAME, EMAIL, ADDRESS, NATIONALNUMBER, TAXNUMBER:NULL,PHONENUMBER, DOB, USETYPE, IMAGE
+    - COMPANY NAME, DESCRIPTION, EMAIL,REGISTRATION NUMBER, WEBSITE, CONTACT NUMBER, REGISTRATION DATE, ESTABLISHMENT TYPE
+    - CITY, BUILDING NO, ST ADDRESS, BANCK ACC NUM, IBAN
+    - ESTABLISHMENT LOGO AND COVER
+- RETAILER:
+    - FULL NAME, USERNAME, EMAIL, ADDRESS, NATIONALNUMBER, TAXNUMBER:NULL,PHONENUMBER, DOB, USETYPE, IMAGE
+    - COMPANY NAME, DESCRIPTION, EMAIL,REGISTRATION NUMBER, WEBSITE, CONTACT NUMBER, REGISTRATION DATE, ESTABLISHMENT TYPE
+    - CITY, BUILDING NO, ST ADDRESS, BANCK ACC NUM, IBAN
+    - ESTABLISHMENT LOGO
+#### service: BASED ON TYPE UPDATE USER DATA & ESTABLISHMENT & SUPPLIER/RETAILER
+#### service: UPDATE USER STATUS
+#### service: ADD USER -> SIGNUP
+### PART 6 QUOTATION
+#### service: GET QUOTATIONS LIST PAGINATED (ID, RETAILSTORE LOGO, RETAILSTORE NAME, STATUS)
+#### service: SEARCH QUOTATIONS BY ID NAME LIST PAGINATED (ID, RETAILSTORE LOGO, RETAILSTORE NAME, STATUS)
+#### service: GET QUOTATION BY ID ADDTO:(RETAILER&SUPPLIER EST NAME, EMAIL, CONTACT), PAYMENT METHOD
+### PART 7 COMPLAINT
+#### service: GET COMPLAINTS LIST PAGINATED (ID, TITLE, DATE, STATUS)
+#### service: SEARCH BY ID AND NAME (ID, TITLE, DATE, STATUS)
+#### service: GET COMPLAINT DATA BY ID ADDTO:(USER: NAME, EMAIL, PHONE NUMBER),ESTABLISHMENT NAMES,ESTBALISHMENT IDS
+#### service: UPDATE COMPLAINT
+##### SUB: RECALCULATE COMPLAINCE UPDATE COUNTS FOR AGAINST 
+#### service: UPDATE CONPLAINT STATUS
+### PART 8 CATEGORIES
+
+#### service: GET INDUSTRY TYPES 
+#### service: GET CATEGORIES BY INDUSTRY TYPE 
+#### service: ADD CATEGORY
+#### service: DELETE CATEGORY
+### PART 9 PENALTY
+#### service: GET PENALTIES PAGINATED (ID, TITLE, DATE)
+#### service: ADD PENALTY: TYPE, WEIGHT, NOTES ESTABLISHMENT ID
+##### SUB: RECALCULATE COMPLAINCE  
+#### service: VIEW PENALTY (PENALTY ID): TYPE, WEIGHT, NOTES ESTABLISHMENT NAMES AND IDS, COMPLAINT ID
+#### service: UPDATE PENALTY (PENALTY ID): DELETE 
+##### SUB: RECALCULATE COMPLAINCE  
+### PART 10 NOTIFICATIONS
+#### service: GET NOTIFICATION
+### PART 11 GENERAL
+#### service: update user data
+- payload
+    ```json
+    {
+        "user": {
+            "userId": 187,
+            "nationalNumber": 8840005522,
+            "userStatus": 1,
+            "firstName": null,
+            "middleName": "",
+            "lastName": null,
+            "dateOfBirth": null,
+            "userAddress": "5th Circle, Amman, Jordan",
+            "userEmail": null,
+            "userPassword": null,
+            "isEmailVerified": null,
+            "userPhoneNumber": null,
+            "userImage": "http://localhost:5055/uploads/images/default-1733986987998-922419739.png"
+        }
+    }
+- expected Response/s:
+    - Error
+      ```json
+            {
+                "header": {
+                    "errorCode": "E0012",
+                    "errorDescription": "Update Failure",
+                    "statusCode": "E0012",
+                    "message": "Updating User Data has failed"
+                },
+                "body": {
+                    "details": "unrecognized configuration parameter \"out_log_id\""
+                }
+            }
+    - Success
+    ```json 
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true
+        }
+    }
+#### service: get policies
+frontend level
+#### service: logout
+- payload
+- Expected Response
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "message": "User successfully logged out"
+        }
+    }
 
 ## UTILITIES
 #### service: Upload Image

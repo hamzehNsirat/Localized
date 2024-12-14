@@ -263,7 +263,6 @@ const authService = {
           error: "Application for this User is still Pending Review",
         };
       }
-      console.log(userResult);
       if (userResult[0].out_is_valid != 1) {
         return {
           success: false,

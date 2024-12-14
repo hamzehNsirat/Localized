@@ -3176,7 +3176,25 @@ INSERT INTO establishment (
 	) VALUES
 	(
 		in_establishment_status,
-		in_establishment_name,tablishment_id;		
+		in_establishment_name,
+		in_commercial_registration_num,
+		in_establishment_registration_date,
+		in_contact_number,
+		in_establishment_email,
+		in_establishment_website,
+		in_establishment_description,
+		in_establishment_type,
+		in_establishment_city,
+		in_establishment_street,
+		in_establishment_building_num,
+		in_industry_type,
+		in_establishment_logo,
+		in_establishment_cover,
+		in_est_compliance_indicator,
+		in_est_compliance_indicator_desc,
+		CURRENT_TIMESTAMP,
+		last_modifier
+	) RETURNING CAST(establishment_id AS BIGINT) INTO out_establishment_id;		
 EXCEPTION WHEN OTHERS THEN 
 	get stacked diagnostics
 	v_state = returned_sqlstate,
