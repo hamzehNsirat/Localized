@@ -1,62 +1,60 @@
-// Stores analytics data on products, sales, and trends
-const {executeQuery} = require("../config/database"); 
+const db = require("../config/database");
 
-const Analytics = {
-
-  async getByDate(startDate, endDate) {
-    return await executeQuery(
-      "SELECT * FROM analytics_get_by_date($1, $2)",
-      [startDate, endDate]
-    );
+const AnalyticsModel = {
+  // Get Analytics by User ID
+  async getAnalyticsByUserId(userId) {
+    const query = `
+            SELECT * FROM analytics_get_by_user_id($1)
+        `;
+    try {
+      return await db.executeQuery(query, [userId]);
+    } catch (error) {
+      console.error("Error in getAnalyticsByUserId:", error);
+      throw error;
+    }
   },
 
-
-  // Get analytics by ID
-  async getById(inputData) {
-    return await executeQuery("SELECT * FROM analytics_get_by_id($1)", [
-      inputData.analyticsId,
-    ]);
+  // Insert Analytics
+  async insertAnalytics(userId, capture) {
+    const query = `
+            SELECT analytics_insert($1, $2) AS out_analytics_id
+        `;
+    try {
+      const result = await db.executeQuery(query, [userId, capture]);
+      return result[0]?.out_analytics_id;
+    } catch (error) {
+      console.error("Error in insertAnalytics:", error);
+      throw error;
+    }
   },
 
-  // Get analytics by Product ID
-  async getByProduct(inputData) {
-    return await executeQuery("SELECT * FROM analytics_get_by_product($1)", [
-      inputData.productId,
-    ]);
+  // Update Analytics
+  async updateAnalytics(capture, analyticsId) {
+    const query = `
+            SELECT analytics_update($1, $2) AS result
+        `;
+    try {
+      const result = await db.executeQuery(query, [capture, analyticsId]);
+      return result[0]?.result === 0;
+    } catch (error) {
+      console.error("Error in updateAnalytics:", error);
+      throw error;
+    }
   },
 
-  // Insert analytics data
-  async insert(inputData) {
-    return await executeQuery(
-      "SELECT * FROM analytics_insert($1, $2, $3, $4)",
-      [
-        inputData.productId,
-        inputData.trends,
-        inputData.salesCount || 0,
-        inputData.viewsCount || 0,
-      ]
-    );
-  },
-
-  // Update analytics data
-  async update(inputData) {
-    return await executeQuery(
-      "SELECT * FROM analytics_update($1, $2, $3, $4)",
-      [
-        inputData.analyticsId,
-        inputData.trends,
-        inputData.salesCount,
-        inputData.viewsCount,
-      ]
-    );
-  },
-
-  // Delete analytics data
-  async delete(inputData) {
-    return await executeQuery("SELECT * FROM analytics_delete($1)", [
-      inputData.analyticsId,
-    ]);
+  // Delete Analytics
+  async deleteAnalytics(analyticsId) {
+    const query = `
+            SELECT analytics_delete($1) AS result
+        `;
+    try {
+      const result = await db.executeQuery(query, [analyticsId]);
+      return result[0]?.result === 0;
+    } catch (error) {
+      console.error("Error in deleteAnalytics:", error);
+      throw error;
+    }
   },
 };
 
-module.exports = Analytics;
+module.exports = AnalyticsModel;

@@ -37,8 +37,8 @@ const dashboardService = {
       await Retailer.calculateEstablishmentCompletionPercentage(
         retailerData[0].out_retailer_id
       );
-    const retailerInsights = { Insights: "To Be Done" };
-    //const retailerInsights = await analytics.getRetailerAnalytics(userId);
+    //const retailerInsights = { Insights: "To Be Done" };
+    const retailerInsights = await analytics.getRetailerAnalytics(userId);
     // Consilidate Data and Format it
     const retailerDashboard = {
       userDetails: {
@@ -107,7 +107,7 @@ const dashboardService = {
           progressBarRetailstore[0].establishment_completion_percentage
         ),
       },
-      insights: retailerInsights,
+      Insights: retailerInsights.res || retailerInsights,
     };
     // Return Data Object as Response
     return {
