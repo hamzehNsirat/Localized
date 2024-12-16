@@ -53,7 +53,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user\": {\r\n        \"userType\": 2,\r\n        \"firstName\": \"sample\",\r\n        \"lastName\": \"supplier\",\r\n        \"userName\": \"supplier081225\",\r\n        \"userEmail\": \"hanoi00991@gmail.com\",\r\n        \"userPassword\": \"sudo9991\",\r\n        \"userPhoneNumber\": \"0740600067\"\r\n    },\r\n   \"establishment\": {\r\n        \"industryType\": [2],\r\n        \"establishmentName\": \"Smartech\",\r\n        \"commercialRegistrationNum\": 878905321,\r\n        \"contactNumber\": \"0750004455\",\r\n        \"establishmentEmail\": \"et.sup9991@mail.com\",\r\n        \"establishmentWebsite\": null,\r\n        \"establishmentDescription\": \"sells Electronics\",\r\n        \"establishmentType\": false,\r\n        \"establishmentCity\": \"Amman\",\r\n        \"establishmentStreet\": \"Abdali\",\r\n        \"establishmentBuildingNum\": \"12C\",\r\n        \"establishmentLogo\": \"http://localhost:5055/uploads/images/default-1733749653337-468698296.png\",\r\n        \"establishmentCover\":\"\"\r\n    }\r\n}\r\n\r\n",
+							"raw": "{\r\n    \"user\": {\r\n        \"userType\": 1,\r\n        \"firstName\": \"Sample\",\r\n        \"lastName\": \"Admin\",\r\n        \"userName\": \"admin-01\",\r\n        \"userEmail\": \"ham20190725@std.psut.edu.jo\",\r\n        \"userPassword\": \"adminpass123\",\r\n        \"userPhoneNumber\": \"0795404509\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -397,6 +397,85 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0005\",\n        \"errorDescription\": \"Missing User Type\",\n        \"statusCode\": \"E0005\",\n        \"message\": \"User Type is required for this operation.\"\n    }\n}"
+						},
+						{
+							"name": "signup/retailerSample",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"user\": {\r\n        \"userType\": 2,\r\n        \"firstName\": \"retailer\",\r\n        \"lastName\": \"sample01\",\r\n        \"userName\": \"retailer000001\",\r\n        \"userEmail\": \"hamzehnussirat99@gmail.com\",\r\n        \"userPassword\": \"sample000001\",\r\n        \"userPhoneNumber\": \"0789080701\"\r\n    },\r\n   \"establishment\": {\r\n        \"industryType\": [2, 3],\r\n        \"establishmentName\": \"ElectroGroup\",\r\n        \"commercialRegistrationNum\": 129990003,\r\n        \"contactNumber\": \"0789080702\",\r\n        \"establishmentEmail\": \"et.retailer0001@mail.com\",\r\n        \"establishmentWebsite\": null,\r\n        \"establishmentDescription\": \"sells Electronics and Home Appliances\",\r\n        \"establishmentType\": true,\r\n        \"establishmentCity\": \"Amman\",\r\n        \"establishmentStreet\": \"Mecca St\",\r\n        \"establishmentBuildingNum\": \"121W\",\r\n        \"establishmentLogo\": \"http://localhost:5055/uploads/images/default-1734117896561-897840290.png\",\r\n        \"establishmentCover\":null\r\n    }\r\n}\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/auth/signup",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"auth",
+										"signup"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "489"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e9-spfc1wiA45yD9IgjJNKon/TINXw\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 13 Dec 2024 19:26:05 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 201,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"userId\": \"190\",\n        \"adminId\": null,\n        \"supplierId\": null,\n        \"retailerId\": \"12\",\n        \"factoryId\": null,\n        \"retailstoreId\": \"40-12\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxOTAiLCJ1c2VyVHlwZSI6MiwidXNlcm5hbWUiOiJyZXRhaWxlcjAwMDAwMSIsInRva2VuVmVyc2lvbiI6MCwiaWF0IjoxNzM0MTE3OTY1LCJleHAiOjE3MzQyMDQzNjV9.F6guWDKi4sx0o0KVhsDnCbbD1q0SS_nLP-gH0e6ZN1Q\"\n    }\n}"
 						}
 					]
 				},
@@ -407,7 +486,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user\": {\r\n        \"userName\": \"supplier091225\",\r\n        \"userPassword\": \"sudo9991\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"user\": {\r\n        \"userName\": \"admin-01\",\r\n        \"userPassword\": \"adminpass123\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -603,7 +682,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5ODY5MTcsImV4cCI6MTczNDA3MzMxN30.gqNBd0ypg1M_p0akhMROBKLqbFIbHGz7OL98_WXpOpY",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -872,7 +951,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"supplier091224\"\r\n}",
+							"raw": "{\r\n    \"username\": \"admin-01\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1150,7 +1229,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzc0OTAzOCwiZXhwIjoxNzMzODM1NDM4fQ.5TblgHUzwxDOE6ACP2zgKIf6VutppRWtidgka91WbuA",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -1343,7 +1422,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzE0MjY0MSwiZXhwIjoxNzMzMjI5MDQxfQ.hxsyUwZtGdvqPzx4r3GSXKTBqLcd8vfCxQxmsb3GDMU",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -1458,7 +1537,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzc0OTAzOCwiZXhwIjoxNzMzODM1NDM4fQ.5TblgHUzwxDOE6ACP2zgKIf6VutppRWtidgka91WbuA",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -1500,7 +1579,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"hamnoi9991@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"email\": \"hamzehnussirat99@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1693,7 +1772,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"resetToken\": \"2506e5ede8a5df9edd41b6d82b9ce54f5085e646a10505acc37080e87692ea06\",\r\n    \"newPassword\": \"Aff\"\r\n}",
+							"raw": "{\r\n    \"resetToken\": \"f406aebd2e3e60b7ce5b02c16b37d76d11fe6f32fa3c5342de53bde22d5ab4ac\",\r\n    \"newPassword\": \"newpass123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1880,13 +1959,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzQ5MDc0NiwiZXhwIjoxNzMzNTc3MTQ2fQ.zHjKb6klaCROR9o79G2p5_C2D5_XNtnrwKRePEWrxfU",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"establishmentCommercialRegistrationNumber\": 1205\r\n}",
+							"raw": "{\r\n    \"establishmentCommercialRegistrationNumber\": 129990003\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1924,7 +2003,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5ODY5MTcsImV4cCI6MTczNDA3MzMxN30.gqNBd0ypg1M_p0akhMROBKLqbFIbHGz7OL98_WXpOpY",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -2120,7 +2199,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDAiLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyOTEwIiwidG9rZW5WZXJzaW9uIjoxLCJpYXQiOjE3MzI3ODEwODEsImV4cCI6MTczMjg2NzQ4MX0.jgwKwfObpBSkZafTWlAcM64toEqmiBYHRoJ55AJR34s",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -2238,7 +2317,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzQ4NzgwMCwiZXhwIjoxNzMzNTc0MjAwfQ.CCDhQanhKAfvnTqitoV_EoM2G542SUJRfJWuU7ylkxs",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -2434,7 +2513,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjoxLCJpYXQiOjE3MzM5ODkxMjQsImV4cCI6MTczNDA3NTUyNH0.1Bm60Hr34vPv8_Ba6UXnIMM6Jr6QWSlJyr3SnPWMA6M",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -2552,7 +2631,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDAiLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyOTEwIiwidG9rZW5WZXJzaW9uIjoxLCJpYXQiOjE3MzI3ODA0MzcsImV4cCI6MTczMjg2NjgzN30.ogB6bA9Vt19lJzzuU86dsUzz4Ki2OG2PFPGUMZN1rwM",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -2672,13 +2751,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNjciLCJ1c2VyVHlwZSI6MywidXNlcm5hbWUiOiJyZXRhaWxlcjk5OTAxIiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzMxNTUxMTEsImV4cCI6MTczMzI0MTUxMX0.S5P9uTZb6OWHQsT-POWFuRTZzRvAYYp3-mlYZ0pnP7U",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userId\":168\r\n}",
+							"raw": "{\r\n    \"userId\":2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2777,6 +2856,162 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"retailerDashboard\": {\n            \"userDetails\": {\n                \"nationalNumber\": null,\n                \"userName\": \"retailer99301\",\n                \"userType\": \"3\",\n                \"userStatus\": \"1\",\n                \"firstName\": \"retailer\",\n                \"middleName\": null,\n                \"lastName\": \"adam\",\n                \"dateOfBirth\": null,\n                \"userEmail\": \"retailer00032@mail.com\",\n                \"userPhone\": \"0700002030\",\n                \"userAddress\": null\n            },\n            \"retailerDetails\": {\n                \"retailerId\": \"11\",\n                \"retailerTaxIdentificationNumber\": null,\n                \"retailerBankAccountNumber\": null,\n                \"retailerIBAN\": null,\n                \"retailerComplianceIndicator\": 1,\n                \"retailerComplaintCount\": 0\n            },\n            \"retailStoreDetails\": {\n                \"retailStoreId\": \"37-11\"\n            },\n            \"establishmentDetails\": {\n                \"establishmentName\": \"Some General Store 0001\",\n                \"establishmentIndustryType\": [\n                    \"1\"\n                ],\n                \"establishmentStatus\": \"1\",\n                \"establishmentCommercialRegistrationNumber\": \"97777288\",\n                \"establishmentRegistrationDate\": null,\n                \"establishmentContactNumber\": \"07095884445\",\n                \"establishmentEmail\": \"someretailer003@mail.com\",\n                \"establishmentWebsite\": null,\n                \"establishmentDescription\": \"sells for fun0003\",\n                \"establishmentType\": true,\n                \"establishmentCity\": \"Amman\",\n                \"establishmentStreet\": \"Arjan\",\n                \"establishmentBuildingNumber\": \"13K\",\n                \"establishmentLogo\": null,\n                \"establishmentCover\": null,\n                \"establishmentComplianceIndicator\": 1,\n                \"establishmentComplianceIndicatorDescription\": \"GOOD\"\n            },\n            \"progressBarUser\": {\n                \"percentage\": 73\n            },\n            \"progressBarEstablishment\": {\n                \"percentage\": 85\n            },\n            \"insights\": \"To Be Done\"\n        }\n    }\n}"
+						},
+						{
+							"name": "GetRetailerAllDetails/Sample1",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxOTAiLCJ1c2VyVHlwZSI6MiwidXNlcm5hbWUiOiJyZXRhaWxlcjAwMDAwMSIsInRva2VuVmVyc2lvbiI6MCwiaWF0IjoxNzM0MTE3OTY1LCJleHAiOjE3MzQyMDQzNjV9.F6guWDKi4sx0o0KVhsDnCbbD1q0SS_nLP-gH0e6ZN1Q",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\":190\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/getretailerdetails",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"getretailerdetails"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1527"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"5f7-98uYq2VxhaQPmSixspxxDN2Vvc8\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 13 Dec 2024 19:27:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"retailerDashboard\": {\n            \"userDetails\": {\n                \"nationalNumber\": null,\n                \"userName\": \"retailer000001\",\n                \"userType\": \"2\",\n                \"userStatus\": \"1\",\n                \"firstName\": \"retailer\",\n                \"middleName\": null,\n                \"lastName\": \"sample01\",\n                \"dateOfBirth\": null,\n                \"userEmail\": \"hamzehnussirat99@gmail.com\",\n                \"userPhone\": \"0789080701\",\n                \"userAddress\": null,\n                \"userImage\": null\n            },\n            \"retailerDetails\": {\n                \"retailerId\": \"12\",\n                \"retailerTaxIdentificationNumber\": null,\n                \"retailerBankAccountNumber\": null,\n                \"retailerIBAN\": null,\n                \"retailerComplianceIndicator\": 1,\n                \"retailerComplaintCount\": 0\n            },\n            \"retailStoreDetails\": {\n                \"retailStoreId\": \"40-12\"\n            },\n            \"establishmentDetails\": {\n                \"establishmentName\": \"ElectroGroup\",\n                \"establishmentIndustryType\": [\n                    \"2\",\n                    \"3\"\n                ],\n                \"establishmentStatus\": \"1\",\n                \"establishmentCommercialRegistrationNumber\": \"129990003\",\n                \"establishmentRegistrationDate\": null,\n                \"establishmentContactNumber\": \"0789080702\",\n                \"establishmentEmail\": \"et.retailer0001@mail.com\",\n                \"establishmentWebsite\": null,\n                \"establishmentDescription\": \"sells Electronics and Home Appliances\",\n                \"establishmentType\": true,\n                \"establishmentCity\": \"Amman\",\n                \"establishmentStreet\": \"Mecca St\",\n                \"establishmentBuildingNumber\": \"121W\",\n                \"establishmentLogo\": \"http://localhost:5055/uploads/images/default-1734117896561-897840290.png\",\n                \"establishmentCover\": null,\n                \"establishmentComplianceIndicator\": 1,\n                \"establishmentComplianceIndicatorDescription\": \"GOOD\"\n            },\n            \"progressBarUser\": {\n                \"percentage\": 73\n            },\n            \"progressBarEstablishment\": {\n                \"percentage\": 85\n            },\n            \"insights\": \"To Be Done\"\n        }\n    }\n}"
+						},
+						{
+							"name": "Success/Analytics",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\":2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/getretailerdetails",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"getretailerdetails"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2705"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"a91-lBXbpQoIGPxryU2RC0PUlLQayIw\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 16 Dec 2024 18:29:40 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"retailerDashboard\": {\n            \"userDetails\": {\n                \"nationalNumber\": \"9991000631\",\n                \"userName\": \"TestUser1\",\n                \"userType\": \"3\",\n                \"userStatus\": \"4\",\n                \"firstName\": \"TestFRS\",\n                \"middleName\": \"TestMDL\",\n                \"lastName\": \"TestLST\",\n                \"dateOfBirth\": \"1989-12-31T21:00:00.000Z\",\n                \"userEmail\": \"\",\n                \"userPhone\": \"0798889995\",\n                \"userAddress\": \"Amman, Abdali, 1st Street\",\n                \"userImage\": null\n            },\n            \"retailerDetails\": {\n                \"retailerId\": \"1\",\n                \"retailerTaxIdentificationNumber\": \"6545645\",\n                \"retailerBankAccountNumber\": \"14440999\",\n                \"retailerIBAN\": \"JO94CBJO0010000000000131000388\",\n                \"retailerComplianceIndicator\": 0.75,\n                \"retailerComplaintCount\": 1\n            },\n            \"retailStoreDetails\": {\n                \"retailStoreId\": \"3-1\"\n            },\n            \"establishmentDetails\": {\n                \"establishmentName\": \"test\",\n                \"establishmentIndustryType\": [\n                    \"3\"\n                ],\n                \"establishmentStatus\": \"1\",\n                \"establishmentCommercialRegistrationNumber\": \"44450\",\n                \"establishmentRegistrationDate\": \"2023-04-03T21:00:00.000Z\",\n                \"establishmentContactNumber\": \"0777778485\",\n                \"establishmentEmail\": \"err@gmail.com\",\n                \"establishmentWebsite\": null,\n                \"establishmentDescription\": \"Main\",\n                \"establishmentType\": true,\n                \"establishmentCity\": \"Amman\",\n                \"establishmentStreet\": \"Abdali\",\n                \"establishmentBuildingNumber\": \"B1\",\n                \"establishmentLogo\": \"http://localhost:5055/uploads/images/default-1733679916980-324055511.png\",\n                \"establishmentCover\": null,\n                \"establishmentComplianceIndicator\": 1,\n                \"establishmentComplianceIndicatorDescription\": \"GOOD\"\n            },\n            \"progressBarUser\": {\n                \"percentage\": 96\n            },\n            \"progressBarEstablishment\": {\n                \"percentage\": 90\n            },\n            \"Insights\": {\n                \"analyticsResult\": {\n                    \"quotationsCount\": \"18\",\n                    \"totalSpent\": 11957,\n                    \"expectedProfit\": {\n                        \"allTime\": 52.8,\n                        \"oneYear\": 52.8,\n                        \"threeMonths\": 52.8,\n                        \"sixMonths\": 52.8,\n                        \"nineMonths\": 52.8\n                    },\n                    \"issuesReportedObj\": {\n                        \"total\": \"5\",\n                        \"unresolved\": \"60.00\",\n                        \"penaltyResulted\": \"20.00\",\n                        \"resolvedWithNoPenalty\": \"20.00\"\n                    },\n                    \"complianceIndicator\": 1,\n                    \"quotations\": {\n                        \"allTime\": {\n                            \"requested\": \"12\",\n                            \"confirmed\": \"1\",\n                            \"completed\": \"5\"\n                        },\n                        \"oneYear\": {\n                            \"requested\": \"12\",\n                            \"confirmed\": \"1\",\n                            \"completed\": \"5\"\n                        },\n                        \"nineMonths\": {\n                            \"requested\": \"12\",\n                            \"confirmed\": \"1\",\n                            \"completed\": \"5\"\n                        },\n                        \"sixMonths\": {\n                            \"requested\": \"12\",\n                            \"confirmed\": \"1\",\n                            \"completed\": \"5\"\n                        },\n                        \"threeMonths\": {\n                            \"requested\": \"12\",\n                            \"confirmed\": \"1\",\n                            \"completed\": \"5\"\n                        }\n                    },\n                    \"purchaseList\": {\n                        \"purchaseItem\": [\n                            {\n                                \"id\": 10,\n                                \"name\": \"Aaa\",\n                                \"total\": 4555.8,\n                                \"share\": \"38.10\"\n                            },\n                            {\n                                \"id\": 11,\n                                \"name\": \"Aaa\",\n                                \"total\": 4555.8,\n                                \"share\": \"38.10\"\n                            },\n                            {\n                                \"id\": 4,\n                                \"name\": \"retailer\",\n                                \"total\": 1422.7,\n                                \"share\": \"11.90\"\n                            },\n                            {\n                                \"id\": 9,\n                                \"name\": \"Aaa\",\n                                \"total\": 1422.7,\n                                \"share\": \"11.90\"\n                            }\n                        ]\n                    },\n                    \"topThreeProducts\": {\n                        \"productItem\": [\n                            {\n                                \"id\": 1,\n                                \"name\": \"new Name\",\n                                \"mentions\": \"18\",\n                                \"sales\": \"6\",\n                                \"share\": \"33.33\"\n                            },\n                            {\n                                \"id\": 2,\n                                \"name\": \"test\",\n                                \"mentions\": \"18\",\n                                \"sales\": \"6\",\n                                \"share\": \"33.33\"\n                            }\n                        ]\n                    },\n                    \"topThreeCategories\": {\n                        \"categoryItem\": [\n                            {\n                                \"name\": \"SMARTPHONES\",\n                                \"mentions\": \"36\",\n                                \"sales\": \"12\",\n                                \"share\": \"33.33\"\n                            }\n                        ]\n                    }\n                }\n            }\n        }\n    }\n}"
 						}
 					]
 				},
@@ -2787,13 +3022,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzQ4NzgwMCwiZXhwIjoxNzMzNTc0MjAwfQ.CCDhQanhKAfvnTqitoV_EoM2G542SUJRfJWuU7ylkxs",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"retailerId\":11,\r\n    \"pageSize\":3,\r\n    \"pageIndex\":1\r\n}",
+							"raw": "{\r\n    \"retailerId\":12,\r\n    \"pageSize\":5,\r\n    \"pageIndex\":1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2902,7 +3137,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzMwMDI2NSwiZXhwIjoxNzMzMzg2NjY1fQ.Ag3CzvR89e70oG26tU2hHE6TTkXu_lquf0lQxIeGDu0",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -3095,7 +3330,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzQ4NzgwMCwiZXhwIjoxNzMzNTc0MjAwfQ.CCDhQanhKAfvnTqitoV_EoM2G542SUJRfJWuU7ylkxs",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -3288,7 +3523,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzc0OTAzOCwiZXhwIjoxNzMzODM1NDM4fQ.5TblgHUzwxDOE6ACP2zgKIf6VutppRWtidgka91WbuA",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -3403,7 +3638,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MTI1NTEsImV4cCI6MTczMzk5ODk1MX0.qzwkNgaD8_QEIchugUlfBcJXKC72Re-fYHfNFWmpi7Y",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -3518,7 +3753,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzQ5NzY2MSwiZXhwIjoxNzMzNTg0MDYxfQ.skYQWboxesI2Istklug3Gx9VrzTL-ICEV1sfsDUx8vc",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -3633,13 +3868,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"quotationId\":21\r\n}",
+							"raw": "{\r\n    \"quotationId\":37\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3826,7 +4061,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzQ5NzY2MSwiZXhwIjoxNzMzNTg0MDYxfQ.skYQWboxesI2Istklug3Gx9VrzTL-ICEV1sfsDUx8vc",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -4097,7 +4332,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzQ5NzY2MSwiZXhwIjoxNzMzNTg0MDYxfQ.skYQWboxesI2Istklug3Gx9VrzTL-ICEV1sfsDUx8vc",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -4290,7 +4525,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzQ5NzY2MSwiZXhwIjoxNzMzNTg0MDYxfQ.skYQWboxesI2Istklug3Gx9VrzTL-ICEV1sfsDUx8vc",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -4483,7 +4718,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -4676,7 +4911,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -4869,7 +5104,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -5062,7 +5297,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -5333,13 +5568,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"complaintTitle\": \"Items Received are not in shape\",\r\n    \"complaintTypeId\": 4,\r\n    \"supplierId\": 1,\r\n    \"retailerId\": 1,\r\n    \"complaintNotes\": \"everything sucks\",\r\n    \"quotationId\":2\r\n}",
+							"raw": "{\r\n    \"complaintTitle\": \"Items Received are not in shape\",\r\n    \"complaintTypeId\": 4,\r\n    \"supplierId\": 1,\r\n    \"retailerId\": 1,\r\n    \"complaintNotes\": \"everything sucks\",\r\n    \"quotationId\":2,\r\n    \"submitterType\":true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -5526,7 +5761,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -5719,7 +5954,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzY3ODEwNywiZXhwIjoxNzMzNzY0NTA3fQ.1gkPhXJYgyfDcBEb7yNNy0HHmIJD9F83AIMCghiWHDM",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -5912,7 +6147,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzY3ODEwNywiZXhwIjoxNzMzNzY0NTA3fQ.1gkPhXJYgyfDcBEb7yNNy0HHmIJD9F83AIMCghiWHDM",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -6260,206 +6495,13 @@
 			"name": "SupplierPart",
 			"item": [
 				{
-					"name": "GetSupplierDetails",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM3NjU0MzEsImV4cCI6MTczMzg1MTgzMX0.f_FcqzT1L29oQ7uetFGLAC8XJPCQ15dZjQSYOfZJXrA",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"userId\": 189\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5055/api/dashboard/getsupplierdetails",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5055",
-							"path": [
-								"api",
-								"dashboard",
-								"getsupplierdetails"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Error",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM3NjU0MzEsImV4cCI6MTczMzg1MTgzMX0.f_FcqzT1L29oQ7uetFGLAC8XJPCQ15dZjQSYOfZJXrA",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"userId\": 187\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:5055/api/dashboard/getsupplierdetails",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "5055",
-									"path": [
-										"api",
-										"dashboard",
-										"getsupplierdetails"
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Vary",
-									"value": "Origin"
-								},
-								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "137"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"89-DIA2Gky3LxIg9meFAJ1TKMphuYE\""
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 09 Dec 2024 17:33:36 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0069\",\n        \"errorDescription\": \"Fetch Failure\",\n        \"statusCode\": \"E0069\",\n        \"message\": \"Fetching Supplier Details has Failed\"\n    }\n}"
-						},
-						{
-							"name": "Success",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM3NjU0MzEsImV4cCI6MTczMzg1MTgzMX0.f_FcqzT1L29oQ7uetFGLAC8XJPCQ15dZjQSYOfZJXrA",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"userId\": 187\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:5055/api/dashboard/getsupplierdetails",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "5055",
-									"path": [
-										"api",
-										"dashboard",
-										"getsupplierdetails"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Vary",
-									"value": "Origin"
-								},
-								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "1405"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"57d-4RQRwYN0O7YwsPa3qBElIJQExcw\""
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 09 Dec 2024 17:34:58 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"supplierDashboard\": {\n            \"userDetails\": {\n                \"nationalNumber\": null,\n                \"userName\": \"supplier091225\",\n                \"userType\": \"2\",\n                \"userStatus\": \"1\",\n                \"firstName\": \"sample\",\n                \"middleName\": null,\n                \"lastName\": \"supplier\",\n                \"dateOfBirth\": null,\n                \"userEmail\": \"hanoi09991@gmail.com\",\n                \"userPhone\": \"0740606067\",\n                \"userAddress\": null,\n                \"userImage\": null\n            },\n            \"supplierDetails\": {\n                \"supplierId\": \"9\",\n                \"supplierTaxIdentificationNumber\": null,\n                \"supplierBankAccountNumber\": null,\n                \"supplierIBAN\": null,\n                \"supplierComplianceIndicator\": 1,\n                \"supplierComplaintCount\": 0\n            },\n            \"factoryDetails\": {\n                \"factoryId\": \"38-9\"\n            },\n            \"establishmentDetails\": {\n                \"establishmentName\": \"Smartech\",\n                \"establishmentIndustryType\": [\n                    \"2\"\n                ],\n                \"establishmentStatus\": \"1\",\n                \"establishmentCommercialRegistrationNumber\": \"478905321\",\n                \"establishmentRegistrationDate\": null,\n                \"establishmentContactNumber\": \"0770004455\",\n                \"establishmentEmail\": \"est.sup9991@mail.com\",\n                \"establishmentWebsite\": null,\n                \"establishmentDescription\": \"sells Electronics\",\n                \"establishmentType\": false,\n                \"establishmentCity\": \"Amman\",\n                \"establishmentStreet\": \"Abdali\",\n                \"establishmentBuildingNumber\": \"12C\",\n                \"establishmentLogo\": null,\n                \"establishmentCover\": null,\n                \"establishmentComplianceIndicator\": 1,\n                \"establishmentComplianceIndicatorDescription\": \"GOOD\"\n            },\n            \"progressBarUser\": {\n                \"percentage\": 75\n            },\n            \"progressBarEstablishment\": {\n                \"percentage\": 85\n            },\n            \"insights\": \"To Be Done\"\n        }\n    }\n}"
-						}
-					]
-				},
-				{
 					"name": "GetSupplierMarketplace",
 					"request": {
 						"method": "POST",
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM4MjU4MTEsImV4cCI6MTczMzkxMjIxMX0.rCP_gUK8T_2NBKpRVVTqr7JMjz6D_8hm6IbnDf2pFgo",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -6574,7 +6616,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM4MjU4MTEsImV4cCI6MTczMzkxMjIxMX0.rCP_gUK8T_2NBKpRVVTqr7JMjz6D_8hm6IbnDf2pFgo",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -6767,7 +6809,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM4MzM3NTQsImV4cCI6MTczMzkyMDE1NH0.-CU_5UJmZD51w4shbfya3IsamOxoB37nWQ2dsayiZkk",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -6960,13 +7002,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjoxLCJpYXQiOjE3MzQwMDQwMDYsImV4cCI6MTczNDA5MDQwNn0.9plsDhCORmDYMtYlJk0QLvXOFMoM3wdkrXxSw0WDc2U",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"supplierId\": 9,\r\n    \"productStatusId\": 1,\r\n    \"productUnitPrice\": 0.8,\r\n    \"productWholeSalePrice\": 1,\r\n    \"productRetailPrice\": 1.2,\r\n    \"productUnitPriceDiscount\": 0,\r\n    \"productCategory\": 1,\r\n    \"productDescription\": \"Test Product\",\r\n    \"productImage\": \"\",\r\n    \"productName\": \"Sample2\"\r\n}",
+							"raw": "{\r\n    \"supplierId\": 9,\r\n    \"productStatusId\": 1,\r\n    \"productUnitPrice\": 325,\r\n    \"productWholeSalePrice\": 330,\r\n    \"productRetailPrice\": 400,\r\n    \"productUnitPriceDiscount\": 0,\r\n    \"productCategory\": 4,\r\n    \"productDescription\": \"ALL NEW CONSOLE DEVICE\",\r\n    \"productImage\": \"\",\r\n    \"productName\": \"X-CONSOLE\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -7075,7 +7117,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDg2MzQsImV4cCI6MTczMzk5NTAzNH0.nYYgjzctSp9w2jp290E_FhWTSPiaVBuFn9SxTFzbR6I",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -7190,7 +7232,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -7226,7 +7268,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -7419,7 +7461,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -7690,7 +7732,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -7726,7 +7768,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -7919,13 +7961,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"complaintId\": 88\r\n}",
+							"raw": "{\r\n    \"complaintId\":23\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -8112,7 +8154,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -8305,7 +8347,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -8576,13 +8618,13 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM5MDk0NDMsImV4cCI6MTczMzk5NTg0M30.nkbangxPX5Pgoq5QIwbboTsWMsw-CtQPlURIy2qdSzU",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"complaintTitle\": \"Items Received are not in shape\",\r\n    \"complaintTypeId\": 4,\r\n    \"supplierId\": 1,\r\n    \"retailerId\": 1,\r\n    \"complaintNotes\": \"everything sucks\",\r\n    \"quotationId\":2\r\n}",
+							"raw": "{\r\n    \"complaintTitle\": \"Retailer Does not Pay on time\",\r\n    \"complaintTypeId\": 1,\r\n    \"supplierId\": 1,\r\n    \"retailerId\": 1,\r\n    \"complaintNotes\": \"i have bills to pay bro04\",\r\n    \"quotationId\":2,\r\n    \"submitterType\":false\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -8769,7 +8811,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjoxLCJpYXQiOjE3MzM5ODkxMjQsImV4cCI6MTczNDA3NTUyNH0.1Bm60Hr34vPv8_Ba6UXnIMM6Jr6QWSlJyr3SnPWMA6M",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -8962,7 +9004,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjoxLCJpYXQiOjE3MzM5OTEzNjYsImV4cCI6MTczNDA3Nzc2Nn0.rTyucQGzpwMt3CeO6qz_wWguokQPCM3BM20xnm0CJ70",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -9077,7 +9119,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjoxLCJpYXQiOjE3MzM5OTEzNjYsImV4cCI6MTczNDA3Nzc2Nn0.rTyucQGzpwMt3CeO6qz_wWguokQPCM3BM20xnm0CJ70",
+								"value": "{{Authorization}}",
 								"type": "text"
 							}
 						],
@@ -9418,6 +9460,631 @@
 							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0067\",\n        \"errorDescription\": \"Update Failure\",\n        \"statusCode\": \"E0067\",\n        \"message\": \"Updating Retailstore Details has Failed\"\n    }\n}"
 						}
 					]
+				},
+				{
+					"name": "GetSupplierDetails",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/dashboard/getsupplierdetails",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"dashboard",
+								"getsupplierdetails"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM3NjU0MzEsImV4cCI6MTczMzg1MTgzMX0.f_FcqzT1L29oQ7uetFGLAC8XJPCQ15dZjQSYOfZJXrA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 187\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/getsupplierdetails",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"getsupplierdetails"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "137"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"89-DIA2Gky3LxIg9meFAJ1TKMphuYE\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Dec 2024 17:33:36 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0069\",\n        \"errorDescription\": \"Fetch Failure\",\n        \"statusCode\": \"E0069\",\n        \"message\": \"Fetching Supplier Details has Failed\"\n    }\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM3NjU0MzEsImV4cCI6MTczMzg1MTgzMX0.f_FcqzT1L29oQ7uetFGLAC8XJPCQ15dZjQSYOfZJXrA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 187\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/getsupplierdetails",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"getsupplierdetails"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1405"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"57d-4RQRwYN0O7YwsPa3qBElIJQExcw\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Dec 2024 17:34:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"supplierDashboard\": {\n            \"userDetails\": {\n                \"nationalNumber\": null,\n                \"userName\": \"supplier091225\",\n                \"userType\": \"2\",\n                \"userStatus\": \"1\",\n                \"firstName\": \"sample\",\n                \"middleName\": null,\n                \"lastName\": \"supplier\",\n                \"dateOfBirth\": null,\n                \"userEmail\": \"hanoi09991@gmail.com\",\n                \"userPhone\": \"0740606067\",\n                \"userAddress\": null,\n                \"userImage\": null\n            },\n            \"supplierDetails\": {\n                \"supplierId\": \"9\",\n                \"supplierTaxIdentificationNumber\": null,\n                \"supplierBankAccountNumber\": null,\n                \"supplierIBAN\": null,\n                \"supplierComplianceIndicator\": 1,\n                \"supplierComplaintCount\": 0\n            },\n            \"factoryDetails\": {\n                \"factoryId\": \"38-9\"\n            },\n            \"establishmentDetails\": {\n                \"establishmentName\": \"Smartech\",\n                \"establishmentIndustryType\": [\n                    \"2\"\n                ],\n                \"establishmentStatus\": \"1\",\n                \"establishmentCommercialRegistrationNumber\": \"478905321\",\n                \"establishmentRegistrationDate\": null,\n                \"establishmentContactNumber\": \"0770004455\",\n                \"establishmentEmail\": \"est.sup9991@mail.com\",\n                \"establishmentWebsite\": null,\n                \"establishmentDescription\": \"sells Electronics\",\n                \"establishmentType\": false,\n                \"establishmentCity\": \"Amman\",\n                \"establishmentStreet\": \"Abdali\",\n                \"establishmentBuildingNumber\": \"12C\",\n                \"establishmentLogo\": null,\n                \"establishmentCover\": null,\n                \"establishmentComplianceIndicator\": 1,\n                \"establishmentComplianceIndicatorDescription\": \"GOOD\"\n            },\n            \"progressBarUser\": {\n                \"percentage\": 75\n            },\n            \"progressBarEstablishment\": {\n                \"percentage\": 85\n            },\n            \"insights\": \"To Be Done\"\n        }\n    }\n}"
+						},
+						{
+							"name": "Success/Analytics",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/getsupplierdetails",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"getsupplierdetails"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2414"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"96e-NyKDICyqjMJ59IggjHadKFP0kX0\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 16 Dec 2024 18:29:57 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"supplierDashboard\": {\n            \"userDetails\": {\n                \"nationalNumber\": \"888877722\",\n                \"userName\": \"LocalizedUSRTest1\",\n                \"userType\": \"2\",\n                \"userStatus\": \"1\",\n                \"firstName\": \"in_first_name\",\n                \"middleName\": \"\",\n                \"lastName\": \"NSR\",\n                \"dateOfBirth\": \"2023-12-31T21:00:00.000Z\",\n                \"userEmail\": \"usr@mail.com\",\n                \"userPhone\": \"0797708889\",\n                \"userAddress\": \"\",\n                \"userImage\": null\n            },\n            \"supplierDetails\": {\n                \"supplierId\": \"1\",\n                \"supplierTaxIdentificationNumber\": \"6545005\",\n                \"supplierBankAccountNumber\": \"45006888\",\n                \"supplierIBAN\": \"JO94CBJO0055000555050101000388\",\n                \"supplierComplianceIndicator\": 0.67,\n                \"supplierComplaintCount\": 0\n            },\n            \"factoryDetails\": {\n                \"factoryId\": \"3-1\"\n            },\n            \"establishmentDetails\": {\n                \"establishmentName\": \"test\",\n                \"establishmentIndustryType\": [\n                    \"3\"\n                ],\n                \"establishmentStatus\": \"1\",\n                \"establishmentCommercialRegistrationNumber\": \"44450\",\n                \"establishmentRegistrationDate\": \"2023-04-03T21:00:00.000Z\",\n                \"establishmentContactNumber\": \"0777778485\",\n                \"establishmentEmail\": \"err@gmail.com\",\n                \"establishmentWebsite\": null,\n                \"establishmentDescription\": \"Main\",\n                \"establishmentType\": true,\n                \"establishmentCity\": \"Amman\",\n                \"establishmentStreet\": \"Abdali\",\n                \"establishmentBuildingNumber\": \"B1\",\n                \"establishmentLogo\": \"http://localhost:5055/uploads/images/default-1733679916980-324055511.png\",\n                \"establishmentCover\": null,\n                \"establishmentComplianceIndicator\": 1,\n                \"establishmentComplianceIndicatorDescription\": \"GOOD\"\n            },\n            \"progressBarUser\": {\n                \"percentage\": 90.9090909090909\n            },\n            \"progressBarEstablishment\": {\n                \"percentage\": 90\n            },\n            \"insights\": {\n                \"analyticsResult\": {\n                    \"profileViews\": \"0\",\n                    \"totalRevenue\": 11957,\n                    \"totalCustomers\": \"1\",\n                    \"overallRating\": 3,\n                    \"complianceIndicator\": 1,\n                    \"totalQuotations\": \"17\",\n                    \"purchaseList\": {\n                        \"purchaseItem\": [\n                            {\n                                \"id\": 10,\n                                \"total\": 4555.8,\n                                \"share\": \"38.10\"\n                            },\n                            {\n                                \"id\": 11,\n                                \"total\": 4555.8,\n                                \"share\": \"38.10\"\n                            },\n                            {\n                                \"id\": 4,\n                                \"total\": 1422.7,\n                                \"share\": \"11.90\"\n                            },\n                            {\n                                \"id\": 9,\n                                \"total\": 1422.7,\n                                \"share\": \"11.90\"\n                            }\n                        ]\n                    },\n                    \"customerList\": {\n                        \"customerItem\": [\n                            {\n                                \"retailer\": \"1\",\n                                \"numberOfQuotations\": \"17\",\n                                \"share\": \"38.10\"\n                            }\n                        ]\n                    },\n                    \"review\": {\n                        \"positiveCount\": \"2\",\n                        \"negativeCount\": \"2\"\n                    },\n                    \"issuesReportedObj\": {\n                        \"total\": \"30\",\n                        \"unresolved\": \"96.55\",\n                        \"penaltyResulted\": \"0.00\",\n                        \"resolvedWithNoPenalty\": \"3.45\"\n                    },\n                    \"topThreeProducts\": {\n                        \"productItem\": [\n                            {\n                                \"id\": 1,\n                                \"name\": \"new Name\",\n                                \"mentions\": \"17\",\n                                \"sales\": \"6\",\n                                \"share\": \"35.29\"\n                            },\n                            {\n                                \"id\": 2,\n                                \"name\": \"test\",\n                                \"mentions\": \"17\",\n                                \"sales\": \"6\",\n                                \"share\": \"35.29\"\n                            }\n                        ]\n                    },\n                    \"topThreeCategories\": {\n                        \"categoryItem\": [\n                            {\n                                \"name\": \"SMARTPHONES\",\n                                \"mentions\": \"34\",\n                                \"sales\": \"12\",\n                                \"share\": \"35.29\"\n                            }\n                        ]\n                    }\n                }\n            }\n        }\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Administrator",
+			"item": [
+				{
+					"name": "GetAdminDetails",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 193\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/dashboard/getadmindetails",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"dashboard",
+								"getadmindetails"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM3NjU0MzEsImV4cCI6MTczMzg1MTgzMX0.f_FcqzT1L29oQ7uetFGLAC8XJPCQ15dZjQSYOfZJXrA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 187\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/getsupplierdetails",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"getsupplierdetails"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "137"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"89-DIA2Gky3LxIg9meFAJ1TKMphuYE\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Dec 2024 17:33:36 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0069\",\n        \"errorDescription\": \"Fetch Failure\",\n        \"statusCode\": \"E0069\",\n        \"message\": \"Fetching Supplier Details has Failed\"\n    }\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxODciLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyMDkxMjI1IiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzM3NjU0MzEsImV4cCI6MTczMzg1MTgzMX0.f_FcqzT1L29oQ7uetFGLAC8XJPCQ15dZjQSYOfZJXrA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 187\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/getsupplierdetails",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"getsupplierdetails"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1405"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"57d-4RQRwYN0O7YwsPa3qBElIJQExcw\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Dec 2024 17:34:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"supplierDashboard\": {\n            \"userDetails\": {\n                \"nationalNumber\": null,\n                \"userName\": \"supplier091225\",\n                \"userType\": \"2\",\n                \"userStatus\": \"1\",\n                \"firstName\": \"sample\",\n                \"middleName\": null,\n                \"lastName\": \"supplier\",\n                \"dateOfBirth\": null,\n                \"userEmail\": \"hanoi09991@gmail.com\",\n                \"userPhone\": \"0740606067\",\n                \"userAddress\": null,\n                \"userImage\": null\n            },\n            \"supplierDetails\": {\n                \"supplierId\": \"9\",\n                \"supplierTaxIdentificationNumber\": null,\n                \"supplierBankAccountNumber\": null,\n                \"supplierIBAN\": null,\n                \"supplierComplianceIndicator\": 1,\n                \"supplierComplaintCount\": 0\n            },\n            \"factoryDetails\": {\n                \"factoryId\": \"38-9\"\n            },\n            \"establishmentDetails\": {\n                \"establishmentName\": \"Smartech\",\n                \"establishmentIndustryType\": [\n                    \"2\"\n                ],\n                \"establishmentStatus\": \"1\",\n                \"establishmentCommercialRegistrationNumber\": \"478905321\",\n                \"establishmentRegistrationDate\": null,\n                \"establishmentContactNumber\": \"0770004455\",\n                \"establishmentEmail\": \"est.sup9991@mail.com\",\n                \"establishmentWebsite\": null,\n                \"establishmentDescription\": \"sells Electronics\",\n                \"establishmentType\": false,\n                \"establishmentCity\": \"Amman\",\n                \"establishmentStreet\": \"Abdali\",\n                \"establishmentBuildingNumber\": \"12C\",\n                \"establishmentLogo\": null,\n                \"establishmentCover\": null,\n                \"establishmentComplianceIndicator\": 1,\n                \"establishmentComplianceIndicatorDescription\": \"GOOD\"\n            },\n            \"progressBarUser\": {\n                \"percentage\": 75\n            },\n            \"progressBarEstablishment\": {\n                \"percentage\": 85\n            },\n            \"insights\": \"To Be Done\"\n        }\n    }\n}"
+						},
+						{
+							"name": "Success/Analytics",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/getsupplierdetails",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"getsupplierdetails"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2411"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"96b-JyC+ZSbpAOPmJ8IAtaK61i5l5Qo\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 16 Dec 2024 10:43:54 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"supplierDashboard\": {\n            \"userDetails\": {\n                \"nationalNumber\": \"888877722\",\n                \"userName\": \"LocalizedUSRTest1\",\n                \"userType\": \"2\",\n                \"userStatus\": \"1\",\n                \"firstName\": \"in_first_name\",\n                \"middleName\": \"\",\n                \"lastName\": \"NSR\",\n                \"dateOfBirth\": \"2023-12-31T21:00:00.000Z\",\n                \"userEmail\": \"usr@mail.com\",\n                \"userPhone\": \"0797708889\",\n                \"userAddress\": \"\",\n                \"userImage\": null\n            },\n            \"supplierDetails\": {\n                \"supplierId\": \"1\",\n                \"supplierTaxIdentificationNumber\": \"6545005\",\n                \"supplierBankAccountNumber\": \"45006888\",\n                \"supplierIBAN\": \"JO94CBJO0055000555050101000388\",\n                \"supplierComplianceIndicator\": 0.67,\n                \"supplierComplaintCount\": 0\n            },\n            \"factoryDetails\": {\n                \"factoryId\": \"3-1\"\n            },\n            \"establishmentDetails\": {\n                \"establishmentName\": \"test\",\n                \"establishmentIndustryType\": [\n                    \"3\"\n                ],\n                \"establishmentStatus\": \"1\",\n                \"establishmentCommercialRegistrationNumber\": \"44450\",\n                \"establishmentRegistrationDate\": \"2023-04-03T21:00:00.000Z\",\n                \"establishmentContactNumber\": \"0777778485\",\n                \"establishmentEmail\": \"err@gmail.com\",\n                \"establishmentWebsite\": null,\n                \"establishmentDescription\": \"Main\",\n                \"establishmentType\": true,\n                \"establishmentCity\": \"Amman\",\n                \"establishmentStreet\": \"Abdali\",\n                \"establishmentBuildingNumber\": \"B1\",\n                \"establishmentLogo\": \"http://localhost:5055/uploads/images/default-1733679916980-324055511.png\",\n                \"establishmentCover\": null,\n                \"establishmentComplianceIndicator\": 1,\n                \"establishmentComplianceIndicatorDescription\": \"GOOD\"\n            },\n            \"progressBarUser\": {\n                \"percentage\": 90.9090909090909\n            },\n            \"progressBarEstablishment\": {\n                \"percentage\": 90\n            },\n            \"insights\": {\n                \"analyticsResult\": {\n                    \"profileViews\": \"0\",\n                    \"totalRevenue\": 11957,\n                    \"totalCustomers\": \"1\",\n                    \"overallRating\": 3,\n                    \"complianceIndicator\": 1,\n                    \"totalQuotations\": \"17\",\n                    \"purchaseList\": {\n                        \"purchaseItem\": [\n                            {\n                                \"id\": 10,\n                                \"total\": 4555.8,\n                                \"share\": \"38.10\"\n                            },\n                            {\n                                \"id\": 11,\n                                \"total\": 4555.8,\n                                \"share\": \"38.10\"\n                            },\n                            {\n                                \"id\": 4,\n                                \"total\": 1422.7,\n                                \"share\": \"11.90\"\n                            },\n                            {\n                                \"id\": 9,\n                                \"total\": 1422.7,\n                                \"share\": \"11.90\"\n                            }\n                        ]\n                    },\n                    \"customerList\": {\n                        \"customerItem\": [\n                            {\n                                \"retailer\": \"1\",\n                                \"numberOfQuotations\": \"17\",\n                                \"share\": \"38.10\"\n                            }\n                        ]\n                    },\n                    \"review\": {\n                        \"positiveCount\": \"2\",\n                        \"negativeCount\": \"2\"\n                    },\n                    \"issuesReportedObj\": {\n                        \"total\": \"30\",\n                        \"resolved\": \"0.00\",\n                        \"penaltyResulted\": \"0.00\",\n                        \"resolvedWithNoPenalty\": \"0.00\"\n                    },\n                    \"topThreeProducts\": {\n                        \"productItem\": [\n                            {\n                                \"id\": 1,\n                                \"name\": \"new Name\",\n                                \"mentions\": \"17\",\n                                \"sales\": \"6\",\n                                \"share\": \"35.29\"\n                            },\n                            {\n                                \"id\": 2,\n                                \"name\": \"test\",\n                                \"mentions\": \"17\",\n                                \"sales\": \"6\",\n                                \"share\": \"35.29\"\n                            }\n                        ]\n                    },\n                    \"topThreeCategories\": {\n                        \"categoryItem\": [\n                            {\n                                \"name\": \"SMARTPHONES\",\n                                \"mentions\": \"34\",\n                                \"sales\": \"12\",\n                                \"share\": \"35.29\"\n                            }\n                        ]\n                    }\n                }\n            }\n        }\n    }\n}"
+						},
+						{
+							"name": "GetAdminDetails/ANALYTICS",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 193\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/getadmindetails",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"getadmindetails"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1012"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3f4-Qn+bYHRtkhJmYmsyb4vto7vmHes\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 16 Dec 2024 18:38:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"adminDashboard\": {\n            \"userDetails\": {\n                \"nationalNumber\": null,\n                \"userName\": \"admin-01\",\n                \"userType\": \"1\",\n                \"userStatus\": \"1\",\n                \"firstName\": \"Sample\",\n                \"middleName\": null,\n                \"lastName\": \"Admin\",\n                \"dateOfBirth\": null,\n                \"userEmail\": \"ham20190725@std.psut.edu.jo\",\n                \"userPhone\": \"0795404509\",\n                \"userAddress\": null,\n                \"userImage\": null\n            },\n            \"insights\": {\n                \"analyticsResult\": {\n                    \"users\": \"51\",\n                    \"spent\": 11969.5,\n                    \"RetailStores\": \"4\",\n                    \"Factories\": \"8\",\n                    \"Quotations\": \"19\",\n                    \"Complaints\": \"34\",\n                    \"Penalties\": \"3\",\n                    \"Products\": \"11\",\n                    \"ConfirmedQuotations\": \"5\",\n                    \"topThreeProducts\": {\n                        \"productItem\": [\n                            {\n                                \"id\": 2,\n                                \"name\": \"test\",\n                                \"mentions\": \"19\",\n                                \"sales\": \"7\",\n                                \"share\": \"36.84\"\n                            },\n                            {\n                                \"id\": 1,\n                                \"name\": \"new Name\",\n                                \"mentions\": \"19\",\n                                \"sales\": \"7\",\n                                \"share\": \"36.84\"\n                            }\n                        ]\n                    },\n                    \"weeklySales\": {\n                        \"SalesItem\": [\n                            {\n                                \"id\": 35,\n                                \"total\": 12.5,\n                                \"share\": \"100.00\"\n                            },\n                            {\n                                \"id\": 37,\n                                \"total\": 0,\n                                \"share\": \"0.00\"\n                            },\n                            {\n                                \"id\": 36,\n                                \"total\": 0,\n                                \"share\": \"0.00\"\n                            }\n                        ]\n                    },\n                    \"weeklyQuotations\": {\n                        \"requested\": \"2\",\n                        \"confirmed\": \"1\",\n                        \"completed\": \"0\"\n                    }\n                }\n            }\n        }\n    }\n}"
+						}
+					]
 				}
 			]
 		},
@@ -9433,7 +10100,7 @@
 							"key": "image",
 							"description": "test",
 							"type": "file",
-							"src": "/C:/Users/inspire12/Pictures/Screenshots/Screenshot 2024-12-03 103527.png"
+							"src": "/C:/Users/inspire12/Desktop/download.png"
 						}
 					]
 				},
@@ -9459,7 +10126,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+					"raw": "http://localhost:5055/uploads/images/default-1734117896561-897840290.png",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -9468,11 +10135,40 @@
 					"path": [
 						"uploads",
 						"images",
-						"default-1733679916980-324055511.png"
+						"default-1734117896561-897840290.png"
 					]
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Authorization",
+			"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxOTAiLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InJldGFpbGVyMDAwMDAxIiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzQxMTkwNzYsImV4cCI6MTczNDIwNTQ3Nn0.1nEEuHb3ZWEG5gJEROKDUh4Dnbed15Nak_KwNBNMnGk",
+			"type": "string"
 		}
 	]
 }

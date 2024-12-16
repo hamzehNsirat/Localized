@@ -147,6 +147,22 @@ const updateFactoryDetails = async (req, res) => {
   }
 };
 // AdminstratorDashboard
+const getAdminAllDetails = async (req, res) => {
+  try {
+    if (req.body.userId == null) {
+      return errorHandler.handleError(res, "E0033");
+    }
+    const result = await dashboardService.getAdminAllDetails(
+      req.body.userId
+    );
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0085", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0085");
+  }
+};
 module.exports = {
   getRetailerAllDetails,
   getRetailerNotifications,
@@ -156,4 +172,5 @@ module.exports = {
   getSupplierNotifications,
   updateSupplierDetails,
   updateFactoryDetails,
+  getAdminAllDetails,
 };

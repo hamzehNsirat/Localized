@@ -107,7 +107,7 @@ const dashboardService = {
           progressBarRetailstore[0].establishment_completion_percentage
         ),
       },
-      Insights: retailerInsights || 'No Current Insights',
+      Insights: retailerInsights || "No Current Insights",
     };
     // Return Data Object as Response
     return {
@@ -239,7 +239,8 @@ const dashboardService = {
         supplierData[0].out_supplier_id
       );
 
-    const supplierInsights = await analyticsService.getAdminstratorAnalytics(userId);
+    const supplierInsights =
+      await analyticsService.getSupplierAnalytics(userId);
 
     // Consilidate Data and Format it
     const supplierDashboard = {
@@ -303,7 +304,7 @@ const dashboardService = {
         percentage: progressBarSupplier,
       },
       progressBarEstablishment: {
-        percentage: progressBarFactory, 
+        percentage: progressBarFactory,
       },
       insights: supplierInsights || "No Current Insights",
     };
@@ -413,6 +414,38 @@ const dashboardService = {
     await commitTransaction();
     return {
       success: true,
+    };
+  },
+  async getAdminAllDetails(userId) {
+    const input = {
+      userId: userId,
+    };
+    // Fetch Data from each table
+    const basicData = await userService.getUserById(input);
+    const adminInsights = await analyticsService.getAdminstratorAnalytics(userId);
+
+    // Consilidate Data and Format it
+    const adminDashboard = {
+      userDetails: {
+        nationalNumber: basicData.nationalNumber,
+        userName: basicData.userName,
+        userType: basicData.userType,
+        userStatus: basicData.userStatus,
+        firstName: basicData.firstName,
+        middleName: basicData.middleName,
+        lastName: basicData.lastName,
+        dateOfBirth: basicData.dateOfBirth,
+        userEmail: basicData.userEmail,
+        userPhone: basicData.userPhone,
+        userAddress: basicData.userAddress,
+        userImage: basicData.userImage,
+      },
+      insights: adminInsights || "No Current Insights",
+    };
+    // Return Data Object as Response
+    return {
+      success: true,
+      adminDashboard,
     };
   },
 };

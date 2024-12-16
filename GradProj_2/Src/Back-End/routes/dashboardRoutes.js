@@ -51,4 +51,10 @@ router.post(
   validateToken,
   controller.updateFactoryDetails
 );
+// Admin Routes
+router.post(
+  "/getadmindetails",
+  validateToken,
+  controller.getAdminAllDetails
+);
 module.exports = router;

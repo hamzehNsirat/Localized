@@ -58,4 +58,4 @@
 - Best Selling Products: Top #3 Products
 - Confirmed Quotations : Requested Quotations
 - Weekly Sales: from Date requested going back 7 days
-- Weekly Quotations: from Date requested going back 7 days  
+- Weekly Quotations Count: from Date requested going back 7 days   (Requested, Completed, Confirmed)

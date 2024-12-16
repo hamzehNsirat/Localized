@@ -514,6 +514,12 @@ module.exports = {
     message: "Updating Factory Details has Failed",
     errorCode: "E0084",
   },
+  E0085: {
+    errorDescription: "Fetch Failure",
+    statusCode: 400,
+    message: "Fetching Administrator Details failed",
+    errorCode: "E0085",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,

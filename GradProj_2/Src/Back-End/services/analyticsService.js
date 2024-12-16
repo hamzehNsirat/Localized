@@ -1,3 +1,6 @@
+/*
+LAST MODIFIED: 16-12-2024
+*/
 const { executeQuery } = require("../config/database");
 const AnalyticsModel = require("../models/Analytics");
 const analyticsModel = require("../models/Analytics");
@@ -74,6 +77,23 @@ const analyticsService = {
       [retailerId[0].retailer_id]
     );
 
+    const expectedProfitOneYr = await executeQuery(
+      `SELECT 
+        SUM(
+            (p.product_retail_price - (details->>'price')::NUMERIC) * (details->>'quantity')::NUMERIC
+        ) AS total_expected_profit
+    FROM 
+        quotation q
+    CROSS JOIN LATERAL 
+        jsonb_array_elements(q.quotation_details->'detailsItem') details
+    JOIN 
+        product p ON (details->>'productId')::INT = p.product_id
+    WHERE 
+        q.quotation_status_id IN (3, 4)
+    AND q.requester_id = $1   AND q.quotation_request_date >= CURRENT_DATE - INTERVAL '1 year';`,
+      [retailerId[0].retailer_id]
+    );
+
     const expectedProfitThreeMnths = await executeQuery(
       `SELECT 
         SUM(
@@ -129,7 +149,7 @@ const analyticsService = {
       `WITH complaints_data AS (
     SELECT
         COUNT(*) AS total_complaints,
-        COUNT(*) FILTER (WHERE complaint_status_id = 'RESOLVED') AS resolved_complaints,
+        COUNT(*) FILTER (WHERE complaint_status_id <> 'RESOLVED') AS un_resolved_complaints,
         COUNT(*) FILTER (WHERE complaint_status_id = 'RESOLVED' AND is_penalty_resulted = true) AS penalty_complaints,
         COUNT(*) FILTER (WHERE complaint_status_id = 'RESOLVED' AND is_penalty_resulted = false) AS resolved_no_penalty_complaints
     FROM
@@ -140,9 +160,9 @@ const analyticsService = {
     )
     SELECT
         total_complaints,
-        (resolved_complaints * 100.0 /  CASE WHEN total_complaints <> 0 THEN total_complaints ELSE 1  END) AS percentage_resolved,
+        (un_resolved_complaints * 100.0 /  CASE WHEN total_complaints <> 0 THEN total_complaints ELSE 1  END) AS percentage_unresolved,
         (penalty_complaints * 100.0 /  CASE WHEN total_complaints <> 0 THEN total_complaints ELSE 1 END) AS percentage_penalty,
-        (resolved_no_penalty_complaints * 100.0 / CASE WHEN resolved_complaints <> 0 THEN resolved_complaints ELSE 1 END) AS percentage_resolved_no_penalty
+        (resolved_no_penalty_complaints * 100.0 /  CASE WHEN total_complaints <> 0 THEN total_complaints ELSE 1 END) AS percentage_resolved_no_penalty
     FROM
     complaints_data;
     `,
@@ -153,6 +173,20 @@ const analyticsService = {
       `SELECT est_compliance_indicator 
     FROM establishment 
     WHERE establishment_id = (SELECT retailstore_est_id FROM retailstore WHERE owner_id = $1);
+    `,
+      [retailerId[0].retailer_id]
+    );
+
+
+    const quotationsParticipatedAllTime = await executeQuery(
+      `SELECT
+        COUNT(*) FILTER (WHERE quotation_status_id = 1) AS requested_quotations,
+        COUNT(*) FILTER (WHERE quotation_status_id = 3) AS confirmed_quotations,
+        COUNT(*) FILTER (WHERE quotation_status_id = 4) AS completed_quotations
+    FROM
+        quotation
+    WHERE
+        requester_id = $1;
     `,
       [retailerId[0].retailer_id]
     );
@@ -377,18 +411,19 @@ const analyticsService = {
     }
 
     const analyticsResult = {
-      quotationsCount: quotationsCount[0]?.quotations_count ?? 0,
-      totalSpent: totalSpent[0]?.total_spent ?? 0,
+      quotationsCount: quotationsCount[0]?.quotations_count || 0,
+      totalSpent: totalSpent[0]?.total_spent || 0,
       expectedProfit: {
-        allTime: expectedProfitAllTime[0]?.total_expected_profit ?? 0,
-        threeMonths: expectedProfitThreeMnths[0]?.total_expected_profit ?? 0,
-        sixMonths: expectedProfitSixMnths[0]?.total_expected_profit ?? 0,
-        nineMonths: expectedProfitNineMnths[0]?.total_expected_profit ?? 0,
+        allTime: expectedProfitAllTime[0]?.total_expected_profit || 0,
+        oneYear: expectedProfitOneYr[0]?.total_expected_profit || 0,
+        threeMonths: expectedProfitThreeMnths[0]?.total_expected_profit || 0,
+        sixMonths: expectedProfitSixMnths[0]?.total_expected_profit || 0,
+        nineMonths: expectedProfitNineMnths[0]?.total_expected_profit || 0,
       },
       issuesReportedObj: {
-        total: issuesReportedObj[0]?.total_complaints ?? 0,
-        resolved:
-          parseFloat(issuesReportedObj[0]?.percentage_resolved ?? 0).toFixed(
+        total: issuesReportedObj[0]?.total_complaints || 0,
+        unresolved:
+          parseFloat(issuesReportedObj[0]?.percentage_unresolved ?? 0).toFixed(
             2
           ) || 0,
         penaltyResulted:
@@ -397,45 +432,53 @@ const analyticsService = {
           ) || 0,
         resolvedWithNoPenalty:
           parseFloat(
-            issuesReportedObj[0]?.percentage_resolved_no_penalty ?? 0
+            issuesReportedObj[0]?.percentage_resolved_no_penalty || 0
           ).toFixed(2) || 0,
       },
       complianceIndicator:
-        complianceIndicator[0]?.est_compliance_indicator ?? 0,
+        complianceIndicator[0]?.est_compliance_indicator || 0,
       quotations: {
+        allTime: {
+          requested:
+            quotationsParticipatedAllTime[0]?.requested_quotations || 0,
+          confirmed:
+            quotationsParticipatedAllTime[0]?.confirmed_quotations || 0,
+          completed:
+            quotationsParticipatedAllTime[0]?.completed_quotations || 0,
+        },
         oneYear: {
-          requested: quotationsParticipatedOneYr[0]?.requested_quotations ?? 0,
-          confirmed: quotationsParticipatedOneYr[0]?.confirmed_quotations ?? 0,
-          completed: quotationsParticipatedOneYr[0]?.completed_quotations ?? 0,
+          requested: quotationsParticipatedOneYr[0]?.requested_quotations || 0,
+          confirmed: quotationsParticipatedOneYr[0]?.confirmed_quotations || 0,
+          completed: quotationsParticipatedOneYr[0]?.completed_quotations || 0,
         },
         nineMonths: {
           requested:
-            quotationsParticipatedNineMnths[0]?.requested_quotations ?? 0,
+            quotationsParticipatedNineMnths[0]?.requested_quotations || 0,
           confirmed:
-            quotationsParticipatedNineMnths[0]?.confirmed_quotations ?? 0,
+            quotationsParticipatedNineMnths[0]?.confirmed_quotations || 0,
           completed:
-            quotationsParticipatedNineMnths[0]?.completed_quotations ?? 0,
+            quotationsParticipatedNineMnths[0]?.completed_quotations || 0,
         },
         sixMonths: {
           requested:
-            quotationsParticipatedSixMnths[0]?.requested_quotations ?? 0,
+            quotationsParticipatedSixMnths[0]?.requested_quotations || 0,
           confirmed:
-            quotationsParticipatedSixMnths[0]?.confirmed_quotations ?? 0,
+            quotationsParticipatedSixMnths[0]?.confirmed_quotations || 0,
           completed:
-            quotationsParticipatedSixMnths[0]?.completed_quotations ?? 0,
+            quotationsParticipatedSixMnths[0]?.completed_quotations || 0,
         },
         threeMonths: {
           requested:
-            quotationsParticipatedThreeMnths[0]?.requested_quotations ?? 0,
+            quotationsParticipatedThreeMnths[0]?.requested_quotations || 0,
           confirmed:
-            quotationsParticipatedThreeMnths[0]?.confirmed_quotations ?? 0,
+            quotationsParticipatedThreeMnths[0]?.confirmed_quotations || 0,
           completed:
-            quotationsParticipatedThreeMnths[0]?.completed_quotations ?? 0,
+            quotationsParticipatedThreeMnths[0]?.completed_quotations || 0,
         },
       },
-      purchaseList: purchaseList ?? null,
-      topThreeProducts: topThreeProducts ?? null,
-      topThreeCategories: topThreeCategories ?? null,
+      purchaseList: purchaseList || null,
+      topThreeProducts: topThreeProducts || null,
+      topThreeCategories: topThreeCategories || null,
     };
 
     if (!isInsertedFlag) {
@@ -600,25 +643,25 @@ const analyticsService = {
     );
 
     const complaintsObj = await executeQuery(
-      `WITH complaints_data AS (
+    `WITH complaints_data AS (
     SELECT
-		COUNT(*) AS total_complaints,
-        COUNT(*) FILTER (WHERE complaint_status_id = 'RESOLVED') AS resolved_complaints,
+        COUNT(*) AS total_complaints,
+        COUNT(*) FILTER (WHERE complaint_status_id <> 'RESOLVED') AS un_resolved_complaints,
         COUNT(*) FILTER (WHERE complaint_status_id = 'RESOLVED' AND is_penalty_resulted = true) AS penalty_complaints,
         COUNT(*) FILTER (WHERE complaint_status_id = 'RESOLVED' AND is_penalty_resulted = false) AS resolved_no_penalty_complaints
     FROM
         complaint
     WHERE
         submitter_type = true
-        AND supplier_id = $1
+        AND retailer_id = $1
     )
     SELECT
-        (resolved_complaints * 100.0 /  CASE WHEN total_complaints <> 0 THEN total_complaints ELSE 1  END) AS percentage_resolved,
+        total_complaints,
+        (un_resolved_complaints * 100.0 /  CASE WHEN total_complaints <> 0 THEN total_complaints ELSE 1  END) AS percentage_unresolved,
         (penalty_complaints * 100.0 /  CASE WHEN total_complaints <> 0 THEN total_complaints ELSE 1 END) AS percentage_penalty,
-        (resolved_no_penalty_complaints * 100.0 / CASE WHEN resolved_complaints <> 0 THEN resolved_complaints ELSE 1 END) AS percentage_resolved_no_penalty
+        (resolved_no_penalty_complaints * 100.0 /  CASE WHEN total_complaints <> 0 THEN total_complaints ELSE 1 END) AS percentage_resolved_no_penalty
     FROM
-        complaints_data;
-    `,
+    complaints_data;    `,
       [supplierId[0].supplier_id]
     );
 
@@ -793,8 +836,9 @@ const analyticsService = {
       },
       issuesReportedObj: {
         total: issuesReportedCount[0].issues_reported || 0,
-        resolved:
-          parseFloat(complaintsObj[0].percentage_resolved ?? 0).toFixed(2) || 0,
+        unresolved:
+          parseFloat(complaintsObj[0].percentage_unresolved ?? 0).toFixed(2) ||
+          0,
         penaltyResulted:
           parseFloat(complaintsObj[0].percentage_penalty ?? 0).toFixed(2) || 0,
         resolvedWithNoPenalty:
@@ -931,16 +975,41 @@ const analyticsService = {
     `
     );
 
-    const weeklySales = await executeQuery(
-      `SELECT SUM(total) AS weekly_sales
-    FROM  quotation 
-    WHERE  quotation_request_date >= CURRENT_DATE - INTERVAL '1 week';`
+    const weeklySalesDb = await executeQuery(
+    `SELECT 
+    quotation_id,
+    from_establishment_name,
+    COALESCE(total, 0) AS total, 
+    COALESCE((total * 100.0 / SUM(total) OVER ()),0) AS percentage_of_total 
+    FROM 
+        quotation
+    WHERE 
+        quotation_request_date >= CURRENT_DATE - INTERVAL '1 week'
+    ORDER BY 
+        percentage_of_total DESC
+    LIMIT 3;`
     );
+    const weeklySales = { SalesItem: [] };
+    for (let i = 0; i < weeklySalesDb.length; i++) {
+      const item = {
+        id: weeklySalesDb[i].quotation_id,
+        name: weeklySalesDb[i].to_establishment_name,
+        total: weeklySalesDb[i].total || 0,
+        share: parseFloat(weeklySalesDb[i]?.percentage_of_total || 0).toFixed(2),
+      };
+      weeklySales.SalesItem.push(item);
+    }
+    console.log(weeklySales);
 
     const weeklyQuotations = await executeQuery(
-      `SELECT COUNT(quotation_id) AS weekly_quotations
-    FROM  quotation 
-    WHERE  quotation_request_date >= CURRENT_DATE - INTERVAL '1 week';`
+    `SELECT
+        COUNT(*) FILTER (WHERE quotation_status_id = 1) AS requested_quotations,
+        COUNT(*) FILTER (WHERE quotation_status_id = 3) AS confirmed_quotations,
+        COUNT(*) FILTER (WHERE quotation_status_id = 4) AS completed_quotations
+    FROM
+        quotation
+    WHERE quotation_request_date >= CURRENT_DATE - INTERVAL '1 week';
+    `
     );
 
     const topThreeProducts = { productItem: [] };
@@ -969,8 +1038,12 @@ const analyticsService = {
       ConfirmedQuotations:
         totalConfirmedQuotations[0].confirmed_quotations || 0,
       topThreeProducts: topThreeProducts || null,
-      weeklySales: weeklySales[0].weekly_sales,
-      weeklyQuotations: weeklyQuotations[0].weekly_quotations,
+      weeklySales: weeklySales,
+      weeklyQuotations: {
+        requested: weeklyQuotations[0]?.requested_quotations || 0,
+        confirmed: weeklyQuotations[0]?.confirmed_quotations || 0,
+        completed: weeklyQuotations[0]?.completed_quotations || 0,
+      },
     };
 
     if (!isInsertedFlag) {

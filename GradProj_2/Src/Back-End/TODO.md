@@ -274,168 +274,174 @@ if matching -> update password from payload if not -> handle error
 
     - Success
         ```json
-                        {
-                            "header": {
-                                "errorCode": "0000",
-                                "errorDescription": "SUCCESS",
-                                "statusCode": 200,
-                                "message": "Operation completed successfully"
+        {
+            "header": {
+                "errorCode": "0000",
+                "errorDescription": "SUCCESS",
+                "statusCode": 200,
+                "message": "Operation completed successfully"
+            },
+            "body": {
+                "success": true,
+                "retailerDashboard": {
+                    "userDetails": {
+                        "nationalNumber": "9991000631",
+                        "userName": "TestUser1",
+                        "userType": "3",
+                        "userStatus": "4",
+                        "firstName": "TestFRS",
+                        "middleName": "TestMDL",
+                        "lastName": "TestLST",
+                        "dateOfBirth": "1989-12-31T21:00:00.000Z",
+                        "userEmail": "",
+                        "userPhone": "0798889995",
+                        "userAddress": "Amman, Abdali, 1st Street",
+                        "userImage": null
+                    },
+                    "retailerDetails": {
+                        "retailerId": "1",
+                        "retailerTaxIdentificationNumber": "6545645",
+                        "retailerBankAccountNumber": "14440999",
+                        "retailerIBAN": "JO94CBJO0010000000000131000388",
+                        "retailerComplianceIndicator": 0.75,
+                        "retailerComplaintCount": 1
+                    },
+                    "retailStoreDetails": {
+                        "retailStoreId": "3-1"
+                    },
+                    "establishmentDetails": {
+                        "establishmentName": "test",
+                        "establishmentIndustryType": [
+                            "3"
+                        ],
+                        "establishmentStatus": "1",
+                        "establishmentCommercialRegistrationNumber": "44450",
+                        "establishmentRegistrationDate": "2023-04-03T21:00:00.000Z",
+                        "establishmentContactNumber": "0777778485",
+                        "establishmentEmail": "err@gmail.com",
+                        "establishmentWebsite": null,
+                        "establishmentDescription": "Main",
+                        "establishmentType": true,
+                        "establishmentCity": "Amman",
+                        "establishmentStreet": "Abdali",
+                        "establishmentBuildingNumber": "B1",
+                        "establishmentLogo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                        "establishmentCover": null,
+                        "establishmentComplianceIndicator": 1,
+                        "establishmentComplianceIndicatorDescription": "GOOD"
+                    },
+                    "progressBarUser": {
+                        "percentage": 96
+                    },
+                    "progressBarEstablishment": {
+                        "percentage": 90
+                    },
+                    "Insights": {
+                        "analyticsResult": {
+                            "quotationsCount": "18",
+                            "totalSpent": 11957,
+                            "expectedProfit": {
+                                "allTime": 52.8,
+                                "oneYear": 52.8,
+                                "threeMonths": 52.8,
+                                "sixMonths": 52.8,
+                                "nineMonths": 52.8
                             },
-                            "body": {
-                                "success": true,
-                                "retailerDashboard": {
-                                    "userDetails": {
-                                        "nationalNumber": "9991000631",
-                                        "userName": "TestUser1",
-                                        "userType": "3",
-                                        "userStatus": "4",
-                                        "firstName": "TestFRS",
-                                        "middleName": "TestMDL",
-                                        "lastName": "TestLST",
-                                        "dateOfBirth": "1989-12-31T21:00:00.000Z",
-                                        "userEmail": "",
-                                        "userPhone": "0798889995",
-                                        "userAddress": "Amman, Abdali, 1st Street",
-                                        "userImage": null
-                                    },
-                                    "retailerDetails": {
-                                        "retailerId": "1",
-                                        "retailerTaxIdentificationNumber": "6545645",
-                                        "retailerBankAccountNumber": "14440999",
-                                        "retailerIBAN": "JO94CBJO0010000000000131000388",
-                                        "retailerComplianceIndicator": 0.75,
-                                        "retailerComplaintCount": 1
-                                    },
-                                    "retailStoreDetails": {
-                                        "retailStoreId": "3-1"
-                                    },
-                                    "establishmentDetails": {
-                                        "establishmentName": "test",
-                                        "establishmentIndustryType": [
-                                            "3"
-                                        ],
-                                        "establishmentStatus": "1",
-                                        "establishmentCommercialRegistrationNumber": "44450",
-                                        "establishmentRegistrationDate": "2023-04-03T21:00:00.000Z",
-                                        "establishmentContactNumber": "0777778485",
-                                        "establishmentEmail": "err@gmail.com",
-                                        "establishmentWebsite": null,
-                                        "establishmentDescription": "Main",
-                                        "establishmentType": true,
-                                        "establishmentCity": "Amman",
-                                        "establishmentStreet": "Abdali",
-                                        "establishmentBuildingNumber": "B1",
-                                        "establishmentLogo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
-                                        "establishmentCover": null,
-                                        "establishmentComplianceIndicator": 1,
-                                        "establishmentComplianceIndicatorDescription": "GOOD"
-                                    },
-                                    "progressBarUser": {
-                                        "percentage": 96
-                                    },
-                                    "progressBarEstablishment": {
-                                        "percentage": 90
-                                    },
-                                    "Insights": {
-                                        "analyticsResult": {
-                                            "quotationsCount": "18",
-                                            "totalSpent": 11957,
-                                            "expectedProfit": {
-                                                "allTime": 52.8,
-                                                "threeMonths": 52.8,
-                                                "sixMonths": 52.8,
-                                                "nineMonths": 52.8
-                                            },
-                                            "issuesReportedObj": {
-                                                "total": "5",
-                                                "resolved": "40.00",
-                                                "penaltyResulted": "20.00",
-                                                "resolvedWithNoPenalty": "50.00"
-                                            },
-                                            "complianceIndicator": 1,
-                                            "quotations": {
-                                                "oneYear": {
-                                                    "requested": "12",
-                                                    "confirmed": "1",
-                                                    "completed": "5"
-                                                },
-                                                "nineMonths": {
-                                                    "requested": "12",
-                                                    "confirmed": "1",
-                                                    "completed": "5"
-                                                },
-                                                "sixMonths": {
-                                                    "requested": "12",
-                                                    "confirmed": "1",
-                                                    "completed": "5"
-                                                },
-                                                "threeMonths": {
-                                                    "requested": "12",
-                                                    "confirmed": "1",
-                                                    "completed": "5"
-                                                }
-                                            },
-                                            "purchaseList": {
-                                                "purchaseItem": [
-                                                    {
-                                                        "id": 10,
-                                                        "name": "Aaa",
-                                                        "total": 4555.8,
-                                                        "share": "38.10"
-                                                    },
-                                                    {
-                                                        "id": 11,
-                                                        "name": "Aaa",
-                                                        "total": 4555.8,
-                                                        "share": "38.10"
-                                                    },
-                                                    {
-                                                        "id": 4,
-                                                        "name": "retailer",
-                                                        "total": 1422.7,
-                                                        "share": "11.90"
-                                                    },
-                                                    {
-                                                        "id": 9,
-                                                        "name": "Aaa",
-                                                        "total": 1422.7,
-                                                        "share": "11.90"
-                                                    }
-                                                ]
-                                            },
-                                            "topThreeProducts": {
-                                                "productItem": [
-                                                    {
-                                                        "id": 1,
-                                                        "name": "new Name",
-                                                        "mentions": "18",
-                                                        "sales": "6",
-                                                        "share": "33.33"
-                                                    },
-                                                    {
-                                                        "id": 2,
-                                                        "name": "test",
-                                                        "mentions": "18",
-                                                        "sales": "6",
-                                                        "share": "33.33"
-                                                    }
-                                                ]
-                                            },
-                                            "topThreeCategories": {
-                                                "categoryItem": [
-                                                    {
-                                                        "name": "SMARTPHONES",
-                                                        "mentions": "36",
-                                                        "sales": "12",
-                                                        "share": "33.33"
-                                                    }
-                                                ]
-                                            }
-                                        }
-                                    }
+                            "issuesReportedObj": {
+                                "total": "5",
+                                "unresolved": "60.00",
+                                "penaltyResulted": "20.00",
+                                "resolvedWithNoPenalty": "20.00"
+                            },
+                            "complianceIndicator": 1,
+                            "quotations": {
+                                "allTime": {
+                                    "requested": "12",
+                                    "confirmed": "1",
+                                    "completed": "5"
+                                },
+                                "oneYear": {
+                                    "requested": "12",
+                                    "confirmed": "1",
+                                    "completed": "5"
+                                },
+                                "nineMonths": {
+                                    "requested": "12",
+                                    "confirmed": "1",
+                                    "completed": "5"
+                                },
+                                "sixMonths": {
+                                    "requested": "12",
+                                    "confirmed": "1",
+                                    "completed": "5"
+                                },
+                                "threeMonths": {
+                                    "requested": "12",
+                                    "confirmed": "1",
+                                    "completed": "5"
                                 }
+                            },
+                            "purchaseList": {
+                                "purchaseItem": [
+                                    {
+                                        "id": 10,
+                                        "name": "Aaa",
+                                        "total": 4555.8,
+                                        "share": "38.10"
+                                    },
+                                    {
+                                        "id": 11,
+                                        "name": "Aaa",
+                                        "total": 4555.8,
+                                        "share": "38.10"
+                                    },
+                                    {
+                                        "id": 4,
+                                        "name": "retailer",
+                                        "total": 1422.7,
+                                        "share": "11.90"
+                                    },
+                                    {
+                                        "id": 9,
+                                        "name": "Aaa",
+                                        "total": 1422.7,
+                                        "share": "11.90"
+                                    }
+                                ]
+                            },
+                            "topThreeProducts": {
+                                "productItem": [
+                                    {
+                                        "id": 1,
+                                        "name": "new Name",
+                                        "mentions": "18",
+                                        "sales": "6",
+                                        "share": "33.33"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "name": "test",
+                                        "mentions": "18",
+                                        "sales": "6",
+                                        "share": "33.33"
+                                    }
+                                ]
+                            },
+                            "topThreeCategories": {
+                                "categoryItem": [
+                                    {
+                                        "name": "SMARTPHONES",
+                                        "mentions": "36",
+                                        "sales": "12",
+                                        "share": "33.33"
+                                    }
+                                ]
                             }
                         }
+                    }
+                }
+            }
+        }
 ### PART 4 MARKETPLACE RETAILER
 #### service: Get all Products Paginated (filtered by RetailStore Categories (retailerId -> EstablishmentId -> IndustryTypes -> Categories - > Products))
 - payload:
@@ -1577,7 +1583,6 @@ front end level
                 }
 
 
-
 ## SUPPLIER PART  [COMPLETION PERCENTAGE: 100%]
 ### PART 1 Signup
 #### service: check user name is already in database
@@ -1746,152 +1751,152 @@ if matching -> update password from payload if not -> handle error
             }
     - Success
         ```json
-            {
-                "header": {
-                    "errorCode": "0000",
-                    "errorDescription": "SUCCESS",
-                    "statusCode": 200,
-                    "message": "Operation completed successfully"
-                },
-                "body": {
-                    "success": true,
-                    "supplierDashboard": {
-                        "userDetails": {
-                            "nationalNumber": "888877722",
-                            "userName": "LocalizedUSRTest1",
-                            "userType": "2",
-                            "userStatus": "1",
-                            "firstName": "in_first_name",
-                            "middleName": "",
-                            "lastName": "NSR",
-                            "dateOfBirth": "2023-12-31T21:00:00.000Z",
-                            "userEmail": "usr@mail.com",
-                            "userPhone": "0797708889",
-                            "userAddress": "",
-                            "userImage": null
-                        },
-                        "supplierDetails": {
-                            "supplierId": "1",
-                            "supplierTaxIdentificationNumber": "6545005",
-                            "supplierBankAccountNumber": "45006888",
-                            "supplierIBAN": "JO94CBJO0055000555050101000388",
-                            "supplierComplianceIndicator": 0.67,
-                            "supplierComplaintCount": 0
-                        },
-                        "factoryDetails": {
-                            "factoryId": "3-1"
-                        },
-                        "establishmentDetails": {
-                            "establishmentName": "test",
-                            "establishmentIndustryType": [
-                                "3"
-                            ],
-                            "establishmentStatus": "1",
-                            "establishmentCommercialRegistrationNumber": "44450",
-                            "establishmentRegistrationDate": "2023-04-03T21:00:00.000Z",
-                            "establishmentContactNumber": "0777778485",
-                            "establishmentEmail": "err@gmail.com",
-                            "establishmentWebsite": null,
-                            "establishmentDescription": "Main",
-                            "establishmentType": true,
-                            "establishmentCity": "Amman",
-                            "establishmentStreet": "Abdali",
-                            "establishmentBuildingNumber": "B1",
-                            "establishmentLogo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
-                            "establishmentCover": null,
-                            "establishmentComplianceIndicator": 1,
-                            "establishmentComplianceIndicatorDescription": "GOOD"
-                        },
-                        "progressBarUser": {
-                            "percentage": 90.9090909090909
-                        },
-                        "progressBarEstablishment": {
-                            "percentage": 90
-                        },
-                        "insights": {
-                            "analyticsResult": {
-                                "review": {
-                                    "negativeCount": "2",
-                                    "positiveCount": "2"
-                                },
-                                "customerList": {
-                                    "customerItem": [
-                                        {
-                                            "share": "38.10",
-                                            "retailer": "1",
-                                            "numberOfQuotations": "17"
-                                        }
-                                    ]
-                                },
-                                "profileViews": "0",
-                                "purchaseList": {
-                                    "purchaseItem": [
-                                        {
-                                            "id": 10,
-                                            "share": "38.10",
-                                            "total": 4555.8
-                                        },
-                                        {
-                                            "id": 11,
-                                            "share": "38.10",
-                                            "total": 4555.8
-                                        },
-                                        {
-                                            "id": 4,
-                                            "share": "11.90",
-                                            "total": 1422.7
-                                        },
-                                        {
-                                            "id": 9,
-                                            "share": "11.90",
-                                            "total": 1422.7
-                                        }
-                                    ]
-                                },
-                                "totalRevenue": 11957,
-                                "overallRating": 3,
-                                "totalCustomers": "1",
-                                "totalQuotations": "17",
-                                "topThreeProducts": {
-                                    "productItem": [
-                                        {
-                                            "id": 1,
-                                            "name": "new Name",
-                                            "sales": "6",
-                                            "share": "35.29",
-                                            "mentions": "17"
-                                        },
-                                        {
-                                            "id": 2,
-                                            "name": "test",
-                                            "sales": "6",
-                                            "share": "35.29",
-                                            "mentions": "17"
-                                        }
-                                    ]
-                                },
-                                "issuesReportedObj": {
-                                    "total": "30",
-                                    "resolved": "0.00",
-                                    "penaltyResulted": "0.00",
-                                    "resolvedWithNoPenalty": "0.00"
-                                },
-                                "topThreeCategories": {
-                                    "categoryItem": [
-                                        {
-                                            "name": "SMARTPHONES",
-                                            "sales": "12",
-                                            "share": "35.29",
-                                            "mentions": "34"
-                                        }
-                                    ]
-                                },
-                                "complianceIndicator": 1
+        {
+            "header": {
+                "errorCode": "0000",
+                "errorDescription": "SUCCESS",
+                "statusCode": 200,
+                "message": "Operation completed successfully"
+            },
+            "body": {
+                "success": true,
+                "supplierDashboard": {
+                    "userDetails": {
+                        "nationalNumber": "888877722",
+                        "userName": "LocalizedUSRTest1",
+                        "userType": "2",
+                        "userStatus": "1",
+                        "firstName": "in_first_name",
+                        "middleName": "",
+                        "lastName": "NSR",
+                        "dateOfBirth": "2023-12-31T21:00:00.000Z",
+                        "userEmail": "usr@mail.com",
+                        "userPhone": "0797708889",
+                        "userAddress": "",
+                        "userImage": null
+                    },
+                    "supplierDetails": {
+                        "supplierId": "1",
+                        "supplierTaxIdentificationNumber": "6545005",
+                        "supplierBankAccountNumber": "45006888",
+                        "supplierIBAN": "JO94CBJO0055000555050101000388",
+                        "supplierComplianceIndicator": 0.67,
+                        "supplierComplaintCount": 0
+                    },
+                    "factoryDetails": {
+                        "factoryId": "3-1"
+                    },
+                    "establishmentDetails": {
+                        "establishmentName": "test",
+                        "establishmentIndustryType": [
+                            "3"
+                        ],
+                        "establishmentStatus": "1",
+                        "establishmentCommercialRegistrationNumber": "44450",
+                        "establishmentRegistrationDate": "2023-04-03T21:00:00.000Z",
+                        "establishmentContactNumber": "0777778485",
+                        "establishmentEmail": "err@gmail.com",
+                        "establishmentWebsite": null,
+                        "establishmentDescription": "Main",
+                        "establishmentType": true,
+                        "establishmentCity": "Amman",
+                        "establishmentStreet": "Abdali",
+                        "establishmentBuildingNumber": "B1",
+                        "establishmentLogo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                        "establishmentCover": null,
+                        "establishmentComplianceIndicator": 1,
+                        "establishmentComplianceIndicatorDescription": "GOOD"
+                    },
+                    "progressBarUser": {
+                        "percentage": 90.9090909090909
+                    },
+                    "progressBarEstablishment": {
+                        "percentage": 90
+                    },
+                    "insights": {
+                        "analyticsResult": {
+                            "profileViews": "0",
+                            "totalRevenue": 11957,
+                            "totalCustomers": "1",
+                            "overallRating": 3,
+                            "complianceIndicator": 1,
+                            "totalQuotations": "17",
+                            "purchaseList": {
+                                "purchaseItem": [
+                                    {
+                                        "id": 10,
+                                        "total": 4555.8,
+                                        "share": "38.10"
+                                    },
+                                    {
+                                        "id": 11,
+                                        "total": 4555.8,
+                                        "share": "38.10"
+                                    },
+                                    {
+                                        "id": 4,
+                                        "total": 1422.7,
+                                        "share": "11.90"
+                                    },
+                                    {
+                                        "id": 9,
+                                        "total": 1422.7,
+                                        "share": "11.90"
+                                    }
+                                ]
+                            },
+                            "customerList": {
+                                "customerItem": [
+                                    {
+                                        "retailer": "1",
+                                        "numberOfQuotations": "17",
+                                        "share": "38.10"
+                                    }
+                                ]
+                            },
+                            "review": {
+                                "positiveCount": "2",
+                                "negativeCount": "2"
+                            },
+                            "issuesReportedObj": {
+                                "total": "30",
+                                "unresolved": "96.55",
+                                "penaltyResulted": "0.00",
+                                "resolvedWithNoPenalty": "3.45"
+                            },
+                            "topThreeProducts": {
+                                "productItem": [
+                                    {
+                                        "id": 1,
+                                        "name": "new Name",
+                                        "mentions": "17",
+                                        "sales": "6",
+                                        "share": "35.29"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "name": "test",
+                                        "mentions": "17",
+                                        "sales": "6",
+                                        "share": "35.29"
+                                    }
+                                ]
+                            },
+                            "topThreeCategories": {
+                                "categoryItem": [
+                                    {
+                                        "name": "SMARTPHONES",
+                                        "mentions": "34",
+                                        "sales": "12",
+                                        "share": "35.29"
+                                    }
+                                ]
                             }
                         }
                     }
                 }
             }
+        }
 ### PART 4 MARKETPLACE SUPPLIER
 #### service: Get all Products Paginated (filtered by Factory Categories (supplierId -> EstablishmentId -> IndustryTypes -> Categories - > Products))
 - payload:
@@ -2966,17 +2971,190 @@ frontend level
         }
     }
 
-## ADMINSTRATOR PART  [COMPLETION PERCENTAGE:]
+## ADMINSTRATOR PART  [COMPLETION PERCENTAGE:35%]
 ### PART 1 Signup
 #### service: check user name is already in database
+- payload:
+    ```json
+        {
+            "username": "admin-01"
+        }
+- expected Response/s:
+    - Error
+    - Success
+        ```json
+        {
+            "header": {
+                "errorCode": "0000",
+                "errorDescription": "SUCCESS",
+                "statusCode": 200,
+                "message": "Operation completed successfully"
+            },
+            "body": {
+                "success": true,
+                "isAvailable": true
+            }
+        }
 #### service: sign up
+- payload:
+    ```json
+    {
+        "user": {
+            "userType": 1,
+            "firstName": "Sample",
+            "lastName": "Admin",
+            "userName": "admin-01",
+            "userEmail": "ham20190725@std.psut.edu.jo",
+            "userPassword": "adminpass123",
+            "userPhoneNumber": "0795404509"
+        }
+    }
+- expected Response/s:
+    - Error
+    - Success
+        ```json
+        {
+            "header": {
+                "errorCode": "0000",
+                "errorDescription": "SUCCESS",
+                "statusCode": 201,
+                "message": "Operation completed successfully"
+            },
+            "body": {
+                "success": true,
+                "userId": "193",
+                "adminId": "40",
+                "supplierId": null,
+                "retailerId": null,
+                "factoryId": null,
+                "retailstoreId": null,
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxOTMiLCJ1c2VyVHlwZSI6MSwidXNlcm5hbWUiOiJhZG1pbi0wMSIsInRva2VuVmVyc2lvbiI6MCwiaWF0IjoxNzM0MzU2Mjk2LCJleHAiOjE3MzQ0NDI2OTZ9.hiqFgq4jfdYbxtNYwTEgExHTLbc2l_agpd454qCqTj0"
+            }
+        }
 ### PART 2 Login
 #### service: forget password -> send an email with a unique code, listen to the user input new code, compare sent code and entered code 
-if matching -> update password from payload if not -> handle error
+if matching -> update password from payload if not -> handle error // Handled Before
 #### service: Actual Login
+- payload:
+    ```json
+    {
+        "user": {
+            "userName": "admin-01",
+            "userPassword": "adminpass123"
+        }
+    }
+- expected Response/s:
+    - Error
+    - Success
+        ```json
+        {
+            "header": {
+                "errorCode": "0000",
+                "errorDescription": "SUCCESS",
+                "statusCode": 200,
+                "message": "Operation completed successfully"
+            },
+            "body": {
+                "success": true,
+                "userId": "193",
+                "userType": "1",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxOTMiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluLTAxIiwidG9rZW5WZXJzaW9uIjowLCJpYXQiOjE3MzQzNTY0MDAsImV4cCI6MTczNDQ0MjgwMH0.82y5HSnp3o8wv6ZqhtMAZogjgjWDNAwLfb1R9Pp3kPw"
+            }
+        }
 ### PART 3 DASHBOARD
 #### service: ANALYTICS
 #### service: BASIC USER DATA
+- payload:
+    ```json
+            {
+                "userId": 193
+            }
+- expected Response/s:
+    - Error
+    - Success
+        ```json
+        {
+            "header": {
+                "errorCode": "0000",
+                "errorDescription": "SUCCESS",
+                "statusCode": 200,
+                "message": "Operation completed successfully"
+            },
+            "body": {
+                "success": true,
+                "adminDashboard": {
+                    "userDetails": {
+                        "nationalNumber": null,
+                        "userName": "admin-01",
+                        "userType": "1",
+                        "userStatus": "1",
+                        "firstName": "Sample",
+                        "middleName": null,
+                        "lastName": "Admin",
+                        "dateOfBirth": null,
+                        "userEmail": "ham20190725@std.psut.edu.jo",
+                        "userPhone": "0795404509",
+                        "userAddress": null,
+                        "userImage": null
+                    },
+                    "insights": {
+                        "analyticsResult": {
+                            "spent": 11969.5,
+                            "users": "51",
+                            "Products": "11",
+                            "Factories": "8",
+                            "Penalties": "3",
+                            "Complaints": "34",
+                            "Quotations": "19",
+                            "weeklySales": {
+                                "SalesItem": [
+                                    {
+                                        "id": 35,
+                                        "share": "100.00",
+                                        "total": 12.5
+                                    },
+                                    {
+                                        "id": 37,
+                                        "share": "0.00",
+                                        "total": 0
+                                    },
+                                    {
+                                        "id": 36,
+                                        "share": "0.00",
+                                        "total": 0
+                                    }
+                                ]
+                            },
+                            "RetailStores": "4",
+                            "topThreeProducts": {
+                                "productItem": [
+                                    {
+                                        "id": 2,
+                                        "name": "test",
+                                        "sales": "7",
+                                        "share": "36.84",
+                                        "mentions": "19"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "name": "new Name",
+                                        "sales": "7",
+                                        "share": "36.84",
+                                        "mentions": "19"
+                                    }
+                                ]
+                            },
+                            "weeklyQuotations": {
+                                "completed": "0",
+                                "confirmed": "1",
+                                "requested": "2"
+                            },
+                            "ConfirmedQuotations": "5"
+                        }
+                    }
+                }
+            }
+        }
 ### PART 4 APPLICATION
 #### service: GET APPLICATION LIST
 #### service: SEARCH BY ID / NAME PAGINATED
@@ -3013,11 +3191,8 @@ if matching -> update password from payload if not -> handle error
 ##### SUB: RECALCULATE COMPLAINCE UPDATE COUNTS FOR AGAINST 
 #### service: UPDATE CONPLAINT STATUS
 ### PART 8 CATEGORIES
-
 #### service: GET INDUSTRY TYPES 
 #### service: GET CATEGORIES BY INDUSTRY TYPE 
-#### service: ADD CATEGORY
-#### service: DELETE CATEGORY
 ### PART 9 PENALTY
 #### service: GET PENALTIES PAGINATED (ID, TITLE, DATE)
 #### service: ADD PENALTY: TYPE, WEIGHT, NOTES ESTABLISHMENT ID
