@@ -17,7 +17,7 @@ const analyticsService = {
         // take from db
         const res = fetchAnalyticsDb[0].out_capture;
         return {
-          res,
+          analyticsResult: res,
         };
       } else {
         isInsertedFlag = true;
@@ -445,8 +445,8 @@ const analyticsService = {
       );
     } else {
       const updateDb = await AnalyticsModel.updateAnalytics(
-        userId,
-        analyticsResult
+        analyticsResult,
+        userId
       );
     }
     return {
@@ -467,6 +467,22 @@ const analyticsService = {
     );
     if (!supplierId) {
       return { success: false };
+    }
+    let isInsertedFlag = false;
+    const fetchAnalyticsDb = await analyticsModel.getAnalyticsByUserId(userId);
+    if (Object.entries(fetchAnalyticsDb).length != 0) {
+      if (
+        fetchAnalyticsDb[0].out_capture != null &&
+        moment(fetchAnalyticsDb[0].out_capture_date).isSame(moment(), "day")
+      ) {
+        // take from db
+        const res = fetchAnalyticsDb[0].out_capture;
+        return {
+          analyticsResult: res,
+        };
+      } else {
+        isInsertedFlag = true;
+      }
     }
 
     const profileViews = await executeQuery(
@@ -789,14 +805,42 @@ const analyticsService = {
       topThreeProducts: topThreeProducts || null,
       topThreeCategories: topThreeCategories || null,
     };
+
+    if (!isInsertedFlag) {
+      const insertDb = await AnalyticsModel.insertAnalytics(
+        userId,
+        analyticsResult
+      );
+    } else {
+      const updateDb = await AnalyticsModel.updateAnalytics(
+        analyticsResult,
+        userId
+      );
+    }
     return {
-      success: true,
-      analyticsResult,
+      analyticsResult: analyticsResult,
     };
   },
 
   // Adminstrator Part
   async getAdminstratorAnalytics(userId) {
+    let isInsertedFlag = false;
+    const fetchAnalyticsDb = await analyticsModel.getAnalyticsByUserId(userId);
+    if (Object.entries(fetchAnalyticsDb).length != 0) {
+      if (
+        fetchAnalyticsDb[0].out_capture != null &&
+        moment(fetchAnalyticsDb[0].out_capture_date).isSame(moment(), "day")
+      ) {
+        // take from db
+        const res = fetchAnalyticsDb[0].out_capture;
+        return {
+          analyticsResult: res,
+        };
+      } else {
+        isInsertedFlag = true;
+      }
+    }
+
     const totalUsers = await executeQuery(
       `SELECT COUNT(user_id) AS total_users FROM user_localized;`
     );
@@ -928,9 +972,21 @@ const analyticsService = {
       weeklySales: weeklySales[0].weekly_sales,
       weeklyQuotations: weeklyQuotations[0].weekly_quotations,
     };
+
+    if (!isInsertedFlag) {
+      const insertDb = await AnalyticsModel.insertAnalytics(
+        userId,
+        analyticsResult
+      );
+    } else {
+      const updateDb = await AnalyticsModel.updateAnalytics(
+        analyticsResult,
+        userId
+      );
+    }
+
     return {
-      success: true,
-      analyticsResult,
+      analyticsResult: analyticsResult,
     };
   },
 };

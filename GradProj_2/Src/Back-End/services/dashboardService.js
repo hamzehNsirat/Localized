@@ -16,6 +16,7 @@ const {
   rollbackTransaction,
 } = require("../config/database");
 const userService = require("../services/userService");
+const analyticsService = require("./analyticsService");
 
 const dashboardService = {
   async getRetailerAllDetails(userId) {
@@ -37,7 +38,6 @@ const dashboardService = {
       await Retailer.calculateEstablishmentCompletionPercentage(
         retailerData[0].out_retailer_id
       );
-    //const retailerInsights = { Insights: "To Be Done" };
     const retailerInsights = await analytics.getRetailerAnalytics(userId);
     // Consilidate Data and Format it
     const retailerDashboard = {
@@ -107,7 +107,7 @@ const dashboardService = {
           progressBarRetailstore[0].establishment_completion_percentage
         ),
       },
-      Insights: retailerInsights.res || retailerInsights,
+      Insights: retailerInsights || 'No Current Insights',
     };
     // Return Data Object as Response
     return {
@@ -239,7 +239,8 @@ const dashboardService = {
         supplierData[0].out_supplier_id
       );
 
-    const supplierInsights = { Insights: "To Be Done" };
+    const supplierInsights = await analyticsService.getAdminstratorAnalytics(userId);
+
     // Consilidate Data and Format it
     const supplierDashboard = {
       userDetails: {
@@ -302,9 +303,9 @@ const dashboardService = {
         percentage: progressBarSupplier,
       },
       progressBarEstablishment: {
-        percentage: progressBarFactory,
+        percentage: progressBarFactory, 
       },
-      insights: supplierInsights.Insights,
+      insights: supplierInsights || "No Current Insights",
     };
     // Return Data Object as Response
     return {
