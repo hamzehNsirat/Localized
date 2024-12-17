@@ -526,6 +526,12 @@ module.exports = {
     message: "searchTerm, pageSize and pageIndex are Mandatory",
     errorCode: "E0086",
   },
+  E0087: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "industryType is Mandatory",
+    errorCode: "E0087",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,

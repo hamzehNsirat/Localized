@@ -3311,7 +3311,6 @@ if matching -> update password from payload if not -> handle error // Handled Be
             "isValid": true
         }
     }
-
 ### PART 5 USER
 #### service: GET USERS LIST (ID, FIRST/LAST NAME, IMAGE,STATUS, USERTYPE)
 - payload:
@@ -3470,8 +3469,135 @@ if matching -> update password from payload if not -> handle error // Handled Be
     - COMPANY NAME, DESCRIPTION, EMAIL,REGISTRATION NUMBER, WEBSITE, CONTACT NUMBER, REGISTRATION DATE, ESTABLISHMENT TYPE
     - CITY, BUILDING NO, ST ADDRESS, BANCK ACC NUM, IBAN
     - ESTABLISHMENT LOGO
+- payload:
+    ```json
+    {
+        "userId":2,
+        "userType":"2"
+    }
+- expected Response/s:
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "userData": {
+                "userDetails": {
+                    "nationalNumber": "9991000631",
+                    "userName": "TestUser1",
+                    "userType": "3",
+                    "userStatus": "4",
+                    "firstName": "TestFRS",
+                    "middleName": "TestMDL",
+                    "lastName": "TestLST",
+                    "dateOfBirth": "1989-12-31T21:00:00.000Z",
+                    "userEmail": "",
+                    "userPhone": "0798889995",
+                    "userAddress": "Amman, Abdali, 1st Street",
+                    "userImage": null
+                },
+                "retailerDetails": {
+                    "retailerId": "1",
+                    "retailerTaxIdentificationNumber": "6545645",
+                    "retailerBankAccountNumber": "14440999",
+                    "retailerIBAN": "JO94CBJO0010000000000131000388",
+                    "retailerComplianceIndicator": 0.75,
+                    "retailerComplaintCount": 1
+                },
+                "retailStoreDetails": {
+                    "retailStoreId": "3-1"
+                },
+                "establishmentDetails": {
+                    "establishmentName": "test",
+                    "establishmentIndustryType": [
+                        "3"
+                    ],
+                    "establishmentStatus": "1",
+                    "establishmentCommercialRegistrationNumber": "44450",
+                    "establishmentRegistrationDate": "2023-04-03T21:00:00.000Z",
+                    "establishmentContactNumber": "0777778485",
+                    "establishmentEmail": "err@gmail.com",
+                    "establishmentWebsite": null,
+                    "establishmentDescription": "Main",
+                    "establishmentType": true,
+                    "establishmentCity": "Amman",
+                    "establishmentStreet": "Abdali",
+                    "establishmentBuildingNumber": "B1",
+                    "establishmentLogo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                    "establishmentCover": null,
+                    "establishmentComplianceIndicator": 1,
+                    "establishmentComplianceIndicatorDescription": "GOOD"
+                }
+            }
+        }
+    }
 #### service: UPDATE USER STATUS
+- payload:
+    ```json
+    {
+        "userId":2,
+        "userStatus":1
+    }
+- expected Response/s:
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true
+        }
+    }
 #### service: ADD USER -> SIGNUP
+- payload:
+    ```json
+    {
+        "userType": 2,
+        "firstName": "retailer",
+        "lastName": "sample03",
+        "userName": "retailer009999",
+        "userEmail": "highnet99@mail.com",
+        "userPassword": "sample000000",
+        "userPhoneNumber": "0700989999",
+        "industryType": [
+            2,
+            3
+        ],
+        "establishmentName": "ElectroGroup01",
+        "commercialRegistrationNum": 129090003,
+        "contactNumber": "0789990792",
+        "establishmentEmail": "et.retailer0901@mail.com",
+        "establishmentWebsite": null,
+        "establishmentDescription": "sells Electronics and Home Appliances01",
+        "establishmentType": true,
+        "establishmentCity": "Amman",
+        "establishmentStreet": "Mecca St",
+        "establishmentBuildingNum": "121D",
+        "establishmentLogo": "http://localhost:5055/uploads/images/default-1734117896561-897840290.png",
+        "establishmentCover": null
+    }
+
+- expected Response/s:
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true
+        }
+    }
 #### service: BASED ON TYPE UPDATE USER DATA & ESTABLISHMENT & SUPPLIER/RETAILER -- Postponed
 ### PART 6 QUOTATION
 #### service: GET QUOTATIONS LIST PAGINATED (ID, RETAILSTORE LOGO, RETAILSTORE NAME, STATUS)

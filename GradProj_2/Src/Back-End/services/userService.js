@@ -8,6 +8,8 @@ const Retailer = require("../models/retailer");
 const Establishment = require("../models/Establishment");
 const RetailStore = require("../models/RetailStore");
 const Factory = require("../models/Factory");
+const authService = require("./authService");
+
 const userService = {
   async getUserById(userData) {
     // Fetch user details by user ID
@@ -42,7 +44,7 @@ const userService = {
   },
   async getUserAllData(userId, userType) {
     const input = {
-      userId: userId
+      userId: userId,
     };
     let result = {};
     if (userType === "1") {
@@ -377,6 +379,72 @@ const userService = {
     };
     await logDBModel.insertLog(inputData);
 
+    return {
+      success: true,
+    };
+  },
+  async updateUserStatus(userId, userStatus) {
+    // Update user status
+    const userData = {
+      userStatus: userStatus,
+      userId: userId,
+      lastModifiedBy: 1,
+    };
+    const dbUpdate = await userModel.updateStatus(userData);
+    if (dbUpdate[0].update_res != 0) {
+      return {
+        success: false,
+        error: "Failed to Update Status",
+      };
+    }
+    const inputData = {
+      logUserId: userData.userId,
+      actionDetails: "Update User Status for User Id: " + userData.userId,
+      actionJsonPayload: null,
+      actionDescription: "DATA UPDATE",
+      isTransactional: true,
+    };
+    await logDBModel.insertLog(inputData);
+
+    return {
+      success: true,
+    };
+  },
+  async addUser(input) {
+    // Update user status
+      const user = {
+        userType: input.userType,
+        firstName: input.firstName,
+        lastName: input.lastName,
+        userName: input.userName,
+        userEmail: input.userEmail,
+        userPassword: input.userPassword,
+        userPhoneNumber: input.userPhoneNumber,
+      };
+      const establishment = {
+        industryType: input.industryType,
+        establishmentName: input.establishmentName,
+        commercialRegistrationNum: input.commercialRegistrationNum,
+        contactNumber: input.contactNumber,
+        establishmentEmail: input.establishmentEmail,
+        establishmentWebsite: null,
+        establishmentDescription: input.establishmentDescription,
+        establishmentType: input.establishmentType,
+        establishmentCity: input.establishmentCity,
+        establishmentStreet: input.establishmentStreet,
+        establishmentBuildingNum: input.establishmentBuildingNum,
+        establishmentLogo: input.establishmentLogo,
+        establishmentCover: null,
+      };
+
+    const signUp = await authService.registerUser(user, establishment);
+    console.log(signUp);
+    if (signUp.success != true) {
+      return {
+        success: false,
+        error: "Unable to Create User",
+      };
+    }
     return {
       success: true,
     };

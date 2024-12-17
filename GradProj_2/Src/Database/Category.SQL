@@ -20,15 +20,13 @@ CREATE INDEX  idx_car_industry_type ON category(industry_type);
 
 CREATE OR REPLACE FUNCTION category_get_by_industry(IN in_industry_type BIGINT) 
 RETURNS TABLE (
-	in_category_name  		   VARCHAR, 
-	in_last_modification_date  TIMESTAMP,
-	in_last_modified_by		   BIGINT
+	out_category_id            BIGINT
+	out_category_name  		   VARCHAR
 ) 
 AS $$ BEGIN RETURN QUERY
 	SELECT
+	CAST(category_id AS BIGINT),
 	category_name, 
-	last_modification_date,
-	last_modified_by
 	FROM	category
 	WHERE	CAST(industry_type AS BIGINT) = in_industry_type;
 END;

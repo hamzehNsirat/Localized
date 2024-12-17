@@ -17,5 +17,7 @@ router.post("/search", validateToken, controller.searchUser);
 router.post("/getall", validateToken, controller.getUserList);
 router.post("/reviewuser", validateToken, controller.reviewUser);
 router.post("/getalldata", validateToken, controller.getUserAllData);
+router.post("/updatestatus", validateToken, controller.updateUserStatus);
+router.post("/add", validateToken, controller.addUser);
 
 module.exports = router;

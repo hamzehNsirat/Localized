@@ -166,6 +166,23 @@ const updateProduct = async (req, res) => {
     return errorHandler.handleError(res, "E0076");
   }
 };
+const getCategories = async (req, res) => {
+  try {
+    if (
+      req.body.industryType == null 
+    ) {
+      return errorHandler.handleError(res, "E0087");
+    }
+    const result = await productService.getCategories(req.body.industryType);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0072", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0072");
+  }
+};
+
 module.exports = {
   getRetMarketplaceProducts,
   getRetProductsByCategory,
@@ -175,4 +192,5 @@ module.exports = {
   getSupplierOwnedProducts,
   addProduct,
   updateProduct,
+  getCategories,
 };

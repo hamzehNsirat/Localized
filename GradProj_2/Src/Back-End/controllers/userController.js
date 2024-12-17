@@ -123,6 +123,34 @@ const getUserAllData = async (req, res) => {
   }
 };
 
+const updateUserStatus = async (req, res) => {
+  try {
+    const result = await userService.updateUserStatus(
+      req.body.userId,
+      req.body.userStatus
+    );
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0012", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0012", error.message);
+  }
+};
+
+
+const addUser = async (req, res) => {
+  try {
+    const result = await userService.addUser(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0006", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0006", error.message);
+  }
+};
+
 
 module.exports = {
   getSingleUser,
@@ -132,4 +160,6 @@ module.exports = {
   deleteUser,
   searchUser,
   getUserAllData,
+  updateUserStatus,
+  addUser,
 };

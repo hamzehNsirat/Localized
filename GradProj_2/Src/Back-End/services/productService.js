@@ -1,5 +1,6 @@
 // Manages product-related business logic
 const Product = require("../models/Product");
+const Category = require("../models/Category");
 const {
   executeQuery,
   beginTransaction,
@@ -332,10 +333,7 @@ const productService = {
       lastModifiedBy: 1,
     };
     const productUpdateDb = await Product.update(productDetails);
-    if (
-      !productUpdateDb[0] ||
-      productUpdateDb[0].update_res === -1
-    ) {
+    if (!productUpdateDb[0] || productUpdateDb[0].update_res === -1) {
       await rollbackTransaction();
       return {
         success: false,
@@ -347,6 +345,36 @@ const productService = {
     return {
       success: true,
     };
+  },
+  async getCategories(industryType) {
+    try {
+      const categoriesFetch = await Category.getByIndustry(industryType);
+      if (!categoriesFetch) {
+        return {
+          success: false,
+          error: "Unable to Fetch Categories",
+        };
+      } else if (categoriesFetch.length === 0) {
+        return {
+          success: true,
+          error: "No Data Found",
+        };
+      }
+      const categoryList = { categoryItem: [] };
+      for (let i = 0; i < categoriesFetch.length; i++) {
+        const item = {
+          id: categoriesFetch[i].out_category_id,
+          name: categoriesFetch[i].out_category_name
+        };
+        categoryList.categoryItem.push(item);
+      }
+      return {
+        success: true,
+        categoryList: categoryList,
+      };
+    } catch (error) {
+      throw error;
+    }
   },
 };
 

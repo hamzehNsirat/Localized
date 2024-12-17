@@ -39,5 +39,6 @@ router.post(
 );
 router.post("/add", validateToken, controller.addProduct);
 router.post("/update", validateToken, controller.updateProduct);
+router.post("/getcategories", validateToken, controller.getCategories);
 
 module.exports = router;

@@ -3613,3 +3613,18 @@ BEGIN
     WHERE CAST(application_id AS BIGINT) = in_application_id;
 END;
 $$ LANGUAGE plpgsql;
+----------------------------------------------------
+drop function category_get_by_industry;
+CREATE OR REPLACE FUNCTION category_get_by_industry(IN in_industry_type BIGINT) 
+RETURNS TABLE (
+	out_category_id            BIGINT,
+	out_category_name  		   VARCHAR
+) 
+AS $$ BEGIN RETURN QUERY
+	SELECT
+	CAST(category_id AS BIGINT),
+	category_name
+	FROM	category
+	WHERE	CAST(industry_type AS BIGINT) = in_industry_type;
+END;
+$$ LANGUAGE plpgsql;
