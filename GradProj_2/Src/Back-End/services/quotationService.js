@@ -2,13 +2,13 @@ const Quotation = require("../models/Quotation");
 const Notification = require("../models/Notification");
 const Order = require("../models/Order");
 const Product = require("../models/Product");
-
 const {
   executeQuery,
   beginTransaction,
   commitTransaction,
   rollbackTransaction,
 } = require("../config/database");
+
 const quotationService = {
   async requestQuotation(inputData) {
     await beginTransaction();
@@ -62,7 +62,9 @@ const quotationService = {
               error: "Failed to Create Quotation Details",
             };
           }
-          const productDetailsDb = await Product.getById(inputData.quotationDetails.detailsItem[i].productId);
+          const productDetailsDb = await Product.getById(
+            inputData.quotationDetails.detailsItem[i].productId
+          );
           if (!productDetailsDb) {
             return {
               success: false,
@@ -70,9 +72,12 @@ const quotationService = {
             };
           }
 
-          details.detailsItem[i].productName = productDetailsDb[0].out_product_name;
-          details.detailsItem[i].productImage = productDetailsDb[0].out_product_image;
-          details.detailsItem[i].productCategory = productDetailsDb[0].out_product_category;
+          details.detailsItem[i].productName =
+            productDetailsDb[0].out_product_name;
+          details.detailsItem[i].productImage =
+            productDetailsDb[0].out_product_image;
+          details.detailsItem[i].productCategory =
+            productDetailsDb[0].out_product_category;
           details.detailsItem[i].orderId = orderResDB[0].out_order_id;
         } catch {
           await rollbackTransaction();
@@ -146,6 +151,61 @@ const quotationService = {
       quotationsList,
     };
   },
+
+  async getQuotationList(inputData) {
+    quotationFetchDb = await Quotation.getQuotationList(
+      inputData.pageSize,
+      inputData.pageIndex
+    );
+    if (!quotationFetchDb[0]) {
+      return {
+        success: false,
+        error: "Failed to Fetch Quotations",
+      };
+    }
+    const quotationsList = { quotationItem: [] };
+    for (let i = 0; i < quotationFetchDb.length; i++) {
+      const item = {
+        id: quotationFetchDb[i].out_quotation_id,
+        retailStoreName: quotationFetchDb[i].out_retailer_establishment_name,
+        logo: quotationFetchDb[i].out_retailer_establishment_logo,
+        status: quotationFetchDb[i].out_quotation_status,
+      };
+      quotationsList.quotationItem.push(item);
+    }
+    return {
+      success: true,
+      quotationsList,
+    };
+  },
+
+  async searchQuotations(inputData) {
+    quotationFetchDb = await Quotation.searchQuotations(
+      inputData.searchTerm,
+      inputData.pageSize,
+      inputData.pageIndex
+    );
+    if (!quotationFetchDb[0]) {
+      return {
+        success: false,
+        error: "Failed to Fetch Quotations",
+      };
+    }
+    const quotationsList = { quotationItem: [] };
+    for (let i = 0; i < quotationFetchDb.length; i++) {
+      const item = {
+        id: quotationFetchDb[i].out_quotation_id,
+        retailStoreName: quotationFetchDb[i].out_retailer_establishment_name,
+        logo: quotationFetchDb[i].out_retailer_establishment_logo,
+        status: quotationFetchDb[i].out_quotation_status,
+      };
+      quotationsList.quotationItem.push(item);
+    }
+    return {
+      success: true,
+      quotationsList,
+    };
+  },
   async getQuotationById(inputData) {
     quotationFetchDb = await Quotation.getAllData(inputData.quotationId);
     if (!quotationFetchDb[0]) {
@@ -179,6 +239,11 @@ const quotationService = {
         billToAddress: quotationFetchDb[0].out_bill_to_address,
         factoryAddress: quotationFetchDb[0].out_supplier_address,
         hasRelatedComplaints: quotationFetchDb[0].out_has_related_complaints,
+        paymentMethod: quotationFetchDb[0].out_payment_method,
+        factoryEmail: quotationFetchDb[0].out_supp_email,
+        retailStoreEmail: quotationFetchDb[0].out_ret_email,
+        factoryContactNumber: quotationFetchDb[0].out_supp_contact,
+        retailContactNumber: quotationFetchDb[0].out_ret_contact,
       },
     };
   },
@@ -247,7 +312,6 @@ const quotationService = {
       };
     }
     if (inputData.details) {
-
       for (let i = 0; i < inputData.details.detailsItem.length; i++) {
         try {
           const orderItem = {
@@ -265,7 +329,7 @@ const quotationService = {
               error: "Failed to Update Quotation Details",
             };
           }
-        } catch (err){
+        } catch (err) {
           await rollbackTransaction();
           return {
             success: false,

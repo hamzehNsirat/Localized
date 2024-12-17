@@ -805,7 +805,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 ---------------------------------------------------------------------
--- SP NO.:#15, 
+-- SP NO.:#16, 
 -- Complexity: MODERATE,
 -- Creation Data: 11122024,
 -- Desc: UPDATE AN Order
@@ -852,7 +852,7 @@ WHEN OTHERS THEN
 END;
 $$ LANGUAGE plpgsql;
 --------------------------------------------------------------
--- SP NO.:#16, 
+-- SP NO.:#17, 
 -- Complexity: MODERATE,
 -- Creation Data: 17122024,
 -- Desc: Search Applications By Name,ID
@@ -884,7 +884,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 --------------------------------------------------------------------
--- SP NO.:#16, 
+-- SP NO.:#18, 
 -- Complexity: MODERATE,
 -- Creation Data: 17122024,
 -- Desc: Search Users By Name,ID
@@ -931,5 +931,74 @@ BEGIN
 	OR CAST(D.last_name AS TEXT)  LIKE '%' || search_term || '%'
 	LIMIT in_page_size
 	OFFSET ((in_page_index - 1) * in_page_size) ;
+END;
+$$ LANGUAGE plpgsql;
+-----------------------------------------------------------------
+-- SP NO.:#19, 
+-- Complexity: MODERATE,
+-- Creation Data: 17122024,
+-- Desc: Get  Related Quotations
+-- NodeJS Model: Quotation
+CREATE OR REPLACE FUNCTION get_quotations_list(
+  IN in_page_size INTEGER,
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(
+  out_quotation_id BIGINT,
+  out_retailer_establishment_logo TEXT,
+  out_retailer_establishment_name TEXT,
+  out_quotation_status VARCHAR
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    CAST(q.quotation_id AS BIGINT) AS out_quotation_id ,
+    e.establishment_logo AS out_retailer_establishment_logo,
+    e.establishment_name AS out_retailer_establishment_name,
+    qs.quotation_status AS out_quotation_status
+  FROM
+    quotation q
+  JOIN retailstore f ON q.requester_id = f.owner_id
+  JOIN establishment e ON f.retailstore_est_id = e.establishment_id
+  JOIN quotation_status qs ON q.quotation_status_id = qs.quotation_status_id
+  ORDER BY q.quotation_request_date DESC
+  LIMIT in_page_size
+  OFFSET (in_page_index - 1) * in_page_size;
+END;
+$$ LANGUAGE plpgsql;
+-----------------------------------------------------------------
+-- SP NO.:#20, 
+-- Complexity: MODERATE,
+-- Creation Data: 17122024,
+-- Desc: Get  Related Quotations
+-- NodeJS Model: Quotation
+CREATE OR REPLACE FUNCTION search_quotations(
+  IN search_term TEXT,
+  IN in_page_size INTEGER,
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(
+  out_quotation_id BIGINT,
+  out_retailer_establishment_logo TEXT,
+  out_retailer_establishment_name TEXT,
+  out_quotation_status VARCHAR
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    CAST(q.quotation_id AS BIGINT) AS out_quotation_id ,
+    e.establishment_logo AS out_retailer_establishment_logo,
+    e.establishment_name AS out_retailer_establishment_name,
+    qs.quotation_status AS out_quotation_status
+  FROM
+    quotation q
+  JOIN retailstore f ON q.requester_id = f.owner_id
+  JOIN establishment e ON f.retailstore_est_id = e.establishment_id
+  JOIN quotation_status qs ON q.quotation_status_id = qs.quotation_status_id
+  WHERE CAST(q.quotation_id AS TEXT) = search_term
+  OR e.establishment_name LIKE '%' || search_term || '%'
+  ORDER BY q.quotation_request_date DESC
+  LIMIT in_page_size
+  OFFSET (in_page_index - 1) * in_page_size;
 END;
 $$ LANGUAGE plpgsql;

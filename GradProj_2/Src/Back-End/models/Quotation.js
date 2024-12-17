@@ -78,6 +78,24 @@ const Quotation = {
     const params = [retailerId, pageSize, pageIndex];
     return await executeQuery(query, params);
   },
+
+  async getQuotationList(pageSize, pageIndex) {
+    const query = `
+      SELECT * 
+      FROM get_quotations_list($1, $2)
+    `;
+    const params = [pageSize, pageIndex];
+    return await executeQuery(query, params);
+  },
+  async searchQuotations(searchTerm, pageSize, pageIndex) {
+    const query = `
+      SELECT * 
+      FROM search_quotations($1, $2, $3)
+    `;
+    const params = [searchTerm, pageSize, pageIndex];
+    return await executeQuery(query, params);
+  },
+
   async getQuotationsBySupplier(supplierId, pageSize, pageIndex) {
     const query = `
       SELECT * 

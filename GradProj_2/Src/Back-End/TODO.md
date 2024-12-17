@@ -2971,7 +2971,7 @@ frontend level
         }
     }
 
-## ADMINSTRATOR PART  [COMPLETION PERCENTAGE:35%]
+## ADMINSTRATOR PART  [COMPLETION PERCENTAGE:54%]
 ### PART 1 Signup
 #### service: check user name is already in database
 - payload:
@@ -3601,8 +3601,180 @@ if matching -> update password from payload if not -> handle error // Handled Be
 #### service: BASED ON TYPE UPDATE USER DATA & ESTABLISHMENT & SUPPLIER/RETAILER -- Postponed
 ### PART 6 QUOTATION
 #### service: GET QUOTATIONS LIST PAGINATED (ID, RETAILSTORE LOGO, RETAILSTORE NAME, STATUS)
+- payload:
+    ```json
+    {
+        "pageSize":5,
+        "pageIndex":1
+    }
+- expected Response/s:
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "quotationsList": {
+                "quotationItem": [
+                    {
+                        "id": "36",
+                        "logo": "test",
+                        "factoryName": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                        "status": "REQUESTED"
+                    },
+                    {
+                        "id": "35",
+                        "logo": "test",
+                        "factoryName": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                        "status": "REQUESTED"
+                    },
+                    {
+                        "id": "26",
+                        "logo": "test",
+                        "factoryName": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                        "status": "REQUESTED"
+                    },
+                    {
+                        "id": "25",
+                        "logo": "test",
+                        "factoryName": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                        "status": "REQUESTED"
+                    },
+                    {
+                        "id": "23",
+                        "logo": "test",
+                        "factoryName": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                        "status": "REQUESTED"
+                    }
+                ]
+            }
+        }
+    }
 #### service: SEARCH QUOTATIONS BY ID NAME LIST PAGINATED (ID, RETAILSTORE LOGO, RETAILSTORE NAME, STATUS)
+- payload:
+    ```json
+    {
+        "searchTerm":"te",
+        "pageSize": 5,
+        "pageIndex": 1
+    }
+- expected Response/s:
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "quotationsList": {
+                "quotationItem": [
+                    {
+                        "id": "36",
+                        "retailStoreName": "test",
+                        "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                        "status": "REQUESTED"
+                    },
+                    {
+                        "id": "35",
+                        "retailStoreName": "test",
+                        "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                        "status": "REQUESTED"
+                    },
+                    {
+                        "id": "26",
+                        "retailStoreName": "test",
+                        "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                        "status": "REQUESTED"
+                    },
+                    {
+                        "id": "25",
+                        "retailStoreName": "test",
+                        "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                        "status": "REQUESTED"
+                    },
+                    {
+                        "id": "23",
+                        "retailStoreName": "test",
+                        "logo": "http://localhost:5055/uploads/images/default-1733679916980-324055511.png",
+                        "status": "REQUESTED"
+                    }
+                ]
+            }
+        }
+    }
 #### service: GET QUOTATION BY ID ADDTO:(RETAILER&SUPPLIER EST NAME, EMAIL, CONTACT), PAYMENT METHOD
+- payload:
+    ```json
+    {
+        "quotationId":37
+    }
+- expected Response/s:
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "quotationDetails": {
+                "id": "37",
+                "requesterId": "9",
+                "supplierId": "9",
+                "retailStore": "Sha",
+                "factory": "Aaa",
+                "requestDate": "2024-12-13T15:17:02.751Z",
+                "statusId": "3",
+                "details": {
+                    "detailsItem": [
+                        {
+                            "price": 1.5,
+                            "orderId": "31",
+                            "quantity": 4,
+                            "productId": 1,
+                            "productName": "new Name",
+                            "productImage": null,
+                            "productCategory": "SMARTPHONES"
+                        },
+                        {
+                            "price": 1,
+                            "orderId": "32",
+                            "quantity": 4,
+                            "productId": 2,
+                            "productName": "test",
+                            "productImage": null,
+                            "productCategory": "SMARTPHONES"
+                        }
+                    ]
+                },
+                "attachments": null,
+                "paymentReferenceNumber": null,
+                "reconciliationNumber": null,
+                "latestTransactionID": null,
+                "shippingCost": null,
+                "subTotal": null,
+                "total": null,
+                "shipToAddress": "",
+                "billToAddress": "",
+                "factoryAddress": null,
+                "hasRelatedComplaints": 0,
+                "paymentMethod": null,
+                "factoryEmail": "est.sup9991@mail.com",
+                "retailStoreEmail": null,
+                "factoryContactNumber": "0770004455",
+                "retailContactNumber": null
+            }
+        }
+    }
 ### PART 7 COMPLAINT
 #### service: GET COMPLAINTS LIST PAGINATED (ID, TITLE, DATE, STATUS)
 #### service: SEARCH BY ID AND NAME (ID, TITLE, DATE, STATUS)

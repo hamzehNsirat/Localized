@@ -115,6 +115,47 @@ const submitQuotation = async (req, res) => {
     return errorHandler.handleError(res, "E0078");
   }
 };
+
+
+const getQuotationList = async (req, res) => {
+  try {
+    if (
+      req.body.pageSize == null ||
+      req.body.pageIndex == null
+    ) {
+      return errorHandler.handleError(res, "E0013");
+    }
+    const result = await quotationService.getQuotationList(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0088", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0088");
+  }
+};
+
+
+const searchQuotations = async (req, res) => {
+  try {
+    if (
+      req.body.searchTerm == null ||
+      req.body.pageSize == null ||
+      req.body.pageIndex == null
+    ) {
+      return errorHandler.handleError(res, "E0086");
+    }
+    const result = await quotationService.searchQuotations(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0039", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    console.log(error);
+    return errorHandler.handleError(res, "E0039", error);
+  }
+};
+
 module.exports = {
   requestQuotation,
   getQuotationByRetailer,
@@ -122,4 +163,6 @@ module.exports = {
   updateQuotationStatus,
   getQuotationBySupplier,
   submitQuotation,
+  getQuotationList,
+  searchQuotations,
 };

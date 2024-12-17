@@ -181,7 +181,8 @@ AS $$ BEGIN RETURN QUERY
 	WHERE D.requester_id = in_requester_id;
 END;
 $$ LANGUAGE plpgsql;
--- INSERT A QuotationCREATE OR REPLACE FUNCTION quotation_insert (
+--INSERT A Quotation
+CREATE OR REPLACE FUNCTION quotation_insert (
 	IN in_requester_id 		 BIGINT , -- from inp
 	IN in_supplier_id 		 BIGINT , -- from inp
 	IN in_quotation_status_id  BIGINT , -- 1 

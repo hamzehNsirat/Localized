@@ -3628,3 +3628,69 @@ AS $$ BEGIN RETURN QUERY
 	WHERE	CAST(industry_type AS BIGINT) = in_industry_type;
 END;
 $$ LANGUAGE plpgsql;
+--------------------------------------------------------------
+DROP FUNCTION quotation_get_all_data;
+CREATE OR REPLACE FUNCTION quotation_get_all_data(in_quotation_id BIGINT) 
+RETURNS TABLE (
+	out_quotation_id 		 BIGINT,
+	out_requester_id 		 BIGINT,
+	out_supplier_id 		 BIGINT,
+	out_quotation_status_id  BIGINT,
+	out_quotation_request_date   TIMESTAMP,
+	out_quotation_details    	 JSONB,
+	out_quotation_attachments 	 JSONB,
+	out_related_payment_referenece_no		VARCHAR,
+	out_related_payment_reconciliation_no	VARCHAR,
+	out_related_payment_latest_trx_id		VARCHAR,
+	out_shipping_cost	FLOAT,
+	out_sub_total		FLOAT,
+	out_total			FLOAT,
+	out_from_establishment_name	  TEXT,
+	out_to_establishment_name	  TEXT,
+	out_has_related_complaints	  INTEGER,
+	out_ship_to_address		      TEXT,
+	out_bill_to_address		      TEXT,
+	out_supplier_address		  TEXT,
+	out_payment_method			  VARCHAR,
+	out_supp_email 				   VARCHAR,
+	out_ret_email 				   VARCHAR,
+	out_supp_contact 				   VARCHAR,
+	out_ret_contact 				   VARCHAR
+
+) 
+AS $$ BEGIN RETURN QUERY
+	SELECT 
+
+	CAST(D.quotation_id AS BIGINT),
+	D.requester_id,
+	D.supplier_id,
+	D.quotation_status_id,
+	D.quotation_request_date,
+	D.quotation_details,
+	D.quotation_attachments,
+	K.payment_reference,
+	K.reconciliation_reference,
+	CAST(L.purchase_transaction_id AS VARCHAR),
+	D.shipping_cost,
+	D.sub_total,
+	D.total,
+	D.from_establishment_name,
+	D.to_establishment_name,
+	CASE WHEN (SELECT COUNT(*) FROM complaint P WHERE P.quotation_id = D.quotation_id) > 0 THEN 1 ELSE 0 END AS out_has_related_complaints,
+	D.ship_to_address,
+	D.bill_to_address,
+	D.supplier_address,
+	K.payment_method,
+	R.establishment_email,
+	M.establishment_email,
+	R.contact_number,
+	M.contact_number
+	FROM	quotation AS D
+	LEFT JOIN purchase AS K ON K.quotation_id = D.quotation_id
+	LEFT JOIN purchase_transaction AS L ON L.purchase_id = K.purchase_id
+	LEFT JOIN establishment AS R ON R.establishment_id = (SELECT factory_est_id FROM factory WHERE owner_id = D.supplier_id)
+	LEFT JOIN establishment AS M ON M.establishment_id = (SELECT retailstore_est_id FROM retailstore WHERE owner_id = D.requester_id)
+	
+	WHERE D.quotation_id = in_quotation_id;
+END;
+$$ LANGUAGE plpgsql;

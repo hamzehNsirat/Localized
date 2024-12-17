@@ -532,6 +532,12 @@ module.exports = {
     message: "industryType is Mandatory",
     errorCode: "E0087",
   },
+  E0088: {
+    errorDescription: "Fetch Failure",
+    statusCode: 400,
+    message: "Fetching Quotation List failed",
+    errorCode: "E0088",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,
