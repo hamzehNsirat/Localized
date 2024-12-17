@@ -13,7 +13,9 @@ router.post("/get", validateToken, controller.getSingleUser);
 router.post("/update", validateToken, controller.updateSingleUser);
 router.post("/delete", validateToken, controller.deleteUser);
 // Admin Routes
+router.post("/search", validateToken, controller.searchUser);
 router.post("/getall", validateToken, controller.getUserList);
 router.post("/reviewuser", validateToken, controller.reviewUser);
+router.post("/getalldata", validateToken, controller.getUserAllData);
 
 module.exports = router;

@@ -95,6 +95,19 @@ const Application = {
     ]);
     return result[0]?.result || -1;
   },
+
+  // Search Application
+  async searchApplication(searchTerm, pageSize, pageIndex) {
+    const query = `
+            SELECT * FROM application_search($1, $2, $3)
+        `;
+    try {
+      return await executeQuery(query, [searchTerm, pageSize, pageIndex]);
+    } catch (error) {
+      console.error("Error in searchApplication:", error);
+      throw error;
+    }
+  },
 };
 
 module.exports = Application;

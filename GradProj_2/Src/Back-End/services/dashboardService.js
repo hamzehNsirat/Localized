@@ -19,7 +19,7 @@ const userService = require("../services/userService");
 const analyticsService = require("./analyticsService");
 
 const dashboardService = {
-  async getRetailerAllDetails(userId) {
+  async getRetailerAllDetails(userId, internalCaller = false) {
     const input = {
       userId: userId,
     };
@@ -38,7 +38,12 @@ const dashboardService = {
       await Retailer.calculateEstablishmentCompletionPercentage(
         retailerData[0].out_retailer_id
       );
-    const retailerInsights = await analytics.getRetailerAnalytics(userId);
+
+    let retailerInsights = {};
+    if (internalCaller == false) {
+       retailerInsights = await analytics.getRetailerAnalytics(userId);
+    }    
+
     // Consilidate Data and Format it
     const retailerDashboard = {
       userDetails: {
@@ -218,7 +223,7 @@ const dashboardService = {
       notificationList,
     };
   },
-  async getSupplierAllDetails(userId) {
+  async getSupplierAllDetails(userId, internalCaller = false) {
     const input = {
       userId: userId,
     };
@@ -239,8 +244,11 @@ const dashboardService = {
         supplierData[0].out_supplier_id
       );
 
-    const supplierInsights =
+    let supplierInsights = {};
+    if (internalCaller == false) {
+      supplierInsights =
       await analyticsService.getSupplierAnalytics(userId);
+    }    
 
     // Consilidate Data and Format it
     const supplierDashboard = {
@@ -416,13 +424,18 @@ const dashboardService = {
       success: true,
     };
   },
-  async getAdminAllDetails(userId) {
+  async getAdminAllDetails(userId, internalCaller = false) {
     const input = {
       userId: userId,
     };
     // Fetch Data from each table
     const basicData = await userService.getUserById(input);
-    const adminInsights = await analyticsService.getAdminstratorAnalytics(userId);
+    let adminInsights = {};
+    if(internalCaller == false)
+    {
+      adminInsights =
+      await analyticsService.getAdminstratorAnalytics(userId);
+    }    
 
     // Consilidate Data and Format it
     const adminDashboard = {
@@ -439,6 +452,9 @@ const dashboardService = {
         userPhone: basicData.userPhone,
         userAddress: basicData.userAddress,
         userImage: basicData.userImage,
+      },
+      adminDetails: {
+        AdminTaxIdentificationNumber: null
       },
       insights: adminInsights || "No Current Insights",
     };

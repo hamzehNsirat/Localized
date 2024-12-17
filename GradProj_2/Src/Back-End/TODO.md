@@ -3157,13 +3157,307 @@ if matching -> update password from payload if not -> handle error // Handled Be
         }
 ### PART 4 APPLICATION
 #### service: GET APPLICATION LIST
+- payload:
+    ```json
+    {
+        "pageSize": 3,
+        "pageIndex": 1
+    }
+- expected Response/s:
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "applicationList": {
+                "applicationItem": [
+                    {
+                        "id": "26",
+                        "establishmentName": "Smartech",
+                        "establishmentLogo": "http://localhost:5055/uploads/images/default-1733749653337-468698296.png",
+                        "status": "NEW"
+                    },
+                    {
+                        "id": "25",
+                        "establishmentName": "Smartech",
+                        "establishmentLogo": "http://localhost:5055/uploads/images/default-1733749653337-468698296.png",
+                        "status": "APPROVED"
+                    },
+                    {
+                        "id": "24",
+                        "establishmentName": "Smartech",
+                        "establishmentLogo": "http://localhost:5055/uploads/images/default-1733749653337-468698296.png",
+                        "status": "NEW"
+                    }
+                ]
+            }
+        }
+    }
 #### service: SEARCH BY ID / NAME PAGINATED
+
+- payload:
+    ```json
+    {
+        "searchTerm":"Sm",
+        "pageSize": 1,
+        "pageIndex": 1
+    }
+- expected Response/s:
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "applicationList": {
+                "applicationItem": [
+                    {
+                        "id": "26",
+                        "establishmentName": "Smartech",
+                        "establishmentLogo": "http://localhost:5055/uploads/images/default-1733749653337-468698296.png",
+                        "status": "NEW"
+                    }
+                ]
+            }
+        }
+    }
 #### service: GET APPLICATION BY ID : ADDTO:(APPLICATION DATE, REGISTRATION NUMBER)
-#### service: UPDATE APPLICATION STATUS
+
+- payload:
+    ```json
+    {
+        "applicationId": 19
+    }
+- expected Response/s:
+    ```json
+    `{
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "application": {
+                "id": "19",
+                "userType": 2,
+                "userEmail": "usr@mail.com",
+                "userPhoneNumber": "0795554490",
+                "establishmentName": "Sharekat al Dajaj",
+                "establishmentDescription": "",
+                "establihsmentCommercialRegistrationNumber": "124565",
+                "establishmentContactNumber": "0799998882",
+                "establishmentEmail": "est@mail.com",
+                "establishmentCity": "Amman",
+                "establishmentIndustryTypes": [
+                    "1",
+                    "2",
+                    "3"
+                ],
+                "establishmentLogo": null,
+                "applicationDate": "2024-12-02T16:34:31.787Z"
+            }
+        }
+    }
+#### service: UPDATE APPLICATION STATUS (Reject = Update DB, Approve = Signup, and then Update)
+
+- payload:
+    ```json
+    {
+        "applicationId": 29,
+        "status": "APPROVED"
+    }
+- expected Response/s:
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true
+        }
+    }
 #### service: CHECK REGISTRATION NUMBER
+
+- payload:
+    ```json
+    {
+        "establishmentCommercialRegistrationNumber": 129990003
+    }
+- expected Response/s:
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "isValid": true
+        }
+    }
+
 ### PART 5 USER
-#### service: SEARCH BY NAME, ID FOR USER PAGINATED (ID, FIRST/LAST NAME, IMAGE,STATUS, USERTYPE)
 #### service: GET USERS LIST (ID, FIRST/LAST NAME, IMAGE,STATUS, USERTYPE)
+- payload:
+    ```json
+    {
+        "pageSize":5,
+        "pageIndex":1
+    }
+- expected Response/s:
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "userList": {
+                "user": [
+                    {
+                        "userId": "2",
+                        "nationalNumber": "9991000631",
+                        "userType": "Retailer",
+                        "userStatus": "4",
+                        "firstName": "TestFRS",
+                        "middleName": "TestMDL",
+                        "lastName": "TestLST",
+                        "username": "TestUser1",
+                        "email": "",
+                        "phone": "0798889995",
+                        "dateOfBirth": "1989-12-31T21:00:00.000Z",
+                        "userAddress": "Amman, Abdali, 1st Street",
+                        "isEmailVerified": true,
+                        "userImage": null
+                    },
+                    {
+                        "userId": "3",
+                        "nationalNumber": "888877722",
+                        "userType": "Retailer",
+                        "userStatus": "1",
+                        "firstName": "in_first_name",
+                        "middleName": "",
+                        "lastName": "NSR",
+                        "username": "LocalizedUSRTest1",
+                        "email": "usr@mail.com",
+                        "phone": "0797708889",
+                        "dateOfBirth": "2023-12-31T21:00:00.000Z",
+                        "userAddress": "",
+                        "isEmailVerified": true,
+                        "userImage": null
+                    },
+                    {
+                        "userId": "4",
+                        "nationalNumber": "123456789",
+                        "userType": "Retailer",
+                        "userStatus": "3",
+                        "firstName": "Johnny",
+                        "middleName": "Doe",
+                        "lastName": "Smith",
+                        "username": "johndoe",
+                        "email": "dohn.doe@example.com",
+                        "phone": "1234567890",
+                        "dateOfBirth": "1989-12-31T21:00:00.000Z",
+                        "userAddress": "123 Main St",
+                        "isEmailVerified": true,
+                        "userImage": null
+                    },
+                    {
+                        "userId": "21",
+                        "nationalNumber": "4630870147",
+                        "userType": "Retailer",
+                        "userStatus": "2",
+                        "firstName": "Jane",
+                        "middleName": "A",
+                        "lastName": "Doe",
+                        "username": "janedoe",
+                        "email": "jane.doe@example.com",
+                        "phone": "5580189479",
+                        "dateOfBirth": "1984-12-31T21:00:00.000Z",
+                        "userAddress": "456 Another St",
+                        "isEmailVerified": false,
+                        "userImage": null
+                    },
+                    {
+                        "userId": "32",
+                        "nationalNumber": "7899008866",
+                        "userType": "Retailer",
+                        "userStatus": "2",
+                        "firstName": "John",
+                        "middleName": "Doe",
+                        "lastName": "Smith",
+                        "username": "johndoe87",
+                        "email": "john.doe7@example.com",
+                        "phone": "0787565148",
+                        "dateOfBirth": "1989-12-31T21:00:00.000Z",
+                        "userAddress": "123 Main St",
+                        "isEmailVerified": true,
+                        "userImage": null
+                    }
+                ]
+            }
+        }
+    }
+#### service: SEARCH BY NAME, ID FOR USER PAGINATED (ID, FIRST/LAST NAME, IMAGE,STATUS, USERTYPE)
+- payload:
+    ```json
+    {
+        "searchTerm":"Moh",
+        "pageSize":5,
+        "pageIndex":1
+    }
+- expected Response/s:
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "userList": {
+                "user": [
+                    {
+                        "userId": "192",
+                        "nationalNumber": null,
+                        "userType": "Retailer",
+                        "userStatus": "1",
+                        "firstName": "Mohammad",
+                        "middleName": null,
+                        "lastName": "Abuayyash",
+                        "username": "ret@1234",
+                        "email": "moh20200560@std.psut.edu.jo",
+                        "phone": "0797857727",
+                        "dateOfBirth": null,
+                        "userAddress": null,
+                        "isEmailVerified": true,
+                        "userImage": null
+                    }
+                ]
+            }
+        }
+    }
 #### service: VIEW USER DATA:
 - ADMIN: FULL NAME, USERNAME, EMAIL, ADDRESS, NATIONALNUMBER, TAXNUMBER:NULL,PHONENUMBER, DOB, USETYPE, IMAGE
 - SUPPLIER: 
@@ -3176,9 +3470,9 @@ if matching -> update password from payload if not -> handle error // Handled Be
     - COMPANY NAME, DESCRIPTION, EMAIL,REGISTRATION NUMBER, WEBSITE, CONTACT NUMBER, REGISTRATION DATE, ESTABLISHMENT TYPE
     - CITY, BUILDING NO, ST ADDRESS, BANCK ACC NUM, IBAN
     - ESTABLISHMENT LOGO
-#### service: BASED ON TYPE UPDATE USER DATA & ESTABLISHMENT & SUPPLIER/RETAILER
 #### service: UPDATE USER STATUS
 #### service: ADD USER -> SIGNUP
+#### service: BASED ON TYPE UPDATE USER DATA & ESTABLISHMENT & SUPPLIER/RETAILER -- Postponed
 ### PART 6 QUOTATION
 #### service: GET QUOTATIONS LIST PAGINATED (ID, RETAILSTORE LOGO, RETAILSTORE NAME, STATUS)
 #### service: SEARCH QUOTATIONS BY ID NAME LIST PAGINATED (ID, RETAILSTORE LOGO, RETAILSTORE NAME, STATUS)

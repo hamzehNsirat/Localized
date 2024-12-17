@@ -520,6 +520,12 @@ module.exports = {
     message: "Fetching Administrator Details failed",
     errorCode: "E0085",
   },
+  E0086: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "searchTerm, pageSize and pageIndex are Mandatory",
+    errorCode: "E0086",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,

@@ -118,6 +118,29 @@ const getApplicationsList = async (req, res) => {
     return errorHandler.handleError(res, "E0024");
   }
 };
+const searchApplications = async (req, res) => {
+  try {
+    if (
+      req.body.searchTerm == null ||
+      req.body.pageSize  == null ||
+      req.body.pageIndex == null ||
+      req.body.pageIndex <= 0
+    ) {
+      return errorHandler.handleError(res, "E0086");
+    }
+    const result = await authService.searchApplications(
+      req.body.searchTerm,
+      req.body.pageSize,
+      req.body.pageIndex
+    );
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0039", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0039");
+  }
+};
 const getApplicationById = async (req, res) => {
   try {
     if (
@@ -257,4 +280,5 @@ module.exports = {
   requestPasswordReset,
   resetPassword,
   checkEstablishmentEligibility,
+  searchApplications,
 };

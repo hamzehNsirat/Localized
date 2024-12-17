@@ -144,7 +144,7 @@ const authService = {
         establishmentData.lastModifiedBy = newUserId;
         const establishmentResult =
           await Establishment.insertEstablishment(establishmentData);
-          if (
+        if (
           !establishmentResult[0].out_establishment_id ||
           establishmentResult[0].out_establishment_id == -1
         ) {
@@ -412,6 +412,40 @@ const authService = {
       throw error;
     }
   },
+  async searchApplications(searchTerm, pageSize, pageIndex) {
+    try {
+      console.log(applicationResult);
+      const applicationResult = await applicationModel.searchApplication(
+        searchTerm,
+        pageSize,
+        pageIndex
+      );
+      console.log(applicationResult);
+      if (!applicationResult) {
+        return {
+          success: false,
+          error: "Unable to Search Applications",
+        };
+      }
+      const applicationList = { applicationItem: [] };
+      for (let i = 0; i < applicationResult.length; i++) {
+        const applicationItem = {};
+        applicationItem.id = applicationResult[i].out_application_id;
+        applicationItem.establishmentName =
+          applicationResult[i].out_establishment_name;
+        applicationItem.establishmentLogo =
+          applicationResult[i].out_establishment_logo;
+        applicationItem.status = applicationResult[i].out_application_status;
+        applicationList.applicationItem.push(applicationItem);
+      }
+      return {
+        success: true,
+        applicationList: applicationList,
+      };
+    } catch (error) {
+      throw error;
+    }
+  },
   async getApplicationById(applicationId) {
     try {
       const applicationResult =
@@ -436,7 +470,7 @@ const authService = {
             applicationResult[0].out_establishment_description,
           establihsmentCommercialRegistrationNumber:
             applicationResult[0]
-              .out_establishment_commercial_registration_number,
+              .out_establishment_commercial_registration_num,
           establishmentContactNumber:
             applicationResult[0].out_establishment_contact_number,
           establishmentEmail: applicationResult[0].out_establishment_email,
@@ -446,6 +480,7 @@ const authService = {
           establishmentIndustryTypes:
             applicationResult[0].out_establishment_industry_type_spec,
           establishmentLogo: applicationResult[0].out_establishment_logo,
+          applicationDate: applicationResult[0].out_application_request_date,
         },
       };
     } catch (error) {
@@ -454,6 +489,79 @@ const authService = {
   },
   async updateApplicationStatus(userData) {
     try {
+
+      if(userData.status === "APPROVED") {
+          const fetchApplicationDb = await applicationModel.getApplicationById(
+            userData.applicationId
+          );
+          let inputData = {};
+          if(fetchApplicationDb[0].out_user_type === 1)
+          {
+            inputData = {
+              user: {
+                userType:  fetchApplicationDb[0].out_user_type,
+                firstName: fetchApplicationDb[0].out_user_first_name,
+                lastName: fetchApplicationDb[0].out_user_last_name,
+                userName: fetchApplicationDb[0].out_user_name,
+                userEmail: fetchApplicationDb[0].out_user_email,
+                userPassword: fetchApplicationDb[0].out_user_password,
+                userPhoneNumber: fetchApplicationDb[0].out_user_phone_number,
+              },
+            };
+          }
+          else
+          {
+            inputData = {
+              user: {
+                userType: fetchApplicationDb[0].out_user_type,
+                firstName: fetchApplicationDb[0].out_user_first_name,
+                lastName: fetchApplicationDb[0].out_user_last_name,
+                userName: fetchApplicationDb[0].out_user_name,
+                userEmail: fetchApplicationDb[0].out_user_email,
+                userPassword: fetchApplicationDb[0].out_user_password,
+                userPhoneNumber: fetchApplicationDb[0].out_user_phone_number,
+              },
+              establishment: {
+                industryType:
+                  fetchApplicationDb[0].out_establishment_industry_type_spec,
+                establishmentName: fetchApplicationDb[0].out_establishment_name,
+                commercialRegistrationNum:
+                  fetchApplicationDb[0]
+                    .out_establishment_commercial_registration_num,
+                contactNumber:
+                  fetchApplicationDb[0].out_establishment_contact_number,
+                establishmentEmail:
+                  fetchApplicationDb[0].out_establishment_email,
+                establishmentWebsite: null,
+                establishmentDescription:
+                  fetchApplicationDb[0].out_establishment_description,
+                establishmentType:
+                  fetchApplicationDb[0].out_user_type === "2" ? true : false,
+                establishmentCity: fetchApplicationDb[0].out_establishment_city,
+                establishmentStreet:
+                  fetchApplicationDb[0].out_establishment_street,
+                establishmentBuildingNum:
+                  fetchApplicationDb[0].out_establishment_building_num,
+                establishmentLogo: fetchApplicationDb[0].out_establishment_logo,
+                establishmentCover: null,
+              },
+            };
+          }
+
+          const signupRes = await this.registerUser(
+            inputData.user,
+            inputData.establishment
+          );
+
+          if (signupRes.success != true) {
+            return {
+              success: false,
+              error: "Unable to Create User in Database",
+            };
+          }
+            
+      };
+
       const applicationResult = await applicationModel.updateApplicationStatus(
         userData.applicationId,
         userData.status
@@ -478,7 +586,7 @@ const authService = {
         "SELECT COUNT(*) AS is_in_db, user_id FROM user_localized WHERE user_email = $1  GROUP BY USER_ID",
         [email]
       );
-      if (user[0].is_in_db == '0') {
+      if (user[0].is_in_db == "0") {
         return {
           success: false,
           error: "Email not registered",
@@ -489,7 +597,6 @@ const authService = {
       const resetToken = crypto.randomBytes(32).toString("hex");
       const now = new Date();
       const localExpiry = new Date(now.getTime() + 3600000); // Add 1 hour in milliseconds
-
 
       // Save the token to the database
       await executeQuery(
@@ -511,7 +618,8 @@ const authService = {
         notifiedUserId: user[0].user_id,
         notificationPriority: 2,
         notificationSubject: "Change Password Requested",
-        notificationDetails: "you Requested to Change your Password, kindly contact us if this was not you",
+        notificationDetails:
+          "you Requested to Change your Password, kindly contact us if this was not you",
         lastModifiedBy: 1,
       };
       await Notification.insertNotification(notificationData);
@@ -525,45 +633,43 @@ const authService = {
     }
   },
   async resetPassword(token, newPassword) {
-  try {
-    // Check if the token is valid and not expired
-    const user = await executeQuery(
-      "SELECT count(*) AS db_res, user_id FROM user_localized WHERE reset_password_token = $1 AND reset_password_expires > NOW()  GROUP BY USER_ID",
-      [token]
-    );
+    try {
+      // Check if the token is valid and not expired
+      const user = await executeQuery(
+        "SELECT count(*) AS db_res, user_id FROM user_localized WHERE reset_password_token = $1 AND reset_password_expires > NOW()  GROUP BY USER_ID",
+        [token]
+      );
 
-    if (user[0].db_res == '0') {
+      if (user[0].db_res == "0") {
         return {
           success: false,
-          error: "Invalid or expired reset token"
+          error: "Invalid or expired reset token",
         };
+      }
+
+      // Update the user's password and clear the reset token
+      await executeQuery(
+        "UPDATE user_localized SET user_password = $1, reset_password_token = NULL, reset_password_expires = NULL, is_pass_change = true WHERE reset_password_token = $2",
+        [newPassword, token]
+      );
+      notificationData = {
+        notificationType: 4,
+        notifiedUserId: user[0].user_id,
+        notificationPriority: 4,
+        notificationSubject: "Password Changed",
+        notificationDetails: "Password Changed Successfully",
+        lastModifiedBy: 1,
+      };
+      await Notification.insertNotification(notificationData);
+
+      return {
+        success: true,
+      };
+    } catch (error) {
+      console.error("Error resetting password:", error.message);
+      throw error;
     }
-
-
-    // Update the user's password and clear the reset token
-    await executeQuery(
-      "UPDATE user_localized SET user_password = $1, reset_password_token = NULL, reset_password_expires = NULL, is_pass_change = true WHERE reset_password_token = $2",
-      [newPassword, token]
-    );
-    notificationData = {
-      notificationType: 4,
-      notifiedUserId: user[0].user_id,
-      notificationPriority: 4,
-      notificationSubject: "Password Changed",
-      notificationDetails:
-        "Password Changed Successfully",
-      lastModifiedBy: 1,
-    };
-    await Notification.insertNotification(notificationData);
-
-    return {
-      success: true,
-    };
-  } catch (error) {
-    console.error("Error resetting password:", error.message);
-    throw error;
-  }
-  }
+  },
 };
 
 module.exports = authService;

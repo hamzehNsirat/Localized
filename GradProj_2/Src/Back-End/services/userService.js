@@ -3,7 +3,7 @@ const userModel = require("../models/User");
 const logDBModel = require('../models/Log'); 
 const usrReviewModel = require("../models/UserReview"); 
 const Notification = require("../models/Notification");
-
+const dashboardService = require("./dashboardService");
 const userService = {
   async getUserById(userData) {
     // Fetch user details by user ID
@@ -35,7 +35,24 @@ const userService = {
       userAddress: dbFetch[0].user_address,
       userImage: dbFetch[0].user_image,
     };
+
   },
+  async getUserAllData(userId, userType) {
+    let result = {};
+    if (userType === "1") {
+      result = await dashboardService.getAdminAllDetails(userId,true);
+    } else if (userType === "2") {
+      result = await dashboardService.getRetailerAllDetails(userId, true);
+    } else if (userType === "3") {
+      result = await dashboardService.getSupplierAllDetails(userId, true);
+    }
+
+    return {
+      success: true,
+      userData: result,
+    };
+  },
+
   async updateUser(userData) {
     // Update user details
     if (userData.userPassword != null) {
@@ -68,7 +85,6 @@ const userService = {
     };
     await Notification.insertNotification(notificationData);
 
-    
     return {
       success: true,
     };
@@ -93,16 +109,7 @@ const userService = {
 
       userObject.userId = item.user_id;
       userObject.nationalNumber = item.national_number;
-
-      // Map user_type to userType string
-      if (item.user_type === 1) {
-        userObject.userType = "Admin";
-      } else if (item.user_type === 2) {
-        userObject.userType = "Supplier";
-      } else {
-        userObject.userType = "Retailer";
-      }
-
+      userObject.userType = item.user_type;
       userObject.userStatus = item.user_status;
       userObject.firstName = item.first_name;
       userObject.middleName = item.middle_name;
@@ -123,6 +130,44 @@ const userService = {
       userList: userList,
     };
   },
+  async searchUsers(searchTerm, pageSize, pageIndex) {
+    const dbFetchList = await userModel.search(searchTerm, pageSize, pageIndex);
+    if (!dbFetchList[0]) {
+      return {
+        success: false,
+        error: "Unable to Fetch Results from Database",
+      };
+    }
+    const userList = { user: [] };
+
+    for (let i = 0; i < dbFetchList.length; i++) {
+      const item = dbFetchList[i]; // Fetch the current item once
+      const userObject = {}; // Create a new object for each user
+
+      userObject.userId = item.user_id;
+      userObject.nationalNumber = item.national_number;
+      userObject.userType = item.user_type;
+      userObject.userStatus = item.user_status;
+      userObject.firstName = item.first_name;
+      userObject.middleName = item.middle_name;
+      userObject.lastName = item.last_name;
+      userObject.username = item.user_name;
+      userObject.email = item.user_email;
+      userObject.phone = item.user_phone_number;
+      userObject.dateOfBirth = item.date_of_birth;
+      userObject.userAddress = item.user_address;
+      userObject.isEmailVerified = item.is_email_verified;
+      userObject.userImage = item.user_image;
+
+      // Add the userObject to the user array
+      userList.user.push(userObject);
+    }
+    return {
+      success: true,
+      userList: userList,
+    };
+  },
+
   async reviewUser(userData) {
     // Update user details
     const dbUpdate = await userModel.updateStatus(userData);

@@ -39,4 +39,15 @@ router.post(
   validateToken,
   controller.updateApplicationStatus
 );
+router.post(
+  "/getapplicationbyid",
+  validateToken,
+  controller.getApplicationById
+);
+router.post(
+  "/searchapplications",
+  validateToken,
+  controller.searchApplications
+);
+
 module.exports = router;

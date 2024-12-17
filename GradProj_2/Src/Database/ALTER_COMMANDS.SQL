@@ -3559,4 +3559,57 @@ EXCEPTION WHEN OTHERS THEN
     RETURN -1;
 END;
 $$ LANGUAGE plpgsql;
+-----------------------------------------------------------------------------
+-- 17-12-2024
+DROP FUNCTION application_get_by_id;
+-- GET APPLICATION DATA
+CREATE OR REPLACE FUNCTION application_get_by_id(IN in_application_id BIGINT)
+RETURNS TABLE(	
+        out_application_id BIGINT,
+        out_user_first_name VARCHAR,
+        out_user_last_name VARCHAR,
+        out_user_name VARCHAR,
+        out_user_email VARCHAR,
+        out_user_password  VARCHAR,
+        out_user_phone_number VARCHAR,
+        out_establishment_name TEXT,
+        out_establishment_contact_number VARCHAR,
+        out_establishment_email VARCHAR,
+        out_establishment_description TEXT,
+        out_establishment_commercial_registration_num BIGINT,
+        out_establishment_city VARCHAR,
+        out_establishment_street VARCHAR,
+        out_establishment_building_num VARCHAR,
+        out_establishment_industry_type_spec    BIGINT[],
+        out_establishment_logo       TEXT,
+        out_user_type INT,
+		out_application_request_date TIMESTAMP
+) 
+AS $$
+BEGIN
+    RETURN QUERY 
+	SELECT 
+		CAST(application_id AS BIGINT),
+        user_first_name ,
+        user_last_name ,
+        user_name ,
+        user_email ,
+        user_password  ,
+        user_phone_number ,
+        establishment_name ,
+        establishment_contact_number ,
+        establishment_email ,
+        establishment_description ,
+        establishment_commercial_registration_num ,
+        establishment_city ,
+        establishment_street ,
+        establishment_building_num ,
+        establishment_industry_type_spec    ,
+        establishment_logo,
+        user_type,
+		creation_date
 
+	FROM application
+    WHERE CAST(application_id AS BIGINT) = in_application_id;
+END;
+$$ LANGUAGE plpgsql;

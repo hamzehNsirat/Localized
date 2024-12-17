@@ -851,3 +851,85 @@ WHEN OTHERS THEN
     context: %',  v_state, v_msg, v_detail, v_hint, v_context;
 END;
 $$ LANGUAGE plpgsql;
+--------------------------------------------------------------
+-- SP NO.:#16, 
+-- Complexity: MODERATE,
+-- Creation Data: 17122024,
+-- Desc: Search Applications By Name,ID
+-- NodeJS Model: Applicattion
+-- SEARCH ALL APPLICATIONS
+CREATE OR REPLACE FUNCTION application_search(IN search_term TEXT, IN page_size INTEGER, IN page_index INTEGER)
+RETURNS TABLE(	
+		out_application_id 		BIGINT,
+		out_establishment_name  TEXT,
+		out_establishment_logo  TEXT,
+		out_application_status  VARCHAR
+) 
+AS $$
+BEGIN
+    RETURN QUERY 
+	SELECT 
+		CAST(application_id AS BIGINT),
+		establishment_name,
+		establishment_logo,
+		application_status
+	FROM application
+	WHERE 
+		CAST(application_id AS TEXT) = search_term
+	OR	
+		CAST(establishment_name AS TEXT) LIKE '%' || search_term || '%'
+    ORDER BY application_id DESC
+	LIMIT page_size
+	OFFSET ((page_index - 1) * page_size) ;
+END;
+$$ LANGUAGE plpgsql;
+--------------------------------------------------------------------
+-- SP NO.:#16, 
+-- Complexity: MODERATE,
+-- Creation Data: 17122024,
+-- Desc: Search Users By Name,ID
+-- NodeJS Model: User
+-- SEARCH ALL USERS
+CREATE OR REPLACE FUNCTION user_search(IN search_term TEXT, IN in_page_size INT, in_page_index INT)
+RETURNS TABLE (		
+		user_id BIGINT,
+		national_number BIGINT,
+		user_type    	BIGINT,
+		user_status  	BIGINT,
+		first_name 		VARCHAR,
+		middle_name 	VARCHAR,
+		last_name 		VARCHAR,
+		date_of_birth  	DATE,
+		user_name 		VARCHAR,
+		user_address 	TEXT,
+		user_email 		VARCHAR,
+		is_email_verified BOOLEAN,
+		user_phone_number VARCHAR,
+    user_image TEXT
+) AS $$
+BEGIN
+    RETURN QUERY 
+	SELECT
+		CAST(D.user_id AS BIGINT),
+		D.national_number,
+		D.user_type,
+		D.user_status,
+		D.first_name,
+		D.middle_name,
+		D.last_name,
+		D.date_of_birth,
+		D.user_name_lclzd,
+		D.user_address,
+		D.user_email,
+		D.is_email_verified,
+		D.user_phone_number,
+    D.user_image
+	FROM user_localized AS D
+	WHERE CAST(D.user_id AS TEXT) = search_term
+	OR CAST(D.first_name AS TEXT) LIKE '%' || search_term || '%'
+	OR CAST(D.middle_name AS TEXT)LIKE '%' || search_term || '%'
+	OR CAST(D.last_name AS TEXT)  LIKE '%' || search_term || '%'
+	LIMIT in_page_size
+	OFFSET ((in_page_index - 1) * in_page_size) ;
+END;
+$$ LANGUAGE plpgsql;

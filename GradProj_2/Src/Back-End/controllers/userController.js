@@ -54,6 +54,28 @@ const getUserList = async (req, res) => {
   }
 };
 
+const searchUser = async (req, res) => {
+  try {
+    if (
+      req.body.searchTerm == null ||
+      req.body.pageSize == null ||
+      req.body.pageIndex == null
+    ) {
+      return errorHandler.handleError(res, "E0086");
+    }
+    const result = await userService.searchUsers(
+      req.body.searchTerm,
+      req.body.pageSize,
+      req.body.pageIndex
+    );
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0011", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0011", error.message);
+  }
+};
 const reviewUser = async (req, res) => {
   try {
     if (req.body.userStatus == null) {
@@ -88,10 +110,26 @@ const deleteUser = async (req, res) => {
     return errorHandler.handleError(res, "E0018", error.message);
   }
 };
+
+const getUserAllData = async (req, res) => {
+  try {
+    const result = await userService.getUserAllData(req.body.userId, req.body.userType);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0011", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0010", error.message);
+  }
+};
+
+
 module.exports = {
   getSingleUser,
   updateSingleUser,
   getUserList,
   reviewUser,
   deleteUser,
+  searchUser,
+  getUserAllData,
 };
