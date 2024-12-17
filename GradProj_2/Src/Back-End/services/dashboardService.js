@@ -1,10 +1,11 @@
-// Contains Dashboard-related logic.
+// Contains Dashboard-related logic. 
 const Establishment = require("../models/Establishment");
 const Supplier = require("../models/Supplier");
-const Retailer = require("../models/retailer");
 const Admin = require("../models/Adminstrator");
 const Factory = require("../models/Factory");
+const Retailer = require("../models/retailer"); 
 const RetailStore = require("../models/RetailStore");
+
 const logDBModel = require("../models/Log");
 const Notification = require("../models/Notification");
 const analytics = require("./analyticsService");

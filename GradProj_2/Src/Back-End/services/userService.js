@@ -1,9 +1,13 @@
 // Conatins User Related Logic (Get/GetList/Update/Delete)
 const userModel = require("../models/User");
-const logDBModel = require('../models/Log'); 
-const usrReviewModel = require("../models/UserReview"); 
+const logDBModel = require("../models/Log");
+const usrReviewModel = require("../models/UserReview");
 const Notification = require("../models/Notification");
-const dashboardService = require("./dashboardService");
+const Supplier = require("../models/Supplier");
+const Retailer = require("../models/retailer"); 
+const Establishment = require("../models/Establishment");
+const RetailStore = require("../models/RetailStore");
+const Factory = require("../models/Factory");
 const userService = {
   async getUserById(userData) {
     // Fetch user details by user ID
@@ -35,16 +39,174 @@ const userService = {
       userAddress: dbFetch[0].user_address,
       userImage: dbFetch[0].user_image,
     };
-
   },
   async getUserAllData(userId, userType) {
+    const input = {
+      userId: userId
+    };
     let result = {};
     if (userType === "1") {
-      result = await dashboardService.getAdminAllDetails(userId,true);
+      const basicData = await this.getUserById(input);
+      // Consilidate Data and Format it
+      result = {
+        userDetails: {
+          nationalNumber: basicData.nationalNumber,
+          userName: basicData.userName,
+          userType: basicData.userType,
+          userStatus: basicData.userStatus,
+          firstName: basicData.firstName,
+          middleName: basicData.middleName,
+          lastName: basicData.lastName,
+          dateOfBirth: basicData.dateOfBirth,
+          userEmail: basicData.userEmail,
+          userPhone: basicData.userPhone,
+          userAddress: basicData.userAddress,
+          userImage: basicData.userImage,
+        },
+        adminDetails: {
+          adminTaxIdentificationNumber: null,
+        },
+      };
     } else if (userType === "2") {
-      result = await dashboardService.getRetailerAllDetails(userId, true);
+      // Fetch Data from each table
+      const basicData = await this.getUserById(input);
+      const retailerData = await Retailer.getRetailerByUserId(userId);
+      const retailStoreData = await RetailStore.getOwnedRetailStores(
+        retailerData[0].out_retailer_id
+      );
+      const establishmentData = await Establishment.getEstablishmentById(
+        retailStoreData[0].retailstore_est_id
+      );
+      result = {
+        userDetails: {
+          nationalNumber: basicData.nationalNumber,
+          userName: basicData.userName,
+          userType: basicData.userType,
+          userStatus: basicData.userStatus,
+          firstName: basicData.firstName,
+          middleName: basicData.middleName,
+          lastName: basicData.lastName,
+          dateOfBirth: basicData.dateOfBirth,
+          userEmail: basicData.userEmail,
+          userPhone: basicData.userPhone,
+          userAddress: basicData.userAddress,
+          userImage: basicData.userImage,
+        },
+        retailerDetails: {
+          retailerId: retailerData[0].out_retailer_id,
+          retailerTaxIdentificationNumber:
+            retailerData[0].out_retailer_tax_identification_num,
+          retailerBankAccountNumber:
+            retailerData[0].out_retailer_bank_account_num,
+          retailerIBAN: retailerData[0].out_retailer_iban,
+          retailerComplianceIndicator:
+            retailerData[0].out_retailer_compliance_indicator,
+          retailerComplaintCount: retailerData[0].out_retailer_complaint_count,
+        },
+        retailStoreDetails: {
+          retailStoreId:
+            retailStoreData[0].retailstore_est_id +
+            "-" +
+            retailerData[0].out_retailer_id,
+        },
+        establishmentDetails: {
+          establishmentName: establishmentData[0].out_establishment_name,
+          establishmentIndustryType: establishmentData[0].out_industry_type,
+          establishmentStatus: establishmentData[0].out_establishment_status,
+          establishmentCommercialRegistrationNumber:
+            establishmentData[0].out_commercial_registration_num,
+          establishmentRegistrationDate:
+            establishmentData[0].out_establishment_registration_date,
+          establishmentCommercialRegistrationNumber:
+            establishmentData[0].out_commercial_registration_num,
+          establishmentContactNumber: establishmentData[0].out_contact_number,
+          establishmentEmail: establishmentData[0].out_establishment_email,
+          establishmentWebsite: establishmentData[0].out_establishment_website,
+          establishmentDescription:
+            establishmentData[0].out_establishment_description,
+          establishmentType: establishmentData[0].out_establishment_type,
+          establishmentCity: establishmentData[0].out_establishment_city,
+          establishmentStreet: establishmentData[0].out_establishment_street,
+          establishmentBuildingNumber:
+            establishmentData[0].out_establishment_building_num,
+          establishmentLogo: establishmentData[0].out_establishment_logo,
+          establishmentCover: establishmentData[0].out_establishment_cover,
+          establishmentComplianceIndicator:
+            establishmentData[0].out_est_compliance_indicator,
+          establishmentComplianceIndicatorDescription:
+            establishmentData[0].out_est_compliance_indicator_desc,
+        },
+      };
     } else if (userType === "3") {
-      result = await dashboardService.getSupplierAllDetails(userId, true);
+      // Fetch Data from each table
+      const basicData = await this.getUserById(input);
+      const supplierData = await Supplier.getSupplierByUser(userId);
+      const factoryData = await Factory.getOwnedFactories(
+        supplierData[0].out_supplier_id
+      );
+      const establishmentData = await Establishment.getEstablishmentById(
+        factoryData[0].factory_est_id
+      );
+      result = {
+        userDetails: {
+          nationalNumber: basicData.nationalNumber,
+          userName: basicData.userName,
+          userType: basicData.userType,
+          userStatus: basicData.userStatus,
+          firstName: basicData.firstName,
+          middleName: basicData.middleName,
+          lastName: basicData.lastName,
+          dateOfBirth: basicData.dateOfBirth,
+          userEmail: basicData.userEmail,
+          userPhone: basicData.userPhone,
+          userAddress: basicData.userAddress,
+          userImage: basicData.userImage,
+        },
+        supplierDetails: {
+          supplierId: supplierData[0].out_supplier_id,
+          supplierTaxIdentificationNumber:
+            supplierData[0].out_supplier_tax_identification_num,
+          supplierBankAccountNumber:
+            supplierData[0].out_supplier_bank_account_num,
+          supplierIBAN: supplierData[0].out_supplier_iban,
+          supplierComplianceIndicator:
+            supplierData[0].out_supplier_compliance_indicator,
+          supplierComplaintCount: supplierData[0].out_supplier_complaint_count,
+        },
+        factoryDetails: {
+          factoryId:
+            factoryData[0].factory_est_id +
+            "-" +
+            supplierData[0].out_supplier_id,
+        },
+        establishmentDetails: {
+          establishmentName: establishmentData[0].out_establishment_name,
+          establishmentIndustryType: establishmentData[0].out_industry_type,
+          establishmentStatus: establishmentData[0].out_establishment_status,
+          establishmentCommercialRegistrationNumber:
+            establishmentData[0].out_commercial_registration_num,
+          establishmentRegistrationDate:
+            establishmentData[0].out_establishment_registration_date,
+          establishmentCommercialRegistrationNumber:
+            establishmentData[0].out_commercial_registration_num,
+          establishmentContactNumber: establishmentData[0].out_contact_number,
+          establishmentEmail: establishmentData[0].out_establishment_email,
+          establishmentWebsite: establishmentData[0].out_establishment_website,
+          establishmentDescription:
+            establishmentData[0].out_establishment_description,
+          establishmentType: establishmentData[0].out_establishment_type,
+          establishmentCity: establishmentData[0].out_establishment_city,
+          establishmentStreet: establishmentData[0].out_establishment_street,
+          establishmentBuildingNumber:
+            establishmentData[0].out_establishment_building_num,
+          establishmentLogo: establishmentData[0].out_establishment_logo,
+          establishmentCover: establishmentData[0].out_establishment_cover,
+          establishmentComplianceIndicator:
+            establishmentData[0].out_est_compliance_indicator,
+          establishmentComplianceIndicatorDescription:
+            establishmentData[0].out_est_compliance_indicator_desc,
+        },
+      };
     }
 
     return {

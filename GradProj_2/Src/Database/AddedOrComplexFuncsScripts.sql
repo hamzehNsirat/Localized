@@ -680,7 +680,7 @@ $$ LANGUAGE plpgsql;
 -- NodeJS Model: Supplier
 CREATE OR REPLACE FUNCTION supplier_get_by_user(IN in_user_id BIGINT)
 RETURNS TABLE(		
-	out_supplier_user_id    BIGINT,
+	out_supplier_id    BIGINT,
 	out_supplier_tax_identification_num    VARCHAR,
 	out_supplier_bank_account_num    VARCHAR,
 	out_supplier_iban    VARCHAR,
