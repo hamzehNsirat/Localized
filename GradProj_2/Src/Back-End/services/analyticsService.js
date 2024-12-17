@@ -634,6 +634,7 @@ const analyticsService = {
 
     const reviewObj = await executeQuery(
       `SELECT 
+    COUNT(*) AS count,
     COUNT(*) FILTER (WHERE rating_type = FALSE) AS negative_ratings,
     COUNT(*) FILTER (WHERE rating_type = TRUE) AS positive_ratings
     FROM review 
@@ -642,6 +643,7 @@ const analyticsService = {
       [supplierId[0].supplier_id]
     );
 
+    console.log(reviewObj);
     const complaintsObj = await executeQuery(
     `WITH complaints_data AS (
     SELECT
@@ -831,8 +833,12 @@ const analyticsService = {
       purchaseList: purchaseList || null,
       customerList: customerList,
       review: {
-        positiveCount: reviewObj[0].positive_ratings || 0,
-        negativeCount: reviewObj[0].negative_ratings || 0,
+        positivePercentage:
+          (reviewObj[0].positive_ratings / (reviewObj[0].count ?? 1)) * 100 ||
+          0,
+        negativePercentage:
+          (reviewObj[0].negative_ratings / (reviewObj[0].count ?? 1)) * 100 ||
+          0,
       },
       issuesReportedObj: {
         total: issuesReportedCount[0].issues_reported || 0,
