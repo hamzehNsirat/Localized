@@ -159,6 +159,58 @@ const getComplaintsSupplier = async (req, res) => {
     return errorHandler.handleError(res, "E0080");
   }
 };
+
+const getComplaintsList = async (req, res) => {
+  try {
+    if (
+      req.body.pageSize == null ||
+      req.body.pageIndex == null
+    ) {
+      return errorHandler.handleError(res, "E0013");
+    }
+    const result = await platformCompService.getComplaintsList(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0080", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0080");
+  }
+};
+const searchComplaints = async (req, res) => {
+  try {
+    if (
+      req.body.searchTerm == null ||
+      req.body.pageSize   == null ||
+      req.body.pageIndex  == null
+    ) {
+      return errorHandler.handleError(res, "E0086");
+    }
+    const result = await platformCompService.getComplaintsList(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0039", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0039");
+  }
+};
+const updateComplaint = async (req, res) => {
+  try {
+    if (
+      req.body.complaintId == null 
+    ) {
+      return errorHandler.handleError(res, "E0057");
+    }
+    const result = await platformCompService.updateComplaint(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0090", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0090");
+  }
+};
 module.exports = {
   submitReview,
   getComplaintsRetailer,
@@ -168,4 +220,7 @@ module.exports = {
   getComplaintTypes,
   createComplaint,
   getComplaintsSupplier,
+  getComplaintsList,
+  searchComplaints,
+  updateComplaint,
 };

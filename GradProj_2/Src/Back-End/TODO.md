@@ -1581,8 +1581,6 @@ front end level
                         "message": "User successfully logged out"
                     }
                 }
-
-
 ## SUPPLIER PART  [COMPLETION PERCENTAGE: 100%]
 ### PART 1 Signup
 #### service: check user name is already in database
@@ -2970,8 +2968,7 @@ frontend level
             "message": "User successfully logged out"
         }
     }
-
-## ADMINSTRATOR PART  [COMPLETION PERCENTAGE:54%]
+## ADMINSTRATOR PART  [COMPLETION PERCENTAGE:90%]
 ### PART 1 Signup
 #### service: check user name is already in database
 - payload:
@@ -3777,23 +3774,279 @@ if matching -> update password from payload if not -> handle error // Handled Be
     }
 ### PART 7 COMPLAINT
 #### service: GET COMPLAINTS LIST PAGINATED (ID, TITLE, DATE, STATUS)
+- payload:
+    ```json
+    {
+        "pageSize":5,
+        "pageIndex":1
+    }
+- expected Response/s:
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "complaintsList": {
+                "complaintItem": [
+                    {
+                        "id": "38",
+                        "title": "Retailer Does not Pay on time",
+                        "date": "2024-12-13T16:51:55.377Z",
+                        "status": "RESOLVED"
+                    },
+                    {
+                        "id": "37",
+                        "title": "Retailer Does not Pay on time",
+                        "date": "2024-12-13T16:51:50.143Z",
+                        "status": "RESOLVED"
+                    },
+                    {
+                        "id": "36",
+                        "title": "Retailer Does not Pay on time",
+                        "date": "2024-12-13T16:51:45.244Z",
+                        "status": "CREATED"
+                    },
+                    {
+                        "id": "35",
+                        "title": "Retailer Does not Pay on time",
+                        "date": "2024-12-13T16:51:40.744Z",
+                        "status": "CREATED"
+                    },
+                    {
+                        "id": "34",
+                        "title": "Retailer Does not Pay on time",
+                        "date": "2024-12-13T16:37:24.164Z",
+                        "status": "CREATED"
+                    }
+                ]
+            }
+        }
+    }
 #### service: SEARCH BY ID AND NAME (ID, TITLE, DATE, STATUS)
+- payload:
+    ```json
+    {
+        "searchTerm":"Ret",
+        "pageSize":5,
+        "pageIndex":1
+    }
+- expected Response/s:
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "complaintsList": {
+                "complaintItem": [
+                    {
+                        "id": "38",
+                        "title": "Retailer Does not Pay on time",
+                        "date": "2024-12-13T16:51:55.377Z",
+                        "status": "RESOLVED"
+                    },
+                    {
+                        "id": "37",
+                        "title": "Retailer Does not Pay on time",
+                        "date": "2024-12-13T16:51:50.143Z",
+                        "status": "RESOLVED"
+                    },
+                    {
+                        "id": "36",
+                        "title": "Retailer Does not Pay on time",
+                        "date": "2024-12-13T16:51:45.244Z",
+                        "status": "CREATED"
+                    },
+                    {
+                        "id": "35",
+                        "title": "Retailer Does not Pay on time",
+                        "date": "2024-12-13T16:51:40.744Z",
+                        "status": "CREATED"
+                    },
+                    {
+                        "id": "34",
+                        "title": "Retailer Does not Pay on time",
+                        "date": "2024-12-13T16:37:24.164Z",
+                        "status": "CREATED"
+                    }
+                ]
+            }
+        }
+    }
 #### service: GET COMPLAINT DATA BY ID ADDTO:(USER: NAME, EMAIL, PHONE NUMBER),ESTABLISHMENT NAMES,ESTBALISHMENT IDS
+- payload:
+    ```json
+    {
+        "complaintId":1
+    }
+
+- expected Response/s:
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "complaintDetails": {
+                "id": "1",
+                "title": "default",
+                "type": "1",
+                "quotationId": null,
+                "reviewerId": "1",
+                "supplier": {
+                    "Id": "1",
+                    "EstablishmentId": "3",
+                    "FullName": "in_first_name NSR",
+                    "EstablishmentEmail": "err@gmail.com",
+                    "EstablishmentContact": "0777778485"
+                },
+                "retailer": {
+                    "Id": "1",
+                    "EstablishmentId": "3",
+                    "FullName": "in_first_name NSR",
+                    "EstablishmentEmail": "err@gmail.com",
+                    "EstablishmentContact": "0777778485"
+                },
+                "complaintNotes": "USER IS A BASTARD",
+                "complaintStatus": "CREATED",
+                "submitterType": "RETAILER",
+                "creationDate": "2024-11-18T16:15:16.589Z",
+                "resolutionNotes": null,
+                "isResolved": false
+            }
+        }
+    }
 #### service: UPDATE COMPLAINT
-##### SUB: RECALCULATE COMPLAINCE UPDATE COUNTS FOR AGAINST 
-#### service: UPDATE CONPLAINT STATUS
+- payload:
+    ```json
+    {
+        "complaintId": 1,
+        "resolutionNotes": "AAAAAAA",
+        "reviewerId":40,
+        "complaintStatus":"RESOLVED",
+        "submitterType":true
+    }
+- expected Response/s:
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true
+        }
+    }
 ### PART 8 CATEGORIES
-#### service: GET INDUSTRY TYPES 
 #### service: GET CATEGORIES BY INDUSTRY TYPE 
+- payload:
+    ```json
+    {
+        "industryType": 1
+    }
+- expected Response/s:
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "categoryList": {
+                "categoryItem": [
+                    {
+                        "id": "1",
+                        "name": "MEN CLOTHES"
+                    },
+                    {
+                        "id": "2",
+                        "name": "WOMEN DRESSWARE"
+                    }
+                ]
+            }
+        }
+    }
 ### PART 9 PENALTY
 #### service: GET PENALTIES PAGINATED (ID, TITLE, DATE)
+- payload:
+    ```json
+
+- expected Response/s:
+    ```json
 #### service: ADD PENALTY: TYPE, WEIGHT, NOTES ESTABLISHMENT ID
 ##### SUB: RECALCULATE COMPLAINCE  
+- payload:
+    ```json
+
+- expected Response/s:
+    ```json
+##### SUB: RECALCULATE COMPLAINCE UPDATE COUNTS FOR AGAINST Done 
 #### service: VIEW PENALTY (PENALTY ID): TYPE, WEIGHT, NOTES ESTABLISHMENT NAMES AND IDS, COMPLAINT ID
+- payload:
+    ```json
+
+- expected Response/s:
+    ```json
 #### service: UPDATE PENALTY (PENALTY ID): DELETE 
 ##### SUB: RECALCULATE COMPLAINCE  
+- payload:
+    ```json
+
+- expected Response/s:
+    ```json
 ### PART 10 NOTIFICATIONS
 #### service: GET NOTIFICATION
+- payload:
+    ```json
+    {
+        "userId": "193",
+        "pageSize": 5,
+        "pageIndex": 1
+    }
+- expected Response/s:
+    ```json
+    {
+    "header": {
+        "errorCode": "0000",
+        "errorDescription": "SUCCESS",
+        "statusCode": 200,
+        "message": "Operation completed successfully"
+    },
+    "body": {
+        "success": true,
+        "notificationList": {
+            "notificationItem": [
+                {
+                    "id": "53",
+                    "type": "1",
+                    "priority": 2,
+                    "subject": "Welcome Aboard",
+                    "details": "Welcome to Our Platform",
+                    "isRead": false,
+                    "creationTime": "2024-12-16T13:38:16.374Z"
+                }
+            ]
+        }
+        }
+    }
 ### PART 11 GENERAL
 #### service: update user data
 - payload

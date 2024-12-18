@@ -11,6 +11,7 @@ function handleJsonB(jsonObject) {
   }
   return JSON.stringify(jsonObject);
 }
+const { forms } = require("googleapis/build/src/apis/forms");
 // Database Connection
 const { Pool } = require("pg");
 const pool = new Pool({

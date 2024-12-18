@@ -538,6 +538,18 @@ module.exports = {
     message: "Fetching Quotation List failed",
     errorCode: "E0088",
   },
+  E0089: {
+    errorDescription: "Fetch Failure",
+    statusCode: 400,
+    message: "Fetching Complaints has Failed",
+    errorCode: "E0089",
+  },
+  E0090: {
+    errorDescription: "Update Failure",
+    statusCode: 400,
+    message: "Updating Complaint has Failed",
+    errorCode: "E0090",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,

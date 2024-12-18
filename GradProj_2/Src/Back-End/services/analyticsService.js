@@ -1005,7 +1005,6 @@ const analyticsService = {
       };
       weeklySales.SalesItem.push(item);
     }
-    console.log(weeklySales);
 
     const weeklyQuotations = await executeQuery(
     `SELECT

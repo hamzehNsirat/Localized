@@ -169,14 +169,27 @@ const platformComplianceService = {
       type: complaintFetchDb.out_complaint_type_id,
       quotationId: complaintFetchDb.out_quotation_id,
       reviewerId: complaintFetchDb.out_reviewer_id,
-      supplierId: complaintFetchDb.out_supplier_id,
-      retailerId: complaintFetchDb.out_retailer_id,
+      supplier: {
+        Id: complaintFetchDb.out_supplier_id,
+        EstablishmentId: complaintFetchDb.out_supp_establishment_id,
+        FullName: complaintFetchDb.out_supp_full_name,
+        EstablishmentEmail: complaintFetchDb.out_supp_email,
+        EstablishmentContact: complaintFetchDb.out_supp_contact,
+      },
+      retailer: {
+        Id: complaintFetchDb.out_retailer_id,
+        EstablishmentId: complaintFetchDb.out_supp_establishment_id,
+        FullName: complaintFetchDb.out_supp_full_name,
+        EstablishmentEmail: complaintFetchDb.out_supp_email,
+        EstablishmentContact: complaintFetchDb.out_supp_contact,
+      },
       complaintNotes: complaintFetchDb.out_complaint_notes,
       complaintStatus: complaintFetchDb.out_complaint_status_id,
       submitterType:
         complaintFetchDb.out_submitter_type == true ? "RETAILER" : "SUPPLIER",
       creationDate: complaintFetchDb.out_creation_date,
       resolutionNotes: complaintFetchDb.out_resolution_notes,
+
       isResolved:
         complaintFetchDb.out_complaint_status_id == "RESOLVED" ? true : false,
     };
@@ -275,6 +288,77 @@ const platformComplianceService = {
     return {
       success: true,
       complaintsList,
+    };
+  },
+  async getComplaintsList(inputData) {
+    const complaintsFetchDb = await Complaint.getAllComplaints(
+      inputData.pageSize,
+      inputData.pageIndex
+    );
+    if (!complaintsFetchDb[0]) {
+      return {
+        success: false,
+        error: "Failed to Fetch Complaints",
+      };
+    }
+    const complaintsList = { complaintItem: [] };
+    for (let i = 0; i < complaintsFetchDb.length; i++) {
+      const item = {
+        id: complaintsFetchDb[i].out_complaint_id,
+        title: complaintsFetchDb[i].out_complaint_title,
+        date: complaintsFetchDb[i].out_creation_date,
+        status: complaintsFetchDb[i].out_complaint_status_id,
+      };
+      complaintsList.complaintItem.push(item);
+    }
+    return {
+      success: true,
+      complaintsList,
+    };
+  },
+  async searchComplaints(inputData) {
+    const complaintsFetchDb = await Complaint.searchComplaints(
+      inputData.searchTerm,
+      inputData.pageSize,
+      inputData.pageIndex
+    );
+    if (!complaintsFetchDb[0]) {
+      return {
+        success: false,
+        error: "Failed to Search Complaints",
+      };
+    }
+    const complaintsList = { complaintItem: [] };
+    for (let i = 0; i < complaintsFetchDb.length; i++) {
+      const item = {
+        id: complaintsFetchDb[i].out_complaint_id,
+        title: complaintsFetchDb[i].out_complaint_title,
+        date: complaintsFetchDb[i].out_creation_date,
+        status: complaintsFetchDb[i].out_complaint_status_id,
+      };
+      complaintsList.complaintItem.push(item);
+    }
+    return {
+      success: true,
+      complaintsList,
+    };
+  },
+  async updateComplaint(inputData) {
+    const complaintsUpdateDb = await Complaint.updateComplaint(
+      inputData.reviewerId,
+      inputData.complaintStatusId,
+      1,
+      inputData.resolutionNotes,
+      inputData.complaintId
+    );
+    if (!complaintsUpdateDb || complaintsUpdateDb[0].update_res === -1) {
+      return {
+        success: false,
+        error: "Failed to Update Complaint",
+      };
+    }
+    return {
+      success: true,
     };
   },
 };

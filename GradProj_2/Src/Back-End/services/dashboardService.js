@@ -431,12 +431,11 @@ const dashboardService = {
     };
     // Fetch Data from each table
     const basicData = await userService.getUserById(input);
+    const adminId = await executeQuery("SELECT admin_id FROM adminstrator WHERE fk_userid = $1;",[userId]);
     let adminInsights = {};
-    if(internalCaller == false)
-    {
-      adminInsights =
-      await analyticsService.getAdminstratorAnalytics(userId);
-    }    
+    if (internalCaller == false) {
+      adminInsights = await analyticsService.getAdminstratorAnalytics(userId);
+    }
 
     // Consilidate Data and Format it
     const adminDashboard = {
@@ -455,7 +454,8 @@ const dashboardService = {
         userImage: basicData.userImage,
       },
       adminDetails: {
-        AdminTaxIdentificationNumber: null
+       adminId: adminId[0].admin_id,
+        adminTaxIdentificationNumber: null,
       },
       insights: adminInsights || "No Current Insights",
     };

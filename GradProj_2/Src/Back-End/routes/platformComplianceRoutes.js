@@ -35,4 +35,13 @@ router.post(
   validateToken,
   controller.getQuotationSupplierComplaint
 );
+// Admin Routes
+router.post(
+  "/getcomplaintslist",
+  validateToken,
+  controller.getComplaintsList
+);
+router.post("/searchcomplaints", validateToken, controller.searchComplaints);
+router.post("/updatecomplaint", validateToken, controller.updateComplaint);
+
 module.exports = router;

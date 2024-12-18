@@ -57,4 +57,9 @@ router.post(
   validateToken,
   controller.getAdminAllDetails
 );
+router.post(
+  "/getadminnotifications",
+  validateToken,
+  controller.getSupplierNotifications
+);
 module.exports = router;

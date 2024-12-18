@@ -16,6 +16,15 @@ const Complaint = {
     return await executeQuery(query, params);
   },
 
+  async searchComplaints(searchTerm, pageSize, pageIndex) {
+    const query = `
+      SELECT *
+      FROM complaint_search($1, $2, $3)
+    `;
+    const params = [searchTerm, pageSize, pageIndex];
+    return await executeQuery(query, params);
+  },
+
   /**
    * Get a complaint by its ID.
    * @param {number} complaintId - Complaint ID.
@@ -98,7 +107,13 @@ const Complaint = {
    * @param {Object} updateData - Data for updating the complaint.
    * @returns {Promise<number>} Update result.
    */
-  async updateComplaint(updateData) {
+  async updateComplaint(
+    reviewerId,
+    complaintStatusId,
+    lastModifiedBy,
+    resolutionNotes,
+    complaintId,
+    ) {
     const query = `
       SELECT *
       FROM complaint_update(
@@ -106,11 +121,11 @@ const Complaint = {
       )
     `;
     const params = [
-      updateData.reviewerId,
-      updateData.complaintStatusId,
-      updateData.lastModifiedBy,
-      updateData.resolutionNotes,
-      updateData.complaintId,
+      reviewerId,
+      complaintStatusId,
+      lastModifiedBy,
+      resolutionNotes,
+      complaintId,
     ];
     const result = await executeQuery(query, params);
     return result;

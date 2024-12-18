@@ -1002,3 +1002,101 @@ BEGIN
   OFFSET (in_page_index - 1) * in_page_size;
 END;
 $$ LANGUAGE plpgsql;
+-----------------------------------------------------------------
+-- SP NO.:#20, 
+-- Complexity: MODERATE,
+-- Creation Data: 18122024,
+-- Desc: Get  Related Complaints
+-- NodeJS Model: Complaint
+-- SEARCH A Complaint BY ID, TITLE
+
+CREATE OR REPLACE FUNCTION complaint_search(IN search_term TEXT, IN page_size INT, IN page_index INT) 
+RETURNS TABLE (
+	out_complaint_id		   BIGINT, 
+	out_complaint_title 		VARCHAR,
+	out_complaint_type_id    BIGINT,
+	out_complaint_supplier_id   BIGINT ,
+	out_complaint_retailer_id BIGINT,
+	out_complaint_status_id 	 VARCHAR,
+	out_quotation_id BIGINT,
+	out_creation_date  TIMESTAMP 
+) 
+AS $$ BEGIN RETURN QUERY
+	SELECT 
+	CAST(D.complaint_id AS BIGINT),	
+	D.complaint_title,
+	CAST(D.complaint_type_id AS BIGINT),
+	CAST(D.supplier_id AS BIGINT),
+	CAST(D.retailer_id AS BIGINT),
+	D.complaint_status_id,
+	D.quotation_id,
+	D.creation_date
+	FROM	complaint AS D
+	WHERE CAST(D.complaint_id AS TEXT) = search_term
+  OR D.complaint_title LIKE '%'||search_term||'%'
+  ORDER BY creation_date DESC
+	LIMIT page_size
+	OFFSET ((page_index - 1) * page_size) ;
+END;
+$$ LANGUAGE plpgsql;
+----------------------------------------------------------------
+-- SP NO.:#20, 
+-- Complexity: MODERATE,
+-- Creation Data: 18122024,
+-- Desc: decrements Compliance Indicator for Respondant
+-- NodeJS Model:
+
+CREATE OR REPLACE FUNCTION recalculate_compliance()
+RETURNS TRIGGER 
+LANGUAGE PLPGSQL
+AS $$
+BEGIN
+    -- Check if 'is_penalty_resulted' is true in the new record
+    IF NEW.is_penalty_resulted = TRUE THEN
+    
+        -- Case 1: Submitter type is TRUE -> Update supplier's compliance indicator and complaint count
+        IF NEW.submitter_type = TRUE THEN
+            UPDATE supplier
+            SET 
+                supplier_compliance_indicator = CASE WHEN supplier_compliance_indicator = 0 THEN 0 ELSE supplier_compliance_indicator - 0.05 END,
+                supplier_complaint_count = supplier_complaint_count + 1
+            WHERE supplier_id = NEW.supplier_id;
+
+        -- Case 2: Submitter type is FALSE -> Update retailer's compliance indicator and complaint count
+        ELSIF NEW.submitter_type = FALSE THEN
+            UPDATE retailer
+            SET 
+                retailer_compliance_indicator = CASE WHEN  retailer_compliance_indicator = 0 THEN 0 ELSE retailer_compliance_indicator - 0.05 END,
+                retailer_complaint_count = retailer_complaint_count + 1
+            WHERE retailer_id = NEW.retailer_id;
+        END IF;
+    END IF;
+
+    RETURN NEW;
+END;
+$$;
+
+-- Trigger Definition
+CREATE TRIGGER before_update_cmp
+BEFORE UPDATE ON complaint
+FOR EACH ROW
+EXECUTE FUNCTION recalculate_compliance();
+----------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION insert_rating_type()
+  RETURNS TRIGGER 
+  LANGUAGE PLPGSQL
+  AS
+$$
+BEGIN			
+	IF (NEW.rating IN (3, 4 5)) THEN 
+		NEW.rating_type =  TRUE;
+    UPDATE supplier
+    SET 
+        supplier_positive_review_count = supplier_positive_review_count + 1
+    WHERE supplier_id = NEW.supplier_id;
+	ELSE 
+		NEW.rating_type =  FALSE;
+	END IF;
+	RETURN NEW;
+END;
+$$

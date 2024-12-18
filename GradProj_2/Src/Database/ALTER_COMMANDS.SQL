@@ -3694,3 +3694,71 @@ AS $$ BEGIN RETURN QUERY
 	WHERE D.quotation_id = in_quotation_id;
 END;
 $$ LANGUAGE plpgsql;
+------------------------------------------------------------------------------------------
+-- 18-12-2024
+DROP FUNCTION complaint_get_by_id;
+CREATE OR REPLACE FUNCTION complaint_get_by_id(IN in_complaint_id BIGINT) 
+RETURNS TABLE (
+	out_complaint_id  BIGINT,
+	out_complaint_title  VARCHAR,
+	out_complaint_type_id    BIGINT,
+	out_quotation_id    BIGINT,
+	out_reviewer_id BIGINT,
+	out_supplier_id   BIGINT,
+	out_retailer_id   BIGINT,
+	out_complaint_status_id   VARCHAR,
+	out_complaint_notes  TEXT,
+	out_submitter_type   BOOLEAN,
+	out_creation_date  TIMESTAMP,
+	out_resolution_notes  TEXT,
+
+	out_supp_full_name  VARCHAR,
+	out_ret_full_name  VARCHAR,
+	out_supp_email VARCHAR,
+	out_ret_email  VARCHAR,
+	out_supp_contact  VARCHAR,
+	out_ret_contact  VARCHAR,
+	out_supp_establishment  VARCHAR,
+	out_ret_establishment   VARCHAR,
+	out_supp_establishment_id  BIGINT,
+	out_ret_establishment_id   BIGINT
+) 
+AS $$ 
+BEGIN 
+    RETURN QUERY
+    SELECT 
+	CAST(c.complaint_id AS BIGINT), 
+	c.complaint_title,
+	c.complaint_type_id , 
+	c.quotation_id,
+	c.reviewer_id , 
+	c.supplier_id , 
+	c.retailer_id , 
+	c.complaint_status_id , 
+	c.complaint_notes  , 
+	c.submitter_type  , 
+	c.creation_date  , 
+	c.resolution_notes,
+
+	CAST(s.first_name || ' ' || s.last_name AS VARCHAR),
+	CAST(r.first_name || ' ' || r.last_name AS VARCHAR)	,
+	CAST(f.establishment_email AS VARCHAR),
+	CAST(rt.establishment_email	AS VARCHAR),
+	CAST(f.contact_number AS VARCHAR),
+	CAST(rt.contact_number	AS VARCHAR),
+	CAST(f.establishment_name AS VARCHAR),
+	CAST(rt.establishment_name	AS VARCHAR),
+	CAST(f.establishment_id AS BIGINT),
+	CAST(rt.establishment_id AS BIGINT)
+
+    FROM 
+        complaint c
+	LEFT JOIN user_localized s ON s.user_id = (SELECT supplier_user_id FROM supplier WHERE supplier_id = c.supplier_id)
+	LEFT JOIN user_localized r ON r.user_id = (SELECT retailer_user_id FROM retailer WHERE retailer_id = c.retailer_id)
+	LEFT JOIN establishment f  ON f.establishment_id = (SELECT factory_est_id FROM factory WHERE owner_id = c.supplier_id)
+	LEFT JOIN establishment rt ON rt.establishment_id = (SELECT retailstore_est_id FROM retailstore WHERE owner_id = c.retailer_id)
+    WHERE 
+        CAST(complaint_id AS BIGINT) = in_complaint_id;
+
+END;
+$$ LANGUAGE plpgsql;
