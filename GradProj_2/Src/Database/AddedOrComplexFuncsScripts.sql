@@ -295,6 +295,7 @@ $$ LANGUAGE plpgsql;
 -- Creation Data: 03122024,
 -- Desc: Gets Products filtered by Retailers chosen industry types and ranked base on the suppliers compliance score
 -- NodeJS Model: Product
+DROP FUNCTION retailer_get_marketplace_products;
 CREATE OR REPLACE FUNCTION retailer_get_marketplace_products(
   IN in_retailer_id BIGINT, 
   IN in_page_size INTEGER, 
@@ -308,7 +309,8 @@ RETURNS TABLE(
   out_product_retail_price FLOAT,
   out_product_unit_price FLOAT,
   out_product_whole_sale_price FLOAT,
-  out_product_supplier BIGINT
+  out_product_supplier BIGINT,
+  out_product_category BIGINT
 ) AS $$
 BEGIN
 RETURN QUERY 
@@ -330,7 +332,8 @@ RETURN QUERY
       p.product_unit_price,
       p.product_whole_sale_price,
       s.supplier_compliance_indicator,
-      p.supplier_id
+      p.supplier_id,
+      p.product_category
     FROM product p
     JOIN supplier s ON p.supplier_id = s.supplier_id
     WHERE p.product_category = ANY(SELECT out_category_id FROM retailer_categories)
@@ -361,6 +364,7 @@ $$ LANGUAGE plpgsql;
 -- Creation Data: 04122024,
 -- Desc: Gets Products filtered by Entered Category / Industry
 -- NodeJS Model: Product
+DROP FUNCTION fetch_products_by_industry_and_category
 CREATE OR REPLACE FUNCTION fetch_products_by_industry_and_category(
   IN industry_types BIGINT[], -- Array of industry types
   IN categories BIGINT[],     -- Array of categories
@@ -376,7 +380,8 @@ RETURNS TABLE(
   out_product_unit_price FLOAT,
   out_product_whole_sale_price FLOAT,
   out_supplier_id BIGINT,
-  total_records_count BIGINT
+  total_records_count BIGINT,
+  out_product_category BIGINT
 ) AS $$
 DECLARE
   v_total_count BIGINT; -- Variable to store total count
@@ -410,7 +415,8 @@ BEGIN
     p.product_unit_price AS out_product_unit_price,
     p.product_whole_sale_price AS out_product_whole_sale_price,
     p.supplier_id AS out_supplier_id,
-    v_total_count AS total_records_count -- Include the total count in each row
+    v_total_count AS total_records_count, -- Include the total count in each row
+    p.product_category
   FROM product p
   WHERE 
     (
@@ -435,6 +441,7 @@ $$ LANGUAGE plpgsql;
 -- Creation Data: 04122024,
 -- Desc: Search Products by Search Term
 -- NodeJS Model: Product
+DROP FUNCTION search_products;
 CREATE OR REPLACE FUNCTION search_products(
   IN search_term TEXT,
   IN page_size INTEGER,
@@ -449,7 +456,9 @@ RETURNS TABLE(
   out_product_unit_price FLOAT,
   out_product_whole_sale_price FLOAT,
   out_supplier_id BIGINT,
-  total_records_count BIGINT
+  total_records_count BIGINT,
+  out_product_category BIGINT
+
 ) AS $$
 BEGIN
   RETURN QUERY
@@ -462,7 +471,9 @@ BEGIN
       p.product_retail_price AS out_product_retail_price,
       p.product_unit_price AS out_product_unit_price,
       p.product_whole_sale_price AS out_product_whole_sale_price,
-      p.supplier_id AS out_supplier_id
+      p.supplier_id AS out_supplier_id,
+      p.product_category 
+
     FROM product p
     LEFT JOIN category c ON p.product_category = c.category_id
     LEFT JOIN factory f ON p.supplier_id = f.owner_id
@@ -503,7 +514,7 @@ $$ LANGUAGE plpgsql;
 -- Creation Data: 04122024,
 -- Desc: Get Supplier Related Products
 -- NodeJS Model: Product
-
+DROP FUNCTION get_supplier_details;
 CREATE OR REPLACE FUNCTION get_supplier_details(
   IN in_supplier_id BIGINT,
   IN page_size INTEGER,
@@ -551,6 +562,8 @@ BEGIN
       'product_unit_price', p.product_unit_price,
       'product_whole_sale_price', p.product_whole_sale_price,
       'product_retail_price', p.product_retail_price
+      'out_product_category', p.product_category
+
     )
   )
   INTO v_paginated_products

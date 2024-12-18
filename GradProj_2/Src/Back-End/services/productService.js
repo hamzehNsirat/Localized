@@ -27,6 +27,7 @@ const productService = {
           unitPrice: retMarketPlaceResult[i].out_product_unit_price,
           wholeSalePrice: retMarketPlaceResult[i].out_product_whole_sale_price,
           supplier: retMarketPlaceResult[i].out_product_supplier,
+          categoryId: retMarketPlaceResult[i].out_product_category,
         };
         marketPlace.productItem.push(item);
       }
@@ -70,6 +71,7 @@ const productService = {
           unitPrice: retMarketPlaceResult[i].out_product_unit_price,
           wholeSalePrice: retMarketPlaceResult[i].out_product_whole_sale_price,
           supplier: retMarketPlaceResult[i].out_supplier_id,
+          categoryId: retMarketPlaceResult[i].out_product_category,
         };
         marketPlace.productItem.push(item);
       }
@@ -112,6 +114,7 @@ const productService = {
           unitPrice: retMarketPlaceResult[i].out_product_unit_price,
           wholeSalePrice: retMarketPlaceResult[i].out_product_whole_sale_price,
           supplier: retMarketPlaceResult[i].out_supplier_id,
+          categoryId: retMarketPlaceResult[i].out_product_category,
         };
         marketPlace.productItem.push(item);
       }
@@ -178,6 +181,9 @@ const productService = {
             wholeSalePrice:
               retMarketPlaceResult[0].paginated_products[i]
                 .product_whole_sale_price,
+            categoryId:
+              retMarketPlaceResult[0].paginated_products[i]
+                .out_product_category,
           };
           supplierProfile.products.productItem.push(item);
         }
@@ -274,6 +280,7 @@ const productService = {
           retailPrice: suppMarketPlaceResult[i].out_product_retail_price,
           unitPrice: suppMarketPlaceResult[i].out_product_unit_price,
           wholeSalePrice: suppMarketPlaceResult[i].out_product_whole_sale_price,
+          categoryId: suppMarketPlaceResult[i].out_product_category,
         };
         marketPlace.productItem.push(item);
       }
@@ -315,6 +322,7 @@ const productService = {
     await commitTransaction();
     return {
       success: true,
+      productId:productInsertDb[0].out_product_id
     };
   },
   async updateProduct(inputData) {
