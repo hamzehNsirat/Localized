@@ -1,5 +1,6 @@
 # TODO Backend
-
+## URGENT: 
+### ADD CHECK ON PRODUCT STATUS = 1 WHEN DISPLAYING MARKETPLACE / PROFILE RESULTS
 ## Project Distribution
 
 - Analytics: Hamzeh

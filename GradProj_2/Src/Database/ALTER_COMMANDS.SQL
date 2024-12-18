@@ -3216,24 +3216,6 @@ $$ LANGUAGE plpgsql;
 drop function product_get_by_supplier;
 CREATE OR REPLACE FUNCTION product_get_by_supplier(IN in_supplier_id BIGINT, IN in_page_size INT, IN in_page_index INT) 
 RETURNS TABLE(
-		in_commercial_registration_num,
-		in_establishment_registration_date,
-		in_contact_number,
-		in_establishment_email,
-		in_establishment_website,
-		in_establishment_description,
-		in_establishment_type,
-		in_establishment_city,
-		in_establishment_street,
-		in_establishment_building_num,
-		in_industry_type,
-		in_establishment_logo,
-		in_establishment_cover,
-		in_est_compliance_indicator,
-		in_est_compliance_indicator_desc,
-		CURRENT_TIMESTAMP,
-		last_modifier
-	) RETURNING CAST(establishment_id AS BIGINT) INTO out_es
 	out_product_id BIGINT,
 	out_product_status_id BIGINT,
 	out_product_unit_price FLOAT,
