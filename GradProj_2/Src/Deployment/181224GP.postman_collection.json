@@ -3973,7 +3973,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"retailerId\": 1,\r\n    \"supplierId\": 1,\r\n    \"rating\":2,\r\n    \"reviewComment\":\"NA\"\r\n}",
+							"raw": "{\r\n    \"retailerId\": 1,\r\n    \"supplierId\": 2,\r\n    \"rating\":4,\r\n    \"reviewComment\":\"NA\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -6798,7 +6798,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"supplierId\": 99,\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+							"raw": "{\r\n    \"supplierId\": 1,\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -7322,199 +7322,6 @@
 					"response": []
 				},
 				{
-					"name": "GetComplaintsListSupp",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{Authorization}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"supplierId\":88,\r\n    \"pageSize\":5,\r\n    \"pageIndex\":1\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5055/api/platformservices/getcomplaintssupplier",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5055",
-							"path": [
-								"api",
-								"platformservices",
-								"getcomplaintssupplier"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Success",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"retailerId\":1,\r\n    \"pageSize\":5,\r\n    \"pageIndex\":1\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:5055/api/platformservices/getcomplaintsretailer",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "5055",
-									"path": [
-										"api",
-										"platformservices",
-										"getcomplaintsretailer"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Vary",
-									"value": "Origin"
-								},
-								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "680"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"2a8-dLF6mNyX/wO/+aEj9czc7rYHqqY\""
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 07 Dec 2024 14:36:42 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"complaintsList\": {\n            \"complaintItem\": [\n                {\n                    \"id\": \"23\",\n                    \"title\": \"Not Responsive Supplier\",\n                    \"date\": \"2024-12-07T14:15:26.193Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"22\",\n                    \"title\": \"Not Responsive Supplier\",\n                    \"date\": \"2024-12-07T14:15:25.702Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"21\",\n                    \"title\": \"Not Responsive Supplier\",\n                    \"date\": \"2024-12-07T14:15:24.104Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"18\",\n                    \"title\": \"Defective Items Received\",\n                    \"date\": \"2024-12-07T14:13:52.695Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"17\",\n                    \"title\": \"Defective Items Received\",\n                    \"date\": \"2024-12-07T14:13:18.489Z\",\n                    \"status\": \"CREATED\"\n                }\n            ]\n        }\n    }\n}"
-						},
-						{
-							"name": "Error",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"retailerId\":1,\r\n    \"pageIndex\":1\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:5055/api/platformservices/getcomplaintsretailer",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "5055",
-									"path": [
-										"api",
-										"platformservices",
-										"getcomplaintsretailer"
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Vary",
-									"value": "Origin"
-								},
-								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "148"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"94-+Oo93KmCgmQdciX1qcoG4GdT0dM\""
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 07 Dec 2024 14:36:55 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0055\",\n        \"errorDescription\": \"Missing Data\",\n        \"statusCode\": \"E0055\",\n        \"message\": \"retailerId, pageSize and pageIndex are Mandatory\"\n    }\n}"
-						}
-					]
-				},
-				{
 					"name": "GetComplaintDetails Copy",
 					"request": {
 						"method": "POST",
@@ -7527,7 +7334,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"complaintId\":23\r\n}",
+							"raw": "{\r\n    \"complaintId\":1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -8172,6 +7979,199 @@
 					]
 				},
 				{
+					"name": "GetComplaintsListSupp",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"supplierId\":88,\r\n    \"pageSize\":5,\r\n    \"pageIndex\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/platformservices/getcomplaintssupplier",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"platformservices",
+								"getcomplaintssupplier"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"retailerId\":1,\r\n    \"pageSize\":5,\r\n    \"pageIndex\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getcomplaintsretailer",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getcomplaintsretailer"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "680"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2a8-dLF6mNyX/wO/+aEj9czc7rYHqqY\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 14:36:42 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"complaintsList\": {\n            \"complaintItem\": [\n                {\n                    \"id\": \"23\",\n                    \"title\": \"Not Responsive Supplier\",\n                    \"date\": \"2024-12-07T14:15:26.193Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"22\",\n                    \"title\": \"Not Responsive Supplier\",\n                    \"date\": \"2024-12-07T14:15:25.702Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"21\",\n                    \"title\": \"Not Responsive Supplier\",\n                    \"date\": \"2024-12-07T14:15:24.104Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"18\",\n                    \"title\": \"Defective Items Received\",\n                    \"date\": \"2024-12-07T14:13:52.695Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"17\",\n                    \"title\": \"Defective Items Received\",\n                    \"date\": \"2024-12-07T14:13:18.489Z\",\n                    \"status\": \"CREATED\"\n                }\n            ]\n        }\n    }\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"retailerId\":1,\r\n    \"pageIndex\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getcomplaintsretailer",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getcomplaintsretailer"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "148"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"94-+Oo93KmCgmQdciX1qcoG4GdT0dM\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 14:36:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0055\",\n        \"errorDescription\": \"Missing Data\",\n        \"statusCode\": \"E0055\",\n        \"message\": \"retailerId, pageSize and pageIndex are Mandatory\"\n    }\n}"
+						}
+					]
+				},
+				{
 					"name": "CreateComplaint",
 					"request": {
 						"method": "POST",
@@ -8385,7 +8385,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5055/api/dashboard/getretailernotifications",
+							"raw": "http://localhost:5055/api/dashboard/getsuppliernotifications",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8394,7 +8394,7 @@
 							"path": [
 								"api",
 								"dashboard",
-								"getretailernotifications"
+								"getsuppliernotifications"
 							]
 						}
 					},
@@ -9409,6 +9409,42 @@
 							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true\n    }\n}"
 						}
 					]
+				},
+				{
+					"name": "getCategories",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"industryType\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/products/getcategories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"products",
+								"getcategories"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -10471,7 +10507,7 @@
 					]
 				},
 				{
-					"name": "getUser Copy",
+					"name": "getUserAllData",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -10781,6 +10817,1187 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "UpdateUserStatus",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\":2,\r\n    \"userStatus\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/user/updatestatus",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"user",
+								"updatestatus"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userType\": 2,\r\n    \"firstName\": \"retailer\",\r\n    \"lastName\": \"sample03\",\r\n    \"userName\": \"retailer009999\",\r\n    \"userEmail\": \"highnet99@mail.com\",\r\n    \"userPassword\": \"sample000000\",\r\n    \"userPhoneNumber\": \"0700989999\",\r\n    \"industryType\": [\r\n        2,\r\n        3\r\n    ],\r\n    \"establishmentName\": \"ElectroGroup01\",\r\n    \"commercialRegistrationNum\": 129090003,\r\n    \"contactNumber\": \"0789990792\",\r\n    \"establishmentEmail\": \"et.retailer0901@mail.com\",\r\n    \"establishmentWebsite\": null,\r\n    \"establishmentDescription\": \"sells Electronics and Home Appliances01\",\r\n    \"establishmentType\": true,\r\n    \"establishmentCity\": \"Amman\",\r\n    \"establishmentStreet\": \"Mecca St\",\r\n    \"establishmentBuildingNum\": \"121D\",\r\n    \"establishmentLogo\": \"http://localhost:5055/uploads/images/default-1734117896561-897840290.png\",\r\n    \"establishmentCover\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/user/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"user",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetQuotationsList",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/quotations/getbyadmin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"quotations",
+								"getbyadmin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchQuotations",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"searchTerm\":\"te\",\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/quotations/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"quotations",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetQuotationDetails",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quotationId\":37\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/quotations/getbyid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"quotations",
+								"getbyid"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Failure",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzQ5NzY2MSwiZXhwIjoxNzMzNTg0MDYxfQ.skYQWboxesI2Istklug3Gx9VrzTL-ICEV1sfsDUx8vc",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quotationId\":45\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/quotations/getbyid",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"quotations",
+										"getbyid"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "212"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d4-o4zC+BsiZGXy6XefTzS4yMHYib8\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 06 Dec 2024 17:20:45 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0048\",\n        \"errorDescription\": \"Fetch Failure\",\n        \"statusCode\": \"E0048\",\n        \"message\": \"Fetching Quotation Details has Failed\"\n    },\n    \"body\": {\n        \"details\": {\n            \"success\": false,\n            \"error\": \"Failed to Fetch Quotations\"\n        }\n    }\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzQ5NzY2MSwiZXhwIjoxNzMzNTg0MDYxfQ.skYQWboxesI2Istklug3Gx9VrzTL-ICEV1sfsDUx8vc",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quotationId\":21\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/quotations/getbyid",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"quotations",
+										"getbyid"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "609"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"261-BHFkhTQpT4qGAizdP0b3IzmxBTo\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 06 Dec 2024 17:20:59 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"quotationDetails\": {\n            \"id\": \"21\",\n            \"requesterId\": \"1\",\n            \"supplierId\": \"1\",\n            \"retailStore\": \"Sha\",\n            \"factory\": \"Aaa\",\n            \"requestDate\": \"2024-12-06T15:47:00.902Z\",\n            \"statusId\": \"1\",\n            \"details\": {\n                \"detailsItem\": [\n                    {\n                        \"price\": 1,\n                        \"quantity\": 4,\n                        \"productId\": 1\n                    }\n                ]\n            },\n            \"attachments\": null,\n            \"paymentReferenceNumber\": null,\n            \"reconciliationNumber\": null,\n            \"latestTransactionID\": null,\n            \"shippingCost\": null,\n            \"subTotal\": null,\n            \"total\": null,\n            \"shipToAddress\": \"\",\n            \"billToAddress\": \"\",\n            \"factoryAddress\": null,\n            \"hasRelatedComplaints\": 0\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "GetComplaintsList",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pageSize\":5,\r\n    \"pageIndex\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/platformservices/getComplaintsList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"platformservices",
+								"getComplaintsList"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"retailerId\":1,\r\n    \"pageSize\":5,\r\n    \"pageIndex\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getcomplaintsretailer",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getcomplaintsretailer"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "680"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2a8-dLF6mNyX/wO/+aEj9czc7rYHqqY\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 14:36:42 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"complaintsList\": {\n            \"complaintItem\": [\n                {\n                    \"id\": \"23\",\n                    \"title\": \"Not Responsive Supplier\",\n                    \"date\": \"2024-12-07T14:15:26.193Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"22\",\n                    \"title\": \"Not Responsive Supplier\",\n                    \"date\": \"2024-12-07T14:15:25.702Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"21\",\n                    \"title\": \"Not Responsive Supplier\",\n                    \"date\": \"2024-12-07T14:15:24.104Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"18\",\n                    \"title\": \"Defective Items Received\",\n                    \"date\": \"2024-12-07T14:13:52.695Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"17\",\n                    \"title\": \"Defective Items Received\",\n                    \"date\": \"2024-12-07T14:13:18.489Z\",\n                    \"status\": \"CREATED\"\n                }\n            ]\n        }\n    }\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"retailerId\":1,\r\n    \"pageIndex\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getcomplaintsretailer",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getcomplaintsretailer"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "148"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"94-+Oo93KmCgmQdciX1qcoG4GdT0dM\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 14:36:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0055\",\n        \"errorDescription\": \"Missing Data\",\n        \"statusCode\": \"E0055\",\n        \"message\": \"retailerId, pageSize and pageIndex are Mandatory\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "SearchComplaints",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"searchTerm\":\"Ret\",\r\n    \"pageSize\":5,\r\n    \"pageIndex\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/platformservices/searchcomplaints",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"platformservices",
+								"searchcomplaints"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"retailerId\":1,\r\n    \"pageSize\":5,\r\n    \"pageIndex\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getcomplaintsretailer",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getcomplaintsretailer"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "680"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2a8-dLF6mNyX/wO/+aEj9czc7rYHqqY\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 14:36:42 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"complaintsList\": {\n            \"complaintItem\": [\n                {\n                    \"id\": \"23\",\n                    \"title\": \"Not Responsive Supplier\",\n                    \"date\": \"2024-12-07T14:15:26.193Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"22\",\n                    \"title\": \"Not Responsive Supplier\",\n                    \"date\": \"2024-12-07T14:15:25.702Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"21\",\n                    \"title\": \"Not Responsive Supplier\",\n                    \"date\": \"2024-12-07T14:15:24.104Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"18\",\n                    \"title\": \"Defective Items Received\",\n                    \"date\": \"2024-12-07T14:13:52.695Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"17\",\n                    \"title\": \"Defective Items Received\",\n                    \"date\": \"2024-12-07T14:13:18.489Z\",\n                    \"status\": \"CREATED\"\n                }\n            ]\n        }\n    }\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"retailerId\":1,\r\n    \"pageIndex\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getcomplaintsretailer",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getcomplaintsretailer"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "148"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"94-+Oo93KmCgmQdciX1qcoG4GdT0dM\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 14:36:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0055\",\n        \"errorDescription\": \"Missing Data\",\n        \"statusCode\": \"E0055\",\n        \"message\": \"retailerId, pageSize and pageIndex are Mandatory\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "GetComplaintDetails",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"complaintId\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/platformservices/getcomplaintbyid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"platformservices",
+								"getcomplaintbyid"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"complaintId\": 23\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getcomplaintbyid",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getcomplaintbyid"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "512"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"200-a6yr8XYGhq8ovzlNBtmYjSt2LI8\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 15:01:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"complaintDetails\": {\n            \"id\": \"23\",\n            \"title\": \"Not Responsive Supplier\",\n            \"type\": \"5\",\n            \"quotationId\": \"2\",\n            \"reviewerId\": null,\n            \"supplierId\": \"2\",\n            \"retailerId\": \"1\",\n            \"complaintNotes\": \"Supplier is not responding to any inquiries regarding sales\",\n            \"complaintStatus\": \"RESOLVED\",\n            \"submitterType\": \"RETAILER\",\n            \"creationDate\": \"2024-12-07T14:15:26.193Z\",\n            \"resolutionNotes\": \"DONE\",\n            \"isResolved\": true\n        }\n    }\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"complaintId\": 29\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getcomplaintbyid",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getcomplaintbyid"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "219"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"db-afdjNjZqLuDh7jeFurAqnZ+RwCs\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 15:01:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0058\",\n        \"errorDescription\": \"Fetch Failure\",\n        \"statusCode\": \"E0058\",\n        \"message\": \"Fetching Complaint Details has Failed\"\n    },\n    \"body\": {\n        \"details\": {\n            \"success\": false,\n            \"error\": \"Failed to Fetch Complaint Details\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "updateComplaint",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"complaintId\": 1,\r\n    \"resolutionNotes\": \"AAAAAAA\",\r\n    \"reviewerId\":40,\r\n    \"complaintStatus\":\"RESOLVED\",\r\n    \"submitterType\":true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/platformservices/updatecomplaint",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"platformservices",
+								"updatecomplaint"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCategories Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"industryType\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/products/getcategories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"products",
+								"getcategories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getNotifications Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"193\",\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/dashboard/getadminnotifications",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"dashboard",
+								"getadminnotifications"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"3\",\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/getretailernotifications",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"getretailernotifications"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1149"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"47d-xXnbyNJBUheL+lKeQSnRKRhz6zI\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 18:01:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"notificationList\": {\n            \"notificationItem\": [\n                {\n                    \"id\": \"13\",\n                    \"type\": \"10\",\n                    \"priority\": 1,\n                    \"subject\": \"Profile Updated\",\n                    \"details\": \"your profile has been updated!\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T18:01:38.519Z\"\n                },\n                {\n                    \"id\": \"9\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:58:22.759Z\"\n                },\n                {\n                    \"id\": \"7\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:58:21.971Z\"\n                },\n                {\n                    \"id\": \"5\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:58:21.290Z\"\n                },\n                {\n                    \"id\": \"3\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:47:00.592Z\"\n                }\n            ]\n        }\n    }\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"5\",\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/getretailernotifications",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"getretailernotifications"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "233"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"e9-dgXEbSz4WmLcJCCAk5imPLOzdLo\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 18:02:05 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0064\",\n        \"errorDescription\": \"Fetch Failure\",\n        \"statusCode\": \"E0064\",\n        \"message\": \"Fetching Retailer Notifications has Failed\"\n    },\n    \"body\": {\n        \"details\": {\n            \"success\": false,\n            \"error\": \"Unable to Fetch Notifications for Retailer\"\n        }\n    }\n}"
 						}
 					]
 				}
