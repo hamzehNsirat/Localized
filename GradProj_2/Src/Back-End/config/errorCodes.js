@@ -550,6 +550,49 @@ module.exports = {
     message: "Updating Complaint has Failed",
     errorCode: "E0090",
   },
+  E0091: {
+    errorDescription: "Fetch Failure",
+    statusCode: 400,
+    message: "Fetching Penalties has Failed",
+    errorCode: "E0091",
+  },
+  E0092: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message: "penaltyId is Mandatory",
+    errorCode: "E0092",
+  },
+  E0093: {
+    errorDescription: "Fetch Failure",
+    statusCode: 400,
+    message: "Fetching Penalty Details has Failed",
+    errorCode: "E0093",
+  },
+  E0094: {
+    errorDescription: "Missing Data",
+    statusCode: 400,
+    message:
+      "penaltyTypeId, establishmentId, penaltyInitiatorId, penaltyWeight, relatedComplaintId are Mandatory",
+    errorCode: "E0094",
+  },
+  E0095: {
+    errorDescription: "Creation Failure",
+    statusCode: 400,
+    message: "Creating Penalty has Failed",
+    errorCode: "E0095",
+  },
+  E0096: {
+    errorDescription: "Deletion Failure",
+    statusCode: 400,
+    message: "Deleting Penalty has Failed",
+    errorCode: "E0096",
+  },
+  E0097: {
+    errorDescription: "Fetch Failure",
+    statusCode: 400,
+    message: "Fetching Penalty Types has Failed",
+    errorCode: "E0097",
+  },
   TOKEN_EXPIRED: {
     errorDescription: "Authentication Failure",
     statusCode: 400,

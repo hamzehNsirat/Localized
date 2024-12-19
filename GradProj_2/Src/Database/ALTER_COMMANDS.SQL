@@ -4414,6 +4414,7 @@ AS $$ BEGIN RETURN QUERY
 	D.creation_date
 	FROM	penalty AS D
 	JOIN establishment AS E ON E.establishment_id = D.establishment_id
+	ORDER BY D.creation_date DESC
 	LIMIT page_size
 	OFFSET ((page_index - 1) * page_size) ;
 
@@ -4599,5 +4600,32 @@ EXCEPTION WHEN OTHERS THEN
     hint: %
     context: %',  v_state, v_msg, v_detail, v_hint, v_context;
 	RETURN -1;	
+END;
+$$ LANGUAGE plpgsql;
+--
+-- SEARCH 
+CREATE OR REPLACE FUNCTION penalty_search(IN search_term TEXT, IN page_size INT, IN page_index INT) 
+RETURNS TABLE (
+	out_penalty_id		   BIGINT, 
+	out_penalty_title  	   VARCHAR,
+	out_establishment_name VARCHAR ,
+	out_penalty_status_id 	 VARCHAR,
+	out_creation_date  TIMESTAMP 
+) 
+AS $$ BEGIN RETURN QUERY
+	SELECT
+	CAST(D.penalty_id 		     AS BIGINT),	
+	D.penalty_title,
+	CAST(E.establishment_name AS VARCHAR),
+	D.penalty_status_id,
+	D.creation_date
+	FROM	penalty AS D
+	JOIN establishment AS E ON E.establishment_id = D.establishment_id
+	WHERE CAST(penalty_id AS TEXT) = search_term
+	OR penalty_title LIKE '%' || search_term || '%'
+	ORDER BY D.creation_date DESC
+	LIMIT page_size
+	OFFSET ((page_index - 1) * page_size) ;
+
 END;
 $$ LANGUAGE plpgsql;

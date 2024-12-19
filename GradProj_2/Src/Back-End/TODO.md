@@ -1,5 +1,4 @@
 # TODO Backend
-## URGENT: 
 ## Project Distribution
 
 - Analytics: Hamzeh
@@ -2968,7 +2967,7 @@ frontend level
             "message": "User successfully logged out"
         }
     }
-## ADMINSTRATOR PART  [COMPLETION PERCENTAGE:90%]
+## ADMINSTRATOR PART  [COMPLETION PERCENTAGE:100%]
 ### PART 1 Signup
 #### service: check user name is already in database
 - payload:
@@ -3595,7 +3594,6 @@ if matching -> update password from payload if not -> handle error // Handled Be
             "success": true
         }
     }
-#### service: BASED ON TYPE UPDATE USER DATA & ESTABLISHMENT & SUPPLIER/RETAILER -- Postponed
 ### PART 6 QUOTATION
 #### service: GET QUOTATIONS LIST PAGINATED (ID, RETAILSTORE LOGO, RETAILSTORE NAME, STATUS)
 - payload:
@@ -3986,32 +3984,214 @@ if matching -> update password from payload if not -> handle error // Handled Be
     }
 ### PART 9 PENALTY
 #### service: GET PENALTIES PAGINATED (ID, TITLE, DATE)
+    - payload:
+        ```json
+        {
+            "pageSize":5,
+            "pageIndex":1
+        }
+    - expected Response/s:
+        ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "penaltiesList": {
+                "penaltyItem": [
+                    {
+                        "id": "1",
+                        "title": null,
+                        "date": "2023-12-31T21:00:00.000Z",
+                        "status": "CREATED"
+                    },
+                    {
+                        "id": "2",
+                        "title": null,
+                        "date": "2023-12-31T21:00:00.000Z",
+                        "status": "CREATED"
+                    },
+                    {
+                        "id": "4",
+                        "title": "Factory $ is penalized",
+                        "date": "2024-12-19T08:02:48.772Z",
+                        "status": "CREATED"
+                    },
+                    {
+                        "id": "5",
+                        "title": "Factory $ is penalized",
+                        "date": "2024-12-19T08:22:07.461Z",
+                        "status": "APPLIED"
+                    },
+                    {
+                        "id": "6",
+                        "title": "Factory $ is penalized",
+                        "date": "2024-12-19T08:39:11.734Z",
+                        "status": "APPLIED"
+                    }
+                ]
+            }
+        }
+    }
+#### service: SEARCH PENALTIES: (ID, TITLE, DATE)
 - payload:
     ```json
-
+    {
+        "searchTerm":"Factory $",
+        "pageSize":5,
+        "pageIndex":1
+    }
 - expected Response/s:
     ```json
-#### service: ADD PENALTY: TYPE, WEIGHT, NOTES ESTABLISHMENT ID
-##### SUB: RECALCULATE COMPLAINCE  
-- payload:
-    ```json
-
-- expected Response/s:
-    ```json
-##### SUB: RECALCULATE COMPLAINCE UPDATE COUNTS FOR AGAINST Done 
+    {
+    "header": {
+        "errorCode": "0000",
+        "errorDescription": "SUCCESS",
+        "statusCode": 200,
+        "message": "Operation completed successfully"
+    },
+    "body": {
+        "success": true,
+        "penaltiesList": {
+            "penaltyItem": [
+                {
+                    "id": "4",
+                    "title": "Factory $ is penalized",
+                    "date": "2024-12-19T08:02:48.772Z",
+                    "status": "CREATED"
+                },
+                {
+                    "id": "5",
+                    "title": "Factory $ is penalized",
+                    "date": "2024-12-19T08:22:07.461Z",
+                    "status": "APPLIED"
+                },
+                {
+                    "id": "6",
+                    "title": "Factory $ is penalized",
+                    "date": "2024-12-19T08:39:11.734Z",
+                    "status": "APPLIED"
+                }
+            ]
+        }
+    }
+    }
 #### service: VIEW PENALTY (PENALTY ID): TYPE, WEIGHT, NOTES ESTABLISHMENT NAMES AND IDS, COMPLAINT ID
 - payload:
     ```json
-
+    {
+        "penaltyId": 6
+    }
 - expected Response/s:
     ```json
-#### service: UPDATE PENALTY (PENALTY ID): APPLY (APPLIED) / DELETE 
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "penaltyDetails": {
+                "title": "Factory $ is penalized",
+                "typeId": "1",
+                "establishmentType": "Factory",
+                "initiatorId": "40",
+                "statusId": "APPLIED",
+                "notes": "NA",
+                "creationDate": "2024-12-19T08:39:11.734Z",
+                "weight": 0.25,
+                "relatedComplaintId": "1",
+                "supplier": {
+                    "supplierId": "1",
+                    "establishmentId": "3",
+                    "establishmentName": "test"
+                },
+                "retailer": {
+                    "retailerId": "1",
+                    "establishmentId": "3",
+                    "establishmentName": "test"
+                }
+            }
+        }
+    }    
+#### service: GET PENALTY TYPES
+- payload:
+- expected Response/s:
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true,
+            "penaltyTypes": [
+                {
+                    "id": "1",
+                    "type": "ORDER DELAY"
+                },
+                {
+                    "id": "2",
+                    "type": "PAYMENT DEFAULT"
+                }
+            ]
+        }
+    }   
+#### service: ADD PENALTY: TYPE, WEIGHT, NOTES ESTABLISHMENT ID
+##### SUB: RECALCULATE COMPLAINCE  
+##### SUB: RECALCULATE COMPLAINCE UPDATE COUNTS FOR AGAINST Done 
+- payload:
+    ```json
+    {
+        "penaltyTypeId": 1,
+        "establishmentId": 38,
+        "penaltyInitiatorId": 40,
+        "penaltyNotes": "NO NOTES",
+        "penaltyTitle": "FACTORY DEFAULTED",
+        "penaltyWeight":0.15,
+        "relatedComplaintId":30
+    }
+- expected Response/s:
+    ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true
+        }
+    }       
+#### service: UPDATE PENALTY (PENALTY ID): DELETE 
 ##### SUB: RECALCULATE COMPLAINCE  
 - payload:
     ```json
-
+    {
+        "penaltyId": 6
+    }
 - expected Response/s:
     ```json
+    {
+        "header": {
+            "errorCode": "0000",
+            "errorDescription": "SUCCESS",
+            "statusCode": 200,
+            "message": "Operation completed successfully"
+        },
+        "body": {
+            "success": true
+        }
+    }
 ### PART 10 NOTIFICATIONS
 #### service: GET NOTIFICATION
 - payload:

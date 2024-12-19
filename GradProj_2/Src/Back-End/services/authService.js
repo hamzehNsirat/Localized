@@ -414,13 +414,11 @@ const authService = {
   },
   async searchApplications(searchTerm, pageSize, pageIndex) {
     try {
-      console.log(applicationResult);
       const applicationResult = await applicationModel.searchApplication(
         searchTerm,
         pageSize,
         pageIndex
       );
-      console.log(applicationResult);
       if (!applicationResult) {
         return {
           success: false,

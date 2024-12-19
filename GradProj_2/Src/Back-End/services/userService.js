@@ -438,7 +438,6 @@ const userService = {
       };
 
     const signUp = await authService.registerUser(user, establishment);
-    console.log(signUp);
     if (signUp.success != true) {
       return {
         success: false,

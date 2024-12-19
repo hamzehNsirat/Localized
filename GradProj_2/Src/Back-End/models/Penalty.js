@@ -1,59 +1,104 @@
 const { executeQuery } = require("../config/database");
 
-const Penalty = {
-  async getAll() {
-    return await executeQuery("SELECT * FROM penalty_get_all()", []);
+const PenaltyModel = {
+  // Get all penalties with pagination
+  async getAllPenalties(pageSize, pageIndex) {
+    const query = `
+            SELECT * FROM penalty_get_all($1, $2)
+        `;
+    try {
+      return await executeQuery(query, [pageSize, pageIndex]);
+    } catch (error) {
+      console.error("Error in getAllPenalties:", error);
+      throw error;
+    }
   },
 
-  async getById(penaltyId) {
-    return await executeQuery("SELECT * FROM penalty_get_by_id($1)", [
-      penaltyId,
-    ]);
+  // Search all penalties with pagination
+  async searchPenalties(searchTerm, pageSize, pageIndex) {
+    const query = `
+            SELECT * FROM penalty_search($1, $2, $3)
+        `;
+    try {
+      const result = await executeQuery(query, [
+        searchTerm,
+        pageSize,
+        pageIndex,
+      ]);
+      return result; 
+    } catch (error) {
+      console.error("Error in searchPenalties:", error);
+      throw error;
+    }
+  },
+  // Get penalty by ID
+  async getPenaltyById(penaltyId) {
+    const query = `
+            SELECT * FROM penalty_get_by_id($1)
+        `;
+    try {
+      return await executeQuery(query, [penaltyId]);
+    } catch (error) {
+      console.error("Error in getPenaltyById:", error);
+      throw error;
+    }
   },
 
-  async getByEstablishment(establishmentId) {
-    return await executeQuery(
-      "SELECT * FROM penalty_get_by_establishment($1)",
-      [establishmentId]
-    );
-  },
-
-  async insert(inputData) {
-    return await executeQuery(
-      "SELECT * FROM penalty_insert($1, $2, $3, $4, $5, $6, $7)",
-      [
+  // Insert a new penalty
+  async insertPenalty(inputData) {
+    const query = `
+            SELECT * FROM penalty_insert($1, $2, $3, $4, $5, $6, $7, $8, $9) 
+        `;
+    try {
+      const result = await executeQuery(query, [
         inputData.penaltyTypeId,
         inputData.establishmentId,
         inputData.penaltyInitiatorId,
         inputData.penaltyStatusId,
         inputData.penaltyNotes,
-        inputData.creationDate,
         inputData.lastModifiedBy,
-      ]
-    );
+        inputData.penaltyTitle,
+        inputData.penaltyWeight,
+        inputData.relatedComplaintId,
+      ]);
+      return result;
+    } catch (error) {
+      console.error("Error in insertPenalty:", error);
+      throw error;
+    }
   },
 
-  async update(inputData) {
-    return await executeQuery(
-      "SELECT * FROM penalty_update($1, $2, $3, $4, $5, $6, $7)",
-      [
-        inputData.penaltyId,
-        inputData.penaltyTypeId,
-        inputData.establishmentId,
-        inputData.penaltyInitiatorId,
-        inputData.penaltyStatusId,
-        inputData.penaltyNotes,
-        inputData.lastModifiedBy,
-      ]
-    );
+  // Delete a penalty
+  async deletePenalty(penaltyId) {
+    const query = `
+            SELECT penalty_delete($1) AS result
+        `;
+    try {
+      const result = await executeQuery(query, [penaltyId]);
+      return result;
+    } catch (error) {
+      console.error("Error in deletePenalty:", error);
+      throw error;
+    }
   },
 
-  async delete(penaltyId, lastModifiedBy) {
-    return await executeQuery("SELECT * FROM penalty_delete($1, $2)", [
-      penaltyId,
-      lastModifiedBy,
-    ]);
+  // Update penalty status
+  async updatePenaltyStatus(penaltyId, penaltyStatus, lastModifiedBy) {
+    const query = `
+            SELECT penalty_update_status($1, $2, $3) AS result
+        `;
+    try {
+      const result = await executeQuery(query, [
+        penaltyId,
+        penaltyStatus,
+        lastModifiedBy,
+      ]);
+      return result;
+    } catch (error) {
+      console.error("Error in updatePenaltyStatus:", error);
+      throw error;
+    }
   },
 };
 
-module.exports = Penalty;
+module.exports = PenaltyModel;

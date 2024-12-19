@@ -44,4 +44,11 @@ router.post(
 router.post("/searchcomplaints", validateToken, controller.searchComplaints);
 router.post("/updatecomplaint", validateToken, controller.updateComplaint);
 
+router.post("/getpenalties", validateToken, controller.getPenalties);
+router.post("/searchpenalties", validateToken, controller.searchPenalties);
+router.post("/viewpenalty", validateToken, controller.viewPenalty);
+router.post("/getpenaltytypes", validateToken, controller.getPenaltyTypes);
+router.post("/addpenalty", validateToken, controller.addPenalty);
+router.post("/deletepenalty", validateToken, controller.deletePenalty);
+
 module.exports = router;

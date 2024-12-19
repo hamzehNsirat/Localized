@@ -643,7 +643,6 @@ const analyticsService = {
       [supplierId[0].supplier_id]
     );
 
-    console.log(reviewObj);
     const complaintsObj = await executeQuery(
     `WITH complaints_data AS (
     SELECT

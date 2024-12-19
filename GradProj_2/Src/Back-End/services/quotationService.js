@@ -12,7 +12,6 @@ const {
 const quotationService = {
   async requestQuotation(inputData) {
     await beginTransaction();
-    console.log("here");
     const quotationDetails = {
       requesterId: inputData.retailerId,
       supplierId: inputData.supplierId,

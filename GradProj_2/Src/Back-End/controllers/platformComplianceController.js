@@ -46,6 +46,7 @@ const submitReview = async (req, res) => {
     return errorHandler.handleError(res, "E0054");
   }
 };
+
 const getComplaintsRetailer = async (req, res) => {
   try {
     if (
@@ -159,7 +160,6 @@ const getComplaintsSupplier = async (req, res) => {
     return errorHandler.handleError(res, "E0080");
   }
 };
-
 const getComplaintsList = async (req, res) => {
   try {
     if (
@@ -211,6 +211,99 @@ const updateComplaint = async (req, res) => {
     return errorHandler.handleError(res, "E0090");
   }
 };
+
+const getPenalties = async (req, res) => {
+  try {
+    if (req.body.pageSize == null || req.body.pageIndex == null) {
+      return errorHandler.handleError(res, "E0013");
+    }
+    const result = await platformCompService.getPenalties(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0091", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0091");
+  }
+};
+const searchPenalties = async (req, res) => {
+  try {
+    if (
+      req.body.searchTerm == null ||
+      req.body.pageSize == null ||
+      req.body.pageIndex == null
+    ) {
+      return errorHandler.handleError(res, "E0086");
+    }
+    const result = await platformCompService.searchPenalties(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0039", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0039");
+  }
+};
+const viewPenalty = async (req, res) => {
+  try {
+    if (req.body.penaltyId == null) {
+      return errorHandler.handleError(res, "E0092");
+    }
+    const result = await platformCompService.viewPenalty(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0093", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0093");
+  }
+};
+const getPenaltyTypes = async (req, res) => {
+  try {
+    const result = await platformCompService.getPenaltyTypes(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0097", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0097");
+  }
+};
+const addPenalty = async (req, res) => {
+  try {
+    if (
+      req.body.penaltyTypeId == null ||
+      req.body.establishmentId == null ||
+      req.body.penaltyInitiatorId == null ||
+      req.body.penaltyWeight == null ||
+      req.body.relatedComplaintId == null
+    ) {
+      return errorHandler.handleError(res, "E0094");
+    }
+    const result = await platformCompService.addPenalty(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0095", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0095");
+  }
+};
+const deletePenalty = async (req, res) => {
+  try {
+    if (req.body.penaltyId == null) {
+      return errorHandler.handleError(res, "E0092");
+    }
+    const result = await platformCompService.deletePenalty(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0096", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0096");
+  }
+};
+
 module.exports = {
   submitReview,
   getComplaintsRetailer,
@@ -223,4 +316,10 @@ module.exports = {
   getComplaintsList,
   searchComplaints,
   updateComplaint,
+  getPenalties,
+  viewPenalty,
+  addPenalty,
+  deletePenalty,
+  searchPenalties,
+  getPenaltyTypes,
 };

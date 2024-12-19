@@ -2,6 +2,8 @@
 const Supplier = require("../models/Supplier.js");
 const Review = require("../models/Review");
 const Complaint = require("../models/Complaint");
+const Penalty = require("../models/Penalty.js");
+const PenaltyType = require("../models/PenaltyType.js");
 const ComplaintType = require("../models/ComplaintType");
 const Quotation = require("../models/Quotation");
 const Notification = require("../models/Notification");
@@ -357,6 +359,154 @@ const platformComplianceService = {
         error: "Failed to Update Complaint",
       };
     }
+    return {
+      success: true,
+    };
+  },
+  async getPenalties(inputData) {
+    const penaltiesFetchDb = await Penalty.getAllPenalties(
+      inputData.pageSize,
+      inputData.pageIndex
+    );
+    if (!penaltiesFetchDb[0]) {
+      return {
+        success: false,
+        error: "Failed to Fetch Penalties",
+      };
+    }
+    const penaltiesList = { penaltyItem: [] };
+    for (let i = 0; i < penaltiesFetchDb.length; i++) {
+      const item = {
+        id: penaltiesFetchDb[i].out_penalty_id,
+        title: penaltiesFetchDb[i].out_penalty_title,
+        date: penaltiesFetchDb[i].out_creation_date,
+        status: penaltiesFetchDb[i].out_penalty_status_id,
+      };
+      penaltiesList.penaltyItem.push(item);
+    }
+    return {
+      success: true,
+      penaltiesList,
+    };
+  },
+  async searchPenalties(inputData) {
+    const penaltiesFetchDb = await Penalty.searchPenalties(
+      inputData.searchTerm,
+      inputData.pageSize,
+      inputData.pageIndex
+    );
+    if (!penaltiesFetchDb[0]) {
+      return {
+        success: false,
+        error: "Failed to Search Penalties",
+      };
+    }
+    const penaltiesList = { penaltyItem: [] };
+    for (let i = 0; i < penaltiesFetchDb.length; i++) {
+      const item = {
+        id: penaltiesFetchDb[i].out_penalty_id,
+        title: penaltiesFetchDb[i].out_penalty_title,
+        date: penaltiesFetchDb[i].out_creation_date,
+        status: penaltiesFetchDb[i].out_penalty_status_id,
+      };
+      penaltiesList.penaltyItem.push(item);
+    }
+    return {
+      success: true,
+      penaltiesList,
+    };
+  },
+  async viewPenalty(inputData) {
+    const penaltiesFetchDb = await Penalty.getPenaltyById(inputData.penaltyId);
+    if (!penaltiesFetchDb[0]) {
+      return {
+        success: false,
+        error: "Failed to Fetch Penalty Details",
+      };
+    }
+    const penaltyDetails = {
+      title: penaltiesFetchDb[0].out_penalty_title,
+      typeId: penaltiesFetchDb[0].out_penalty_type_id,
+      establishmentType: penaltiesFetchDb[0].out_establishment_type,
+      initiatorId: penaltiesFetchDb[0].out_penalty_initiator_id,
+      statusId: penaltiesFetchDb[0].out_penalty_status_id,
+      notes: penaltiesFetchDb[0].out_penalty_notes,
+      creationDate: penaltiesFetchDb[0].out_creation_date,
+      weight: penaltiesFetchDb[0].out_penalty_weight,
+      relatedComplaintId: penaltiesFetchDb[0].out_related_complaint_id,
+      supplier: {
+        supplierId: penaltiesFetchDb[0].out_supplier_id,
+        establishmentId: penaltiesFetchDb[0].out_sup_establishment_id,
+        establishmentName: penaltiesFetchDb[0].out_sup_establishment_name,
+      },
+      retailer: {
+        retailerId: penaltiesFetchDb[0].out_retailer_id,
+        establishmentId: penaltiesFetchDb[0].out_ret_establishment_id,
+        establishmentName: penaltiesFetchDb[0].out_ret_establishment_name,
+      },
+    };
+    return {
+      success: true,
+      penaltyDetails: penaltyDetails,
+    };
+  },
+  async getPenaltyTypes(inputData) {
+    const typesFetchDb = await PenaltyType.getAllPenaltyTypes();
+    if (!typesFetchDb[0]) {
+      return {
+        success: false,
+        error: "Failed to Fetch Penalty Types",
+      };
+    }
+    const penaltyTypes = typesFetchDb.map((record) => ({
+      id: record.penlty_type_id,
+      type: record.penlty_type,
+    }));
+    return {
+      success: true,
+      penaltyTypes: penaltyTypes,
+    };
+  },
+  async addPenalty(inputData) {
+    await beginTransaction();
+    const insertData = {
+      penaltyTypeId: inputData.penaltyTypeId,
+      establishmentId: inputData.establishmentId,
+      penaltyInitiatorId: inputData.penaltyInitiatorId,
+      penaltyStatusId: "APPLIED",
+      penaltyNotes: inputData.penaltyNotes,
+      lastModifiedBy: 1,
+      penaltyTitle: inputData.penaltyTitle,
+      penaltyWeight: inputData.penaltyWeight,
+      relatedComplaintId: inputData.relatedComplaintId,
+    };
+    const penaltyInsertDb = await Penalty.insertPenalty(insertData);
+    if (
+      !penaltyInsertDb[0].out_penalty_id ||
+      penaltyInsertDb[0].out_penalty_id == "-1"
+    ) {
+      await rollbackTransaction();
+      return {
+        success: false,
+        error: "Failed to Create Penalty",
+      };
+    }
+    await commitTransaction();
+    return {
+      success: true,
+    };
+  },
+  async deletePenalty(inputData) {
+    await beginTransaction();
+    const penaltyDeleteDb = await Penalty.deletePenalty(inputData.penaltyId);
+    if (!penaltyDeleteDb[0].result || penaltyDeleteDb[0].result != "0") {
+      await rollbackTransaction();
+      return {
+        success: false,
+        error: "Failed to Delete Penalty",
+      };
+    }
+    await commitTransaction();
     return {
       success: true,
     };

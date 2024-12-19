@@ -1145,20 +1145,11 @@ RETURNS TRIGGER
 LANGUAGE PLPGSQL
 AS $$
 BEGIN
-    -- Check if 'is_penalty_resulted' is true in the new record
-    IF NEW.penalty_status_id ='APPLIED' THEN
-      UPDATE establishment
-      SET 
-          est_compliance_indicator = est_compliance_indicator - COALESCE(CAST(OLD.penalty_weight AS FLOAT), 0.15)
-      WHERE CAST(establishment_id AS BIGINT) = OLD.establishment_id;
-      UPDATE complaint SET is_penalty_resulted = TRUE WHERE CAST(complaint_id AS BIGINT) = OLD.related_complaint_id;
-    ELSIF NEW.penalty_status_id = 'DISABLED' THEN
-      UPDATE establishment
-      SET 
-          est_compliance_indicator = est_compliance_indicator + COALESCE(CAST(OLD.penalty_weight AS FLOAT), 0.15)
-      WHERE CAST(establishment_id AS BIGINT) = OLD.establishment_id;
-    END IF;
-
+    UPDATE establishment
+    SET 
+        est_compliance_indicator = est_compliance_indicator - COALESCE(CAST(NEW.penalty_weight AS FLOAT), 0.15)
+    WHERE CAST(establishment_id AS BIGINT) = NEW.establishment_id;
+    UPDATE complaint SET is_penalty_resulted = TRUE WHERE CAST(complaint_id AS BIGINT) = NEW.related_complaint_id;
     RETURN NEW;
 END;
 $$;
@@ -1177,7 +1168,7 @@ END;
 $$;
 
 -- Trigger Definition
-CREATE TRIGGER before_update_pnlt
+CREATE TRIGGER before_insert_pnlt
 BEFORE UPDATE ON penalty
 FOR EACH ROW
 EXECUTE FUNCTION recalculate_est_compliance();
