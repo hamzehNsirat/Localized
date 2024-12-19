@@ -11351,6 +11351,501 @@
 					]
 				},
 				{
+					"name": "GetPenaltiesList",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pageSize\":10,\r\n    \"pageIndex\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/platformservices/getpenalties",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"platformservices",
+								"getpenalties"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"pageSize\":5,\r\n    \"pageIndex\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getpenalties",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getpenalties"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "625"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"271-80H+p0B3w5OF7t354IUnDJiUzBE\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 19 Dec 2024 16:23:36 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"penaltiesList\": {\n            \"penaltyItem\": [\n                {\n                    \"id\": \"1\",\n                    \"title\": null,\n                    \"date\": \"2023-12-31T21:00:00.000Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"2\",\n                    \"title\": null,\n                    \"date\": \"2023-12-31T21:00:00.000Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"4\",\n                    \"title\": \"Factory $ is penalized\",\n                    \"date\": \"2024-12-19T08:02:48.772Z\",\n                    \"status\": \"CREATED\"\n                },\n                {\n                    \"id\": \"5\",\n                    \"title\": \"Factory $ is penalized\",\n                    \"date\": \"2024-12-19T08:22:07.461Z\",\n                    \"status\": \"APPLIED\"\n                },\n                {\n                    \"id\": \"6\",\n                    \"title\": \"Factory $ is penalized\",\n                    \"date\": \"2024-12-19T08:39:11.734Z\",\n                    \"status\": \"APPLIED\"\n                }\n            ]\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "seachPenalties",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"searchTerm\":\"Factory $\",\r\n    \"pageSize\":5,\r\n    \"pageIndex\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/platformservices/searchpenalties",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"platformservices",
+								"searchpenalties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "viewPenalty",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"penaltyId\": 6\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/platformservices/viewpenalty",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"platformservices",
+								"viewpenalty"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"penaltyId\": 6\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/viewpenalty",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"viewpenalty"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "533"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"215-jUKPFxtFhKZEVuGL9Ub+s9hpD+o\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 19 Dec 2024 18:04:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"penaltyDetails\": {\n            \"title\": \"Factory $ is penalized\",\n            \"typeId\": \"1\",\n            \"establishmentType\": \"Factory\",\n            \"initiatorId\": \"40\",\n            \"statusId\": \"APPLIED\",\n            \"notes\": \"NA\",\n            \"creationDate\": \"2024-12-19T08:39:11.734Z\",\n            \"weight\": 0.25,\n            \"relatedComplaintId\": \"1\",\n            \"supplier\": {\n                \"supplierId\": \"1\",\n                \"establishmentId\": \"3\",\n                \"establishmentName\": \"test\"\n            },\n            \"retailer\": {\n                \"retailerId\": \"1\",\n                \"establishmentId\": \"3\",\n                \"establishmentName\": \"test\"\n            }\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "deletePenalty",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"penaltyId\": 6\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/platformservices/deletepenalty",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"platformservices",
+								"deletepenalty"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addPenalty",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"penaltyTypeId\": 1,\r\n    \"establishmentId\": 38,\r\n    \"penaltyInitiatorId\": 40,\r\n    \"penaltyNotes\": \"NO NOTES\",\r\n    \"penaltyTitle\": \"FACTORY DEFAULTED\",\r\n    \"penaltyWeight\":0.15,\r\n    \"relatedComplaintId\":30\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/platformservices/addpenalty",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"platformservices",
+								"addpenalty"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"penaltyId\": 6\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/viewpenalty",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"viewpenalty"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "533"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"215-jUKPFxtFhKZEVuGL9Ub+s9hpD+o\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 19 Dec 2024 18:04:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"penaltyDetails\": {\n            \"title\": \"Factory $ is penalized\",\n            \"typeId\": \"1\",\n            \"establishmentType\": \"Factory\",\n            \"initiatorId\": \"40\",\n            \"statusId\": \"APPLIED\",\n            \"notes\": \"NA\",\n            \"creationDate\": \"2024-12-19T08:39:11.734Z\",\n            \"weight\": 0.25,\n            \"relatedComplaintId\": \"1\",\n            \"supplier\": {\n                \"supplierId\": \"1\",\n                \"establishmentId\": \"3\",\n                \"establishmentName\": \"test\"\n            },\n            \"retailer\": {\n                \"retailerId\": \"1\",\n                \"establishmentId\": \"3\",\n                \"establishmentName\": \"test\"\n            }\n        }\n    }\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"penaltyTypeId\": 1,\r\n    \"establishmentId\": 38,\r\n    \"penaltyInitiatorId\": 40,\r\n    \"penaltyNotes\": \"NO NOTES\",\r\n    \"penaltyTitle\": \"FACTORY DEFAULTED\",\r\n    \"penaltyWeight\":0.15,\r\n    \"relatedComplaintId\":30\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/addpenalty",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"addpenalty"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "146"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"92-2BRzeEqKenM2dYSIeQCS6XpvO00\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 19 Dec 2024 18:35:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true\n    }\n}"
+						}
+					]
+				},
+				{
 					"name": "SearchComplaints",
 					"request": {
 						"method": "POST",
@@ -12000,6 +12495,355 @@
 							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0064\",\n        \"errorDescription\": \"Fetch Failure\",\n        \"statusCode\": \"E0064\",\n        \"message\": \"Fetching Retailer Notifications has Failed\"\n    },\n    \"body\": {\n        \"details\": {\n            \"success\": false,\n            \"error\": \"Unable to Fetch Notifications for Retailer\"\n        }\n    }\n}"
 						}
 					]
+				},
+				{
+					"name": "getPenaltyTypes",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/platformservices/getpenaltytypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"platformservices",
+								"getpenaltytypes"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"retailerId\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getquotationactorsret",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getquotationactorsret"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "919"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"397-tzgF9BCWs0dy8TpFjuShL+h/mos\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 15:38:04 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"quotationActors\": {\n            \"quotationItem\": [\n                {\n                    \"quotationId\": 2,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 4,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 5,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 6,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 7,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 8,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 9,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 10,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 11,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 12,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 14,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 21,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 22,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                },\n                {\n                    \"quotationId\": 23,\n                    \"supplierId\": \"1\",\n                    \"retailerId\": \"1\"\n                }\n            ]\n        }\n    }\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"retailerId\":11\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getquotationactorsret",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getquotationactorsret"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "217"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d9-2V050TLaF02rxof3sKGhnU9mZgo\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 15:38:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0059\",\n        \"errorDescription\": \"Fetch Failure\",\n        \"statusCode\": \"E0059\",\n        \"message\": \"Fetching Quotation Actors has Failed\"\n    },\n    \"body\": {\n        \"details\": {\n            \"success\": false,\n            \"error\": \"Failed to Fetch Quotation Actors\"\n        }\n    }\n}"
+						},
+						{
+							"name": "Types/Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getcomplainttypes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getcomplainttypes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "362"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"16a-6/Z61SuDhSYwc8gEJAl1h4LVI0A\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 15:39:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"complaintTypes\": [\n            {\n                \"id\": \"1\",\n                \"type\": \"Payment Defaulted\"\n            },\n            {\n                \"id\": \"2\",\n                \"type\": \"Order not Complete\"\n            },\n            {\n                \"id\": \"3\",\n                \"type\": \"Order not Delivered\"\n            },\n            {\n                \"id\": \"4\",\n                \"type\": \"Defective Cargo\"\n            },\n            {\n                \"id\": \"5\",\n                \"type\": \"Aftersales Ineffeciency\"\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{Authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/getpenaltytypes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"getpenaltytypes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "231"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"e7-1jNsz4FQ11tcGntcL1vEY58rh68\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 19 Dec 2024 18:48:46 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"penaltyTypes\": [\n            {\n                \"id\": \"1\",\n                \"type\": \"ORDER DELAY\"\n            },\n            {\n                \"id\": \"2\",\n                \"type\": \"PAYMENT DEFAULT\"\n            }\n        ]\n    }\n}"
+						}
+					]
 				}
 			]
 		},
@@ -12015,7 +12859,7 @@
 							"key": "image",
 							"description": "test",
 							"type": "file",
-							"src": "/C:/Users/inspire12/Desktop/download.png"
+							"src": "/C:/Users/inspire12/Pictures/Screenshots/Screenshot 2024-12-15 134106.png"
 						}
 					]
 				},
