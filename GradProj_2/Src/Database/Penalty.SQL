@@ -11,6 +11,7 @@ CREATE TABLE penalty (
 	creation_date  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	last_modification_date  TIMESTAMP NOT NULL,
 	last_modified_by		 BIGINT   NOT NULL,
+	 penalty_title VARCHAR(254) DEFAULT NULL,
 	CONSTRAINT fk_pnlt_establishment_id FOREIGN KEY (establishment_id)
     REFERENCES establishment(establishment_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT fk_pnlt_initiator_id FOREIGN KEY (penalty_initiator_id)
@@ -36,8 +37,7 @@ CREATE INDEX  idx_fk_establishment_id ON penalty(establishment_id);
  Penalty CRUD Functions
 */
 -- GET A Penalty BY ID
-
-CREATE OR REPLACE FUNCTION penalty_get_all() 
+CREATE OR REPLACE FUNCTION penalty_get_all(IN page_size INT, IN page_index INT) 
 RETURNS TABLE (
 	out_penalty_id		   BIGINT, 
 	out_penalty_type_id    BIGINT,

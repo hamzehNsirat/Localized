@@ -402,6 +402,10 @@ BEGIN
         FROM category
         WHERE industry_type = ANY(industry_types)
       )
+    ) AND p.product_status_id = (
+        SELECT product_status_id 
+        FROM product_status 
+        WHERE product_status LIKE '%PUBLISHED%'
     );
 
   -- Return the paginated results with total count included in each row
@@ -430,7 +434,11 @@ BEGIN
         FROM category
         WHERE industry_type = ANY(industry_types)
       )
-    )
+    )  AND p.product_status_id = (
+        SELECT product_status_id 
+        FROM product_status 
+        WHERE product_status LIKE '%PUBLISHED%'
+      )
   LIMIT page_size
   OFFSET ((page_index - 1) * page_size);
 END;
@@ -487,6 +495,11 @@ BEGIN
       OR
       -- Search by establishment name
       LOWER(e.establishment_name) LIKE LOWER('%' || search_term || '%')
+      AND p.product_status_id = (
+      SELECT product_status_id 
+      FROM product_status 
+      WHERE product_status LIKE '%PUBLISHED%'
+      )
   ),
   total_count AS (
     SELECT COUNT(*) AS total_records_count
@@ -571,6 +584,11 @@ BEGIN
     SELECT *
     FROM product p
     WHERE p.supplier_id = in_supplier_id
+    AND p.product_status_id = (
+      SELECT product_status_id 
+      FROM product_status 
+      WHERE product_status LIKE '%PUBLISHED%'
+    )
     ORDER BY p.product_name
     LIMIT page_size
     OFFSET ((page_index - 1) * page_size)
@@ -724,6 +742,7 @@ $$ LANGUAGE plpgsql;
 -- Creation Data: 10122024,
 -- Desc: Get Supplier Marketplace
 -- NodeJS Model: Supplier
+DROP FUNCTION supplier_get_marketplace_products;
 CREATE OR REPLACE FUNCTION supplier_get_marketplace_products(
   IN in_supplier_id BIGINT, 
   IN in_page_size INTEGER, 
@@ -767,6 +786,7 @@ RETURN QUERY
         FROM product_status 
         WHERE product_status LIKE '%PUBLISHED%'
       )
+      AND p.supplier_id <> in_supplier_id
   )
   SELECT 
     CAST(product_id AS BIGINT) AS out_product_id,
@@ -1113,3 +1133,57 @@ BEGIN
 	RETURN NEW;
 END;
 $$
+------------------------------------------------------------------------
+-- SP NO.:#21, 
+-- Complexity: MODERATE,
+-- Creation Data: 19122024,
+-- Desc: decrements Compliance Indicator for Est
+-- NodeJS Model:
+
+CREATE OR REPLACE FUNCTION recalculate_est_compliance()
+RETURNS TRIGGER 
+LANGUAGE PLPGSQL
+AS $$
+BEGIN
+    -- Check if 'is_penalty_resulted' is true in the new record
+    IF NEW.penalty_status_id ='APPLIED' THEN
+      UPDATE establishment
+      SET 
+          est_compliance_indicator = est_compliance_indicator - COALESCE(CAST(OLD.penalty_weight AS FLOAT), 0.15)
+      WHERE CAST(establishment_id AS BIGINT) = OLD.establishment_id;
+      UPDATE complaint SET is_penalty_resulted = TRUE WHERE CAST(complaint_id AS BIGINT) = OLD.related_complaint_id;
+    ELSIF NEW.penalty_status_id = 'DISABLED' THEN
+      UPDATE establishment
+      SET 
+          est_compliance_indicator = est_compliance_indicator + COALESCE(CAST(OLD.penalty_weight AS FLOAT), 0.15)
+      WHERE CAST(establishment_id AS BIGINT) = OLD.establishment_id;
+    END IF;
+
+    RETURN NEW;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION remove_penalty_compliance()
+RETURNS TRIGGER 
+LANGUAGE PLPGSQL
+AS $$
+BEGIN
+    UPDATE establishment
+    SET 
+        est_compliance_indicator = est_compliance_indicator + COALESCE(CAST(OLD.penalty_weight AS FLOAT), 0.15)
+    WHERE CAST(establishment_id AS BIGINT) = OLD.establishment_id;
+    RETURN NEW;
+END;
+$$;
+
+-- Trigger Definition
+CREATE TRIGGER before_update_pnlt
+BEFORE UPDATE ON penalty
+FOR EACH ROW
+EXECUTE FUNCTION recalculate_est_compliance();
+
+-- Trigger Definition
+CREATE TRIGGER before_delete_pnlt
+BEFORE DELETE ON penalty
+FOR EACH ROW
+EXECUTE FUNCTION remove_penalty_compliance();

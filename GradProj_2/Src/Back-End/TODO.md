@@ -1,6 +1,5 @@
 # TODO Backend
 ## URGENT: 
-### ADD CHECK ON PRODUCT STATUS = 1 WHEN DISPLAYING MARKETPLACE / PROFILE RESULTS
 ## Project Distribution
 
 - Analytics: Hamzeh
@@ -4006,7 +4005,7 @@ if matching -> update password from payload if not -> handle error // Handled Be
 
 - expected Response/s:
     ```json
-#### service: UPDATE PENALTY (PENALTY ID): DELETE 
+#### service: UPDATE PENALTY (PENALTY ID): APPLY (APPLIED) / DELETE 
 ##### SUB: RECALCULATE COMPLAINCE  
 - payload:
     ```json
