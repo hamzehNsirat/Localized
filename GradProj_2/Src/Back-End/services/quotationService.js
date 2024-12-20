@@ -1,7 +1,11 @@
 const Quotation = require("../models/Quotation");
-const Notification = require("../models/Notification");
 const Order = require("../models/Order");
 const Product = require("../models/Product");
+const {
+  sendEmail,
+  submitNotification,
+} = require("../config/notificationUtils");
+
 const {
   executeQuery,
   beginTransaction,
@@ -105,19 +109,19 @@ const quotationService = {
       };
     }
     await commitTransaction();
+
     const user = await executeQuery(
       "SELECT supplier_user_id FROM supplier WHERE supplier_id = $1",
       [inputData.supplierId]
     );
-    notificationData = {
-      notificationType: 8,
-      notifiedUserId: user[0].supplier_user_id,
-      notificationPriority: 1,
-      notificationSubject: "New Quotation Requested",
-      notificationDetails: `a New Quotation has been Requested, Quotation ID: ${quotationInsertDb[0].out_quotation_id}`,
-      lastModifiedBy: 1,
-    };
-    await Notification.insertNotification(notificationData);
+    await submitNotification(
+      8,
+      user[0].supplier_user_id,
+      1,
+      "New Quotation Requested",
+      `a New Quotation has been Requested, Quotation ID: ${quotationInsertDb[0].out_quotation_id}`
+    );
+ 
 
     return {
       success: true,
@@ -252,12 +256,46 @@ const quotationService = {
       !quotationUpdateDb[0] ||
       quotationUpdateDb[0].quotation_update_status == "-1"
     ) {
-      return {
+    return {
         success: false,
         error: "Failed to Update Quotation Status",
       };
     }
-    return {
+
+
+   if (inputData.quotationStatusId == 4) {
+     const queryUser = await executeQuery(
+       "SELECT user_email, user_id FROM user_localized WHERE user_id = (SELECT retailer_user_id FROM retailer WHERE retailer_id = (SELECT requester_id FROM quotation WHERE quotation_id = $1))",
+       [inputData.quotationId]
+     );
+     const sendEmailNotif = await sendEmail(
+       queryUser[0].user_email,
+       "Quotation Completed | Localized",
+       `Quotation: ${inputData.quotationId} has been Completed Successfully, Thank you for using our Platform`,
+       `<p>Quotation: ${inputData.quotationId} has been Completed Successfully, Thank you for using our Platform</p>`
+     );
+      await submitNotification(
+        9,
+        queryUser[0].user_id,
+        1,
+        "Quotation Update",
+        `An Update to Quotation: ${inputData.quotationId} has occured`
+      );
+   } else if (inputData.quotationStatusId == 2 || inputData.quotationStatusId == 2) {
+     const queryUser = await executeQuery(
+       "SELECT user_email, user_id FROM user_localized WHERE user_id = (SELECT supplier_user_id FROM supplier WHERE supplier_id = (SELECT supplier_id FROM quotation WHERE quotation_id = $1))",
+       [inputData.quotationId]
+     );
+      await submitNotification(
+        9,
+        queryUser[0].user_id,
+        1,
+        "Quotation Update",
+        `An Update to Quotation: ${inputData.quotationId} has occured`
+      );
+   }
+
+   return {
       success: true,
     };
   },
@@ -342,15 +380,13 @@ const quotationService = {
       "SELECT retailer_user_id FROM retailer WHERE retailer_id = (SELECT requester_id FROM quotation WHERE quotation_id = $1)",
       [inputData.quotationId]
     );
-    notificationData = {
-      notificationType: 9,
-      notifiedUserId: user[0].retailer_user_id,
-      notificationPriority: 1,
-      notificationSubject: "Quotation has been Submitted By Supplier",
-      notificationDetails: `Quotation with ID: ${inputData.quotationId} has been Submitted by Supplier, Click to view Details`,
-      lastModifiedBy: 1,
-    };
-    await Notification.insertNotification(notificationData);
+    await submitNotification(
+      9,
+      user[0].retailer_user_id,
+      1,
+      "Quotation has been Submitted By Supplier",
+      `Quotation with ID: ${inputData.quotationId} has been Submitted by Supplier, Click to view Details`
+    );
     return {
       success: true,
     };

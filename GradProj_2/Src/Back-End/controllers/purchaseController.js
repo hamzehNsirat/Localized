@@ -2,11 +2,6 @@
 --------------------
 -- PURCHASE CYCLE --
 - Create Purchase 
-- Get Purchase List By Retailer
-- Get Purchase List By Supplier
-- Get Purchase Details
-- Update Purchase
-- Update Purchase Status
 ---------------------
 */
 const purchaseService = require("../services/purchaseService");

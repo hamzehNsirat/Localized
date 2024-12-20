@@ -7,12 +7,14 @@ const Admin = require("../models/Adminstrator");
 const Factory = require("../models/Factory");
 const RetailStore = require("../models/RetailStore");
 const logDBModel = require("../models/Log");
-const Notification = require("../models/Notification");
 const jwt = require("jsonwebtoken");
 const keys = require("../config/keys");
 const applicationModel = require("../models/Application");
 const crypto = require("crypto");
-const { sendEmail } = require("../config/email");
+const {
+  sendEmail,
+  submitNotification,
+} = require("../config/notificationUtils");
 const env = require("../config/env");
 
 const {
@@ -188,15 +190,7 @@ const authService = {
         );
       }
       await commitTransaction();
-      notificationData = {
-        notificationType: 1,
-        notifiedUserId: newUserId,
-        notificationPriority: 2,
-        notificationSubject: "Welcome Aboard",
-        notificationDetails: "Welcome to Our Platform",
-        lastModifiedBy: 1,
-      };
-      await Notification.insertNotification(notificationData);
+      await submitNotification(1,newUserId,2,'Welcome Abroad', 'Welcome to our Platform');
       // Generate JWT Token
       const tokenDBRes = await executeQuery(
         "SELECT token_version FROM user_localized WHERE user_id = $1",
@@ -323,7 +317,6 @@ const authService = {
 
       const applicationResult =
         await applicationModel.insertApplication(applicationData);
-
       if (!applicationResult || applicationResult == -1) {
         return {
           success: false,
@@ -557,7 +550,12 @@ const authService = {
               error: "Unable to Create User in Database",
             };
           }
-            
+          await sendEmail(
+            fetchApplicationDb[0].out_user_email,
+            "Application Confirmation | Localized",
+            `Dear Valued Applicant, your Request to join Localized has been Approved, Welcome Aboard`,
+            `<p>Dear Valued Applicant, your Request to join Localized has been Approved, Welcome Aboard</p>`
+          );            
       };
 
       const applicationResult = await applicationModel.updateApplicationStatus(
@@ -611,16 +609,6 @@ const authService = {
         `You requested to reset your password. Use the link below to reset it: ${resetUrl}`,
         `<p>You requested to reset your password. Use the link below to reset it:</p><p><a href="${resetUrl}">${resetUrl}</a></p>`
       );
-      notificationData = {
-        notificationType: 5,
-        notifiedUserId: user[0].user_id,
-        notificationPriority: 2,
-        notificationSubject: "Change Password Requested",
-        notificationDetails:
-          "you Requested to Change your Password, kindly contact us if this was not you",
-        lastModifiedBy: 1,
-      };
-      await Notification.insertNotification(notificationData);
 
       return {
         success: true,
@@ -650,16 +638,15 @@ const authService = {
         "UPDATE user_localized SET user_password = $1, reset_password_token = NULL, reset_password_expires = NULL, is_pass_change = true WHERE reset_password_token = $2",
         [newPassword, token]
       );
-      notificationData = {
-        notificationType: 4,
-        notifiedUserId: user[0].user_id,
-        notificationPriority: 4,
-        notificationSubject: "Password Changed",
-        notificationDetails: "Password Changed Successfully",
-        lastModifiedBy: 1,
-      };
-      await Notification.insertNotification(notificationData);
 
+      await submitNotification(
+        4,
+        user[0].user_id,
+        2,
+        "Password Changed",
+        "Password Changed Successfully"
+      );
+      
       return {
         success: true,
       };

@@ -1,4 +1,4 @@
-// TODO: IMPLEMENT SCHEMAS FOR ROUTES
+// FUTURE WORK: IMPLEMENT SCHEMAS FOR ROUTES
 const Joi = require("joi");
 
 const schemas = {

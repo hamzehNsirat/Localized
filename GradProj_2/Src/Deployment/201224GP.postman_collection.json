@@ -848,7 +848,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userType\": 2,\r\n    \"firstName\": \"sample\",\r\n    \"lastName\": \"supplier\",\r\n    \"userName\": \"supp19001\",\r\n    \"email\": \"han9991@gmail.com\",\r\n    \"password\": \"sudo9991\",\r\n    \"phoneNumber\": \"0769696967\",\r\n    \"establishmentName\": \"Martech\",\r\n    \"establishmentContactNumber\": \"0787777779\",\r\n    \"establishmentEmail\": \"est.supp9001@mail.com\",\r\n    \"establishmentDescription\": \"makes tech\",\r\n    \"establishmentCommercialRegistrationNum\": 1200452265,\r\n    \"establishmentCity\": \"Amman\",\r\n    \"establishmentStreet\": \"Abdali\",\r\n    \"establishmentBuildingNum\": \"D12\",\r\n    \"establishmentIndustryType\": [\r\n        2\r\n    ],\r\n    \"establishmentLogo\": \"http://localhost:5055/uploads/images/default-1733749653337-468698296.png\"\r\n}",
+							"raw": "{\r\n    \"userType\": 2,\r\n    \"firstName\": \"Hasan\",\r\n    \"lastName\": \"Alikhan\",\r\n    \"userName\": \"retailer-01\",\r\n    \"email\": \"hamnoi9991@gmail.com\",\r\n    \"password\": \"sudoOp123\",\r\n    \"phoneNumber\": \"0770144107\",\r\n    \"establishmentName\": \"TradeIntl\",\r\n    \"establishmentContactNumber\": \"0774101407\",\r\n    \"establishmentEmail\": \"est.ret-tradeintl@mail.com\",\r\n    \"establishmentDescription\": \"retails Food Products\",\r\n    \"establishmentCommercialRegistrationNum\": 1200446603,\r\n    \"establishmentCity\": \"Amman\",\r\n    \"establishmentStreet\": \"5th Circle,AbdulHamid Sharaf\",\r\n    \"establishmentBuildingNum\": \"D51\",\r\n    \"establishmentIndustryType\": [8],\r\n    \"establishmentLogo\": \"http://localhost:5055/uploads/images/default-1733749653337-468698296.png\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1221,543 +1221,6 @@
 							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"applicationStatus\": \"NEW\"\n    }\n}"
 						}
 					]
-				},
-				{
-					"name": "getApplicationsList",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{Authorization}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"pageSize\": 3,\r\n    \"pageIndex\": 1\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5055/api/auth/getapplicationslist",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5055",
-							"path": [
-								"api",
-								"auth",
-								"getapplicationslist"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "getApplicationsList/Error",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDAiLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyOTEwIiwidG9rZW5WZXJzaW9uIjozLCJpYXQiOjE3MzMwNTkzMTcsImV4cCI6MTczMzE0NTcxN30.ejg70ddl30YtxtyYNwp9hkf72c8TzgOn7BVXRQnRYIs",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 0\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:5055/api/auth/getapplicationslist",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "5055",
-									"path": [
-										"api",
-										"auth",
-										"getapplicationslist"
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Vary",
-									"value": "Origin"
-								},
-								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "152"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"98-BdVjlY30xrBUsYZj52wqAmaZUvQ\""
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 01 Dec 2024 13:31:55 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0023\",\n        \"errorDescription\": \"Missing Data\",\n        \"statusCode\": \"E0023\",\n        \"message\": \"PageIndex must be bigger than 0, PageSize must exist\"\n    }\n}"
-						},
-						{
-							"name": "getApplicationsList/Success",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDAiLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyOTEwIiwidG9rZW5WZXJzaW9uIjozLCJpYXQiOjE3MzMwNTkzMTcsImV4cCI6MTczMzE0NTcxN30.ejg70ddl30YtxtyYNwp9hkf72c8TzgOn7BVXRQnRYIs",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:5055/api/auth/getapplicationslist",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "5055",
-									"path": [
-										"api",
-										"auth",
-										"getapplicationslist"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Vary",
-									"value": "Origin"
-								},
-								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "642"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"282-usncO6kV4Ocs1g457BcR9EKyMuY\""
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 01 Dec 2024 13:32:22 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"applicationList\": {\n            \"applicationItem\": [\n                {\n                    \"id\": \"10\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"9\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"8\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"7\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"6\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                }\n            ]\n        }\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "searchApplications",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{Authorization}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"searchTerm\":\"Sm\",\r\n    \"pageSize\": 1,\r\n    \"pageIndex\": 1\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5055/api/auth/searchapplications",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5055",
-							"path": [
-								"api",
-								"auth",
-								"searchapplications"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "getApplicationsList/Error",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDAiLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyOTEwIiwidG9rZW5WZXJzaW9uIjozLCJpYXQiOjE3MzMwNTkzMTcsImV4cCI6MTczMzE0NTcxN30.ejg70ddl30YtxtyYNwp9hkf72c8TzgOn7BVXRQnRYIs",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 0\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:5055/api/auth/getapplicationslist",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "5055",
-									"path": [
-										"api",
-										"auth",
-										"getapplicationslist"
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Vary",
-									"value": "Origin"
-								},
-								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "152"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"98-BdVjlY30xrBUsYZj52wqAmaZUvQ\""
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 01 Dec 2024 13:31:55 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0023\",\n        \"errorDescription\": \"Missing Data\",\n        \"statusCode\": \"E0023\",\n        \"message\": \"PageIndex must be bigger than 0, PageSize must exist\"\n    }\n}"
-						},
-						{
-							"name": "getApplicationsList/Success",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDAiLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyOTEwIiwidG9rZW5WZXJzaW9uIjozLCJpYXQiOjE3MzMwNTkzMTcsImV4cCI6MTczMzE0NTcxN30.ejg70ddl30YtxtyYNwp9hkf72c8TzgOn7BVXRQnRYIs",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:5055/api/auth/getapplicationslist",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "5055",
-									"path": [
-										"api",
-										"auth",
-										"getapplicationslist"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Vary",
-									"value": "Origin"
-								},
-								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "642"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"282-usncO6kV4Ocs1g457BcR9EKyMuY\""
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 01 Dec 2024 13:32:22 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"applicationList\": {\n            \"applicationItem\": [\n                {\n                    \"id\": \"10\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"9\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"8\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"7\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"6\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                }\n            ]\n        }\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "getApplicationById",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{Authorization}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"applicationId\": 19\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5055/api/auth/getApplicationById",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5055",
-							"path": [
-								"api",
-								"auth",
-								"getApplicationById"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "getApplication/Success",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDAiLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyOTEwIiwidG9rZW5WZXJzaW9uIjozLCJpYXQiOjE3MzMwNTkzMTcsImV4cCI6MTczMzE0NTcxN30.ejg70ddl30YtxtyYNwp9hkf72c8TzgOn7BVXRQnRYIs",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"applicationId\": 5\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:5055/api/auth/getApplicationById",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "5055",
-									"path": [
-										"api",
-										"auth",
-										"getApplicationById"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Vary",
-									"value": "Origin"
-								},
-								{
-									"key": "Access-Control-Allow-Credentials",
-									"value": "true"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "504"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"1f8-+1AmQR3/dV6cZk0aL/C2QGxGBeE\""
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 01 Dec 2024 13:56:00 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"application\": {\n            \"id\": \"5\",\n            \"userType\": null,\n            \"userEmail\": \"user@mail.com\",\n            \"userPhoneNumber\": \"0799996663\",\n            \"establishmentName\": \"any\",\n            \"establishmentDescription\": \"in_establishment_description\",\n            \"establishmentContactNumber\": \"0799999990\",\n            \"establishmentEmail\": \"estTest@mail.com\",\n            \"establishmentCity\": \"AMMAN\",\n            \"establishmentIndustryTypes\": [\n                \"2\",\n                \"4\"\n            ],\n            \"establishmentLogo\": null\n        }\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "updateApplicationStatus",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{Authorization}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"applicationId\": 29,\r\n    \"status\": \"APPROVED\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5055/api/auth/updateapplicationstatus",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5055",
-							"path": [
-								"api",
-								"auth",
-								"updateapplicationstatus"
-							]
-						}
-					},
-					"response": []
 				},
 				{
 					"name": "requestPasswordReset",
@@ -2144,42 +1607,6 @@
 							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true\n    }\n}"
 						}
 					]
-				},
-				{
-					"name": "checkEstablishmentEligibility",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{Authorization}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"establishmentCommercialRegistrationNumber\": 129990003\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5055/api/auth/checkestablishmenteligibility",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5055",
-							"path": [
-								"api",
-								"auth",
-								"checkestablishmenteligibility"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -2199,7 +1626,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userId\":2\r\n}",
+							"raw": "{\r\n    \"userId\":199\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3780,7 +3207,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"quotationId\": 21,\r\n    \"buyerId\": 1,\r\n    \"supplierId\": 1,\r\n    \"paymentAmount\": 2.5\r\n}",
+							"raw": "{\r\n    \"quotationId\": 36,\r\n    \"buyerId\": 17,\r\n    \"supplierId\": 1,\r\n    \"paymentAmount\": 2.5\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -7027,7 +6454,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"quotationId\": 21,\r\n    \"quotationStatusId\": 4\r\n}",
+							"raw": "{\r\n    \"quotationId\": 36,\r\n    \"quotationStatusId\": 4\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -9816,7 +9243,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"pageSize\":5,\r\n    \"pageIndex\":1\r\n}",
+							"raw": "{\r\n    \"pageSize\":15,\r\n    \"pageIndex\":4\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -11629,7 +11056,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"penaltyId\": 6\r\n}",
+							"raw": "{\r\n    \"penaltyId\": 29\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -11665,7 +11092,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"penaltyTypeId\": 1,\r\n    \"establishmentId\": 38,\r\n    \"penaltyInitiatorId\": 40,\r\n    \"penaltyNotes\": \"NO NOTES\",\r\n    \"penaltyTitle\": \"FACTORY DEFAULTED\",\r\n    \"penaltyWeight\":0.15,\r\n    \"relatedComplaintId\":30\r\n}",
+							"raw": "{\r\n    \"penaltyTypeId\": 1,\r\n    \"establishmentId\": 47,\r\n    \"penaltyInitiatorId\": 40,\r\n    \"penaltyNotes\": \"Payment is not completed\",\r\n    \"penaltyTitle\": \"PAYMENT DEFAULT\",\r\n    \"penaltyWeight\":0.20,\r\n    \"relatedComplaintId\":30\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -12842,6 +12269,579 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"penaltyTypes\": [\n            {\n                \"id\": \"1\",\n                \"type\": \"ORDER DELAY\"\n            },\n            {\n                \"id\": \"2\",\n                \"type\": \"PAYMENT DEFAULT\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "updateApplicationStatus",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"applicationId\": 31,\r\n    \"status\": \"APPROVED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/auth/updateapplicationstatus",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"auth",
+								"updateapplicationstatus"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getApplicationById",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"applicationId\": 31\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/auth/getApplicationById",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"auth",
+								"getApplicationById"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "getApplication/Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDAiLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyOTEwIiwidG9rZW5WZXJzaW9uIjozLCJpYXQiOjE3MzMwNTkzMTcsImV4cCI6MTczMzE0NTcxN30.ejg70ddl30YtxtyYNwp9hkf72c8TzgOn7BVXRQnRYIs",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"applicationId\": 5\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/auth/getApplicationById",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"auth",
+										"getApplicationById"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "504"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f8-+1AmQR3/dV6cZk0aL/C2QGxGBeE\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 01 Dec 2024 13:56:00 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"application\": {\n            \"id\": \"5\",\n            \"userType\": null,\n            \"userEmail\": \"user@mail.com\",\n            \"userPhoneNumber\": \"0799996663\",\n            \"establishmentName\": \"any\",\n            \"establishmentDescription\": \"in_establishment_description\",\n            \"establishmentContactNumber\": \"0799999990\",\n            \"establishmentEmail\": \"estTest@mail.com\",\n            \"establishmentCity\": \"AMMAN\",\n            \"establishmentIndustryTypes\": [\n                \"2\",\n                \"4\"\n            ],\n            \"establishmentLogo\": null\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "searchApplications",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"searchTerm\":\"Sm\",\r\n    \"pageSize\": 1,\r\n    \"pageIndex\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/auth/searchapplications",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"auth",
+								"searchapplications"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "getApplicationsList/Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDAiLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyOTEwIiwidG9rZW5WZXJzaW9uIjozLCJpYXQiOjE3MzMwNTkzMTcsImV4cCI6MTczMzE0NTcxN30.ejg70ddl30YtxtyYNwp9hkf72c8TzgOn7BVXRQnRYIs",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/auth/getapplicationslist",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"auth",
+										"getapplicationslist"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "152"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"98-BdVjlY30xrBUsYZj52wqAmaZUvQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 01 Dec 2024 13:31:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0023\",\n        \"errorDescription\": \"Missing Data\",\n        \"statusCode\": \"E0023\",\n        \"message\": \"PageIndex must be bigger than 0, PageSize must exist\"\n    }\n}"
+						},
+						{
+							"name": "getApplicationsList/Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDAiLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyOTEwIiwidG9rZW5WZXJzaW9uIjozLCJpYXQiOjE3MzMwNTkzMTcsImV4cCI6MTczMzE0NTcxN30.ejg70ddl30YtxtyYNwp9hkf72c8TzgOn7BVXRQnRYIs",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/auth/getapplicationslist",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"auth",
+										"getapplicationslist"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "642"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"282-usncO6kV4Ocs1g457BcR9EKyMuY\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 01 Dec 2024 13:32:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"applicationList\": {\n            \"applicationItem\": [\n                {\n                    \"id\": \"10\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"9\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"8\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"7\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"6\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                }\n            ]\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "checkEstablishmentEligibility",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"establishmentCommercialRegistrationNumber\": 129990003\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/auth/checkestablishmenteligibility",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"auth",
+								"checkestablishmenteligibility"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getApplicationsList",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pageSize\": 3,\r\n    \"pageIndex\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/auth/getapplicationslist",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"auth",
+								"getapplicationslist"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "getApplicationsList/Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDAiLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyOTEwIiwidG9rZW5WZXJzaW9uIjozLCJpYXQiOjE3MzMwNTkzMTcsImV4cCI6MTczMzE0NTcxN30.ejg70ddl30YtxtyYNwp9hkf72c8TzgOn7BVXRQnRYIs",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/auth/getapplicationslist",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"auth",
+										"getapplicationslist"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "152"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"98-BdVjlY30xrBUsYZj52wqAmaZUvQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 01 Dec 2024 13:31:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0023\",\n        \"errorDescription\": \"Missing Data\",\n        \"statusCode\": \"E0023\",\n        \"message\": \"PageIndex must be bigger than 0, PageSize must exist\"\n    }\n}"
+						},
+						{
+							"name": "getApplicationsList/Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDAiLCJ1c2VyVHlwZSI6IjIiLCJ1c2VybmFtZSI6InN1cHBsaWVyOTEwIiwidG9rZW5WZXJzaW9uIjozLCJpYXQiOjE3MzMwNTkzMTcsImV4cCI6MTczMzE0NTcxN30.ejg70ddl30YtxtyYNwp9hkf72c8TzgOn7BVXRQnRYIs",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/auth/getapplicationslist",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"auth",
+										"getapplicationslist"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "642"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"282-usncO6kV4Ocs1g457BcR9EKyMuY\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 01 Dec 2024 13:32:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"applicationList\": {\n            \"applicationItem\": [\n                {\n                    \"id\": \"10\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"9\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"8\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"7\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"6\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                }\n            ]\n        }\n    }\n}"
 						}
 					]
 				}

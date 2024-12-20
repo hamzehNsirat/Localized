@@ -4557,11 +4557,31 @@ CREATE OR REPLACE FUNCTION penalty_delete (
 	IN in_penalty_id		  	 BIGINT
 )
 RETURNS BIGINT AS $$
+DECLARE
+    v_state TEXT;
+    v_msg TEXT;
+    v_detail TEXT;
+    v_hint TEXT;
+    v_context TEXT;
 BEGIN
 	DELETE FROM penalty 
 	WHERE  CAST(penalty_id AS BIGINT) = in_penalty_id;
 	RETURN 0;
 EXCEPTION WHEN OTHERS THEN 
+
+	out_penalty_id := -1;	
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
 	RETURN -1;	
 END;
 $$ LANGUAGE plpgsql;
@@ -4629,3 +4649,140 @@ AS $$ BEGIN RETURN QUERY
 
 END;
 $$ LANGUAGE plpgsql;
+-------------------------------------------------------
+-- 20-12
+DROP TRIGGER before_insert_pnlt ON penalty;
+CREATE TRIGGER before_insert_pnlt
+BEFORE INSERT ON penalty
+FOR EACH ROW
+EXECUTE FUNCTION recalculate_est_compliance();
+--
+CREATE OR REPLACE FUNCTION recalculate_compliance()
+RETURNS TRIGGER 
+LANGUAGE PLPGSQL
+AS $$
+BEGIN
+    -- Check if 'is_penalty_resulted' is true in the new record
+    IF NEW.is_penalty_resulted = TRUE THEN
+    
+        -- Case 1: Submitter type is TRUE -> Update supplier's compliance indicator and complaint count
+        IF NEW.submitter_type = TRUE THEN
+            UPDATE supplier
+            SET 
+                supplier_compliance_indicator = CASE WHEN supplier_compliance_indicator = 0 THEN 0 ELSE supplier_compliance_indicator - 0.05 END,
+                supplier_complaint_count = supplier_complaint_count + 1
+            WHERE supplier_id = NEW.supplier_id;
+
+        -- Case 2: Submitter type is FALSE -> Update retailer's compliance indicator and complaint count
+        ELSIF NEW.submitter_type = FALSE THEN
+            UPDATE retailer
+            SET 
+                retailer_compliance_indicator = CASE WHEN  retailer_compliance_indicator = 0 THEN 0 ELSE retailer_compliance_indicator - 0.05 END,
+                retailer_compliance_count = retailer_compliance_count + 1
+            WHERE retailer_id = NEW.retailer_id;
+        END IF;
+    END IF;
+
+    RETURN NEW;
+END;
+$$;
+CREATE OR REPLACE FUNCTION recalculate_est_compliance()
+RETURNS TRIGGER 
+LANGUAGE PLPGSQL
+AS $$
+BEGIN
+    UPDATE establishment
+    SET 
+        est_compliance_indicator = est_compliance_indicator - COALESCE(CAST(NEW.penalty_weight AS FLOAT), 0.15)
+    WHERE CAST(establishment_id AS BIGINT) = NEW.establishment_id;
+	IF((SELECT est_compliance_indicator FROM establishment WHERE CAST(establishment_id AS BIGINT) = NEW.establishment_id) BETWEEN .5 AND .7) THEN 
+		UPDATE establishment
+		SET 
+			est_compliance_indicator_desc = 'WARNING'
+		WHERE CAST(establishment_id AS BIGINT) = NEW.establishment_id;
+	ELSIF ((SELECT est_compliance_indicator FROM establishment WHERE CAST(establishment_id AS BIGINT) = NEW.establishment_id) BETWEEN .25 AND .5) THEN 
+		UPDATE establishment
+		SET 
+			est_compliance_indicator_desc = 'RESTRICTED'
+		WHERE CAST(establishment_id AS BIGINT) = NEW.establishment_id;
+	ELSIF ((SELECT est_compliance_indicator FROM establishment WHERE CAST(establishment_id AS BIGINT) = NEW.establishment_id) BETWEEN .0 AND .25) THEN 
+		UPDATE establishment
+		SET 
+			est_compliance_indicator_desc = 'SUSPENDED'
+		WHERE CAST(establishment_id AS BIGINT) = NEW.establishment_id;
+	END IF;
+    UPDATE complaint SET is_penalty_resulted = TRUE WHERE CAST(complaint_id AS BIGINT) = NEW.related_complaint_id;
+    RETURN NEW;
+END;
+$$;
+CREATE OR REPLACE FUNCTION remove_penalty_compliance()
+RETURNS TRIGGER 
+LANGUAGE PLPGSQL
+AS $$
+DECLARE 
+V_EST_CMPL FLOAT;
+BEGIN
+	SELECT  est_compliance_indicator FROM establishment WHERE establishment_id = CAST(OLD.establishment_id AS BIGINT) INTO V_EST_CMPL;
+	V_EST_CMPL :=  V_EST_CMPL + COALESCE(CAST(OLD.penalty_weight AS FLOAT), 0.15);
+    IF  V_EST_CMPL <= 1  THEN	
+		UPDATE establishment
+		SET 
+			est_compliance_indicator = V_EST_CMPL
+		WHERE CAST(establishment_id AS BIGINT) = OLD.establishment_id;
+	END IF;
+	IF(V_EST_CMPL BETWEEN .7 AND 1) THEN 
+		UPDATE establishment
+		SET 
+			est_compliance_indicator_desc = 'GOOD'
+		WHERE CAST(establishment_id AS BIGINT) = OLD.establishment_id;
+	ELSIF(V_EST_CMPL BETWEEN .5 AND .7) THEN 
+		UPDATE establishment
+		SET 
+			est_compliance_indicator_desc = 'WARNING'
+		WHERE CAST(establishment_id AS BIGINT) = OLD.establishment_id;
+	ELSIF (V_EST_CMPL BETWEEN .25 AND .5) THEN 
+		UPDATE establishment
+		SET 
+			est_compliance_indicator_desc = 'RESTRICTED'
+		WHERE CAST(establishment_id AS BIGINT) = OLD.establishment_id;
+	END IF;
+
+    RETURN OLD;
+END;
+$$;
+
+-- DELETE A Penalty
+CREATE OR REPLACE FUNCTION penalty_delete (
+	IN in_penalty_id		  	 BIGINT
+)
+RETURNS BIGINT AS $$
+DECLARE
+    v_state TEXT;
+    v_msg TEXT;
+    v_detail TEXT;
+    v_hint TEXT;
+    v_context TEXT;
+BEGIN
+	DELETE FROM penalty 
+	WHERE  CAST(penalty_id AS BIGINT) = in_penalty_id;
+	RETURN 0;
+EXCEPTION WHEN OTHERS THEN 
+
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
+	RETURN -1;	
+END;
+$$ LANGUAGE plpgsql;
+--
+SELECT * FROM notification_type_insert('COMPLAINT RESOLUTION', 1);
+SELECT * FROM notification_type_insert('PENALTY APPLIED', 1);

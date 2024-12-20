@@ -6,6 +6,10 @@
 - Update Single User
 - Review User
 - Delete User
+- Add User
+- Update User Status
+- Get User All Details
+- Search User
 ---------------------
 */ 
 const userService = require("../services/userService");
@@ -22,7 +26,6 @@ const getSingleUser = async (req, res) => {
     return errorHandler.handleError(res, "E0010", error.message);
   }
 };
-
 const updateSingleUser = async (req, res) => {
   try {
     const userData = req.body.user;
@@ -35,7 +38,6 @@ const updateSingleUser = async (req, res) => {
     return errorHandler.handleError(res, "E0012", error.message);
   }
 };
-
 const getUserList = async (req, res) => {
   try {
     if (req.body.pageSize == null || req.body.pageIndex == null) {
@@ -53,7 +55,6 @@ const getUserList = async (req, res) => {
     return errorHandler.handleError(res, "E0014", error.message);
   }
 };
-
 const searchUser = async (req, res) => {
   try {
     if (
@@ -110,7 +111,6 @@ const deleteUser = async (req, res) => {
     return errorHandler.handleError(res, "E0018", error.message);
   }
 };
-
 const getUserAllData = async (req, res) => {
   try {
     const result = await userService.getUserAllData(req.body.userId, req.body.userType);
@@ -122,7 +122,6 @@ const getUserAllData = async (req, res) => {
     return errorHandler.handleError(res, "E0010", error.message);
   }
 };
-
 const updateUserStatus = async (req, res) => {
   try {
     const result = await userService.updateUserStatus(
@@ -137,8 +136,6 @@ const updateUserStatus = async (req, res) => {
     return errorHandler.handleError(res, "E0012", error.message);
   }
 };
-
-
 const addUser = async (req, res) => {
   try {
     const result = await userService.addUser(req.body);

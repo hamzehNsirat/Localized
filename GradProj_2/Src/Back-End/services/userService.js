@@ -2,14 +2,13 @@
 const userModel = require("../models/User");
 const logDBModel = require("../models/Log");
 const usrReviewModel = require("../models/UserReview");
-const Notification = require("../models/Notification");
 const Supplier = require("../models/Supplier");
 const Retailer = require("../models/retailer"); 
 const Establishment = require("../models/Establishment");
 const RetailStore = require("../models/RetailStore");
 const Factory = require("../models/Factory");
 const authService = require("./authService");
-
+const { submitNotification } = require("../config/notificationUtils");
 const userService = {
   async getUserById(userData) {
     // Fetch user details by user ID
@@ -231,6 +230,15 @@ const userService = {
         success: false,
       };
     }
+
+    await submitNotification(
+      10,
+      userData.userId,
+      2,
+      "Profile Update",
+      "Your profile has been updated successfully"
+    );
+
     const inputData = {
       logUserId: userData.userId,
       actionDetails: "Update User Data for User Id: " + userData.userId,
@@ -239,15 +247,7 @@ const userService = {
       isTransactional: true,
     };
     await logDBModel.insertLog(inputData);
-    notificationData = {
-      notificationType: 10,
-      notifiedUserId: userData.userId,
-      notificationPriority: 1,
-      notificationSubject: "Profile Updated",
-      notificationDetails: `your profile has been updated!`,
-      lastModifiedBy: 1,
-    };
-    await Notification.insertNotification(notificationData);
+    
 
     return {
       success: true,
@@ -444,6 +444,12 @@ const userService = {
         error: "Unable to Create User",
       };
     }
+    await sendEmail(
+      email,
+      "User Addition | Localized",
+      `Dear Valued Applicant, your Request to join Localized has been Approved, Welcome Aboard`,
+      `<p>Dear Valued Applicant, your Request to join Localized has been Approved, Welcome Aboard</p>`
+    );
     return {
       success: true,
     };

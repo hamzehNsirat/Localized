@@ -16,7 +16,6 @@
 -- Adminstrator DASHBOARD --
 - Get Adminstrator Details (Basic, Adminstrator Related, Retailstore)
 - Get Adminstrator Notifications
-- Update Adminstrator Details
 */
 const dashboardService = require("../services/dashboardService");
 const errorHandler = require("../middlewares/errorHandler");

@@ -3,7 +3,10 @@ const Supplier = require("../models/Supplier");
 const Purchase = require("../models/Purchase");
 const Quotation = require("../models/Quotation");
 const Notification = require("../models/Notification");
-const { sendEmail } = require("../config/email");
+const {
+  sendEmail,
+  submitNotification,
+} = require("../config/notificationUtils");
 const env = require("../config/env");
 const {
   executeQuery,
@@ -77,18 +80,18 @@ const purchaseService = {
         error: "Failed to Create Transaction Details",
       };
     }
-    await commitTransaction();
+    await commitTransaction(); 
     // SEND RETAILER EMAIL FOR PURCHASE
     const queryEmail = await executeQuery(
-      "SELECT user_email FROM user_localized WHERE user_id = (SELECT retailer_user_id FROM retailer WHERE retailer_id = $1)",
-      [inputData.buyerId]
+      "SELECT user_email FROM user_localized WHERE user_id = (SELECT supplier_user_id FROM supplier WHERE supplier_id = $1)",
+      [inputData.supplierId]
     );
     const sendEmailNotif = await sendEmail(
       queryEmail[0].user_email,
       "Purchase Created | Localized",
-      `your Purchase Order for Quotation: ${inputData.quotationId} has been Created Successfully,
+      `A Purchase Order for Quotation: ${inputData.quotationId} containing your products has been Created Successfully,
       Purchase ID: ${purchaseInsertDb[0].out_purchase_id}`,
-      `<p>your Purchase Order for Quotation: ${inputData.quotationId} has been Created Successfully,
+      `<p>A Purchase Order for Quotation: ${inputData.quotationId} containing your products has been Created Successfully,
       Purchase ID: ${purchaseInsertDb[0].out_purchase_id}</p>`
     );
 
@@ -100,25 +103,23 @@ const purchaseService = {
       "SELECT retailer_user_id FROM retailer WHERE retailer_id = $1",
       [inputData.buyerId]
     );
-    notificationData = {
-      notificationType: 8,
-      notifiedUserId: user[0].supplier_user_id,
-      notificationPriority: 2,
-      notificationSubject: "New Purchase Created",
-      notificationDetails: `a Purchase has been Created regarding this Quotation: ${inputData.quotationId}`,
-      lastModifiedBy: 1,
-    };
-    await Notification.insertNotification(notificationData);
 
-    notificationData = {
-      notificationType: 8,
-      notifiedUserId: userB[0].retailer_user_id,
-      notificationPriority: 2,
-      notificationSubject: "New Purchase Created",
-      notificationDetails: `a Purchase has been Created regarding this Quotation: ${inputData.quotationId}`,
-      lastModifiedBy: 1,
-    };
-    await Notification.insertNotification(notificationData);
+    await submitNotification(
+      8,
+      user[0].supplier_user_id,
+      1,
+      "New Purchase Created",
+      `a Purchase has been Created regarding this Quotation: ${inputData.quotationId}`
+    );
+    await submitNotification(
+      8,
+      userB[0].retailer_user_id,
+      1,
+      "New Purchase Created",
+      `a Purchase has been Created regarding this Quotation: ${inputData.quotationId}`
+    );
+
+
 
 
     return {

@@ -1,1 +1,0 @@
-// Formats and structures API responses for consistency

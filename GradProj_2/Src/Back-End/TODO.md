@@ -1,12 +1,10 @@
-# TODO Backend
+# TODO 
 ## Project Distribution
-
-- Analytics: Hamzeh
-- Admin: Hamzeh
 - Integration: Abu Ayyash
 - Document: Husam / Rafeeq
 - Poster / Video: Husam
-
+- Backend : Hamzeh
+- FrontEnd: Abu Ayyash
 ## RETAILER PART [COMPLETION PERCENTAGE:100%]
 ### PART 1 Signup
 #### service: check user name is already in database
@@ -4293,7 +4291,6 @@ frontend level
             "message": "User successfully logged out"
         }
     }
-
 ## UTILITIES
 #### service: Upload Image
 - request

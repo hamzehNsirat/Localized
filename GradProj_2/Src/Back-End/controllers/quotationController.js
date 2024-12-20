@@ -115,8 +115,6 @@ const submitQuotation = async (req, res) => {
     return errorHandler.handleError(res, "E0078");
   }
 };
-
-
 const getQuotationList = async (req, res) => {
   try {
     if (
@@ -134,8 +132,6 @@ const getQuotationList = async (req, res) => {
     return errorHandler.handleError(res, "E0088");
   }
 };
-
-
 const searchQuotations = async (req, res) => {
   try {
     if (

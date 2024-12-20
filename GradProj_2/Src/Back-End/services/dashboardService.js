@@ -1,15 +1,14 @@
 // Contains Dashboard-related logic. 
 const Establishment = require("../models/Establishment");
 const Supplier = require("../models/Supplier");
-const Admin = require("../models/Adminstrator");
+const Notification = require("../models/Notification");
 const Factory = require("../models/Factory");
 const Retailer = require("../models/retailer"); 
 const RetailStore = require("../models/RetailStore");
-
-const logDBModel = require("../models/Log");
-const Notification = require("../models/Notification");
 const analytics = require("./analyticsService");
-const { sendEmail } = require("../config/email");
+const {
+  submitNotification,
+} = require("../config/notificationUtils");
 const {
   executeQuery,
   beginTransaction,
@@ -145,6 +144,17 @@ const dashboardService = {
     }
     //    console.log(moment(Date().now).format("YYYY-MM-DD HH:mm:ss"));
     await commitTransaction();
+    const user = await executeQuery(
+      "SELECT retailer_user_id FROM retailer WHERE retailer_id = $1",
+      [inObj.retailerId]
+    );
+    await submitNotification(
+      10,
+      user[0].retailer_user_id,
+      2,
+      "Profile Update",
+      "Your profile has been updated successfully"
+    );
     return {
       success: true,
     };
@@ -189,6 +199,18 @@ const dashboardService = {
       };
     }
     await commitTransaction();
+
+    const user = await executeQuery(
+      "SELECT retailer_user_id FROM retailer WHERE retailer_id = $1",
+      [inObj.retailerId]
+    );
+    await submitNotification(
+      10,
+      user[0].retailer_user_id,
+      2,
+      "Profile Update",
+      "Your Retailstore profile has been updated successfully"
+    );
     return {
       success: true,
     };
@@ -377,6 +399,17 @@ const dashboardService = {
       };
     }
     await commitTransaction();
+    const user = await executeQuery(
+      "SELECT supplier_user_id FROM supplier WHERE supplier_id = $1",
+      [inObj.supplierId]
+    );
+    await submitNotification(
+      10,
+      user[0].supplier_user_id,
+      2,
+      "Profile Update",
+      "Your profile has been updated successfully"
+    );
     return {
       success: true,
     };
@@ -421,6 +454,18 @@ const dashboardService = {
       };
     }
     await commitTransaction();
+
+    const user = await executeQuery(
+      "SELECT supplier_user_id FROM supplier WHERE supplier_id = $1",
+      [inObj.supplierId]
+    );
+    await submitNotification(
+      10,
+      user[0].supplier_user_id,
+      2,
+      "Profile Update",
+      "Your Factory profile has been updated successfully"
+    );
     return {
       success: true,
     };

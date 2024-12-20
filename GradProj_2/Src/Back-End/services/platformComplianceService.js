@@ -6,8 +6,10 @@ const Penalty = require("../models/Penalty.js");
 const PenaltyType = require("../models/PenaltyType.js");
 const ComplaintType = require("../models/ComplaintType");
 const Quotation = require("../models/Quotation");
-const Notification = require("../models/Notification");
-const { sendEmail } = require("../config/email");
+const {
+  sendEmail,
+  submitNotification,
+} = require("../config/notificationUtils.js");
 const env = require("../config/env");
 const {
   executeQuery,
@@ -52,17 +54,13 @@ const platformComplianceService = {
       "SELECT supplier_user_id FROM supplier WHERE supplier_id = $1",
       [inputData.supplierId]
     );
-    notificationData = {
-      notificationType: 6,
-      notifiedUserId: user[0].supplier_user_id,
-      notificationPriority: 2,
-      notificationSubject: "New Retailer Feedback",
-      notificationDetails:
-        "a Retailer has Submitted a new Review about your Products",
-      lastModifiedBy: 1,
-    };
-    await Notification.insertNotification(notificationData);
-
+    await submitNotification(
+      6,
+      user[0].supplier_user_id,
+      2,
+      "New Retailer Feedback",
+      "a Retailer has Submitted a new Review about your Products"
+    );
     return {
       success: true,
     };
@@ -104,25 +102,22 @@ const platformComplianceService = {
       "SELECT retailer_user_id FROM retailer WHERE retailer_id = $1",
       [inputData.retailerId]
     );
-    notificationData = {
-      notificationType: 7,
-      notifiedUserId: user[0].supplier_user_id,
-      notificationPriority: 1,
-      notificationSubject: "New Complaint Submitted",
-      notificationDetails: `a Complaint has been Submitted regarding this Quotation: ${inputData.quotationId}`,
-      lastModifiedBy: 1,
-    };
-    await Notification.insertNotification(notificationData);
 
-    notificationData = {
-      notificationType: 7,
-      notifiedUserId: userB[0].retailer_user_id,
-      notificationPriority: 1,
-      notificationSubject: "New Complaint Submitted",
-      notificationDetails: `a Complaint has been Submitted regarding this Quotation: ${inputData.quotationId}`,
-      lastModifiedBy: 1,
-    };
-    await Notification.insertNotification(notificationData);
+    await submitNotification(
+      7,
+      user[0].supplier_user_id,
+      1,
+      "New Complaint Submitted",
+      `a Complaint has been Submitted regarding this Quotation: ${inputData.quotationId}`
+    );
+
+    await submitNotification(
+      7,
+      userB[0].retailer_user_id,
+      1,
+      "New Complaint Submitted",
+      `a Complaint has been Submitted regarding this Quotation: ${inputData.quotationId}`
+    );
 
     return {
       success: true,
@@ -359,6 +354,33 @@ const platformComplianceService = {
         error: "Failed to Update Complaint",
       };
     }
+
+    const user = await executeQuery(
+      "SELECT supplier_user_id FROM supplier WHERE supplier_id = (SELECT supplier_id FROM complaint WHERE complaint_id = $1)",
+      [inputData.complaintId]
+    );
+    const userB = await executeQuery(
+      "SELECT retailer_user_id FROM retailer WHERE retailer_id = (SELECT retailer_id FROM complaint WHERE complaint_id = $1)",
+      [inputData.complaintId]
+    );
+
+    await submitNotification(
+      11,
+      user[0].supplier_user_id,
+      1,
+      "Complaint Resolved",
+      `Complaint has been Resolved with Resolution Notes: ${inputData.resolutionNotes}`
+    );
+
+    await submitNotification(
+      11,
+      userB[0].retailer_user_id,
+      1,
+      "Complaint Resolved",
+      `Complaint has been Resolved with Resolution Notes: ${inputData.resolutionNotes}`
+    );
+
+
     return {
       success: true,
     };
@@ -492,12 +514,60 @@ const platformComplianceService = {
       };
     }
     await commitTransaction();
+
+    const respondant = await executeQuery(
+      "SELECT submitter_type FROM complaint WHERE complaint_id = $1",
+      [inputData.relatedComplaintId]
+    );
+    let tryOwner = {};
+    if(respondant[0].submitter_type == true){
+      tryOwner = await executeQuery(
+        "SELECT user_email, user_id FROM user_localized WHERE user_id = (SELECT supplier_user_id FROM supplier WHERE supplier_id = (SELECT owner_id FROM factory WHERE factory_est_id = $1))",
+        [inputData.establishmentId]
+      );
+
+      await submitNotification(
+        12,
+        tryOwner[0].user_id,
+        0,
+        "Penalty Applied",
+        `Penalty is Applied to your Factory, Contact Us for more details`
+      );
+
+    }
+    else{
+      tryOwner = await executeQuery(
+      "SELECT user_email FROM user_localized WHERE user_id = (SELECT retailer_user_id FROM retailer WHERE retailer_id = (SELECT owner_id FROM retailstore WHERE retailstore_est_id = $1))",
+      [inputData.establishmentId]
+      );
+      await submitNotification(
+        12,
+        tryOwner[0].user_id,
+        0,
+        "Penalty Applied",
+        `Penalty is Applied to your Retailstore, Contact Us for more details`
+      );
+
+
+    }
+    await sendEmail(
+      tryOwner[0]?.user_email,
+      'Penalty Application | Localized',
+      `Penalty: ${penaltyInsertDb[0].out_penalty_id} with Title: ${inputData.penaltyTitle} has been Applied to your Establishment, kindly check the platform for more information`,
+      `<h4>Penalty: ${penaltyInsertDb[0].out_penalty_id} with Title: ${inputData.penaltyTitle} has been Applied to your Establishment, kindly check the platform for more information</h4>`
+    );
     return {
       success: true,
     };
   },
   async deletePenalty(inputData) {
     await beginTransaction();
+    // NOTIF HANDLING
+    const respondant = await executeQuery(
+      "SELECT submitter_type, supplier_id, retailer_id FROM complaint WHERE complaint_id = (SELECT related_complaint_id FROM penalty WHERE penalty_id = $1)",
+      [inputData.penaltyId]
+    );
+ 
     const penaltyDeleteDb = await Penalty.deletePenalty(inputData.penaltyId);
     if (!penaltyDeleteDb[0].result || penaltyDeleteDb[0].result != "0") {
       await rollbackTransaction();
@@ -507,6 +577,41 @@ const platformComplianceService = {
       };
     }
     await commitTransaction();
+
+    let tryOwner = {};
+    if (respondant[0].submitter_type == true) {
+      tryOwner = await executeQuery(
+        "SELECT user_email, user_id FROM user_localized WHERE user_id = (SELECT supplier_user_id FROM supplier WHERE supplier_id =  $1)",
+        [respondant[0].supplier_id]
+      );
+
+      await submitNotification(
+        12,
+        tryOwner[0].user_id,
+        0,
+        "Penalty Applied",
+        `Penalty is Disabled on your Factory, Contact Us for more details`
+      );
+
+    } else {
+      tryOwner = await executeQuery(
+        "SELECT user_email, user_id FROM user_localized WHERE user_id = (SELECT retailer_user_id FROM retailer WHERE retailer_id = $1)",
+        [respondant[0].retailer_id]
+      );
+      await submitNotification(
+        12,
+        tryOwner[0].user_id,
+        0,
+        "Penalty Applied",
+        `Penalty is Disabled on your Retailstore, Contact Us for more details`
+      );
+    }
+    await sendEmail(
+      tryOwner[0]?.user_email,
+      "Penalty Deletion | Localized",
+      `Penalty: ${inputData.penaltyId} has been  Alleviated from your Establishment, kindly check the platform for more information`,
+      `<h4>Penalty: ${inputData.penaltyId} has been Alleviated from your Establishment, kindly check the platform for more information</h4>`
+    );
     return {
       success: true,
     };
