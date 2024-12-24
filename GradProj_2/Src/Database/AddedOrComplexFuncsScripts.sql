@@ -664,12 +664,11 @@ BEGIN
     CAST(q.quotation_id AS BIGINT) AS out_quotation_id ,
     e.establishment_logo AS out_supplier_establishment_logo,
     e.establishment_name AS out_supplier_establishment_name,
-    qs.quotation_status AS out_quotation_status
+    q.quotation_status_id AS out_quotation_status
   FROM
     quotation q
   JOIN factory f ON q.supplier_id = f.owner_id
   JOIN establishment e ON f.factory_est_id = e.establishment_id
-  JOIN quotation_status qs ON q.quotation_status_id = qs.quotation_status_id
   WHERE
     q.requester_id = in_retailer_id
   ORDER BY q.quotation_request_date DESC
@@ -824,12 +823,11 @@ BEGIN
     CAST(q.quotation_id AS BIGINT) AS out_quotation_id ,
     e.establishment_logo AS out_supplier_establishment_logo,
     e.establishment_name AS out_supplier_establishment_name,
-    qs.quotation_status AS out_quotation_status
+    q.quotation_status_id AS out_quotation_status
   FROM
     quotation q
   JOIN retailstore f ON q.requester_id = f.owner_id
   JOIN establishment e ON f.retailstore_est_id = e.establishment_id
-  JOIN quotation_status qs ON q.quotation_status_id = qs.quotation_status_id
   WHERE
     q.supplier_id = in_supplier_id
   ORDER BY q.quotation_request_date DESC

@@ -4786,3 +4786,67 @@ $$ LANGUAGE plpgsql;
 --
 SELECT * FROM notification_type_insert('COMPLAINT RESOLUTION', 1);
 SELECT * FROM notification_type_insert('PENALTY APPLIED', 1);
+-----------------------------------------------------------------------------
+-- 24-12-2024
+DROP FUNCTION get_quotations_by_retailer;
+CREATE OR REPLACE FUNCTION get_quotations_by_retailer(
+  IN in_retailer_id BIGINT,
+  IN in_page_size INTEGER,
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(
+  out_quotation_id BIGINT,
+  out_supplier_establishment_logo TEXT,
+  out_supplier_establishment_name TEXT,
+  out_quotation_status VARCHAR
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    CAST(q.quotation_id AS BIGINT) AS out_quotation_id ,
+    e.establishment_logo AS out_supplier_establishment_logo,
+    e.establishment_name AS out_supplier_establishment_name,
+    CAST(q.quotation_status_id AS VARCHAR) AS out_quotation_status
+  FROM
+    quotation q
+  JOIN factory f ON q.supplier_id = f.owner_id
+  JOIN establishment e ON f.factory_est_id = e.establishment_id
+  WHERE
+    q.requester_id = in_retailer_id
+  ORDER BY q.quotation_request_date DESC
+  LIMIT in_page_size
+  OFFSET (in_page_index - 1) * in_page_size;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP FUNCTION get_quotations_by_supplier;
+
+CREATE OR REPLACE FUNCTION get_quotations_by_supplier(
+  IN in_supplier_id BIGINT,
+  IN in_page_size INTEGER,
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(
+  out_quotation_id BIGINT,
+  out_supplier_establishment_logo TEXT,
+  out_supplier_establishment_name TEXT,
+  out_quotation_status VARCHAR
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    CAST(q.quotation_id AS BIGINT) AS out_quotation_id ,
+    e.establishment_logo AS out_supplier_establishment_logo,
+    e.establishment_name AS out_supplier_establishment_name,
+    CAST(q.quotation_status_id AS VARCHAR) AS out_quotation_status
+  FROM
+    quotation q
+  JOIN retailstore f ON q.requester_id = f.owner_id
+  JOIN establishment e ON f.retailstore_est_id = e.establishment_id
+  WHERE
+    q.supplier_id = in_supplier_id
+  ORDER BY q.quotation_request_date DESC
+  LIMIT in_page_size
+  OFFSET (in_page_index - 1) * in_page_size;
+END;
+$$ LANGUAGE plpgsql;
