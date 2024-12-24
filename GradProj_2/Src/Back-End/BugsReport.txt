@@ -1,4 +1,8 @@
 - PLACE ISSUES WITH BACKEND HERE FOR RESOLUTION
-1- 
-ISSUE:
-API NAME:
+    1- 
+    ISSUE: getQuotationsList not returning statusId
+    API NAME: getQuotationsList
+
+    2- 
+    ISSUE: getretmarketplaceproducts for products not returning companyName
+    API NAME: getretmarketplaceproducts
