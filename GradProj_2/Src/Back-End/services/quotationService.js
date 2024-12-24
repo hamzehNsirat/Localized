@@ -375,6 +375,8 @@ const quotationService = {
         }
       }
     }
+    await this.updateQuotationStatus({  quotationId:inputData.quotationId,
+      quotationStatusId:2});
     await commitTransaction();
     const user = await executeQuery(
       "SELECT retailer_user_id FROM retailer WHERE retailer_id = (SELECT requester_id FROM quotation WHERE quotation_id = $1)",

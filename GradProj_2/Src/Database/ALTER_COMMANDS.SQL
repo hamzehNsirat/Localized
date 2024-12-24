@@ -4079,7 +4079,8 @@ RETURNS TABLE(
   out_product_whole_sale_price FLOAT,
   out_supplier_id BIGINT,
   total_records_count BIGINT,
-  out_product_category BIGINT
+  out_product_category BIGINT,
+  out_establishment_name TEXT
 ) AS $$
 DECLARE
   v_total_count BIGINT; -- Variable to store total count
@@ -4118,8 +4119,10 @@ BEGIN
     p.product_whole_sale_price AS out_product_whole_sale_price,
     p.supplier_id AS out_supplier_id,
     v_total_count AS total_records_count, -- Include the total count in each row
-    p.product_category
+    p.product_category,
+	e.establishment_name
   FROM product p
+  JOIN establishment e ON e.establishment_id = (SELECT factory_est_id FROM factory WHERE owner_id = supplier_id)
   WHERE 
     (
       -- Check if categories array is NULL or if product belongs to the given categories
@@ -4158,7 +4161,8 @@ RETURNS TABLE(
   out_product_whole_sale_price FLOAT,
   out_supplier_id BIGINT,
   total_records_count BIGINT,
-  out_product_category BIGINT
+  out_product_category BIGINT,
+  out_establishment_name TEXT
 
 ) AS $$
 BEGIN
@@ -4173,7 +4177,8 @@ BEGIN
       p.product_unit_price AS out_product_unit_price,
       p.product_whole_sale_price AS out_product_whole_sale_price,
       p.supplier_id AS out_supplier_id,
-      p.product_category 
+      p.product_category,
+	  CAST(e.establishment_name AS TEXT)
 
     FROM product p
     LEFT JOIN category c ON p.product_category = c.category_id
@@ -4208,6 +4213,8 @@ BEGIN
     p.out_product_whole_sale_price,
     p.out_supplier_id,
     tc.total_records_count
+	p.product_category,
+	CAST(p.establishment_name AS TEXT)	
   FROM matching_products p, total_count tc
   ORDER BY p.out_product_name
   LIMIT page_size
@@ -4343,7 +4350,8 @@ RETURNS TABLE(
   out_product_image TEXT,
   out_product_retail_price FLOAT,
   out_product_unit_price FLOAT,
-  out_product_whole_sale_price FLOAT
+  out_product_whole_sale_price FLOAT,
+  out_establishment_name TEXT
 ) AS $$
 BEGIN
 RETURN QUERY 
@@ -4365,9 +4373,11 @@ RETURN QUERY
       p.product_unit_price,
       p.product_whole_sale_price,
       s.supplier_compliance_indicator,
-      p.supplier_id
+      p.supplier_id,
+	  CAST(e.establishment_name	AS TEXT)  
     FROM product p
     JOIN supplier s ON p.supplier_id = s.supplier_id
+    JOIN establishment e ON e.establishment_id = (SELECT factory_est_id FROM factory)
     WHERE p.product_category = ANY(SELECT out_category_id FROM supplier_categories)
       AND p.product_status_id = (
         SELECT product_status_id 
@@ -4383,7 +4393,8 @@ RETURN QUERY
     product_image AS out_product_image,
     product_retail_price AS out_product_retail_price,
     product_unit_price AS out_product_unit_price,
-    product_whole_sale_price AS out_product_whole_sale_price
+    product_whole_sale_price AS out_product_whole_sale_price,
+    establishment_name
   FROM products_with_compliance
   LIMIT in_page_size
   OFFSET ((in_page_index - 1) * in_page_size);
@@ -4848,5 +4859,299 @@ BEGIN
   ORDER BY q.quotation_request_date DESC
   LIMIT in_page_size
   OFFSET (in_page_index - 1) * in_page_size;
+END;
+$$ LANGUAGE plpgsql;
+--
+-- 24-12-2024 2
+DROP FUNCTION supplier_get_marketplace_products;
+CREATE OR REPLACE FUNCTION supplier_get_marketplace_products(
+  IN in_supplier_id BIGINT, 
+  IN in_page_size INTEGER, 
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(		
+  out_product_id BIGINT,
+  out_product_name VARCHAR,
+  out_product_description TEXT, 
+  out_product_image TEXT,
+  out_product_retail_price FLOAT,
+  out_product_unit_price FLOAT,
+  out_product_whole_sale_price FLOAT,
+  out_establishment_name TEXT
+) AS $$
+BEGIN
+RETURN QUERY 
+  WITH factory_local AS (
+    SELECT factory_est_id 
+    FROM factory_owned_get(in_supplier_id)
+  ),
+  supplier_categories AS (
+    SELECT out_category_id 
+    FROM factory_categories_get((SELECT factory_est_id FROM factory_local))
+  ),
+  products_with_compliance AS (
+    SELECT 
+      p.product_id,
+      p.product_name,
+      p.product_description,
+      p.product_image,
+      p.product_retail_price,
+      p.product_unit_price,
+      p.product_whole_sale_price,
+      s.supplier_compliance_indicator,
+      p.supplier_id,
+	  CAST(e.establishment_name	AS TEXT)  
+    FROM product p
+    JOIN supplier s ON  s.supplier_id = p.supplier_id
+	JOIN factory f ON f.owner_id = p.supplier_id
+    JOIN establishment e ON e.establishment_id = f.factory_est_id
+    WHERE p.product_category = ANY(SELECT out_category_id FROM supplier_categories)
+      AND p.product_status_id = (
+        SELECT product_status_id 
+        FROM product_status 
+        WHERE product_status LIKE '%PUBLISHED%'
+      )
+      AND p.supplier_id <> in_supplier_id
+  )
+  SELECT 
+    CAST(product_id AS BIGINT) AS out_product_id,
+    product_name AS out_product_name,
+    product_description AS out_product_description,
+    product_image AS out_product_image,
+    product_retail_price AS out_product_retail_price,
+    product_unit_price AS out_product_unit_price,
+    product_whole_sale_price AS out_product_whole_sale_price,
+    establishment_name
+  FROM products_with_compliance
+  LIMIT in_page_size
+  OFFSET ((in_page_index - 1) * in_page_size);
+END;
+$$ LANGUAGE plpgsql;
+--
+DROP FUNCTION search_products;
+CREATE OR REPLACE FUNCTION search_products(
+  IN search_term TEXT,
+  IN page_size INTEGER,
+  IN page_index INTEGER
+)
+RETURNS TABLE(
+  out_product_id BIGINT,
+  out_product_name VARCHAR,
+  out_product_description TEXT, 
+  out_product_image TEXT,
+  out_product_retail_price FLOAT,
+  out_product_unit_price FLOAT,
+  out_product_whole_sale_price FLOAT,
+  out_supplier_id BIGINT,
+  total_records_count BIGINT,
+  out_product_category BIGINT,
+  out_establishment_name TEXT
+
+) AS $$
+BEGIN
+  RETURN QUERY
+  WITH matching_products AS (
+    SELECT 
+      p.product_id AS out_product_id,
+      p.product_name AS out_product_name,
+      p.product_description AS out_product_description,
+      p.product_image AS out_product_image,
+      p.product_retail_price AS out_product_retail_price,
+      p.product_unit_price AS out_product_unit_price,
+      p.product_whole_sale_price AS out_product_whole_sale_price,
+      p.supplier_id AS out_supplier_id,
+      p.product_category,
+	  CAST(e.establishment_name AS TEXT)
+
+    FROM product p
+    LEFT JOIN category c ON p.product_category = c.category_id
+    LEFT JOIN factory f ON p.supplier_id = f.owner_id
+    LEFT JOIN establishment e ON f.factory_est_id = e.establishment_id
+    WHERE 
+      -- Search by product name
+      LOWER(p.product_name) LIKE LOWER('%' || search_term || '%')
+      OR
+      -- Search by category name
+      LOWER(c.category_name) LIKE LOWER('%' || search_term || '%')
+      OR
+      -- Search by establishment name
+      LOWER(e.establishment_name) LIKE LOWER('%' || search_term || '%')
+      AND p.product_status_id = (
+      SELECT product_status_id 
+      FROM product_status 
+      WHERE product_status LIKE '%PUBLISHED%'
+      )
+  ),
+  total_count AS (
+    SELECT COUNT(*) AS total_records_count
+    FROM matching_products
+  )
+  SELECT 
+    CAST(p.out_product_id AS BIGINT),
+    p.out_product_name,
+    p.out_product_description,
+    p.out_product_image,
+    p.out_product_retail_price,
+    p.out_product_unit_price,
+    p.out_product_whole_sale_price,
+    p.out_supplier_id,
+    tc.total_records_count,
+	p.product_category,
+	CAST(p.establishment_name AS TEXT)	
+  FROM matching_products p, total_count tc
+  ORDER BY p.out_product_name
+  LIMIT page_size
+  OFFSET ((page_index - 1) * page_size);
+END;
+$$ LANGUAGE plpgsql;
+--
+DROP FUNCTION fetch_products_by_industry_and_category;
+CREATE OR REPLACE FUNCTION fetch_products_by_industry_and_category(
+  IN industry_types BIGINT[], -- Array of industry types
+  IN categories BIGINT[],     -- Array of categories
+  IN page_size INTEGER,       -- Pagination: page size
+  IN page_index INTEGER       -- Pagination: page index
+)
+RETURNS TABLE(		
+  out_product_id BIGINT,
+  out_product_name VARCHAR,
+  out_product_description TEXT, 
+  out_product_image TEXT,
+  out_product_retail_price FLOAT,
+  out_product_unit_price FLOAT,
+  out_product_whole_sale_price FLOAT,
+  out_supplier_id BIGINT,
+  total_records_count BIGINT,
+  out_product_category BIGINT,
+  out_establishment_name TEXT
+) AS $$
+DECLARE
+  v_total_count BIGINT; -- Variable to store total count
+BEGIN
+  -- Calculate the total records count
+  SELECT COUNT(*)
+  INTO v_total_count
+  FROM product p
+  WHERE 
+    (
+      -- Check if categories array is NULL or if product belongs to the given categories
+      categories IS NULL OR p.product_category = ANY(categories)
+    )
+    AND (
+      -- Check if industry types array is NULL or if product belongs to an industry type
+      industry_types IS NULL OR p.product_category IN (
+        SELECT category_id 
+        FROM category
+        WHERE industry_type = ANY(industry_types)
+      )
+    ) AND p.product_status_id = (
+        SELECT product_status_id 
+        FROM product_status 
+        WHERE product_status LIKE '%PUBLISHED%'
+    );
+
+  -- Return the paginated results with total count included in each row
+  RETURN QUERY 
+  SELECT 
+    CAST(p.product_id AS BIGINT) AS out_product_id,
+    p.product_name AS out_product_name,
+    p.product_description AS out_product_description,
+    p.product_image AS out_product_image,
+    p.product_retail_price AS out_product_retail_price,
+    p.product_unit_price AS out_product_unit_price,
+    p.product_whole_sale_price AS out_product_whole_sale_price,
+    p.supplier_id AS out_supplier_id,
+    v_total_count AS total_records_count, -- Include the total count in each row
+    p.product_category,
+	e.establishment_name
+  FROM product p
+  JOIN establishment e ON e.establishment_id = (SELECT factory_est_id FROM factory WHERE owner_id = supplier_id)
+  WHERE 
+    (
+      -- Check if categories array is NULL or if product belongs to the given categories
+      categories IS NULL OR p.product_category = ANY(categories)
+    )
+    AND (
+      -- Check if industry types array is NULL or if product belongs to an industry type
+      industry_types IS NULL OR p.product_category IN (
+        SELECT category_id 
+        FROM category
+        WHERE industry_type = ANY(industry_types)
+      )
+    )  AND p.product_status_id = (
+        SELECT product_status_id 
+        FROM product_status 
+        WHERE product_status LIKE '%PUBLISHED%'
+      )
+  LIMIT page_size
+  OFFSET ((page_index - 1) * page_size);
+END;
+$$ LANGUAGE plpgsql;
+DROP FUNCTION retailer_get_marketplace_products;
+CREATE OR REPLACE FUNCTION retailer_get_marketplace_products(
+  IN in_retailer_id BIGINT, 
+  IN in_page_size INTEGER, 
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(		
+  out_product_id BIGINT,
+  out_product_name VARCHAR,
+  out_product_description TEXT, 
+  out_product_image TEXT,
+  out_product_retail_price FLOAT,
+  out_product_unit_price FLOAT,
+  out_product_whole_sale_price FLOAT,
+  out_product_supplier BIGINT,
+  out_product_category BIGINT,
+  out_establishment_name TEXT
+) AS $$
+BEGIN
+RETURN QUERY 
+  WITH retailer_establishment AS (
+    SELECT retailstore_est_id 
+    FROM retailstore_owned_get(in_retailer_id)
+  ),
+  retailer_categories AS (
+    SELECT out_category_id 
+    FROM retailstore_categories_get((SELECT retailstore_est_id FROM retailer_establishment))
+  ),
+  products_with_compliance AS (
+    SELECT 
+      p.product_id,
+      p.product_name,
+      p.product_description,
+      p.product_image,
+      p.product_retail_price,
+      p.product_unit_price,
+      p.product_whole_sale_price,
+      s.supplier_compliance_indicator,
+      p.supplier_id,
+      p.product_category,
+	  e.establishment_name
+    FROM product p
+    JOIN supplier s ON p.supplier_id = s.supplier_id
+    JOIN establishment e ON e.establishment_id = (SELECT factory_est_id FROM factory WHERE owner_id = p.supplier_id)
+    WHERE p.product_category = ANY(SELECT out_category_id FROM retailer_categories)
+      AND p.product_status_id = (
+        SELECT product_status_id 
+        FROM product_status 
+        WHERE product_status LIKE '%PUBLISHED%'
+      )
+  )
+  SELECT 
+    CAST(product_id AS BIGINT) AS out_product_id,
+    product_name AS out_product_name,
+    product_description AS out_product_description,
+    product_image AS out_product_image,
+    product_retail_price AS out_product_retail_price,
+    product_unit_price AS out_product_unit_price,
+    product_whole_sale_price AS out_product_whole_sale_price,
+    supplier_id,
+	product_category,
+	establishment_name
+  FROM products_with_compliance
+  ORDER BY supplier_compliance_indicator DESC
+  LIMIT in_page_size
+  OFFSET ((in_page_index - 1) * in_page_size);
 END;
 $$ LANGUAGE plpgsql;

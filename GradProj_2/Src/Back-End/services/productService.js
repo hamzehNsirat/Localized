@@ -28,6 +28,7 @@ const productService = {
           wholeSalePrice: retMarketPlaceResult[i].out_product_whole_sale_price,
           supplier: retMarketPlaceResult[i].out_product_supplier,
           categoryId: retMarketPlaceResult[i].out_product_category,
+          establishmentName: retMarketPlaceResult[i].out_establishment_name,
         };
         marketPlace.productItem.push(item);
       }
@@ -72,6 +73,7 @@ const productService = {
           wholeSalePrice: retMarketPlaceResult[i].out_product_whole_sale_price,
           supplier: retMarketPlaceResult[i].out_supplier_id,
           categoryId: retMarketPlaceResult[i].out_product_category,
+          establishmentName: retMarketPlaceResult[i].out_establishment_name,
         };
         marketPlace.productItem.push(item);
       }
@@ -115,6 +117,7 @@ const productService = {
           wholeSalePrice: retMarketPlaceResult[i].out_product_whole_sale_price,
           supplier: retMarketPlaceResult[i].out_supplier_id,
           categoryId: retMarketPlaceResult[i].out_product_category,
+          establishmentName: retMarketPlaceResult[i].out_establishment_name,
         };
         marketPlace.productItem.push(item);
       }
@@ -240,6 +243,7 @@ const productService = {
           retailPrice: suppMarketPlaceResult[i].out_product_retail_price,
           unitPrice: suppMarketPlaceResult[i].out_product_unit_price,
           wholeSalePrice: suppMarketPlaceResult[i].out_product_whole_sale_price,
+          establishmentName: suppMarketPlaceResult[i].out_establishment_name,
         };
         marketPlace.productItem.push(item);
       }
