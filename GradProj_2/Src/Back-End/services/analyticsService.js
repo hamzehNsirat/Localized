@@ -508,11 +508,13 @@ const analyticsService = {
     supplier_user_id = $1;`,
       [userId]
     );
+
     if (!supplierId) {
       return { success: false };
     }
     let isInsertedFlag = false;
     const fetchAnalyticsDb = await analyticsModel.getAnalyticsByUserId(userId);
+
     if (Object.entries(fetchAnalyticsDb).length != 0) {
       if (
         fetchAnalyticsDb[0].out_capture != null &&
@@ -775,15 +777,20 @@ const analyticsService = {
       [supplierId[0].supplier_id]
     );
 
+
+
     const customerList = { customerItem: [] };
     for (let i = 0; i < customersList.length; i++) {
       const item = {
         retailer: customersList[i].retailer,
         numberOfQuotations: customersList[i].number_of_requested_quotations,
-        share: parseFloat(purchasesList[i].percentage_of_total ?? 0).toFixed(2),
+        share: parseFloat(customersList[i].percentage_of_total ?? 0).toFixed(2),
       };
       customerList.customerItem.push(item);
     }
+
+
+
     const purchaseList = { purchaseItem: [] };
     for (let i = 0; i < purchasesList.length; i++) {
       const item = {
@@ -854,6 +861,8 @@ const analyticsService = {
       topThreeProducts: topThreeProducts || null,
       topThreeCategories: topThreeCategories || null,
     };
+
+
 
     if (!isInsertedFlag) {
       const insertDb = await AnalyticsModel.insertAnalytics(

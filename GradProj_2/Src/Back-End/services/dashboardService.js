@@ -252,13 +252,17 @@ const dashboardService = {
     };
     // Fetch Data from each table
     const basicData = await userService.getUserById(input);
+
     const supplierData = await Supplier.getSupplierByUser(userId);
+
     const factoryData = await Factory.getOwnedFactories(
       supplierData[0].out_supplier_id
     );
     const establishmentData = await Establishment.getEstablishmentById(
       factoryData[0].factory_est_id
     );
+
+
 
     const progressBarSupplier =
       await Supplier.calculateCompletionPercentageSupplier(userId);
@@ -267,11 +271,16 @@ const dashboardService = {
         supplierData[0].out_supplier_id
       );
 
+
+
     let supplierInsights = {};
+
     if (internalCaller == false) {
       supplierInsights =
       await analyticsService.getSupplierAnalytics(userId);
     }    
+
+
 
     // Consilidate Data and Format it
     const supplierDashboard = {
