@@ -143,6 +143,7 @@ const productService = {
         inputData.pageSize,
         inputData.pageIndex
       );
+
       if (!retMarketPlaceResult) {
         return {
           success: false,
@@ -175,7 +176,7 @@ const productService = {
             name: retMarketPlaceResult[0].paginated_products[i].product_name,
             description:
               retMarketPlaceResult[0].paginated_products[i].product_description,
-            image: retMarketPlaceResult[i].paginated_products[i].product_image,
+            image: retMarketPlaceResult[0].paginated_products[i].product_image,
             retailPrice:
               retMarketPlaceResult[0].paginated_products[i]
                 .product_retail_price,
