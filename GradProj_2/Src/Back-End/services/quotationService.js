@@ -74,13 +74,12 @@ const quotationService = {
               error: "Failed to Create Quotation Details",
             };
           }
-
-          details.detailsItem[i].productName =
-            productDetailsDb[0].out_product_name;
+          // insert product details into quotation details 
+          details.detailsItem[i].productName = productDetailsDb[0].out_product_name || 'No Name';
           details.detailsItem[i].productImage =
-            productDetailsDb[0].out_product_image;
+            productDetailsDb[0].out_product_image || "No Image";
           details.detailsItem[i].productCategory =
-            productDetailsDb[0].out_product_category;
+            productDetailsDb[0].out_product_category || 'No Category';
           details.detailsItem[i].orderId = orderResDB[0].out_order_id;
         } catch {
           await rollbackTransaction();
@@ -281,18 +280,20 @@ const quotationService = {
         "Quotation Update",
         `An Update to Quotation: ${inputData.quotationId} has occured`
       );
-   } else if (inputData.quotationStatusId == 2 || inputData.quotationStatusId == 2) {
+   } else if (
+     inputData.quotationStatusId != 1 
+   ) {
      const queryUser = await executeQuery(
        "SELECT user_email, user_id FROM user_localized WHERE user_id = (SELECT supplier_user_id FROM supplier WHERE supplier_id = (SELECT supplier_id FROM quotation WHERE quotation_id = $1))",
        [inputData.quotationId]
      );
-      await submitNotification(
-        9,
-        queryUser[0].user_id,
-        1,
-        "Quotation Update",
-        `An Update to Quotation: ${inputData.quotationId} has occured`
-      );
+     await submitNotification(
+       9,
+       queryUser[0].user_id,
+       1,
+       "Quotation Update",
+       `An Update to Quotation: ${inputData.quotationId} has occured`
+     );
    }
 
    return {
