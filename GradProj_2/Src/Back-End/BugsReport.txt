@@ -1,2 +1,4 @@
 - PLACE ISSUES WITH BACKEND HERE FOR RESOLUTION
-    1- createPurchase function in database returning -1;
+    1- createPurchase 
+       ISSUES: Error sending email: GaxiosError: invalid_grant
+        at Gaxios._request (C:\Users\ayyash_psut\Desktop\Work\GitHub\GpRepo\Localized\GradProj_2\Src\Back-End\node_modules\gaxios\build\src\gaxios.js:142:23)
