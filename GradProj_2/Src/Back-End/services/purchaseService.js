@@ -30,7 +30,7 @@ const purchaseService = {
       paymentCurrency: "JOD",
       paymentExchangeRate: 1,
       lastModifiedBy: 1,
-      paymentMethod: "CASH",
+      paymentMethod: inputData.paymentMethod,
       creditCardHolder: null,
       creditCardNumber: null,
       creditCardExpiry: null,
