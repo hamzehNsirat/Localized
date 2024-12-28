@@ -5156,3 +5156,69 @@ RETURN QUERY
   OFFSET ((in_page_index - 1) * in_page_size);
 END;
 $$ LANGUAGE plpgsql;
+----------------------------------
+-- 28-12-2024
+-- INSERT A review
+ALTER TABLE review ADD COLUMN quotation_id BIGINT DEFAULT NULL;
+ALTER TABLE review ADD CONSTRAINT fk_cmp_quotation FOREIGN KEY (quotation_id) REFERENCES quotation(quotation_id) ON DELETE SET NULL;
+DROP FUNCTION review_insert;
+CREATE OR REPLACE FUNCTION review_insert (
+
+	IN in_supplier_id   			BIGINT,
+	IN in_retailer_id   			BIGINT,
+	IN in_rating  	  	 			INT,
+	IN in_review_comment   		TEXT,
+	IN in_review_date              TIMESTAMP,
+	IN in_last_modification_date   TIMESTAMP,
+	IN in_last_modified_by		 	BIGINT,
+	IN in_quotation_id			 	BIGINT,
+	OUT out_review_id     		BIGINT
+)
+RETURNS BIGINT AS $$
+DECLARE
+    v_state TEXT;
+    v_msg TEXT;
+    v_detail TEXT;
+    v_hint TEXT;
+    v_context TEXT;
+BEGIN
+	INSERT INTO review (
+	supplier_id,
+	retailer_id,
+	rating,
+	rating_type,
+	review_comment,
+	review_date ,
+	last_modification_date,
+	last_modified_by,
+	quotation_id
+	) VALUES
+	( 
+	in_supplier_id ,
+	in_retailer_id ,
+	in_rating  	  ,
+	NULL,
+	in_review_comment,
+	CURRENT_TIMESTAMP,
+	CURRENT_TIMESTAMP,
+	in_last_modified_by,
+	in_quotation_id
+	) RETURNING CAST(review_id AS BIGINT) INTO out_review_id;
+
+EXCEPTION WHEN OTHERS THEN 
+
+	out_review_id := -1;	
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
+END;
+$$ LANGUAGE plpgsql;

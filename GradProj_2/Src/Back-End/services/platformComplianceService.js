@@ -28,8 +28,10 @@ const platformComplianceService = {
       reviewDate: null,
       lastModificationDate: null,
       lastModifiedBy: 1,
+      quotationId: inputData.quotationId
     };
     const reviewInsertDb = await Review.insert(reviewDetails);
+    console.log(reviewInsertDb);
     if (
       !reviewInsertDb[0].out_review_id ||
       reviewInsertDb[0].out_review_id == "-1"

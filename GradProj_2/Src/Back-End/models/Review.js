@@ -24,7 +24,7 @@ const Review = {
   // Insert a new review
   async insert(inputData) {
     return await executeQuery(
-      "SELECT * FROM review_insert($1, $2, $3, $4, $5, $6, $7)",
+      "SELECT * FROM review_insert($1, $2, $3, $4, $5, $6, $7,$8)",
       [
         inputData.supplierId,
         inputData.retailerId,
@@ -33,6 +33,7 @@ const Review = {
         inputData.reviewDate || null, // Optional
         inputData.lastModificationDate || null, // Optional
         inputData.lastModifiedBy,
+        inputData.quotationId,
       ]
     );
   },

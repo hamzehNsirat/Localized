@@ -216,38 +216,40 @@ const quotationService = {
         error: "Failed to Fetch Quotations",
       };
     }
-    return {
-      success: true,
-      quotationDetails: {
-        id: quotationFetchDb[0].out_quotation_id,
-        requesterId: quotationFetchDb[0].out_requester_id,
-        supplierId: quotationFetchDb[0].out_supplier_id,
-        retailStore: quotationFetchDb[0].out_from_establishment_name,
-        factory: quotationFetchDb[0].out_to_establishment_name,
-        requestDate: quotationFetchDb[0].out_quotation_request_date,
-        statusId: quotationFetchDb[0].out_quotation_status_id,
-        details: quotationFetchDb[0].out_quotation_details,
-        attachments: quotationFetchDb[0].out_quotation_attachments,
-        paymentReferenceNumber:
-          quotationFetchDb[0].out_related_payment_referenece_no,
-        reconciliationNumber:
-          quotationFetchDb[0].out_related_payment_reconciliation_no,
-        latestTransactionID:
-          quotationFetchDb[0].out_related_payment_latest_trx_id,
-        shippingCost: quotationFetchDb[0].out_shipping_cost,
-        subTotal: quotationFetchDb[0].out_sub_total,
-        total: quotationFetchDb[0].out_total,
-        shipToAddress: quotationFetchDb[0].out_ship_to_address,
-        billToAddress: quotationFetchDb[0].out_bill_to_address,
-        factoryAddress: quotationFetchDb[0].out_supplier_address,
-        hasRelatedComplaints: quotationFetchDb[0].out_has_related_complaints,
-        paymentMethod: quotationFetchDb[0].out_payment_method,
-        factoryEmail: quotationFetchDb[0].out_supp_email,
-        retailStoreEmail: quotationFetchDb[0].out_ret_email,
-        factoryContactNumber: quotationFetchDb[0].out_supp_contact,
-        retailContactNumber: quotationFetchDb[0].out_ret_contact,
-      },
-    };
+    const reviewFetchDb = await executeQuery(`SELECT COUNT(review_id) AS is_reviewed FROM review WHERE quotation_id = $1`,[inputData.quotationId]);
+      return {
+        success: true,
+        quotationDetails: {
+          id: quotationFetchDb[0].out_quotation_id,
+          requesterId: quotationFetchDb[0].out_requester_id,
+          supplierId: quotationFetchDb[0].out_supplier_id,
+          retailStore: quotationFetchDb[0].out_from_establishment_name,
+          factory: quotationFetchDb[0].out_to_establishment_name,
+          requestDate: quotationFetchDb[0].out_quotation_request_date,
+          statusId: quotationFetchDb[0].out_quotation_status_id,
+          details: quotationFetchDb[0].out_quotation_details,
+          attachments: quotationFetchDb[0].out_quotation_attachments,
+          paymentReferenceNumber:
+            quotationFetchDb[0].out_related_payment_referenece_no,
+          reconciliationNumber:
+            quotationFetchDb[0].out_related_payment_reconciliation_no,
+          latestTransactionID:
+            quotationFetchDb[0].out_related_payment_latest_trx_id,
+          shippingCost: quotationFetchDb[0].out_shipping_cost,
+          subTotal: quotationFetchDb[0].out_sub_total,
+          total: quotationFetchDb[0].out_total,
+          shipToAddress: quotationFetchDb[0].out_ship_to_address,
+          billToAddress: quotationFetchDb[0].out_bill_to_address,
+          factoryAddress: quotationFetchDb[0].out_supplier_address,
+          hasRelatedComplaints: quotationFetchDb[0].out_has_related_complaints,
+          isReveiwed: reviewFetchDb[0]?.is_reviewed > 0? true : false,
+          paymentMethod: quotationFetchDb[0].out_payment_method,
+          factoryEmail: quotationFetchDb[0].out_supp_email,
+          retailStoreEmail: quotationFetchDb[0].out_ret_email,
+          factoryContactNumber: quotationFetchDb[0].out_supp_contact,
+          retailContactNumber: quotationFetchDb[0].out_ret_contact,
+        },
+      };
   },
   async updateQuotationStatus(inputData) {
     quotationUpdateDb = await Quotation.updateStatus(inputData);
