@@ -200,7 +200,7 @@ const productService = {
         ) {
           const item = {
             id: retMarketPlaceResult[0].paginated_reviews[i].review_id,
-            rating: retMarketPlaceResult[0].paginated_reviews[i].rating,
+            rating: retMarketPlaceResult[0].paginated_reviews[i].review_rating,
             comment: retMarketPlaceResult[0].paginated_reviews[i].review_text,
             date: retMarketPlaceResult[0].paginated_reviews[i].review_date,
           };

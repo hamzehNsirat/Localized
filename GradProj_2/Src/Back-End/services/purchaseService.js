@@ -15,6 +15,7 @@ const {
   rollbackTransaction,
 } = require("../config/database");
 const PurchaseTransaction = require("../models/PurchaseTransaction");
+const { updateQuotationStatus } = require("./quotationService");
 const purchaseService = {
   async createPurchase(inputData) {
     await beginTransaction();
@@ -80,6 +81,10 @@ const purchaseService = {
         error: "Failed to Create Transaction Details",
       };
     }
+    console.log({  quotationId:inputData.quotationId,
+      quotationStatusId:3});
+    await updateQuotationStatus({  quotationId:inputData.quotationId,
+      quotationStatusId:3});
     await commitTransaction(); 
     // SEND RETAILER EMAIL FOR PURCHASE
     const queryEmail = await executeQuery(

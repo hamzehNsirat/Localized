@@ -13,7 +13,8 @@ const createPurchase = async (req, res) => {
       req.body.quotationId == null ||
       req.body.buyerId == null ||
       req.body.supplierId == null ||
-      req.body.paymentAmount == null
+      req.body.paymentAmount == null ||
+      req.body.paymentMethod == null
     ) {
       return errorHandler.handleError(res, "E0051");
     }
