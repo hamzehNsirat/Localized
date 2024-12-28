@@ -4269,7 +4269,7 @@ BEGIN
       'product_image', p.product_image,
       'product_unit_price', p.product_unit_price,
       'product_whole_sale_price', p.product_whole_sale_price,
-      'product_retail_price', p.product_retail_price
+      'product_retail_price', p.product_retail_price,
       'out_product_category', p.product_category
 
     )
@@ -4336,6 +4336,7 @@ BEGIN
   WHERE s.supplier_id = in_supplier_id;
 END;
 $$ LANGUAGE plpgsql;
+
 ----------------------------------------------------------------------------------------------
 DROP FUNCTION supplier_get_marketplace_products;
 CREATE OR REPLACE FUNCTION supplier_get_marketplace_products(

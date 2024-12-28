@@ -122,7 +122,7 @@ const Product = {
       // Return the first row since the result contains aggregated data
       return result;
     } catch (error) {
-      console.error("Error fetching supplier details:", error.message);
+      console.error("Error fetching supplier details:", error);
       return {
         success: false,
         error: "An error occurred while fetching supplier details.",

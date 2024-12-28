@@ -165,6 +165,7 @@ const productService = {
         reviewCount: retMarketPlaceResult[0].supplier_review_count,
         overallRating: retMarketPlaceResult[0].overall_rating,
       };
+
       if (retMarketPlaceResult[0].paginated_products) {
         for (
           let i = 0;
@@ -190,6 +191,7 @@ const productService = {
                 .out_product_category,
           };
           supplierProfile.products.productItem.push(item);
+
         }
       }
       if (retMarketPlaceResult[0].paginated_reviews) {
@@ -198,11 +200,21 @@ const productService = {
           i < retMarketPlaceResult[0].paginated_reviews.length;
           i++
         ) {
+          const retailerEstFetch = await executeQuery(
+            `SELECT establishment_name, establishment_logo 
+            FROM establishment e 
+            JOIN retailstore r ON r.owner_id = (SELECT retailer_id FROM review WHERE review_id = $1) 
+            WHERE e.establishment_id = r.retailstore_est_id;`,
+            [retMarketPlaceResult[0].paginated_reviews[i].review_id]
+          );
+          
           const item = {
             id: retMarketPlaceResult[0].paginated_reviews[i].review_id,
             rating: retMarketPlaceResult[0].paginated_reviews[i].review_rating,
             comment: retMarketPlaceResult[0].paginated_reviews[i].review_text,
             date: retMarketPlaceResult[0].paginated_reviews[i].review_date,
+            companyName: retailerEstFetch[0].establishment_name || "No Name",
+            companyLogo: retailerEstFetch[0].establishment_logo || "No Logo",
           };
           supplierProfile.reviews.reviewItem.push(item);
         }
