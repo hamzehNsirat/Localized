@@ -15,7 +15,7 @@ const analyticsService = {
     if (Object.entries(fetchAnalyticsDb).length != 0) {
       if (
         fetchAnalyticsDb[0].out_capture != null &&
-        moment(fetchAnalyticsDb[0].out_capture_date).isSame(moment(), "day")
+        moment(fetchAnalyticsDb[0].out_capture_date).isSame(moment(), "hour")
       ) {
         // take from db
         const res = fetchAnalyticsDb[0].out_capture;
