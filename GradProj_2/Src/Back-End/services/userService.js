@@ -9,6 +9,7 @@ const RetailStore = require("../models/RetailStore");
 const Factory = require("../models/Factory");
 const authService = require("./authService");
 const { submitNotification } = require("../config/notificationUtils");
+const { executeQuery } = require("../config/database");
 const userService = {
   async getUserById(userData) {
     // Fetch user details by user ID
@@ -247,7 +248,6 @@ const userService = {
       isTransactional: true,
     };
     await logDBModel.insertLog(inputData);
-    
 
     return {
       success: true,
@@ -412,30 +412,30 @@ const userService = {
   },
   async addUser(input) {
     // Update user status
-      const user = {
-        userType: input.userType,
-        firstName: input.firstName,
-        lastName: input.lastName,
-        userName: input.userName,
-        userEmail: input.userEmail,
-        userPassword: input.userPassword,
-        userPhoneNumber: input.userPhoneNumber,
-      };
-      const establishment = {
-        industryType: input.industryType,
-        establishmentName: input.establishmentName,
-        commercialRegistrationNum: input.commercialRegistrationNum,
-        contactNumber: input.contactNumber,
-        establishmentEmail: input.establishmentEmail,
-        establishmentWebsite: null,
-        establishmentDescription: input.establishmentDescription,
-        establishmentType: input.establishmentType,
-        establishmentCity: input.establishmentCity,
-        establishmentStreet: input.establishmentStreet,
-        establishmentBuildingNum: input.establishmentBuildingNum,
-        establishmentLogo: input.establishmentLogo,
-        establishmentCover: null,
-      };
+    const user = {
+      userType: input.userType,
+      firstName: input.firstName,
+      lastName: input.lastName,
+      userName: input.userName,
+      userEmail: input.userEmail,
+      userPassword: input.userPassword,
+      userPhoneNumber: input.userPhoneNumber,
+    };
+    const establishment = {
+      industryType: input.industryType,
+      establishmentName: input.establishmentName,
+      commercialRegistrationNum: input.commercialRegistrationNum,
+      contactNumber: input.contactNumber,
+      establishmentEmail: input.establishmentEmail,
+      establishmentWebsite: null,
+      establishmentDescription: input.establishmentDescription,
+      establishmentType: input.establishmentType,
+      establishmentCity: input.establishmentCity,
+      establishmentStreet: input.establishmentStreet,
+      establishmentBuildingNum: input.establishmentBuildingNum,
+      establishmentLogo: input.establishmentLogo,
+      establishmentCover: null,
+    };
 
     const signUp = await authService.registerUser(user, establishment);
     if (signUp.success != true) {
@@ -450,6 +450,36 @@ const userService = {
       `Dear Valued Applicant, your Request to join Localized has been Approved, Welcome Aboard`,
       `<p>Dear Valued Applicant, your Request to join Localized has been Approved, Welcome Aboard</p>`
     );
+    return {
+      success: true,
+    };
+  },
+  async changePassword(input) {
+    const validateExistingPass = await executeQuery(
+      `SELECT COUNT(user_id) AS valid from user_localized WHERE user_id = $1 AND (user_password = crypt($2, user_password));`,
+      [input.userId, input.currentPassword]
+    );
+    if(validateExistingPass[0].valid != 1){
+      return {
+        success: false,
+        error: "Sent Passowrd does not match that of the current",
+      };
+    }
+
+    try {
+      const updatePass = await executeQuery(
+        `UPDATE user_localized SET user_password = $1, is_pass_change = true WHERE user_id = $2;`,
+        [input.newPassword, input.userId]
+      );
+    }
+    catch (err) {
+      console.error("Error resetting password:", error.message);
+      return {
+        success: false,
+        error: "Updating password has failed",
+      };
+
+    }
     return {
       success: true,
     };

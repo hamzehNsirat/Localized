@@ -147,7 +147,17 @@ const addUser = async (req, res) => {
     return errorHandler.handleError(res, "E0006", error.message);
   }
 };
-
+const changePassword = async (req, res) => {
+  try {
+    const result = await userService.changePassword(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0032", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0032", error.message);
+  }
+};
 
 module.exports = {
   getSingleUser,
@@ -159,4 +169,5 @@ module.exports = {
   getUserAllData,
   updateUserStatus,
   addUser,
+  changePassword,
 };

@@ -5222,3 +5222,83 @@ EXCEPTION WHEN OTHERS THEN
     context: %',  v_state, v_msg, v_detail, v_hint, v_context;
 END;
 $$ LANGUAGE plpgsql;
+-----------------------------------------------------------------
+-- 29-12-2024
+DROP FUNCTION search_products;
+CREATE OR REPLACE FUNCTION search_products(
+  IN search_term TEXT,
+  IN page_size INTEGER,
+  IN page_index INTEGER,
+  IN in_industry_type BIGINT[] DEFAULT NULL,
+  IN in_category_id BIGINT[] DEFAULT NULL
+)
+RETURNS TABLE(
+  out_product_id BIGINT,
+  out_product_name VARCHAR,
+  out_product_description TEXT, 
+  out_product_image TEXT,
+  out_product_retail_price FLOAT,
+  out_product_unit_price FLOAT,
+  out_product_whole_sale_price FLOAT,
+  out_supplier_id BIGINT,
+  total_records_count BIGINT,
+  out_product_category BIGINT,
+  out_establishment_name TEXT
+) AS $$
+BEGIN
+  RETURN QUERY
+  WITH matching_products AS (
+    SELECT 
+      p.product_id AS out_product_id,
+      p.product_name AS out_product_name,
+      p.product_description AS out_product_description,
+      p.product_image AS out_product_image,
+      p.product_retail_price AS out_product_retail_price,
+      p.product_unit_price AS out_product_unit_price,
+      p.product_whole_sale_price AS out_product_whole_sale_price,
+      p.supplier_id AS out_supplier_id,
+      p.product_category,
+      CAST(e.establishment_name AS TEXT) AS establishment_name
+    FROM product p
+    LEFT JOIN category c ON p.product_category = c.category_id
+    LEFT JOIN factory f ON p.supplier_id = f.owner_id
+    LEFT JOIN establishment e ON f.factory_est_id = e.establishment_id
+    WHERE 
+      -- Search by product name, category name, or establishment name
+      (
+        LOWER(p.product_name) LIKE LOWER('%' || search_term || '%')
+        OR LOWER(c.category_name) LIKE LOWER('%' || search_term || '%')
+        OR LOWER(e.establishment_name) LIKE LOWER('%' || search_term || '%')
+      )
+      AND p.product_status_id = (
+        SELECT product_status_id 
+        FROM product_status 
+        WHERE product_status LIKE '%PUBLISHED%'
+      )
+      -- Apply industry type filter if provided
+      AND (in_industry_type IS NULL OR e.industry_type_spec = in_industry_type::BIGINT[])
+      -- Apply category filter if provided
+      AND (in_category_id IS NULL OR p.product_category =ANY(in_category_id::BIGINT[]))
+  ),
+  total_count AS (
+    SELECT COUNT(*) AS total_records_count
+    FROM matching_products
+  )
+  SELECT 
+    CAST(p.out_product_id AS BIGINT),
+    p.out_product_name,
+    p.out_product_description,
+    p.out_product_image,
+    p.out_product_retail_price,
+    p.out_product_unit_price,
+    p.out_product_whole_sale_price,
+    p.out_supplier_id,
+    tc.total_records_count,
+    p.product_category,
+    p.establishment_name
+  FROM matching_products p, total_count tc
+  ORDER BY p.out_product_name
+  LIMIT page_size
+  OFFSET ((page_index - 1) * page_size);
+END;
+$$ LANGUAGE plpgsql;

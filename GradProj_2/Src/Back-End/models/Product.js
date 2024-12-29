@@ -97,13 +97,19 @@ const Product = {
       throw error;
     }
   },
-  async searchProducts(searchTerm, pageSize, pageIndex) {
+  async searchProducts(searchTerm, pageSize, pageIndex, industryList, categoriesList) {
     try {
       const query = `
         SELECT * 
-        FROM search_products($1, $2, $3);
+        FROM search_products($1, $2, $3, $4, $5);
       `;
-      const params = [searchTerm, pageSize, pageIndex];
+      const params = [
+        searchTerm,
+        pageSize,
+        pageIndex,
+        industryList,
+        categoriesList,
+      ];
       const result = await executeQuery(query, params);
 
       return result;

@@ -97,7 +97,9 @@ const productService = {
       const retMarketPlaceResult = await Product.searchProducts(
         inputData.searchTerm,
         inputData.pageSize,
-        inputData.pageIndex
+        inputData.pageIndex,
+        inputData.industryList,
+        inputData.categoriesList
       );
       if (!retMarketPlaceResult) {
         return {

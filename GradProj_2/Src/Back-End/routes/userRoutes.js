@@ -11,7 +11,8 @@ router.post("/login", validateRequest(schemas.login), controller.signIn);
 // General User Routes
 router.post("/get", validateToken, controller.getSingleUser);
 router.post("/update", validateToken, controller.updateSingleUser);
-router.post("/delete", validateToken, controller.deleteUser);
+router.post("/update", validateToken, controller.updateSingleUser);
+router.post("/changepassword", validateToken, controller.changePassword);
 // Admin Routes
 router.post("/search", validateToken, controller.searchUser);
 router.post("/getall", validateToken, controller.getUserList);
