@@ -486,7 +486,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user\": {\r\n        \"userName\": \"admin-01\",\r\n        \"userPassword\": \"adminpass123\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"user\": {\r\n        \"userName\": \"admin-01\",\r\n        \"userPassword\": \"adminpass321\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1897,7 +1897,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"retailerId\":12,\r\n    \"pageSize\":5,\r\n    \"pageIndex\":1\r\n}",
+							"raw": "{\r\n    \"retailerId\":11,\r\n    \"pageSize\":1,\r\n    \"pageIndex\":1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2205,7 +2205,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"searchTerm\":\"bata\",\r\n    \"pageSize\": 2,\r\n    \"pageIndex\":1    \r\n}",
+							"raw": "{\r\n    \"searchTerm\":\"Sam\",\r\n    \"pageSize\": 2,\r\n    \"pageIndex\":1,\r\n    \"industryList\":null,\r\n    \"categoryList\":[1]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2628,7 +2628,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"retailerId\": 1,\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+							"raw": "{\r\n    \"retailerId\": 1,\r\n    \"pageSize\": 15,\r\n    \"pageIndex\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2743,7 +2743,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"quotationId\":37\r\n}",
+							"raw": "{\r\n    \"quotationId\":2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3400,7 +3400,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"retailerId\": 1,\r\n    \"supplierId\": 2,\r\n    \"rating\":4,\r\n    \"reviewComment\":\"NA\"\r\n}",
+							"raw": "{\r\n    \"retailerId\": 1,\r\n    \"supplierId\": 2,\r\n    \"quotationId\":2,\r\n    \"rating\":4,\r\n    \"reviewComment\":\"NA\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -5475,6 +5475,235 @@
 							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true\n    }\n}"
 						}
 					]
+				},
+				{
+					"name": "updatePassword",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 193,\r\n    \"currentPassword\": \"adminpass123\",\r\n    \"newPassword\": \"adminpass321\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/user/changepassword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"user",
+								"changepassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "readNotif Copy 2",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notificationId\": \"68\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/dashboard/readnotif",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"dashboard",
+								"readnotif"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"3\",\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/getretailernotifications",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"getretailernotifications"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1149"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"47d-xXnbyNJBUheL+lKeQSnRKRhz6zI\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 18:01:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"notificationList\": {\n            \"notificationItem\": [\n                {\n                    \"id\": \"13\",\n                    \"type\": \"10\",\n                    \"priority\": 1,\n                    \"subject\": \"Profile Updated\",\n                    \"details\": \"your profile has been updated!\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T18:01:38.519Z\"\n                },\n                {\n                    \"id\": \"9\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:58:22.759Z\"\n                },\n                {\n                    \"id\": \"7\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:58:21.971Z\"\n                },\n                {\n                    \"id\": \"5\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:58:21.290Z\"\n                },\n                {\n                    \"id\": \"3\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:47:00.592Z\"\n                }\n            ]\n        }\n    }\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"5\",\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/getretailernotifications",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"getretailernotifications"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "233"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"e9-dgXEbSz4WmLcJCCAk5imPLOzdLo\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 18:02:05 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0064\",\n        \"errorDescription\": \"Fetch Failure\",\n        \"statusCode\": \"E0064\",\n        \"message\": \"Fetching Retailer Notifications has Failed\"\n    },\n    \"body\": {\n        \"details\": {\n            \"success\": false,\n            \"error\": \"Unable to Fetch Notifications for Retailer\"\n        }\n    }\n}"
+						}
+					]
 				}
 			]
 		},
@@ -6261,7 +6490,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"quotationId\":35\r\n}",
+							"raw": "{\r\n    \"quotationId\":40\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -7985,6 +8214,199 @@
 					]
 				},
 				{
+					"name": "readNotif",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notificationId\": \"68\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/dashboard/readnotif",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"dashboard",
+								"readnotif"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"3\",\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/getretailernotifications",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"getretailernotifications"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1149"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"47d-xXnbyNJBUheL+lKeQSnRKRhz6zI\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 18:01:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"notificationList\": {\n            \"notificationItem\": [\n                {\n                    \"id\": \"13\",\n                    \"type\": \"10\",\n                    \"priority\": 1,\n                    \"subject\": \"Profile Updated\",\n                    \"details\": \"your profile has been updated!\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T18:01:38.519Z\"\n                },\n                {\n                    \"id\": \"9\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:58:22.759Z\"\n                },\n                {\n                    \"id\": \"7\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:58:21.971Z\"\n                },\n                {\n                    \"id\": \"5\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:58:21.290Z\"\n                },\n                {\n                    \"id\": \"3\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:47:00.592Z\"\n                }\n            ]\n        }\n    }\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"5\",\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/getretailernotifications",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"getretailernotifications"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "233"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"e9-dgXEbSz4WmLcJCCAk5imPLOzdLo\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 18:02:05 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0064\",\n        \"errorDescription\": \"Fetch Failure\",\n        \"statusCode\": \"E0064\",\n        \"message\": \"Fetching Retailer Notifications has Failed\"\n    },\n    \"body\": {\n        \"details\": {\n            \"success\": false,\n            \"error\": \"Unable to Fetch Notifications for Retailer\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
 					"name": "updateSupplierDetails",
 					"request": {
 						"method": "POST",
@@ -8868,6 +9290,42 @@
 								"api",
 								"products",
 								"getcategories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePassword Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 193,\r\n    \"currentPassword\": \"adminpass123\",\r\n    \"newPassword\": \"adminpass321\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/user/changepassword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"user",
+								"changepassword"
 							]
 						}
 					},
@@ -12842,6 +13300,235 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"applicationList\": {\n            \"applicationItem\": [\n                {\n                    \"id\": \"10\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"9\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"8\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"7\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                },\n                {\n                    \"id\": \"6\",\n                    \"establishmentName\": \"Sharekat al Dajaj\",\n                    \"establishmentLogo\": null,\n                    \"status\": \"NEW\"\n                }\n            ]\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "updatePassword Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 193,\r\n    \"currentPassword\": \"adminpass123\",\r\n    \"newPassword\": \"adminpass321\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/user/changepassword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"user",
+								"changepassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "readNotif Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notificationId\": \"68\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/dashboard/readnotif",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"dashboard",
+								"readnotif"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"3\",\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/getretailernotifications",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"getretailernotifications"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1149"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"47d-xXnbyNJBUheL+lKeQSnRKRhz6zI\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 18:01:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true,\n        \"notificationList\": {\n            \"notificationItem\": [\n                {\n                    \"id\": \"13\",\n                    \"type\": \"10\",\n                    \"priority\": 1,\n                    \"subject\": \"Profile Updated\",\n                    \"details\": \"your profile has been updated!\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T18:01:38.519Z\"\n                },\n                {\n                    \"id\": \"9\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:58:22.759Z\"\n                },\n                {\n                    \"id\": \"7\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:58:21.971Z\"\n                },\n                {\n                    \"id\": \"5\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:58:21.290Z\"\n                },\n                {\n                    \"id\": \"3\",\n                    \"type\": \"7\",\n                    \"priority\": 1,\n                    \"subject\": \"New Complaint Submitted\",\n                    \"details\": \"a Complaint has been Submitted regarding this Quotation: 2\",\n                    \"isRead\": false,\n                    \"creationTime\": \"2024-12-07T17:47:00.592Z\"\n                }\n            ]\n        }\n    }\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"5\",\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/dashboard/getretailernotifications",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"dashboard",
+										"getretailernotifications"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "233"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"e9-dgXEbSz4WmLcJCCAk5imPLOzdLo\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 18:02:05 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0064\",\n        \"errorDescription\": \"Fetch Failure\",\n        \"statusCode\": \"E0064\",\n        \"message\": \"Fetching Retailer Notifications has Failed\"\n    },\n    \"body\": {\n        \"details\": {\n            \"success\": false,\n            \"error\": \"Unable to Fetch Notifications for Retailer\"\n        }\n    }\n}"
 						}
 					]
 				}

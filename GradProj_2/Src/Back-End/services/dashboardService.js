@@ -41,8 +41,8 @@ const dashboardService = {
 
     let retailerInsights = {};
     if (internalCaller == false) {
-       retailerInsights = await analytics.getRetailerAnalytics(userId);
-    }    
+      retailerInsights = await analytics.getRetailerAnalytics(userId);
+    }
 
     // Consilidate Data and Format it
     const retailerDashboard = {
@@ -262,8 +262,6 @@ const dashboardService = {
       factoryData[0].factory_est_id
     );
 
-
-
     const progressBarSupplier =
       await Supplier.calculateCompletionPercentageSupplier(userId);
     const progressBarFactory =
@@ -271,16 +269,11 @@ const dashboardService = {
         supplierData[0].out_supplier_id
       );
 
-
-
     let supplierInsights = {};
 
     if (internalCaller == false) {
-      supplierInsights =
-      await analyticsService.getSupplierAnalytics(userId);
-    }    
-
-
+      supplierInsights = await analyticsService.getSupplierAnalytics(userId);
+    }
 
     // Consilidate Data and Format it
     const supplierDashboard = {
@@ -485,7 +478,10 @@ const dashboardService = {
     };
     // Fetch Data from each table
     const basicData = await userService.getUserById(input);
-    const adminId = await executeQuery("SELECT admin_id FROM adminstrator WHERE fk_userid = $1;",[userId]);
+    const adminId = await executeQuery(
+      "SELECT admin_id FROM adminstrator WHERE fk_userid = $1;",
+      [userId]
+    );
     let adminInsights = {};
     if (internalCaller == false) {
       adminInsights = await analyticsService.getAdminstratorAnalytics(userId);
@@ -508,7 +504,7 @@ const dashboardService = {
         userImage: basicData.userImage,
       },
       adminDetails: {
-       adminId: adminId[0].admin_id,
+        adminId: adminId[0].admin_id,
         adminTaxIdentificationNumber: null,
       },
       insights: adminInsights || "No Current Insights",
@@ -517,6 +513,15 @@ const dashboardService = {
     return {
       success: true,
       adminDashboard,
+    };
+  },
+  async readNotif(notificationId) {
+    const readNotif = await Notification.markNotificationAsRead(
+      notificationId,
+      1
+    );
+    return {
+      success: true,
     };
   },
 };

@@ -162,6 +162,12 @@ const getAdminAllDetails = async (req, res) => {
     return errorHandler.handleError(res, "E0085");
   }
 };
+
+const readNotif = async (req, res) => {
+    const result = await dashboardService.readNotif(req.body.notificationId);
+    return errorHandler.handleSuccess(res, result);
+};
+
 module.exports = {
   getRetailerAllDetails,
   getRetailerNotifications,
@@ -172,4 +178,5 @@ module.exports = {
   updateSupplierDetails,
   updateFactoryDetails,
   getAdminAllDetails,
+  readNotif,
 };

@@ -62,4 +62,12 @@ router.post(
   validateToken,
   controller.getSupplierNotifications
 );
+
+router.post(
+  "/readnotif",
+  validateToken,
+  controller.readNotif
+);
+
+
 module.exports = router;
