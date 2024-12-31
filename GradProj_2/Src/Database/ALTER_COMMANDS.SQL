@@ -5302,3 +5302,123 @@ BEGIN
   OFFSET ((page_index - 1) * page_size);
 END;
 $$ LANGUAGE plpgsql;
+-------------------------------------------------------
+-- 31-12-2024
+DROP FUNCTION search_products;
+CREATE OR REPLACE FUNCTION search_products(
+  IN search_term TEXT,
+  IN page_size INTEGER,
+  IN page_index INTEGER,
+  IN input_owner_id BIGINT, -- Renamed to avoid ambiguity
+  IN searcher_type BOOLEAN,
+  IN in_industry_type BIGINT[] DEFAULT NULL,
+  IN in_category_id BIGINT[] DEFAULT NULL
+)
+RETURNS TABLE(
+  out_product_id BIGINT,
+  out_product_name VARCHAR,
+  out_product_description TEXT, 
+  out_product_image TEXT,
+  out_product_retail_price FLOAT,
+  out_product_unit_price FLOAT,
+  out_product_whole_sale_price FLOAT,
+  out_supplier_id BIGINT,
+  total_records_count BIGINT,
+  out_product_category BIGINT,
+  out_establishment_name TEXT
+) AS $$
+BEGIN
+  RETURN QUERY
+  WITH establishment_selection AS (
+    -- Fetch the establishment ID based on the searcher_type
+    SELECT 
+      CASE
+        WHEN searcher_type = TRUE THEN rs.retailstore_est_id
+        WHEN searcher_type = FALSE THEN f.factory_est_id
+      END AS establishment_id
+    FROM 
+      (SELECT retailstore_est_id FROM retailstore WHERE owner_id = input_owner_id) rs
+    FULL OUTER JOIN 
+      (SELECT factory_est_id FROM factory WHERE owner_id = input_owner_id) f ON TRUE
+  ),
+  unnest_industry_types AS (
+    -- Unnest industry_type_spec for filtering
+    SELECT e.establishment_id, UNNEST(e.industry_type_spec) AS industry_type_id
+    FROM establishment e
+    JOIN establishment_selection es ON e.establishment_id = es.establishment_id
+  ),
+  filtered_industry_types AS (
+    -- Filter industry types if in_industry_type is provided
+    SELECT DISTINCT industry_type_id
+    FROM unnest_industry_types
+    WHERE in_industry_type IS NULL OR industry_type_id = ANY(in_industry_type)
+  ),
+  establishment_categories AS (
+    -- Fetch categories linked to the filtered industries
+    SELECT DISTINCT c.category_id
+    FROM filtered_industry_types fit
+    JOIN category c ON c.industry_type = fit.industry_type_id
+  ),
+  matching_products AS (
+    -- Fetch products based on the search term
+    SELECT 
+      p.product_id AS out_product_id,
+      p.product_name AS out_product_name,
+      p.product_description AS out_product_description,
+      p.product_image AS out_product_image,
+      p.product_retail_price AS out_product_retail_price,
+      p.product_unit_price AS out_product_unit_price,
+      p.product_whole_sale_price AS out_product_whole_sale_price,
+      p.supplier_id AS out_supplier_id,
+      p.product_category,
+      CAST(e.establishment_name AS TEXT) AS establishment_name
+    FROM product p
+    LEFT JOIN category c ON p.product_category = c.category_id
+    LEFT JOIN factory f ON p.supplier_id = f.owner_id
+    LEFT JOIN establishment e ON f.factory_est_id = e.establishment_id
+    WHERE 
+      -- Search by product name or establishment name
+      (
+        LOWER(p.product_name) LIKE LOWER('%' || search_term || '%')
+        OR LOWER(e.establishment_name) LIKE LOWER('%' || search_term || '%')
+      )
+      AND p.product_status_id = (
+        SELECT product_status_id 
+        FROM product_status 
+        WHERE product_status LIKE '%PUBLISHED%'
+      )
+      -- Exclude searcher's own products if searcher is a supplier
+      AND (searcher_type = TRUE OR p.supplier_id != input_owner_id)
+  ),
+  filtered_products AS (
+    -- Filter products by categories linked to the owner's industries
+    SELECT *
+    FROM matching_products mp
+    WHERE mp.product_category IN (
+      SELECT category_id FROM establishment_categories
+    )
+    -- Further filter by provided category IDs
+    AND (in_category_id IS NULL OR mp.product_category = ANY(in_category_id))
+  ),
+  total_count AS (
+    SELECT COUNT(*) AS total_records_count
+    FROM filtered_products
+  )
+  SELECT 
+    CAST(fp.out_product_id AS BIGINT),
+    fp.out_product_name,
+    fp.out_product_description,
+    fp.out_product_image,
+    fp.out_product_retail_price,
+    fp.out_product_unit_price,
+    fp.out_product_whole_sale_price,
+    fp.out_supplier_id,
+    tc.total_records_count,
+    fp.product_category,
+    fp.establishment_name
+  FROM filtered_products fp, total_count tc
+  ORDER BY fp.out_product_name
+  LIMIT page_size
+  OFFSET ((page_index - 1) * page_size);
+END;
+$$ LANGUAGE plpgsql;

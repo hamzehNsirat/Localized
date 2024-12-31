@@ -303,6 +303,20 @@ const deletePenalty = async (req, res) => {
     return errorHandler.handleError(res, "E0096");
   }
 };
+const updateSupplierViews = async (req, res) => {
+  try {
+    if (req.body.supplierId == null) {
+      return errorHandler.handleError(res, "E0083");
+    }
+    const result = await platformCompService.updateSupplierViews(req.body);
+    if (result.success == false) {
+      return errorHandler.handleError(res, "E0096", result);
+    }
+    return errorHandler.handleSuccess(res, result);
+  } catch (error) {
+    return errorHandler.handleError(res, "E0012");
+  }
+};
 
 module.exports = {
   submitReview,
@@ -322,4 +336,5 @@ module.exports = {
   deletePenalty,
   searchPenalties,
   getPenaltyTypes,
+  updateSupplierViews,
 };

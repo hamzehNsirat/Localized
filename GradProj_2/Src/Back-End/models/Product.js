@@ -97,16 +97,18 @@ const Product = {
       throw error;
     }
   },
-  async searchProducts(searchTerm, pageSize, pageIndex, industryList, categoriesList) {
+  async searchProducts(searchTerm, pageSize, pageIndex, ownerId, searcherType, industryList, categoriesList) {
     try {
       const query = `
         SELECT * 
-        FROM search_products($1, $2, $3, $4, $5);
+        FROM search_products($1, $2, $3, $4, $5, $6, $7);
       `;
       const params = [
         searchTerm,
         pageSize,
         pageIndex,
+        ownerId,
+        searcherType,
         industryList,
         categoriesList,
       ];

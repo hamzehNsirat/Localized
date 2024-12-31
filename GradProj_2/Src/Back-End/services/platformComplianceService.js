@@ -18,6 +18,14 @@ const {
   rollbackTransaction,
 } = require("../config/database");
 const platformComplianceService = {
+  async updateSupplierViews(inputData) {
+    await Supplier.updateProfileViewsSupplier(
+      inputData.supplierId
+    );
+    return {
+      success: true,
+    };
+  },
   async submitReview(inputData) {
     await beginTransaction();
     const reviewDetails = {
@@ -28,7 +36,7 @@ const platformComplianceService = {
       reviewDate: null,
       lastModificationDate: null,
       lastModifiedBy: 1,
-      quotationId: inputData.quotationId
+      quotationId: inputData.quotationId,
     };
     const reviewInsertDb = await Review.insert(reviewDetails);
     console.log(reviewInsertDb);
@@ -382,7 +390,6 @@ const platformComplianceService = {
       `Complaint has been Resolved with Resolution Notes: ${inputData.resolutionNotes}`
     );
 
-
     return {
       success: true,
     };
@@ -522,7 +529,7 @@ const platformComplianceService = {
       [inputData.relatedComplaintId]
     );
     let tryOwner = {};
-    if(respondant[0].submitter_type == true){
+    if (respondant[0].submitter_type == true) {
       tryOwner = await executeQuery(
         "SELECT user_email, user_id FROM user_localized WHERE user_id = (SELECT supplier_user_id FROM supplier WHERE supplier_id = (SELECT owner_id FROM factory WHERE factory_est_id = $1))",
         [inputData.establishmentId]
@@ -535,12 +542,10 @@ const platformComplianceService = {
         "Penalty Applied",
         `Penalty is Applied to your Factory, Contact Us for more details`
       );
-
-    }
-    else{
+    } else {
       tryOwner = await executeQuery(
-      "SELECT user_email FROM user_localized WHERE user_id = (SELECT retailer_user_id FROM retailer WHERE retailer_id = (SELECT owner_id FROM retailstore WHERE retailstore_est_id = $1))",
-      [inputData.establishmentId]
+        "SELECT user_email FROM user_localized WHERE user_id = (SELECT retailer_user_id FROM retailer WHERE retailer_id = (SELECT owner_id FROM retailstore WHERE retailstore_est_id = $1))",
+        [inputData.establishmentId]
       );
       await submitNotification(
         12,
@@ -549,12 +554,10 @@ const platformComplianceService = {
         "Penalty Applied",
         `Penalty is Applied to your Retailstore, Contact Us for more details`
       );
-
-
     }
     await sendEmail(
       tryOwner[0]?.user_email,
-      'Penalty Application | Localized',
+      "Penalty Application | Localized",
       `Penalty: ${penaltyInsertDb[0].out_penalty_id} with Title: ${inputData.penaltyTitle} has been Applied to your Establishment, kindly check the platform for more information`,
       `<h4>Penalty: ${penaltyInsertDb[0].out_penalty_id} with Title: ${inputData.penaltyTitle} has been Applied to your Establishment, kindly check the platform for more information</h4>`
     );
@@ -569,7 +572,7 @@ const platformComplianceService = {
       "SELECT submitter_type, supplier_id, retailer_id FROM complaint WHERE complaint_id = (SELECT related_complaint_id FROM penalty WHERE penalty_id = $1)",
       [inputData.penaltyId]
     );
- 
+
     const penaltyDeleteDb = await Penalty.deletePenalty(inputData.penaltyId);
     if (!penaltyDeleteDb[0].result || penaltyDeleteDb[0].result != "0") {
       await rollbackTransaction();
@@ -594,7 +597,6 @@ const platformComplianceService = {
         "Penalty Applied",
         `Penalty is Disabled on your Factory, Contact Us for more details`
       );
-
     } else {
       tryOwner = await executeQuery(
         "SELECT user_email, user_id FROM user_localized WHERE user_id = (SELECT retailer_user_id FROM retailer WHERE retailer_id = $1)",

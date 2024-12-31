@@ -1,5 +1,5 @@
 /*
-LAST MODIFIED: 16-12-2024
+LAST MODIFIED: 31-12-2024
 */
 const { executeQuery } = require("../config/database");
 const AnalyticsModel = require("../models/Analytics");
@@ -296,7 +296,7 @@ const analyticsService = {
             pm.product_id,
             pm.mention_count,
             ps.sales_count,
-            (ps.sales_count * 100.0 / NULLIF(pm.mention_count, 0)) AS sales_percentage
+            (ps.sales_count * 100.0 / NULLIF(pm.mention_count, 1)) AS sales_percentage
         FROM 
             product_mentions pm
         LEFT JOIN 
@@ -352,7 +352,7 @@ const analyticsService = {
             cm.category_name,
             cm.mention_count,
             cs.sales_count,
-            (cs.sales_count * 100.0 / NULLIF(cm.mention_count, 0)) AS sales_percentage
+            (cs.sales_count * 100.0 / NULLIF(cm.mention_count, 1)) AS sales_percentage
         FROM 
             category_mentions cm
         LEFT JOIN 
@@ -383,33 +383,50 @@ const analyticsService = {
       purchaseList.purchaseItem.push(item);
     }
 
-    const topThreeProducts = { productItem: [] };
-    for (let i = 0; i < productsTopThreeList.length; i++) {
-      const item = {
-        id: productsTopThreeList[i].product_id,
-        name: productsTopThreeList[i].product_name,
-        mentions: productsTopThreeList[i].mention_count,
-        sales: productsTopThreeList[i].sales_count,
-        share: parseFloat(
-          productsTopThreeList[i].sales_percentage ?? 0
-        ).toFixed(2),
-      };
-      topThreeProducts.productItem.push(item);
-    }
+   const topThreeProducts = { productItem: [] };
+   const topThreeProductsPercentages = { percentageList: [] };
+   
+   for (let i = 0; i < productsTopThreeList.length; i++) {
+     const item = {
+       id: productsTopThreeList[i].product_id,
+       name: productsTopThreeList[i].product_name || "No Name",
+       mentions: productsTopThreeList[i].mention_count,
+       sales: productsTopThreeList[i].sales_count,
+       share: parseFloat(productsTopThreeList[i].sales_percentage ?? 0).toFixed(
+         2
+       ),
+     };
+     const item2 = {
+       productName: productsTopThreeList[i].product_name || "No Name",
+       percentage: parseFloat(
+         productsTopThreeList[i].sales_percentage ?? 0
+       ).toFixed(2),
+     };
+     topThreeProducts.productItem.push(item);
+     topThreeProductsPercentages.percentageList.push(item2);
+   }
 
-    const topThreeCategories = { categoryItem: [] };
-    for (let i = 0; i < categoriesTopThreeList.length; i++) {
-      const item = {
-        name: categoriesTopThreeList[i].category_name,
-        mentions: categoriesTopThreeList[i].mention_count,
-        sales: categoriesTopThreeList[i].sales_count,
-        share: parseFloat(
-          categoriesTopThreeList[i].sales_percentage ?? 0
-        ).toFixed(2),
-      };
-      topThreeCategories.categoryItem.push(item);
-    }
+   const topThreeCategories = { categoryItem: [] };
+   const topThreeCategoriesPercentages = { percentageList: [] };
 
+   for (let i = 0; i < categoriesTopThreeList.length; i++) {
+     const item = {
+       name: categoriesTopThreeList[i].category_name || "No Name",
+       mentions: categoriesTopThreeList[i].mention_count,
+       sales: categoriesTopThreeList[i].sales_count,
+       share: parseFloat(
+         categoriesTopThreeList[i].sales_percentage ?? 0
+       ).toFixed(2),
+     };
+     const item2 = {
+       categoryName: categoriesTopThreeList[i].category_name || "No Name",
+       percentage: parseFloat(
+         categoriesTopThreeList[i].sales_percentage ?? 0
+       ).toFixed(2),
+     };
+     topThreeCategories.categoryItem.push(item);
+     topThreeCategoriesPercentages.percentageList.push(item2);
+   }
     const analyticsResult = {
       quotationsCount: quotationsCount[0]?.quotations_count || 0,
       totalSpent: totalSpent[0]?.total_spent || 0,
@@ -478,7 +495,9 @@ const analyticsService = {
       },
       purchaseList: purchaseList || null,
       topThreeProducts: topThreeProducts || null,
+      topThreeProductsPercentages:topThreeProductsPercentages || null,
       topThreeCategories: topThreeCategories || null,
+      topThreeCategoriesPercentages: topThreeCategoriesPercentages || null,
     };
 
     if (!isInsertedFlag) {
@@ -518,7 +537,7 @@ const analyticsService = {
     if (Object.entries(fetchAnalyticsDb).length != 0) {
       if (
         fetchAnalyticsDb[0].out_capture != null &&
-        moment(fetchAnalyticsDb[0].out_capture_date).isSame(moment(), "day")
+        moment(fetchAnalyticsDb[0].out_capture_date).isSame(moment(), "hour")
       ) {
         // take from db
         const res = fetchAnalyticsDb[0].out_capture;
@@ -634,6 +653,73 @@ const analyticsService = {
       [supplierId[0].supplier_id]
     );
 
+    const quotationsParticipatedAllTime = await executeQuery(
+      `SELECT
+        COUNT(*) FILTER (WHERE quotation_status_id = 1) AS requested_quotations,
+        COUNT(*) FILTER (WHERE quotation_status_id = 3) AS confirmed_quotations,
+        COUNT(*) FILTER (WHERE quotation_status_id = 4) AS completed_quotations
+    FROM
+        quotation
+    WHERE
+        requester_id = $1;
+    `,
+      [supplierId[0].supplier_id]
+    );
+
+    const quotationsParticipatedOneYr = await executeQuery(
+      `SELECT
+        COUNT(*) FILTER (WHERE quotation_status_id = 1) AS requested_quotations,
+        COUNT(*) FILTER (WHERE quotation_status_id = 3) AS confirmed_quotations,
+        COUNT(*) FILTER (WHERE quotation_status_id = 4) AS completed_quotations
+    FROM
+        quotation
+    WHERE
+        requester_id = $1
+    AND quotation_request_date >= CURRENT_DATE - INTERVAL '1 year';
+    `,
+      [supplierId[0].supplier_id]
+    );
+
+    const quotationsParticipatedNineMnths = await executeQuery(
+      `SELECT
+        COUNT(*) FILTER (WHERE quotation_status_id = 1) AS requested_quotations,
+        COUNT(*) FILTER (WHERE quotation_status_id = 3) AS confirmed_quotations,
+        COUNT(*) FILTER (WHERE quotation_status_id = 4) AS completed_quotations
+    FROM
+        quotation
+    WHERE
+        requester_id = $1
+	AND quotation_request_date >=  CURRENT_DATE - INTERVAL '9 month';
+    `,
+      [supplierId[0].supplier_id]
+    );
+    const quotationsParticipatedSixMnths = await executeQuery(
+      `SELECT
+        COUNT(*) FILTER (WHERE quotation_status_id = 1) AS requested_quotations,
+        COUNT(*) FILTER (WHERE quotation_status_id = 3) AS confirmed_quotations,
+        COUNT(*) FILTER (WHERE quotation_status_id = 4) AS completed_quotations
+    FROM
+        quotation
+    WHERE
+        requester_id = $1
+	AND quotation_request_date >=  CURRENT_DATE - INTERVAL '6 month';
+    `,
+      [supplierId[0].supplier_id]
+    );
+    const quotationsParticipatedThreeMnths = await executeQuery(
+      `SELECT
+        COUNT(*) FILTER (WHERE quotation_status_id = 1) AS requested_quotations,
+        COUNT(*) FILTER (WHERE quotation_status_id = 3) AS confirmed_quotations,
+        COUNT(*) FILTER (WHERE quotation_status_id = 4) AS completed_quotations
+    FROM
+        quotation
+    WHERE
+        requester_id = $1
+	AND quotation_request_date >=  CURRENT_DATE - INTERVAL '3 month';
+    `,
+      [supplierId[0].supplier_id]
+    );
+
     const reviewObj = await executeQuery(
       `SELECT 
     COUNT(*) AS count,
@@ -701,7 +787,7 @@ const analyticsService = {
             pm.product_id,
             pm.mention_count,
             ps.sales_count,
-            (ps.sales_count * 100.0 / NULLIF(pm.mention_count, 0)) AS sales_percentage
+            (ps.sales_count * 100.0 / NULLIF(pm.mention_count, 1)) AS sales_percentage
         FROM 
             product_mentions pm
         LEFT JOIN 
@@ -757,7 +843,7 @@ const analyticsService = {
             cm.category_name,
             cm.mention_count,
             cs.sales_count,
-            (cs.sales_count * 100.0 / NULLIF(cm.mention_count, 0)) AS sales_percentage
+            (cs.sales_count * 100.0 / NULLIF(cm.mention_count, 1)) AS sales_percentage
         FROM 
             category_mentions cm
         LEFT JOIN 
@@ -803,30 +889,46 @@ const analyticsService = {
     }
 
     const topThreeProducts = { productItem: [] };
+    const topThreeProductsPercentages = {percentageList:[]};
     for (let i = 0; i < productsTopThreeList.length; i++) {
       const item = {
         id: productsTopThreeList[i].product_id,
-        name: productsTopThreeList[i].product_name,
+        name: productsTopThreeList[i].product_name || "No Name",
         mentions: productsTopThreeList[i].mention_count,
         sales: productsTopThreeList[i].sales_count,
         share: parseFloat(
           productsTopThreeList[i].sales_percentage ?? 0
         ).toFixed(2),
       };
+      const item2 = {
+        productName: productsTopThreeList[i].product_name || "No Name",
+        percentage: parseFloat(
+          productsTopThreeList[i].sales_percentage ?? 0
+        ).toFixed(2),
+      };
       topThreeProducts.productItem.push(item);
+      topThreeProductsPercentages.percentageList.push(item2);
     }
 
     const topThreeCategories = { categoryItem: [] };
+    const topThreeCategoriesPercentages = { percentageList: [] };
     for (let i = 0; i < categoriesTopThreeList.length; i++) {
       const item = {
-        name: categoriesTopThreeList[i].category_name,
+        name: categoriesTopThreeList[i].category_name || 'No Name',
         mentions: categoriesTopThreeList[i].mention_count,
         sales: categoriesTopThreeList[i].sales_count,
         share: parseFloat(
           categoriesTopThreeList[i].sales_percentage ?? 0
         ).toFixed(2),
       };
+      const item2 = {
+        categoryName: categoriesTopThreeList[i].category_name || "No Name",
+        percentage: parseFloat(
+          categoriesTopThreeList[i].sales_percentage ?? 0
+        ).toFixed(2),
+      };
       topThreeCategories.categoryItem.push(item);
+      topThreeCategoriesPercentages.percentageList.push(item2);
     }
 
     const analyticsResult = {
@@ -838,6 +940,45 @@ const analyticsService = {
       totalQuotations: totalQuotations[0].total_quotations || 0,
       purchaseList: purchaseList || null,
       customerList: customerList,
+      quotations: {
+        allTime: {
+          requested:
+            quotationsParticipatedAllTime[0]?.requested_quotations || 0,
+          confirmed:
+            quotationsParticipatedAllTime[0]?.confirmed_quotations || 0,
+          completed:
+            quotationsParticipatedAllTime[0]?.completed_quotations || 0,
+        },
+        oneYear: {
+          requested: quotationsParticipatedOneYr[0]?.requested_quotations || 0,
+          confirmed: quotationsParticipatedOneYr[0]?.confirmed_quotations || 0,
+          completed: quotationsParticipatedOneYr[0]?.completed_quotations || 0,
+        },
+        nineMonths: {
+          requested:
+            quotationsParticipatedNineMnths[0]?.requested_quotations || 0,
+          confirmed:
+            quotationsParticipatedNineMnths[0]?.confirmed_quotations || 0,
+          completed:
+            quotationsParticipatedNineMnths[0]?.completed_quotations || 0,
+        },
+        sixMonths: {
+          requested:
+            quotationsParticipatedSixMnths[0]?.requested_quotations || 0,
+          confirmed:
+            quotationsParticipatedSixMnths[0]?.confirmed_quotations || 0,
+          completed:
+            quotationsParticipatedSixMnths[0]?.completed_quotations || 0,
+        },
+        threeMonths: {
+          requested:
+            quotationsParticipatedThreeMnths[0]?.requested_quotations || 0,
+          confirmed:
+            quotationsParticipatedThreeMnths[0]?.confirmed_quotations || 0,
+          completed:
+            quotationsParticipatedThreeMnths[0]?.completed_quotations || 0,
+        },
+      },
       review: {
         positivePercentage:
           (reviewObj[0].positive_ratings / (reviewObj[0].count ?? 1)) * 100 ||
@@ -859,7 +1000,9 @@ const analyticsService = {
           ).toFixed(2) || 0,
       },
       topThreeProducts: topThreeProducts || null,
+      topThreeProductsPercentages: topThreeProductsPercentages || null,
       topThreeCategories: topThreeCategories || null,
+      topThreeCategoriesPercentages: topThreeCategoriesPercentages || null
     };
 
 
@@ -887,7 +1030,7 @@ const analyticsService = {
     if (Object.entries(fetchAnalyticsDb).length != 0) {
       if (
         fetchAnalyticsDb[0].out_capture != null &&
-        moment(fetchAnalyticsDb[0].out_capture_date).isSame(moment(), "day")
+        moment(fetchAnalyticsDb[0].out_capture_date).isSame(moment(), "hour")
       ) {
         // take from db
         const res = fetchAnalyticsDb[0].out_capture;

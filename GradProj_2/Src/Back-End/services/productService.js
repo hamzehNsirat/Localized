@@ -98,6 +98,8 @@ const productService = {
         inputData.searchTerm,
         inputData.pageSize,
         inputData.pageIndex,
+        inputData.ownerId,
+        inputData.searcherType,
         inputData.industryList,
         inputData.categoriesList
       );

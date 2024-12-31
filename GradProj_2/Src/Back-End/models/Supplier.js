@@ -88,7 +88,7 @@ const Supplier = {
       SELECT supplier_update_profile_views($1);
     `;
     const params = [supplierId];
-    const result = await supplierId(query, params);
+    const result = await executeQuery(query, params);
     return 0;
   },
 };

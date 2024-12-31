@@ -1897,7 +1897,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"retailerId\":11,\r\n    \"pageSize\":1,\r\n    \"pageIndex\":1\r\n}",
+							"raw": "{\r\n    \"retailerId\":17,\r\n    \"pageSize\":5,\r\n    \"pageIndex\":1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2205,7 +2205,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"searchTerm\":\"Sam\",\r\n    \"pageSize\": 2,\r\n    \"pageIndex\":1,\r\n    \"industryList\":null,\r\n    \"categoryList\":[1]\r\n}",
+							"raw": "{\r\n    \"searchTerm\":\"Sma\",\r\n    \"pageSize\": 5,\r\n    \"pageIndex\":1,\r\n    \"ownerId\":17,\r\n    \"searcherType\":true,\r\n    \"industryList\":[1,2],\r\n    \"categoriesList\":[5]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -5723,7 +5723,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"supplierId\": 9,\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
+							"raw": "{\r\n    \"supplierId\": 10,\r\n    \"pageSize\": 5,\r\n    \"pageIndex\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -6224,7 +6224,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"supplierId\": 9,\r\n    \"productStatusId\": 1,\r\n    \"productUnitPrice\": 325,\r\n    \"productWholeSalePrice\": 330,\r\n    \"productRetailPrice\": 400,\r\n    \"productUnitPriceDiscount\": 0,\r\n    \"productCategory\": 4,\r\n    \"productDescription\": \"ALL NEW CONSOLE DEVICE\",\r\n    \"productImage\": \"\",\r\n    \"productName\": \"X-CONSOLE\"\r\n}",
+							"raw": "{\r\n    \"supplierId\": 10,\r\n    \"productStatusId\": 1,\r\n    \"productUnitPrice\": 325,\r\n    \"productWholeSalePrice\": 330,\r\n    \"productRetailPrice\": 400,\r\n    \"productUnitPriceDiscount\": 0,\r\n    \"productCategory\": 5,\r\n    \"productDescription\": \"ALL NEW CONSOLE DEVICE\",\r\n    \"productImage\": \"\",\r\n    \"productName\": \"S-SCREEN\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -7858,6 +7858,199 @@
 								"api",
 								"platformservices",
 								"createcomplaint"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "CreateComplaint/Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"complaintTitle\": \"Items Received are not in shape\",\r\n    \"complaintTypeId\": 4,\r\n    \"supplierId\": 1,\r\n    \"retailerId\": 1,\r\n    \"complaintNotes\": \"everything sucks\",\r\n    \"quotationId\": 23\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/createcomplaint",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"createcomplaint"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "146"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"92-2BRzeEqKenM2dYSIeQCS6XpvO00\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 15:56:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"0000\",\n        \"errorDescription\": \"SUCCESS\",\n        \"statusCode\": 200,\n        \"message\": \"Operation completed successfully\"\n    },\n    \"body\": {\n        \"success\": true\n    }\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNDgiLCJ1c2VyVHlwZSI6IjEiLCJ1c2VybmFtZSI6ImFkbWluOTA5MDEiLCJ0b2tlblZlcnNpb24iOjAsImlhdCI6MTczMzU4MTUzNywiZXhwIjoxNzMzNjY3OTM3fQ.hZKiFFa46TiteCJUWhQq8IWdVTOmbAcjFTzZv7j8iBw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"complaintTitle\": \"Items Received are not in shape\",\r\n    \"complaintTypeId\": 4,\r\n    \"supplierId\": 80,\r\n    \"retailerId\": 1,\r\n    \"complaintNotes\": \"everything sucks\",\r\n    \"quotationId\": 23\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5055/api/platformservices/createcomplaint",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5055",
+									"path": [
+										"api",
+										"platformservices",
+										"createcomplaint"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "207"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"cf-fUina+LtBqb1+Um59OFSTdRXwrM\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 15:57:39 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"header\": {\n        \"errorCode\": \"E0062\",\n        \"errorDescription\": \"Creation Failure\",\n        \"statusCode\": \"E0062\",\n        \"message\": \"Creating Complaint has Failed\"\n    },\n    \"body\": {\n        \"details\": {\n            \"success\": false,\n            \"error\": \"Failed to Create Complaint\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "UpdateProfileViews",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"supplierId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5055/api/platformservices/updateviewcount",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5055",
+							"path": [
+								"api",
+								"platformservices",
+								"updateviewcount"
 							]
 						}
 					},

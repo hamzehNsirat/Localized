@@ -26,6 +26,11 @@ router.post(
 );
 // Supplier Routes
 router.post(
+  "/updateviewcount",
+  validateToken,
+  controller.updateSupplierViews
+);
+router.post(
   "/getcomplaintssupplier",
   validateToken,
   controller.getComplaintsSupplier
