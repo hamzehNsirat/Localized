@@ -81,8 +81,7 @@ const purchaseService = {
         error: "Failed to Create Transaction Details",
       };
     }
-    console.log({  quotationId:inputData.quotationId,
-      quotationStatusId:3});
+
     await updateQuotationStatus({  quotationId:inputData.quotationId,
       quotationStatusId:3});
     await commitTransaction(); 

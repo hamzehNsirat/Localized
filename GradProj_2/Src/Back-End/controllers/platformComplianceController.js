@@ -286,6 +286,7 @@ const addPenalty = async (req, res) => {
     }
     return errorHandler.handleSuccess(res, result);
   } catch (error) {
+    console.log(error);
     return errorHandler.handleError(res, "E0095");
   }
 };

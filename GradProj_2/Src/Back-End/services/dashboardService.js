@@ -142,7 +142,6 @@ const dashboardService = {
         error: "Failed to Update Retailer Details",
       };
     }
-    //    console.log(moment(Date().now).format("YYYY-MM-DD HH:mm:ss"));
     await commitTransaction();
     const user = await executeQuery(
       "SELECT retailer_user_id FROM retailer WHERE retailer_id = $1",

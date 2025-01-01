@@ -39,7 +39,6 @@ const platformComplianceService = {
       quotationId: inputData.quotationId,
     };
     const reviewInsertDb = await Review.insert(reviewDetails);
-    console.log(reviewInsertDb);
     if (
       !reviewInsertDb[0].out_review_id ||
       reviewInsertDb[0].out_review_id == "-1"
@@ -523,7 +522,6 @@ const platformComplianceService = {
       };
     }
     await commitTransaction();
-
     const respondant = await executeQuery(
       "SELECT submitter_type FROM complaint WHERE complaint_id = $1",
       [inputData.relatedComplaintId]
@@ -534,22 +532,21 @@ const platformComplianceService = {
         "SELECT user_email, user_id FROM user_localized WHERE user_id = (SELECT supplier_user_id FROM supplier WHERE supplier_id = (SELECT owner_id FROM factory WHERE factory_est_id = $1))",
         [inputData.establishmentId]
       );
-
       await submitNotification(
         12,
-        tryOwner[0].user_id,
+        tryOwner[0]?.user_id,
         0,
         "Penalty Applied",
         `Penalty is Applied to your Factory, Contact Us for more details`
       );
     } else {
       tryOwner = await executeQuery(
-        "SELECT user_email FROM user_localized WHERE user_id = (SELECT retailer_user_id FROM retailer WHERE retailer_id = (SELECT owner_id FROM retailstore WHERE retailstore_est_id = $1))",
+        "SELECT user_email, user_id FROM user_localized WHERE user_id = (SELECT retailer_user_id FROM retailer WHERE retailer_id = (SELECT owner_id FROM retailstore WHERE retailstore_est_id = $1))",
         [inputData.establishmentId]
       );
       await submitNotification(
         12,
-        tryOwner[0].user_id,
+        tryOwner[0]?.user_id,
         0,
         "Penalty Applied",
         `Penalty is Applied to your Retailstore, Contact Us for more details`
