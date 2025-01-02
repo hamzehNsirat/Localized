@@ -5422,3 +5422,65 @@ BEGIN
   OFFSET ((page_index - 1) * page_size);
 END;
 $$ LANGUAGE plpgsql;
+------------------------------------------------------------------
+-- 02-01-2025
+DROP FUNCTION get_complaints_by_retailer;
+CREATE OR REPLACE FUNCTION get_complaints_by_retailer(
+  IN in_retailer_id BIGINT,
+  IN in_page_size INTEGER,
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(
+  complaint_id BIGINT,
+  complaint_title VARCHAR,
+  complaint_date TIMESTAMP,
+  complaint_status VARCHAR
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    CAST(c.complaint_id AS BIGINT),
+    c.complaint_title, 
+    c.creation_date,
+    c.complaint_status_id
+  FROM
+    complaint c
+  WHERE
+    c.retailer_id = in_retailer_id
+	AND c.submitter_type = TRUE
+  ORDER BY
+    c.creation_date DESC
+  LIMIT in_page_size
+  OFFSET ((in_page_index - 1) * in_page_size);
+END;
+$$ LANGUAGE plpgsql;
+DROP FUNCTION get_complaints_by_supplier;
+CREATE OR REPLACE FUNCTION get_complaints_by_supplier(
+  IN in_supplier_id BIGINT,
+  IN in_page_size INTEGER,
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(
+  complaint_id BIGINT,
+  complaint_title VARCHAR,
+  complaint_date TIMESTAMP,
+  complaint_status VARCHAR
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    CAST(c.complaint_id AS BIGINT),
+    c.complaint_title, 
+    c.creation_date,
+    c.complaint_status_id
+  FROM
+    complaint c
+  WHERE
+    c.supplier_id = in_supplier_id
+	AND c.submitter_type = FALSE
+  ORDER BY
+    c.creation_date DESC
+  LIMIT in_page_size
+  OFFSET ((in_page_index - 1) * in_page_size);
+END;
+$$ LANGUAGE plpgsql;
