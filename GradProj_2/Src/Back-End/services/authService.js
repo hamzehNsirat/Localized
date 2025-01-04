@@ -452,22 +452,22 @@ const authService = {
         application: {
           id: applicationResult[0].out_application_id,
           userType: applicationResult[0].out_user_type,
-          firstName: applicationResult[0].out_first_name,
-          lastName: applicationResult[0].out_last_name,
+          firstName: applicationResult[0].out_user_first_name,
+          lastName: applicationResult[0].out_user_last_name,
           userEmail: applicationResult[0].out_user_email,
           userPhoneNumber: applicationResult[0].out_user_phone_number,
           establishmentName: applicationResult[0].out_establishment_name,
           establishmentDescription:
             applicationResult[0].out_establishment_description,
           establihsmentCommercialRegistrationNumber:
-            applicationResult[0]
-              .out_establishment_commercial_registration_num,
+            applicationResult[0].out_establishment_commercial_registration_num,
           establishmentContactNumber:
             applicationResult[0].out_establishment_contact_number,
           establishmentEmail: applicationResult[0].out_establishment_email,
           establishmentCity: applicationResult[0].out_establishment_city,
+          establishmentStreet: applicationResult[0].out_establishment_street,
           estbalishmentBuildingNumber:
-            applicationResult[0].out_establishment_building_number,
+            applicationResult[0].out_establishment_building_num,
           establishmentIndustryTypes:
             applicationResult[0].out_establishment_industry_type_spec,
           establishmentLogo: applicationResult[0].out_establishment_logo,
