@@ -1,49 +1,34 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 
-import {BrowserRouter,Routes,Route} from "react-router-dom";
-import LandingPage from './components/Common/LandingPage.jsx';
-import Header from './components/Common/Header.jsx';
-import About from './components/Common/About.jsx';
-import ContactUs from './components/Common/ContactUs.jsx';
-import Login from './components/Login/Login.jsx';
-import SignUp from './components/SignUp/SignUp.jsx';
-import RetailerPage from './components/Retailer/RetailerPage.jsx';
-import RetailerHeader from './components/Retailer/Header.jsx';
-import SupplierPage from './components/Supplier/SupplierPage';
-import SupplierHeader from './components/Supplier/Header.jsx';
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./components/Providers/authProvider";
+import AppRoutes from "./routes/AppRoutes";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-
   return (
     <BrowserRouter>
-     <Routes>
-        <Route path='/' element={<Header />} >
-         <Route index element={<LandingPage/>}  />
-         <Route path="/about" element={<About />}/>
-         <Route path="/contactUs" element={<ContactUs />} />
-        </Route>
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
 
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/signUp' element={<SignUp/>}/>
-
-        <Route path='/retailer' element={<RetailerHeader/>}>
-          <Route index element={<RetailerPage/>}/>
-          {/*<Route path='/marketplace' element={<RetailerMarketplace/>}/>*/}
-
-        </Route>
-
-        <Route path='/supplier' element={<SupplierHeader/>}>
-          <Route index element={<SupplierPage/>}/>
-        </Route>
-     </Routes>
+      <ToastContainer
+        style={{ width: "max-content" }}
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </BrowserRouter>
-
   );
 }
 
 export default App;
-
-
-

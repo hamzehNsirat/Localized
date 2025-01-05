@@ -1,41 +1,122 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Row, Col } from 'react-bootstrap';
+import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Container, Row, Col } from "react-bootstrap";
+import AppColors from "../Theme/AppColors";
+import { FaInstagram, FaTwitter, FaFacebookF } from "react-icons/fa";
+import logo from "../../assets/LandingPageLogo.png";
 
 function Footer() {
   return (
-    <footer className="bg-light text-center text-lg-start">
-      <Container className="p-4">
-        <Row>
-          <Col lg={6} md={12} className="mb-4">
-            <h5 className="text-uppercase">About Us</h5>
-            <p>
-              Localized is committed to bridging the gap between suppliers and retailers in Jordan.
-            </p>
-          </Col>
+    <footer
+      className="text-center text-lg-start"
+      style={{
+        backgroundColor: "white",
+        paddingTop: "30px",
+      }}
+    >
+      <div className="d-flex justify-content-around align-items-start">
+        <Col
+          md={2}
+          className="mb-4 d-flex flex-column align-items-center justify-content-center"
+        >
+          <h3
+            className="fw-bold w-100"
+            style={{ color: AppColors.primaryColor }}
+          >
+            <img src={logo} alt="Localized" style={{ width: "100%" }} />
+          </h3>
+          <div className="d-flex gap-5 justify-content-center justify-content-md-start mt-2">
+            <a
+              href="https://instagram.com"
+              style={{ color: AppColors.primaryColor }}
+            >
+              <FaInstagram size={20} />
+            </a>
+            <a
+              href="https://twitter.com"
+              style={{ color: AppColors.primaryColor }}
+            >
+              <FaTwitter size={20} />
+            </a>
+            <a
+              href="https://facebook.com"
+              style={{ color: AppColors.primaryColor }}
+            >
+              <FaFacebookF size={20} />
+            </a>
+          </div>
+        </Col>
 
-          <Col lg={3} md={6} className="mb-4">
-            <h5 className="text-uppercase">Links</h5>
-            <ul className="list-unstyled">
-              <li><a href="#home" className="text-dark">Home</a></li>
-              <li><a href="#about" className="text-dark">About</a></li>
-              <li><a href="#contact" className="text-dark">Contact</a></li>
-              <li><a href="#members" className="text-dark">Members</a></li>
-            </ul>
-          </Col>
+        <Col md="auto" className="mb-4 d-flex flex-column align-items-start">
+          <h5 className="fw-bold">Company</h5>
+          <ul className="list-unstyled d-flex flex-column align-items-start">
+            <li>
+              <a href="#about" className="text-dark text-decoration-none">
+                About
+              </a>
+            </li>
+            <li>
+              <a
+                href="#privacy-policy"
+                className="text-dark text-decoration-none"
+              >
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a
+                href="#terms-conditions"
+                className="text-dark text-decoration-none"
+              >
+                Terms of conditions
+              </a>
+            </li>
+          </ul>
+        </Col>
 
-          <Col lg={3} md={6} className="mb-4">
-            <h5 className="text-uppercase">Contact</h5>
-            <ul className="list-unstyled">
-              <li>Email: info@localized.com</li>
-              <li>Phone: +962 7 1234 5678</li>
-            </ul>
-          </Col>
-        </Row>
-      </Container>
+        <Col md="auto" className="mb-4 d-flex flex-column align-items-start">
+          <h5 className="fw-bold">Contact</h5>
+          <ul className="list-unstyled d-flex flex-column align-items-start">
+            <li>
+              <a href="#faq" className="text-dark text-decoration-none">
+                FAQ
+              </a>
+            </li>
+            <li>
+              <a href="#support" className="text-dark text-decoration-none">
+                Support
+              </a>
+            </li>
+            <li>
+              <a href="#careers" className="text-dark text-decoration-none">
+                Careers
+              </a>
+            </li>
+          </ul>
+        </Col>
 
-      <div className="text-center p-3 bg-dark text-white">
-        © 2024 Localized. All Rights Reserved.
+        <Col md="auto" className="mb-4 d-flex flex-column align-items-start">
+          <h5 className="fw-bold">Members</h5>
+          <ul className="list-unstyled d-flex flex-column align-items-start">
+            <li>
+              <a href="#suppliers" className="text-dark text-decoration-none">
+                Suppliers
+              </a>
+            </li>
+            <li>
+              <a href="#retailers" className="text-dark text-decoration-none">
+                Retailers
+              </a>
+            </li>
+          </ul>
+        </Col>
+      </div>
+
+      <div
+        className="text-center py-3 text-white"
+        style={{ backgroundColor: AppColors.primaryColor }}
+      >
+        Copyright © 2024 Localized. All rights reserved.
       </div>
     </footer>
   );

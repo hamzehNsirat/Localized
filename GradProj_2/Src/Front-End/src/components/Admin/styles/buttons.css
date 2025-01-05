@@ -1,0 +1,9 @@
+.border-transparent {
+  border: 1px solid #dee2e6;
+}
+.border-green {
+  border: 2px solid rgb(53, 198, 53);
+}
+.border-red {
+  border: 2px solid red;
+}

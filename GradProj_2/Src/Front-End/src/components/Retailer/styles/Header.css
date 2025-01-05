@@ -1,0 +1,44 @@
+/* Header.css */
+
+.custom-navbar {
+  background-color: #2c8c99;
+  padding: 17px 0;
+}
+
+.custom-container {
+  gap: 1rem;
+}
+
+.custom-brand {
+  font-weight: bold;
+}
+
+.custom-link {
+  text-decoration: none;
+  color: white;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.custom-link:hover {
+  color: black;
+}
+
+.nav .custom-link {
+  margin: 0 0.5rem;
+}
+
+/* Active link style */
+.custom-link.active {
+  color: black;
+}
+
+.custom-icon {
+  width: 2.6rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.custom-icon:hover {
+  transform: scale(1.1);
+}

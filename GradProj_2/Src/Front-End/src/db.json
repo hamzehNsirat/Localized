@@ -1,0 +1,9 @@
+{
+  "quotations": [
+    { "id": 1, "supplierId": 4, "retailerId": 3, "status": "Pending" },
+    { "id": 2, "supplierId": 4, "retailerId": 3, "status": "Confirmed" }
+  ],
+  "users": [
+    { "id": 1, "username": "retailer1", "password": "password123", "role": "retailer" }
+  ]
+}

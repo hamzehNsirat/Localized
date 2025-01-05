@@ -5,8 +5,8 @@ Localized is a platform created to endorse the Jordanian economy by increasing l
 <h1>Installation</h1>
 <ol> 
  <li><strong>Clone the repository</strong> <pre> 
-    <code>git clone https://github.com/hamzehNsirat/Localized</code> </pre></li>
- <li><strong>Navigate into the project directory</strong> <pre> <code>cd Localized</code> </pre></li>  <li><strong>Install dependencies</strong> Ensure you have <a href="https://nodejs.org/">Node.js</a> installed, then run: <pre> <code>npm install</code> </pre></li>
+    <code>git clone https://github.com/Mohammad-Abuayyash/Localized_Frontend</code> </pre></li>
+ <li><strong>Navigate into the project directory</strong> <pre> <code>cd Localized_Frontend</code> </pre></li>  <li><strong>Install dependencies</strong> Ensure you have <a href="https://nodejs.org/">Node.js</a> installed, then run: <pre> <code>npm install</code> </pre></li>
  <li><strong>Start the development server</strong> <pre> <code>npm run dev</code> </pre></li> 
 </ol>
 
@@ -25,7 +25,7 @@ Localized is a platform created to endorse the Jordanian economy by increasing l
     <li><strong>Step 1:</strong> Obtain the repository URL from your friend’s GitHub.</li>
     <li><strong>Step 2:</strong> Open a terminal and run the following command:</li>
     <pre>
-      <code>git clone https://github.com/hamzehNsirat/Localized</code>
+      <code>git clone https://github.com/Mohammad-Abuayyash/Localized_Frontend</code>
     </pre>
   </ul>
   This will create a local copy of the repository on your machine.
@@ -117,15 +117,15 @@ Avoid Conflicts: Fetching first allows you to ensure that your local repository 
 <h2>7. Merge Main Branch into Your Feature Branch</h2>
 
 <div>
-  Before completing your pull request, merge the latest changes from the <strong>main</strong> branch into your feature branch:
+  Before completing your pull request, merge the latest changes from the <strong>development</strong> branch into the main branch:
   <ul>
-    <li><strong>Step 1:</strong> Switch to your feature branch:</li>
+    <li><strong>Step 1:</strong> Switch to main branch:</li>
     <pre>
-      <code>git checkout new-feature-branch</code>
+      <code>git checkout main</code>
     </pre>
-    <li><strong>Step 2:</strong> Merge the main branch into your branch:</li>
+    <li><strong>Step 2:</strong> Merge the development branch into main branch:</li>
     <pre>
-      <code>git merge main</code>
+      <code>git merge development</code>
     </pre>
   </ul>
 </div>

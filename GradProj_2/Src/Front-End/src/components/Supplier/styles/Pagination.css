@@ -1,0 +1,30 @@
+.pagination {
+  height: 50px !important; /* Set the height of the bar */
+  display: flex; /* Ensure proper layout of items */
+  align-items: center; /* Vertically center the items */
+}
+
+.pagination .page-item .page-link {
+  height: 100%;
+  width: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #2c8c99 !important; /* Active item background */
+  border-color: transparent !important; /* Active item border */
+  color: white !important; /* Active item text */
+}
+
+.pagination .page-item:first-child .page-link {
+  border-top-left-radius: 3px; /* Add rounded corners to the top-left */
+  border-bottom-left-radius: 3px; /* Add rounded corners to the bottom-left */
+}
+
+.pagination .page-item:last-child .page-link {
+  border-top-right-radius: 3px; /* Add rounded corners to the top-right */
+  border-bottom-right-radius: 3px; /* Add rounded corners to the bottom-right */
+}
