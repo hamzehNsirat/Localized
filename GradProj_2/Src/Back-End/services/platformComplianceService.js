@@ -157,6 +157,7 @@ const platformComplianceService = {
     return {
       success: true,
       complaintsList,
+      totalRecordsCount: complaintsFetchDb[0].out_total_records_count,
     };
   },
   async getComplaintById(inputData) {
@@ -296,6 +297,7 @@ const platformComplianceService = {
     return {
       success: true,
       complaintsList,
+      totalRecordsCount: complaintsFetchDb[0].out_total_records_count,
     };
   },
   async getComplaintsList(inputData) {
@@ -322,6 +324,7 @@ const platformComplianceService = {
     return {
       success: true,
       complaintsList,
+      totalRecordsCount: complaintsFetchDb[0].out_total_records_count,
     };
   },
   async searchComplaints(inputData) {
@@ -349,6 +352,7 @@ const platformComplianceService = {
     return {
       success: true,
       complaintsList,
+      totalRecordsCount: complaintsFetchDb[0].out_total_records_count,
     };
   },
   async updateComplaint(inputData) {
@@ -419,6 +423,7 @@ const platformComplianceService = {
     return {
       success: true,
       penaltiesList,
+      totalRecordsCount: penaltiesFetchDb[0].out_total_records_count,
     };
   },
   async searchPenalties(inputData) {
@@ -446,6 +451,7 @@ const platformComplianceService = {
     return {
       success: true,
       penaltiesList,
+      totalRecordsCount: penaltiesFetchDb[0].out_total_records_count,
     };
   },
   async viewPenalty(inputData) {

@@ -5104,7 +5104,8 @@ RETURNS TABLE(
   out_product_whole_sale_price FLOAT,
   out_product_supplier BIGINT,
   out_product_category BIGINT,
-  out_establishment_name TEXT
+  out_establishment_name TEXT,
+  out_total_records_count BIGINT
 ) AS $$
 BEGIN
 RETURN QUERY 
@@ -5149,7 +5150,8 @@ RETURN QUERY
     product_whole_sale_price AS out_product_whole_sale_price,
     supplier_id,
 	product_category,
-	establishment_name
+	establishment_name,
+	COUNT(*)
   FROM products_with_compliance
   ORDER BY supplier_compliance_indicator DESC
   LIMIT in_page_size
@@ -5482,5 +5484,694 @@ BEGIN
     c.creation_date DESC
   LIMIT in_page_size
   OFFSET ((in_page_index - 1) * in_page_size);
+END;
+$$ LANGUAGE plpgsql;
+--------------------------------------
+-- 08-01-2025
+DROP FUNCTION IF EXISTS retailer_get_marketplace_products;
+CREATE OR REPLACE FUNCTION retailer_get_marketplace_products(
+  IN in_retailer_id BIGINT, 
+  IN in_page_size INTEGER, 
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(		
+  out_product_id BIGINT,
+  out_product_name VARCHAR,
+  out_product_description TEXT, 
+  out_product_image TEXT,
+  out_product_retail_price FLOAT,
+  out_product_unit_price FLOAT,
+  out_product_whole_sale_price FLOAT,
+  out_product_supplier BIGINT,
+  out_product_category BIGINT,
+  out_establishment_name TEXT,
+  out_total_records_count BIGINT
+) AS $$
+BEGIN
+RETURN QUERY 
+  WITH retailer_establishment AS (
+    SELECT retailstore_est_id 
+    FROM retailstore_owned_get(in_retailer_id)
+  ),
+  retailer_categories AS (
+    SELECT out_category_id 
+    FROM retailstore_categories_get((SELECT retailstore_est_id FROM retailer_establishment))
+  ),
+  products_with_compliance AS (
+    SELECT 
+      p.product_id,
+      p.product_name,
+      p.product_description,
+      p.product_image,
+      p.product_retail_price,
+      p.product_unit_price,
+      p.product_whole_sale_price,
+      s.supplier_compliance_indicator,
+      p.supplier_id,
+      p.product_category,
+      e.establishment_name
+    FROM product p
+    JOIN supplier s ON p.supplier_id = s.supplier_id
+    JOIN establishment e ON e.establishment_id = (SELECT factory_est_id FROM factory WHERE owner_id = p.supplier_id)
+    WHERE p.product_category = ANY(SELECT out_category_id FROM retailer_categories)
+      AND p.product_status_id = (
+        SELECT product_status_id 
+        FROM product_status 
+        WHERE product_status LIKE '%PUBLISHED%'
+      )
+  )
+  SELECT 
+    CAST(p.product_id AS BIGINT) AS out_product_id,
+    p.product_name AS out_product_name,
+    p.product_description AS out_product_description,
+    p.product_image AS out_product_image,
+    p.product_retail_price AS out_product_retail_price,
+    p.product_unit_price AS out_product_unit_price,
+    p.product_whole_sale_price AS out_product_whole_sale_price,
+    p.supplier_id AS out_product_supplier,
+    p.product_category AS out_product_category,
+    p.establishment_name AS out_establishment_name,
+    COUNT(*) OVER() AS out_total_records_count
+  FROM products_with_compliance p
+  ORDER BY p.supplier_compliance_indicator DESC
+  LIMIT in_page_size
+  OFFSET ((in_page_index - 1) * in_page_size);
+END;
+$$ LANGUAGE plpgsql;
+--
+DROP FUNCTION get_quotations_by_retailer;
+CREATE OR REPLACE FUNCTION get_quotations_by_retailer(
+  IN in_retailer_id BIGINT,
+  IN in_page_size INTEGER,
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(
+  out_quotation_id BIGINT,
+  out_supplier_establishment_logo TEXT,
+  out_supplier_establishment_name TEXT,
+  out_quotation_status VARCHAR,
+  out_total_records_count BIGINT
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    CAST(q.quotation_id AS BIGINT) AS out_quotation_id ,
+    e.establishment_logo AS out_supplier_establishment_logo,
+    e.establishment_name AS out_supplier_establishment_name,
+    CAST(q.quotation_status_id AS VARCHAR) AS out_quotation_status,
+    COUNT(*) OVER() AS out_total_records_count
+
+  FROM
+    quotation q
+  JOIN factory f ON q.supplier_id = f.owner_id
+  JOIN establishment e ON f.factory_est_id = e.establishment_id
+  WHERE
+    q.requester_id = in_retailer_id
+  ORDER BY q.quotation_request_date DESC
+  LIMIT in_page_size
+  OFFSET (in_page_index - 1) * in_page_size;
+END;
+$$ LANGUAGE plpgsql;
+--
+DROP FUNCTION get_complaints_by_retailer;
+CREATE OR REPLACE FUNCTION get_complaints_by_retailer(
+  IN in_retailer_id BIGINT,
+  IN in_page_size INTEGER,
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(
+  complaint_id BIGINT,
+  complaint_title VARCHAR,
+  complaint_date TIMESTAMP,
+  complaint_status VARCHAR,
+  out_total_records_count BIGINT
+  
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    CAST(c.complaint_id AS BIGINT),
+    c.complaint_title, 
+    c.creation_date,
+    c.complaint_status_id,
+		COUNT(*) OVER() AS out_total_records_count
+
+  FROM
+    complaint c
+  WHERE
+    c.retailer_id = in_retailer_id
+	AND c.submitter_type = TRUE
+  ORDER BY
+    c.creation_date DESC
+  LIMIT in_page_size
+  OFFSET ((in_page_index - 1) * in_page_size);
+END;
+$$ LANGUAGE plpgsql;
+DROP FUNCTION get_complaints_by_supplier;
+CREATE OR REPLACE FUNCTION get_complaints_by_supplier(
+  IN in_supplier_id BIGINT,
+  IN in_page_size INTEGER,
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(
+  complaint_id BIGINT,
+  complaint_title VARCHAR,
+  complaint_date TIMESTAMP,
+  complaint_status VARCHAR,
+  out_total_records_count BIGINT
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    CAST(c.complaint_id AS BIGINT),
+    c.complaint_title, 
+    c.creation_date,
+    c.complaint_status_id,
+	COUNT(*) OVER() AS out_total_records_count
+
+  FROM
+    complaint c
+  WHERE
+    c.supplier_id = in_supplier_id
+	AND c.submitter_type = FALSE
+  ORDER BY
+    c.creation_date DESC
+  LIMIT in_page_size
+  OFFSET ((in_page_index - 1) * in_page_size);
+END;
+$$ LANGUAGE plpgsql;
+--
+DROP FUNCTION get_notifications_by_user_id;
+CREATE OR REPLACE FUNCTION get_notifications_by_user_id(
+    IN in_user_id BIGINT,
+    IN in_page_size INTEGER,
+    IN in_page_index INTEGER
+)
+RETURNS TABLE(
+    notification_id BIGINT,
+    notification_type BIGINT,
+    notification_priority INTEGER,
+    notification_subject VARCHAR,
+    notification_details TEXT,
+    is_read BOOLEAN,
+    creation_date TIMESTAMP,
+	  out_total_records_count BIGINT
+
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        CAST(n.notification_id AS BIGINT),
+        n.notification_type,
+        n.notification_priority,
+        n.notification_subject,
+        n.notification_details,
+        n.is_read,
+        n.creation_date,
+		COUNT(*) OVER() AS out_total_records_count
+
+    FROM notification n
+    WHERE n.notified_user_id = in_user_id
+    ORDER BY n.creation_date DESC
+    LIMIT in_page_size
+    OFFSET ((in_page_index - 1) * in_page_size);
+END;
+$$ LANGUAGE plpgsql;
+--
+DROP FUNCTION supplier_get_marketplace_products;
+CREATE OR REPLACE FUNCTION supplier_get_marketplace_products(
+  IN in_supplier_id BIGINT, 
+  IN in_page_size INTEGER, 
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(		
+  out_product_id BIGINT,
+  out_product_name VARCHAR,
+  out_product_description TEXT, 
+  out_product_image TEXT,
+  out_product_retail_price FLOAT,
+  out_product_unit_price FLOAT,
+  out_product_whole_sale_price FLOAT,
+  out_establishment_name TEXT,
+  	  out_total_records_count BIGINT
+
+) AS $$
+BEGIN
+RETURN QUERY 
+  WITH factory_local AS (
+    SELECT factory_est_id 
+    FROM factory_owned_get(in_supplier_id)
+  ),
+  supplier_categories AS (
+    SELECT out_category_id 
+    FROM factory_categories_get((SELECT factory_est_id FROM factory_local))
+  ),
+  products_with_compliance AS (
+    SELECT 
+      p.product_id,
+      p.product_name,
+      p.product_description,
+      p.product_image,
+      p.product_retail_price,
+      p.product_unit_price,
+      p.product_whole_sale_price,
+      s.supplier_compliance_indicator,
+      p.supplier_id,
+	  CAST(e.establishment_name	AS TEXT)  
+    FROM product p
+    JOIN supplier s ON  s.supplier_id = p.supplier_id
+	JOIN factory f ON f.owner_id = p.supplier_id
+    JOIN establishment e ON e.establishment_id = f.factory_est_id
+    WHERE p.product_category = ANY(SELECT out_category_id FROM supplier_categories)
+      AND p.product_status_id = (
+        SELECT product_status_id 
+        FROM product_status 
+        WHERE product_status LIKE '%PUBLISHED%'
+      )
+      AND p.supplier_id <> in_supplier_id
+  )
+  SELECT 
+    CAST(product_id AS BIGINT) AS out_product_id,
+    product_name AS out_product_name,
+    product_description AS out_product_description,
+    product_image AS out_product_image,
+    product_retail_price AS out_product_retail_price,
+    product_unit_price AS out_product_unit_price,
+    product_whole_sale_price AS out_product_whole_sale_price,
+    establishment_name,
+			COUNT(*) OVER() AS out_total_records_count
+
+  FROM products_with_compliance
+  LIMIT in_page_size
+  OFFSET ((in_page_index - 1) * in_page_size);
+END;
+$$ LANGUAGE plpgsql;
+--
+drop function product_get_by_supplier;
+CREATE OR REPLACE FUNCTION product_get_by_supplier(IN in_supplier_id BIGINT, IN in_page_size INT, IN in_page_index INT) 
+RETURNS TABLE(
+	out_product_id BIGINT,
+	out_product_status_id BIGINT,
+	out_product_unit_price FLOAT,
+	out_product_whole_sale_price FLOAT,
+	out_product_retail_price FLOAT,
+	out_product_unit_price_discount FLOAT,
+	out_product_category BIGINT,
+	out_product_description TEXT,
+	out_product_image TEXT,
+	out_product_name VARCHAR,
+	out_product_addition_date TIMESTAMP,
+	out_last_modification_date TIMESTAMP,
+	out_last_modified_by BIGINT,
+		  out_total_records_count BIGINT
+
+) 
+AS $$ BEGIN RETURN QUERY
+	SELECT
+	CAST(product_id AS BIGINT),
+	product_status_id,
+	product_unit_price,
+	product_whole_sale_price,
+	product_retail_price,
+	product_unit_price_discount,
+	product_category,
+	product_description,
+	product_image,
+	product_name,
+	product_addition_date,
+	last_modification_date,
+	last_modified_by,
+			COUNT(*) OVER() AS out_total_records_count
+
+	FROM	product
+	WHERE	CAST(supplier_id AS BIGINT) = in_supplier_id
+	LIMIT in_page_size
+  	OFFSET ((in_page_index - 1) * in_page_size);
+END;
+$$ LANGUAGE plpgsql;
+--
+DROP FUNCTION get_quotations_by_supplier;
+
+CREATE OR REPLACE FUNCTION get_quotations_by_supplier(
+  IN in_supplier_id BIGINT,
+  IN in_page_size INTEGER,
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(
+  out_quotation_id BIGINT,
+  out_supplier_establishment_logo TEXT,
+  out_supplier_establishment_name TEXT,
+  out_quotation_status VARCHAR,
+		  out_total_records_count BIGINT
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    CAST(q.quotation_id AS BIGINT) AS out_quotation_id ,
+    e.establishment_logo AS out_supplier_establishment_logo,
+    e.establishment_name AS out_supplier_establishment_name,
+    CAST(q.quotation_status_id AS VARCHAR) AS out_quotation_status,
+			COUNT(*) OVER() AS out_total_records_count
+  FROM
+    quotation q
+  JOIN retailstore f ON q.requester_id = f.owner_id
+  JOIN establishment e ON f.retailstore_est_id = e.establishment_id
+  WHERE
+    q.supplier_id = in_supplier_id
+  ORDER BY q.quotation_request_date DESC
+  LIMIT in_page_size
+  OFFSET (in_page_index - 1) * in_page_size;
+END;
+$$ LANGUAGE plpgsql;
+--
+DROP FUNCTION user_get_list;
+CREATE OR REPLACE FUNCTION user_get_list(IN in_page_size INT, in_page_index INT)
+RETURNS TABLE (		
+		user_id BIGINT,
+		national_number BIGINT,
+		user_type    	BIGINT,
+		user_status  	BIGINT,
+		first_name 		VARCHAR,
+		middle_name 	VARCHAR,
+		last_name 		VARCHAR,
+		date_of_birth  	DATE,
+		user_name 		VARCHAR,
+		user_address 	TEXT,
+		user_email 		VARCHAR,
+		is_email_verified BOOLEAN,
+		user_phone_number VARCHAR,
+    user_image TEXT,
+		  out_total_records_count BIGINT
+) AS $$
+BEGIN
+    RETURN QUERY 
+	SELECT
+		CAST(D.user_id AS BIGINT),
+		D.national_number,
+		D.user_type,
+		D.user_status,
+		D.first_name,
+		D.middle_name,
+		D.last_name,
+		D.date_of_birth,
+		D.user_name_lclzd,
+		D.user_address,
+		D.user_email,
+		D.is_email_verified,
+		D.user_phone_number,
+    D.user_image,
+			COUNT(*) OVER() AS out_total_records_count
+	FROM user_localized AS D
+	ORDER BY user_id ASC
+	LIMIT in_page_size
+	OFFSET ((in_page_index - 1) * in_page_size) ;
+END;
+$$ LANGUAGE plpgsql;
+--
+DROP FUNCTION user_search;
+CREATE OR REPLACE FUNCTION user_search(IN search_term TEXT, IN in_page_size INT, in_page_index INT)
+RETURNS TABLE (		
+		user_id BIGINT,
+		national_number BIGINT,
+		user_type    	BIGINT,
+		user_status  	BIGINT,
+		first_name 		VARCHAR,
+		middle_name 	VARCHAR,
+		last_name 		VARCHAR,
+		date_of_birth  	DATE,
+		user_name 		VARCHAR,
+		user_address 	TEXT,
+		user_email 		VARCHAR,
+		is_email_verified BOOLEAN,
+		user_phone_number VARCHAR,
+    user_image TEXT,
+		  out_total_records_count BIGINT
+) AS $$
+BEGIN
+    RETURN QUERY 
+	SELECT
+		CAST(D.user_id AS BIGINT),
+		D.national_number,
+		D.user_type,
+		D.user_status,
+		D.first_name,
+		D.middle_name,
+		D.last_name,
+		D.date_of_birth,
+		D.user_name_lclzd,
+		D.user_address,
+		D.user_email,
+		D.is_email_verified,
+		D.user_phone_number,
+    D.user_image,
+			COUNT(*) OVER() AS out_total_records_count
+	FROM user_localized AS D
+	WHERE CAST(D.user_id AS TEXT) = search_term
+	OR CAST(D.first_name AS TEXT) LIKE '%' || search_term || '%'
+	OR CAST(D.middle_name AS TEXT)LIKE '%' || search_term || '%'
+	OR CAST(D.last_name AS TEXT)  LIKE '%' || search_term || '%'
+	LIMIT in_page_size
+	OFFSET ((in_page_index - 1) * in_page_size) ;
+END;
+$$ LANGUAGE plpgsql;
+--
+DROP FUNCTION get_quotations_list;
+CREATE OR REPLACE FUNCTION get_quotations_list(
+  IN in_page_size INTEGER,
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(
+  out_quotation_id BIGINT,
+  out_retailer_establishment_logo TEXT,
+  out_retailer_establishment_name TEXT,
+  out_quotation_status VARCHAR,
+		  out_total_records_count BIGINT
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    CAST(q.quotation_id AS BIGINT) AS out_quotation_id ,
+    e.establishment_logo AS out_retailer_establishment_logo,
+    e.establishment_name AS out_retailer_establishment_name,
+    qs.quotation_status AS out_quotation_status,
+			COUNT(*) OVER() AS out_total_records_count
+  FROM
+    quotation q
+  JOIN retailstore f ON q.requester_id = f.owner_id
+  JOIN establishment e ON f.retailstore_est_id = e.establishment_id
+  JOIN quotation_status qs ON q.quotation_status_id = qs.quotation_status_id
+  ORDER BY q.quotation_request_date DESC
+  LIMIT in_page_size
+  OFFSET (in_page_index - 1) * in_page_size;
+END;
+$$ LANGUAGE plpgsql;
+--
+DROP FUNCTION search_quotations;
+CREATE OR REPLACE FUNCTION search_quotations(
+  IN search_term TEXT,
+  IN in_page_size INTEGER,
+  IN in_page_index INTEGER
+)
+RETURNS TABLE(
+  out_quotation_id BIGINT,
+  out_retailer_establishment_logo TEXT,
+  out_retailer_establishment_name TEXT,
+  out_quotation_status VARCHAR,
+		  out_total_records_count BIGINT
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    CAST(q.quotation_id AS BIGINT) AS out_quotation_id ,
+    e.establishment_logo AS out_retailer_establishment_logo,
+    e.establishment_name AS out_retailer_establishment_name,
+    qs.quotation_status AS out_quotation_status,
+			COUNT(*) OVER() AS out_total_records_count
+
+  FROM
+    quotation q
+  JOIN retailstore f ON q.requester_id = f.owner_id
+  JOIN establishment e ON f.retailstore_est_id = e.establishment_id
+  JOIN quotation_status qs ON q.quotation_status_id = qs.quotation_status_id
+  WHERE CAST(q.quotation_id AS TEXT) = search_term
+  OR e.establishment_name LIKE '%' || search_term || '%'
+  ORDER BY q.quotation_request_date DESC
+  LIMIT in_page_size
+  OFFSET (in_page_index - 1) * in_page_size;
+END;
+$$ LANGUAGE plpgsql;
+--
+drop function complaint_get_all;
+CREATE OR REPLACE FUNCTION complaint_get_all(IN page_size INT, IN page_index INT) 
+RETURNS TABLE (
+	out_complaint_id		   BIGINT, 
+	out_complaint_title 		VARCHAR,
+	out_complaint_type_id    BIGINT,
+	out_complaint_supplier_id   BIGINT ,
+	out_complaint_retailer_id BIGINT,
+	out_complaint_status_id 	 VARCHAR,
+	out_quotation_id BIGINT,
+	out_creation_date  TIMESTAMP ,
+		  out_total_records_count BIGINT
+
+) 
+AS $$ BEGIN RETURN QUERY
+	SELECT 
+	CAST(D.complaint_id AS BIGINT),	
+	D.complaint_title,
+	CAST(D.complaint_type_id AS BIGINT),
+	CAST(D.supplier_id AS BIGINT),
+	CAST(D.retailer_id AS BIGINT),
+	D.complaint_status_id,
+	D.quotation_id,
+	D.creation_date,
+			COUNT(*) OVER() AS out_total_records_count
+	FROM	complaint AS D
+	ORDER BY creation_date DESC
+	LIMIT page_size
+	OFFSET ((page_index - 1) * page_size) ;
+END;
+$$ LANGUAGE plpgsql;
+--
+
+CREATE OR REPLACE FUNCTION complaint_search(IN search_term TEXT, IN page_size INT, IN page_index INT) 
+RETURNS TABLE (
+	out_complaint_id		   BIGINT, 
+	out_complaint_title 		VARCHAR,
+	out_complaint_type_id    BIGINT,
+	out_complaint_supplier_id   BIGINT ,
+	out_complaint_retailer_id BIGINT,
+	out_complaint_status_id 	 VARCHAR,
+	out_quotation_id BIGINT,
+	out_creation_date  TIMESTAMP ,
+		  out_total_records_count BIGINT
+) 
+AS $$ BEGIN RETURN QUERY
+	SELECT 
+	CAST(D.complaint_id AS BIGINT),	
+	D.complaint_title,
+	CAST(D.complaint_type_id AS BIGINT),
+	CAST(D.supplier_id AS BIGINT),
+	CAST(D.retailer_id AS BIGINT),
+	D.complaint_status_id,
+	D.quotation_id,
+	D.creation_date,
+			COUNT(*) OVER() AS out_total_records_count
+	FROM	complaint AS D
+	WHERE CAST(D.complaint_id AS TEXT) = search_term
+  OR D.complaint_title LIKE '%'||search_term||'%'
+  ORDER BY creation_date DESC
+	LIMIT page_size
+	OFFSET ((page_index - 1) * page_size) ;
+END;
+$$ LANGUAGE plpgsql;
+--
+DROP FUNCTION penalty_get_all;
+CREATE OR REPLACE FUNCTION penalty_get_all(IN page_size INT, IN page_index INT) 
+RETURNS TABLE (
+	out_penalty_id		   BIGINT, 
+	out_penalty_title  	   VARCHAR,
+	out_establishment_name VARCHAR ,
+	out_penalty_status_id 	 VARCHAR,
+	out_creation_date  TIMESTAMP ,
+		  out_total_records_count BIGINT
+) 
+AS $$ BEGIN RETURN QUERY
+	SELECT
+	CAST(D.penalty_id 		     AS BIGINT),	
+	D.penalty_title,
+	CAST(E.establishment_name AS VARCHAR),
+	D.penalty_status_id,
+	D.creation_date,
+			COUNT(*) OVER() AS out_total_records_count
+	FROM	penalty AS D
+	JOIN establishment AS E ON E.establishment_id = D.establishment_id
+	ORDER BY D.creation_date DESC
+	LIMIT page_size
+	OFFSET ((page_index - 1) * page_size) ;
+
+END;
+$$ LANGUAGE plpgsql;
+--
+DROP FUNCTION penalty_search;
+
+CREATE OR REPLACE FUNCTION penalty_search(IN search_term TEXT, IN page_size INT, IN page_index INT) 
+RETURNS TABLE (
+	out_penalty_id		   BIGINT, 
+	out_penalty_title  	   VARCHAR,
+	out_establishment_name VARCHAR ,
+	out_penalty_status_id 	 VARCHAR,
+	out_creation_date  TIMESTAMP ,
+		  out_total_records_count BIGINT
+) 
+AS $$ BEGIN RETURN QUERY
+	SELECT
+	CAST(D.penalty_id 		     AS BIGINT),	
+	D.penalty_title,
+	CAST(E.establishment_name AS VARCHAR),
+	D.penalty_status_id,
+	D.creation_date,
+			COUNT(*) OVER() AS out_total_records_count
+	FROM	penalty AS D
+	JOIN establishment AS E ON E.establishment_id = D.establishment_id
+	WHERE CAST(penalty_id AS TEXT) = search_term
+	OR penalty_title LIKE '%' || search_term || '%'
+	ORDER BY D.creation_date DESC
+	LIMIT page_size
+	OFFSET ((page_index - 1) * page_size) ;
+
+END;
+$$ LANGUAGE plpgsql;
+--
+DROP FUNCTION application_search;
+CREATE OR REPLACE FUNCTION application_search(IN search_term TEXT, IN page_size INTEGER, IN page_index INTEGER)
+RETURNS TABLE(	
+		out_application_id 		BIGINT,
+		out_establishment_name  TEXT,
+		out_establishment_logo  TEXT,
+		out_application_status  VARCHAR,
+		  out_total_records_count BIGINT
+) 
+AS $$
+BEGIN
+    RETURN QUERY 
+	SELECT 
+		CAST(application_id AS BIGINT),
+		establishment_name,
+		establishment_logo,
+		application_status,
+			COUNT(*) OVER() AS out_total_records_count
+	FROM application
+	WHERE 
+		CAST(application_id AS TEXT) = search_term
+	OR	
+		CAST(establishment_name AS TEXT) LIKE '%' || search_term || '%'
+    ORDER BY application_id DESC
+	LIMIT page_size
+	OFFSET ((page_index - 1) * page_size) ;
+END;
+$$ LANGUAGE plpgsql;
+DROP FUNCTION application_get_all;
+CREATE OR REPLACE FUNCTION application_get_all(IN page_size INTEGER, IN page_index INTEGER)
+RETURNS TABLE(	
+		out_application_id BIGINT,
+		out_establishment_name TEXT,
+		out_establishment_logo       TEXT,
+		out_application_status    VARCHAR,
+		  out_total_records_count BIGINT
+) 
+AS $$
+BEGIN
+    RETURN QUERY 
+	SELECT 
+		CAST(application_id AS BIGINT),
+		establishment_name,
+		establishment_logo,
+		application_status,
+			COUNT(*) OVER() AS out_total_records_count
+	FROM application
+    ORDER BY application_id DESC
+	LIMIT page_size
+	OFFSET ((page_index - 1) * page_size) ;
 END;
 $$ LANGUAGE plpgsql;

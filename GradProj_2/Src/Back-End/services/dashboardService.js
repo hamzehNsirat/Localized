@@ -243,6 +243,7 @@ const dashboardService = {
     return {
       success: true,
       notificationList,
+      totalRecordsCount: notifFetch[0].out_total_records_count,
     };
   },
   async getSupplierAllDetails(userId, internalCaller = false) {
@@ -375,6 +376,7 @@ const dashboardService = {
     return {
       success: true,
       notificationList,
+      totalRecordsCount: notifFetch[0].out_total_records_count,
     };
   },
   async updateSupplierDetails(inObj) {

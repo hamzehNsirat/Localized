@@ -400,6 +400,7 @@ const authService = {
       return {
         success: true,
         applicationList: applicationListLcl,
+        totalRecordsCount: applicationResult[0].out_total_records_count,
       };
     } catch (error) {
       throw error;
@@ -432,6 +433,7 @@ const authService = {
       return {
         success: true,
         applicationList: applicationList,
+        totalRecordsCount: applicationResult[0].out_total_records_count,
       };
     } catch (error) {
       throw error;

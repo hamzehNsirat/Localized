@@ -151,6 +151,7 @@ const quotationService = {
     return {
       success: true,
       quotationsList,
+      totalRecordsCount: quotationFetchDb[0].out_total_records_count,
     };
   },
 
@@ -178,6 +179,7 @@ const quotationService = {
     return {
       success: true,
       quotationsList,
+      totalRecordsCount:quotationFetchDb[0].out_total_records_count
     };
   },
 
@@ -206,6 +208,7 @@ const quotationService = {
     return {
       success: true,
       quotationsList,
+      totalRecordsCount: quotationFetchDb[0].out_total_records_count,
     };
   },
   async getQuotationById(inputData) {
@@ -327,6 +330,7 @@ const quotationService = {
     return {
       success: true,
       quotationsList,
+      totalRecordsCount: quotationFetchDb[0].out_total_records_count,
     };
   },
   async submitQuotation(inputData) {

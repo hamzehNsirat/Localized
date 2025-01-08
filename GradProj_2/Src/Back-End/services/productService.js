@@ -41,6 +41,7 @@ const productService = {
       return {
         success: true,
         marketPlace: marketPlace,
+        totalRecordsCount: retMarketPlaceResult[0].out_total_records_count,
       };
     } catch (error) {
       throw error;
@@ -267,6 +268,7 @@ const productService = {
       return {
         success: true,
         marketPlace: marketPlace,
+        totalRecordsCount: suppMarketPlaceResult[0].out_total_records_count
       };
     } catch (error) {
       throw error;
@@ -308,6 +310,7 @@ const productService = {
       return {
         success: true,
         productsList: marketPlace,
+        totalRecordsCount: suppMarketPlaceResult[0].out_total_records_count
       };
     } catch (error) {
       throw error;

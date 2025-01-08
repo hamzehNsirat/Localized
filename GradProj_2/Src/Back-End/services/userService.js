@@ -261,10 +261,7 @@ const userService = {
     const dbFetchList = await userModel.getList(inputData);
     
     if (!dbFetchList[0]) {
-      return {
-      success: true,
-      userList: { user: [] },
-    };
+
       return {
         success: false,
         error: "Unable to Fetch Users from Database",
@@ -297,6 +294,7 @@ const userService = {
     return {
       success: true,
       userList: userList,
+      totalRecordsCount: dbFetchList[0].out_total_records_count
     };
   },
   async searchUsers(searchTerm, pageSize, pageIndex) {
@@ -334,6 +332,7 @@ const userService = {
     return {
       success: true,
       userList: userList,
+      totalRecordsCount: dbFetchList[0].out_total_records_count,
     };
   },
 
