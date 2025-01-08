@@ -10,6 +10,7 @@ import industryTypes from "../../Models/IndustryTypes";
 import LoadingScreen from "../../Common/LoadingScreen";
 import "../styles/buttons.css";
 import CustomModal from "../../Common/CustomModal";
+import RegistrationBlock from "../components/RegistrationBlock";
 
 const ViewApplication = () => {
   const location = useLocation();
@@ -42,12 +43,15 @@ const ViewApplication = () => {
   }, []);
 
   const handleVerifyRegNum = async () => {
+    if (valid != null) return;
+    setLoading(true);
+
     try {
-      setLoading(true);
       const payload = {
         establishmentCommercialRegistrationNumber:
           application.establihsmentCommercialRegistrationNumber,
       };
+
       const response = await applicationsApi.checkEstablishmentEligibility(
         payload
       );
@@ -253,39 +257,12 @@ const ViewApplication = () => {
         </Col>
         <Col className="px-0">
           <h4 className="mb-3 fw-bold">Registration Number</h4>
-          <div className="d-flex align-items-center gap-3">
-            <div
-              className={` p-3 d-flex flex-column justify-content-center fw-bold w-75 ${
-                valid === null
-                  ? "border-transparent"
-                  : valid
-                  ? "border-green"
-                  : "border-red"
-              }`}
-              style={{
-                backgroundColor: AppColors.grayBackground,
-                borderRadius: "3px",
-                height: "2.5rem",
-              }}
-            >
-              <h6 className="fw-bold mb-0">
-                {application.establihsmentCommercialRegistrationNumber}
-              </h6>
-            </div>
-            <Button
-              style={{
-                backgroundColor: AppColors.primaryColor,
-                boxShadow: "0px 3px 7px rgba(0, 0, 0, 0.15)",
-                borderRadius: "3px",
-                height: "2.5rem",
-              }}
-              className="y-2 w-50 fw-bold fs-6"
-              onClick={!loading ? handleVerifyRegNum : null}
-              disabled={loading}
-            >
-              {loading ? "Verifying..." : "Verify"}
-            </Button>
-          </div>
+          <RegistrationBlock
+            valid={valid}
+            regNumber={application.establihsmentCommercialRegistrationNumber}
+            loading={loading}
+            handleVerifyRegNum={handleVerifyRegNum}
+          />
         </Col>
       </div>
       {application.id == "CREATED" && (

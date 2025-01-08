@@ -5,104 +5,83 @@ import { useLocation, useNavigate } from "react-router-dom";
 import userType from "../../Models/UserType";
 import jordanFlag from "../../../assets/jordanFlag.png";
 import CustomInput from "../../Common/CustomInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import userStatus from "../../Models/UserStatus";
 import { ChevronDown, ChevronUp } from "react-bootstrap-icons";
 import CameraUpload from "../../Supplier/components/CameraUpload";
-import CustomButton from "../../Common/CustomButton";
 import { toast } from "react-toastify";
-
-const initialUserData = {
-  id: 51,
-  statusId: 1,
-  userTypeId: 2,
-  establishment: {
-    name: "Retailer1",
-    email: "ret@gmail.com",
-    phone: "079787978",
-    img: userIcon,
-    imgName: "userIcon",
-    city: "Amman",
-    street: "Jubaiha",
-    buildingNo: "16",
-    description: "No description available",
-    industryTypes: [1, 2],
-    regNumber: "23049832049",
-    regDate: new Date().toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }),
-    website: "logo.com",
-    bankNum: "3298423",
-    ibanNum: "4342343",
-  },
-  user: {
-    firstName: "Sadam",
-    middleName: "",
-    lastName: "Hussain",
-    username: "moh123",
-    email: "Sadam@gmail.com",
-    address: "Amman, Jordan",
-    nationalNumber: "2000442402",
-    phoneNumber: "0797857727",
-    dateOfBirth: new Date().toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }),
-    profileImg: userIcon,
-    taxNumber: "93249",
-  },
-};
+import userManagementApi from "../../../api/adminAPIs/userManagement";
+import { formatDateForInput } from "../../Utils/formatters";
+import LoadingScreen from "../../Common/LoadingScreen";
 
 const ViewUser = () => {
-  const [userData, setUserData] = useState(initialUserData);
+  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
 
   const location = useLocation();
   const navigate = useNavigate();
-  const { userId } = location.state;
+  const { userId, type } = location.state;
   const [currentUserStatus, setCurrentUserStatus] = useState(1);
-
-  const [fileName, setFileName] = useState(null);
+  useEffect(() => {
+    const fetchUser = async () => {
+      setLoading(true);
+      const payload = {
+        userId: parseInt(userId),
+        userType: type,
+      };
+      try {
+        const response = await userManagementApi.getUserAllData(payload);
+        if (response?.body?.success) {
+          setUserData(response.body.userData);
+        } else console.error("error fetching user", response);
+      } catch (err) {
+        console.error("error fetching user ", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUser();
+  }, []);
 
   const [showUserInputs, setShowUserInputs] = useState(true);
   const [showInfoInputs, setShowInfoInputs] = useState(true);
   const [showAddressInputs, setShowAddressInputs] = useState(true);
   const [showMediaInputs, setShowMediaInputs] = useState(true);
 
-  const handleLogoUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setUserData((prevData) => ({
-        ...prevData,
-        establishment: {
-          ...prevData.establishment,
-          img: URL.createObjectURL(file),
-          imgName: file.name,
-        },
-      }));
-    }
-  };
+  // const handleLogoUpload = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setUserData((prevData) => ({
+  //       ...prevData,
+  //       establishment: {
+  //         ...prevData.establishment,
+  //         img: URL.createObjectURL(file),
+  //         imgName: file.name,
+  //       },
+  //     }));
+  //   }
+  // };
 
-  const handleInputChange = (section, field, value) => {
-    setUserData((prevData) => ({
-      ...prevData,
-      [section]: {
-        ...prevData[section],
-        [field]: value,
-      },
-    }));
-  };
+  // const handleInputChange = (section, field, value) => {
+  //   setUserData((prevData) => ({
+  //     ...prevData,
+  //     [section]: {
+  //       ...prevData[section],
+  //       [field]: value,
+  //     },
+  //   }));
+  // };
 
   const toggleUserInputs = () => setShowUserInputs(!showUserInputs);
   const toggleInfoInputs = () => setShowInfoInputs(!showInfoInputs);
   const toggleAddressInputs = () => setShowAddressInputs(!showAddressInputs);
   const toggleMediaInputs = () => setShowMediaInputs(!showMediaInputs);
 
-  const handleCoverUpload = (file) => {
-    console.log("Uploaded Cover:", file);
-  };
+  // const handleCoverUpload = (file) => {
+  //   console.log("Uploaded Cover:", file);
+  // };
+
+  if (loading) return <LoadingScreen />;
 
   return (
     <div className="px-0 py-2">
@@ -153,28 +132,22 @@ const ViewUser = () => {
                   controlId="firstName"
                   className=""
                   placeholder="First"
-                  value={userData.user.firstName}
-                  onChange={(e) =>
-                    handleInputChange("user", "firstName", e.target.value)
-                  }
+                  value={userData.userDetails.firstName ?? ""}
+                  disabled
                 />
                 <CustomInput
                   controlId="middleName"
                   className=""
                   placeholder="Middle"
-                  value={userData.user.middleName}
-                  onChange={(e) =>
-                    handleInputChange("user", "middleName", e.target.value)
-                  }
+                  value={userData.userDetails.middleName ?? ""}
+                  disabled
                 />
                 <CustomInput
                   controlId="lastName"
                   className=""
                   placeholder="Last"
-                  value={userData.user.lastName}
-                  onChange={(e) =>
-                    handleInputChange("user", "lastName", e.target.value)
-                  }
+                  value={userData.userDetails.lastName ?? ""}
+                  disabled
                 />
               </div>
             </div>
@@ -185,10 +158,8 @@ const ViewUser = () => {
               label="Email"
               labelClassName="fw-bold mb-0"
               className="mb-3"
-              value={userData.user.email}
-              onChange={(e) =>
-                handleInputChange("user", "email", e.target.value)
-              }
+              value={userData.userDetails.userEmail ?? ""}
+              disabled
             />
 
             <div className="d-flex gap-3 mb-3">
@@ -198,10 +169,8 @@ const ViewUser = () => {
                 label="National Number"
                 labelClassName="fw-bold mb-0"
                 className="w-75"
-                value={userData.user.nationalNumber}
-                onChange={(e) =>
-                  handleInputChange("user", "nationalNumber", e.target.value)
-                }
+                value={userData.userDetails.nationalNumber ?? ""}
+                disabled
               />
 
               <CustomInput
@@ -210,10 +179,16 @@ const ViewUser = () => {
                 label="Tax Number"
                 labelClassName="fw-bold mb-0"
                 className="w-75"
-                value={userData.user.taxNumber}
-                onChange={(e) =>
-                  handleInputChange("user", "taxNumber", e.target.value)
+                value={
+                  type == "1"
+                    ? userData.adminDetails.adminTaxIdentificationNumber ?? ""
+                    : type == "2"
+                    ? userData.retailerDetails
+                        .retailerTaxIdentificationNumber ?? ""
+                    : userData.supplierDetails
+                        .supplierTaxIdentificationNumber ?? ""
                 }
+                disabled
               />
             </div>
 
@@ -224,6 +199,7 @@ const ViewUser = () => {
                 style={{
                   height: "2.5rem",
                   borderRadius: "3px",
+                  backgroundColor: "#E9ECEF",
                 }}
               >
                 <img src={jordanFlag} alt="Jordan" style={{ width: "24px" }} />
@@ -235,10 +211,8 @@ const ViewUser = () => {
                 <Form.Control
                   type="text"
                   name="phoneNumber"
-                  value={userData.user.phoneNumber}
-                  onChange={(e) =>
-                    handleInputChange("user", "phoneNumber", e.target.value)
-                  }
+                  value={userData.userDetails.userPhone ?? ""}
+                  disabled
                   placeholder="Enter phone number"
                   style={{ border: "none", outline: "none", boxShadow: "none" }}
                 />
@@ -252,17 +226,17 @@ const ViewUser = () => {
                 label="Date of Birth"
                 labelClassName="fw-bold mb-0"
                 className="mb-3"
-                value={userData.user.dateOfBirth}
-                onChange={(e) =>
-                  handleInputChange("user", "dateOfBirth", e.target.value)
+                value={
+                  formatDateForInput(userData.userDetails.dateOfBirth) ?? ""
                 }
+                disabled
               />
 
               <CustomInput
                 controlId="userType"
                 label="User Type"
                 labelClassName="fw-bold mb-0"
-                value={userType[userData.userTypeId]}
+                value={userType[parseInt(type)]}
                 disabled
               />
             </div>
@@ -274,10 +248,8 @@ const ViewUser = () => {
               label="Username"
               labelClassName="fw-bold mb-0"
               className="mb-3"
-              value={userData.user.username}
-              onChange={(e) =>
-                handleInputChange("user", "username", e.target.value)
-              }
+              value={userData.userDetails.userName ?? ""}
+              disabled
             />
 
             <CustomInput
@@ -285,10 +257,8 @@ const ViewUser = () => {
               label="Address"
               labelClassName="fw-bold mb-0"
               className="mb-3"
-              value={userData.user.address}
-              onChange={(e) =>
-                handleInputChange("user", "address", e.target.value)
-              }
+              value={userData.userDetails.userAddress}
+              disabled
             />
 
             <div
@@ -296,7 +266,7 @@ const ViewUser = () => {
               style={{ width: "min-content" }}
             >
               <img
-                src={userData.user.profileImg}
+                src={userData.userDetails.userImage ?? userIcon}
                 alt="User Profile"
                 className="rounded mb-3"
                 style={{
@@ -307,7 +277,7 @@ const ViewUser = () => {
                   borderRadius: "8px",
                 }}
               />
-              <label
+              {/* <label
                 htmlFor="profileImage"
                 className="fw-bold text-center"
                 style={{
@@ -323,12 +293,12 @@ const ViewUser = () => {
                 type="file"
                 id="profileImage"
                 style={{ display: "none" }}
-              />
+              /> */}
             </div>
           </Col>
         </Row>
       )}
-      {userType[userData.userTypeId] != userType[1] && (
+      {userType[parseInt(type)] != userType[1] && (
         <>
           <div
             className="d-flex align-items-center mt-4 pt-4"
@@ -352,10 +322,8 @@ const ViewUser = () => {
                   type="text"
                   className="mb-3"
                   labelClassName="fw-bold mb-0"
-                  value={userData.establishment.name}
-                  onChange={(e) =>
-                    handleInputChange("establishment", "name", e.target.value)
-                  }
+                  value={userData.establishmentDetails.establishmentName ?? ""}
+                  disabled
                 />
 
                 <CustomInput
@@ -364,10 +332,8 @@ const ViewUser = () => {
                   type="email"
                   className="mb-3"
                   labelClassName="fw-bold mb-0"
-                  value={userData.establishment.email}
-                  onChange={(e) =>
-                    handleInputChange("establishment", "email", e.target.value)
-                  }
+                  value={userData.establishmentDetails.establishmentEmail ?? ""}
+                  disabled
                 />
 
                 <CustomInput
@@ -376,21 +342,18 @@ const ViewUser = () => {
                   type="text"
                   className="mb-3"
                   labelClassName="fw-bold mb-0"
-                  value={userData.establishment.regNumber}
-                  onChange={(e) =>
-                    handleInputChange(
-                      "establishment",
-                      "regNumber",
-                      e.target.value
-                    )
+                  value={
+                    userData.establishmentDetails
+                      .establishmentCommercialRegistrationNumber ?? ""
                   }
+                  disabled
                 />
 
                 <Form.Group controlId="phoneNumber" className="mb-3">
                   <Form.Label className="fw-bold mb-0">Phone Number</Form.Label>
                   <div
                     className="d-flex align-items-center border  px-2 py-1"
-                    style={{ borderRadius: "3px" }}
+                    style={{ borderRadius: "3px", backgroundColor: "#E9ECEF" }}
                   >
                     <img
                       src={jordanFlag}
@@ -414,14 +377,11 @@ const ViewUser = () => {
                         outline: "none",
                         boxShadow: "none",
                       }}
-                      value={userData.establishment.phone}
-                      onChange={(e) =>
-                        handleInputChange(
-                          "establishment",
-                          "phone",
-                          e.target.value
-                        )
+                      value={
+                        userData.establishmentDetails
+                          .establishmentContactNumber ?? ""
                       }
+                      disabled
                     />
                   </div>
                 </Form.Group>
@@ -434,14 +394,11 @@ const ViewUser = () => {
                     as="textarea"
                     rows={4}
                     style={{ resize: "none", borderRadius: "3px" }}
-                    value={userData.establishment.description}
-                    onChange={(e) =>
-                      handleInputChange(
-                        "establishment",
-                        "description",
-                        e.target.value
-                      )
+                    value={
+                      userData.establishmentDetails.establishmentDescription ??
+                      ""
                     }
+                    disabled
                   />
                 </Form.Group>
 
@@ -450,14 +407,10 @@ const ViewUser = () => {
                   label="Website"
                   className="mb-3"
                   labelClassName="fw-bold mb-0"
-                  value={userData.establishment.website}
-                  onChange={(e) =>
-                    handleInputChange(
-                      "establishment",
-                      "website",
-                      e.target.value
-                    )
+                  value={
+                    userData.establishmentDetails.establishmentWebsite ?? ""
                   }
+                  disabled
                 />
                 <div className="d-flex gap-3 mb-3">
                   <CustomInput
@@ -465,7 +418,12 @@ const ViewUser = () => {
                     label="Registration Date"
                     type="date"
                     labelClassName="fw-bold mb-0"
-                    value={userData.establishment.regDate}
+                    value={
+                      formatDateForInput(
+                        userData.establishmentDetails
+                          .establishmentRegistrationDate
+                      ) ?? ""
+                    }
                     disabled
                   />
 
@@ -475,9 +433,7 @@ const ViewUser = () => {
                     label="Est. Type"
                     type="text"
                     labelClassName="fw-bold mb-0"
-                    value={
-                      userData.userTypeId == 2 ? "Retail Store" : "Factory"
-                    }
+                    value={type == "2" ? "Retail Store" : "Factory"}
                     disabled
                   />
                 </div>
@@ -506,10 +462,8 @@ const ViewUser = () => {
                   labelClassName="fw-bold mb-0"
                   className="mb-3"
                   placeholder="Amman"
-                  value={userData.establishment.city}
-                  onChange={(e) =>
-                    handleInputChange("establishment", "city", e.target.value)
-                  }
+                  value={userData.establishmentDetails.establishmentCity ?? ""}
+                  disabled
                 />
                 <div className="d-flex gap-3 mb-3">
                   <CustomInput
@@ -518,14 +472,11 @@ const ViewUser = () => {
                     labelClassName="fw-bold mb-0"
                     className="mb-3"
                     placeholder="15"
-                    value={userData.establishment.buildingNo}
-                    onChange={(e) =>
-                      handleInputChange(
-                        "establishment",
-                        "buildingNo",
-                        e.target.value
-                      )
+                    value={
+                      userData.establishmentDetails
+                        .establishmentBuildingNumber ?? ""
                     }
+                    disabled
                   />
 
                   <CustomInput
@@ -534,14 +485,10 @@ const ViewUser = () => {
                     labelClassName="fw-bold mb-0"
                     className="mb-3"
                     placeholder="King Abdulla street"
-                    value={userData.establishment.street}
-                    onChange={(e) =>
-                      handleInputChange(
-                        "establishment",
-                        "street",
-                        e.target.value
-                      )
+                    value={
+                      userData.establishmentDetails.establishmentStreet ?? ""
                     }
+                    disabled
                   />
                 </div>
               </Col>
@@ -552,14 +499,12 @@ const ViewUser = () => {
                   labelClassName="fw-bold mb-0"
                   className="mb-3"
                   placeholder="9922"
-                  value={userData.establishment.bankNum}
-                  onChange={(e) =>
-                    handleInputChange(
-                      "establishment",
-                      "bankNum",
-                      e.target.value
-                    )
+                  value={
+                    type == "2"
+                      ? userData.retailerDetails.retailerBankAccountNumber ?? ""
+                      : userData.supplierDetails.supplierBankAccountNumber ?? ""
                   }
+                  disabled
                 />
                 <CustomInput
                   controlId="ibanNum"
@@ -567,14 +512,12 @@ const ViewUser = () => {
                   labelClassName="fw-bold mb-0"
                   className="mb-3"
                   placeholder="#51325"
-                  value={userData.establishment.ibanNum}
-                  onChange={(e) =>
-                    handleInputChange(
-                      "establishment",
-                      "ibanNum",
-                      e.target.value
-                    )
+                  value={
+                    type == "2"
+                      ? userData.retailerDetails.retailerIBAN ?? ""
+                      : userData.supplierDetails.supplierIBAN ?? ""
                   }
+                  disabled
                 />
               </Col>
             </Row>
@@ -592,18 +535,17 @@ const ViewUser = () => {
               {showMediaInputs ? <ChevronUp /> : <ChevronDown />}
             </Button>
           </div>
-          {showMediaInputs && userType[userData.userTypeId] == userType[3] && (
+          {showMediaInputs && userType[parseInt(type)] == userType[3] && (
             <CameraUpload
-              onCoverChange={handleCoverUpload}
-              onLogoChange={handleLogoUpload}
+              cover={userData.establishmentDetails.establishmentCover}
+              logo={userData.establishmentDetails.establishmentLogo}
             />
           )}
-          {showMediaInputs && userType[userData.userTypeId] == userType[2] && (
+          {showMediaInputs && userType[parseInt(type)] == userType[2] && (
             <div className="d-flex flex-column align-items-center justify-content-between">
               <div
                 style={{
                   position: "relative",
-                  cursor: "pointer",
                   border: "2px solid #ddd",
                   borderRadius: "50%",
                   width: "120px",
@@ -615,14 +557,9 @@ const ViewUser = () => {
                   overflow: "hidden",
                 }}
               >
-                <label
-                  htmlFor="upload-logo"
-                  style={{
-                    cursor: "pointer",
-                  }}
-                >
+                <label htmlFor="upload-logo">
                   <img
-                    src={userData.establishment.img}
+                    src={userData.establishmentDetails.establishmentLogo}
                     alt="Company Logo"
                     style={{
                       width: "100%",
@@ -630,15 +567,15 @@ const ViewUser = () => {
                     }}
                   />
                 </label>
-                <Form.Control
+                {/* <Form.Control
                   id="upload-logo"
                   type="file"
                   accept="image/*"
                   onChange={handleLogoUpload}
                   style={{ display: "none" }}
-                />
+                /> */}
               </div>
-              <p>Upload logo</p>
+              {/* <p>Upload logo</p> */}
             </div>
           )}
         </>

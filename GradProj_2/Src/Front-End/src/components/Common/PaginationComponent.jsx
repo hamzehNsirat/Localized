@@ -6,7 +6,9 @@ const PaginationComponent = ({ currentPage, totalPages, onPageChange }) => {
   if (totalPages <= 1) return null; // Hide pagination if only one page
 
   const handlePageChange = (pageNumber) => {
-    onPageChange(pageNumber);
+    if (pageNumber > 0 && pageNumber <= totalPages) {
+      onPageChange(pageNumber);
+    }
   };
 
   return (

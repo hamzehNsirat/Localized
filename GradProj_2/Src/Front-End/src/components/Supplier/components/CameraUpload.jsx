@@ -3,7 +3,12 @@ import { Form } from "react-bootstrap";
 import AppColors from "../../Theme/AppColors";
 import cameraIcon from "../../../assets/Camera.png";
 
-const CameraUpload = ({ cover, logo, logoOnChange, coverOnChange }) => {
+const CameraUpload = ({
+  cover,
+  logo,
+  logoOnChange = null,
+  coverOnChange = null,
+}) => {
   const [coverPreview, setCoverPreview] = useState(cover);
   const [logoPreview, setLogoPreview] = useState(logo);
 
@@ -57,25 +62,27 @@ const CameraUpload = ({ cover, logo, logoOnChange, coverOnChange }) => {
         )}
 
         {/* Upload Cover Button */}
-        <div style={{ position: "absolute", bottom: "10px", right: "10px" }}>
-          <label
-            className={`btn ${
-              coverPreview ? "btn-outline-light" : "btn-outline-dark"
-            }  `}
-          >
-            Upload Cover
-            <Form.Control
-              name="cover"
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                coverOnChange(e);
-                handleCoverChange(e);
-              }}
-              style={{ display: "none" }}
-            />
-          </label>
-        </div>
+        {coverOnChange && (
+          <div style={{ position: "absolute", bottom: "10px", right: "10px" }}>
+            <label
+              className={`btn ${
+                coverPreview ? "btn-outline-light" : "btn-outline-dark"
+              }  `}
+            >
+              Upload Cover
+              <Form.Control
+                name="cover"
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  coverOnChange(e);
+                  handleCoverChange(e);
+                }}
+                style={{ display: "none" }}
+              />
+            </label>
+          </div>
+        )}
       </div>
 
       {/* Company Logo Section */}
@@ -83,7 +90,7 @@ const CameraUpload = ({ cover, logo, logoOnChange, coverOnChange }) => {
         style={{
           position: "relative",
           marginTop: "-60px",
-          cursor: "pointer",
+          cursor: logoOnChange ? "pointer" : "",
           border: "2px solid #ddd",
           borderRadius: "50%",
           width: "120px",
@@ -98,7 +105,7 @@ const CameraUpload = ({ cover, logo, logoOnChange, coverOnChange }) => {
         <label
           htmlFor="upload-logo"
           style={{
-            cursor: "pointer",
+            cursor: logoOnChange ? "pointer" : "",
           }}
         >
           <img
@@ -110,17 +117,19 @@ const CameraUpload = ({ cover, logo, logoOnChange, coverOnChange }) => {
             }}
           />
         </label>
-        <Form.Control
-          id="upload-logo"
-          name="logo"
-          type="file"
-          accept="image/*"
-          onChange={(e) => {
-            logoOnChange(e);
-            handleLogoChange(e);
-          }}
-          style={{ display: "none" }}
-        />
+        {logoOnChange && (
+          <Form.Control
+            id="upload-logo"
+            name="logo"
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              logoOnChange(e);
+              handleLogoChange(e);
+            }}
+            style={{ display: "none" }}
+          />
+        )}
       </div>
     </div>
   );

@@ -259,7 +259,12 @@ const userService = {
       pageIndex: pageIndex,
     };
     const dbFetchList = await userModel.getList(inputData);
+    
     if (!dbFetchList[0]) {
+      return {
+      success: true,
+      userList: { user: [] },
+    };
       return {
         success: false,
         error: "Unable to Fetch Users from Database",

@@ -8,38 +8,75 @@ import userStatus from "../../Models/UserStatus";
 import { useNavigate } from "react-router-dom";
 import CustomButton from "../../Common/CustomButton";
 import userManagementApi from "../../../api/adminAPIs/userManagement";
+import LoadingScreen from "../../Common/LoadingScreen";
+import PaginationComponent from "../../Common/PaginationComponent";
+import PgHasNext from "../../Common/pgHasNext";
 
 const Users = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const [users, setUsers] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
+  const [message, setMessage] = useState("No users yet!");
+  const [loading, setLoading] = useState(true); // when its null it will be loading to fetch the data
+  const [hasNextPage, setHasNextPage] = useState(false); // Track next page availability
+
+  const productsPerPage = 5;
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
+        setLoading(true);
         const payload = {
-          pageSize: 10,
+          pageSize: productsPerPage,
           pageIndex: currentPage,
         };
+
         const response = await userManagementApi.getUserList(payload);
-        if (response?.body?.success) {
+        if (
+          response?.body?.success &&
+          response?.body?.userList.user.length > 0
+        ) {
           setUsers(
             response.body.userList.user.reduce((acc, user) => {
               acc[user.userId] = {
                 id: user.userId,
                 image: user.userImage,
-                name: user.username, // Fallback for empty descriptions
+                name: user.username,
                 statusId: user.userStatus,
+                userType: user.userType,
               };
-              return acc; // Always return the accumulator
+              return acc;
             }, {})
           );
+
+          // Check if next page exists
+          const nextPagePayload = {
+            pageSize: productsPerPage,
+            pageIndex: currentPage + 1,
+          };
+          const nextPageResponse = await userManagementApi.getUserList(
+            nextPagePayload
+          );
+          setHasNextPage(
+            nextPageResponse?.body?.success &&
+              nextPageResponse.body.userList.user.length > 0
+          );
         } else {
+          setMessage("No more users available!");
+          setUsers({});
+          setHasNextPage(false);
           console.error("error fetching users ", response);
         }
       } catch (err) {
         console.error("error fetching users ", err);
+        if (err?.response?.data?.body.details.success == false) {
+          setMessage("No more users available!");
+          setUsers({});
+          setHasNextPage(false);
+        }
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -50,6 +87,10 @@ const Users = () => {
     setFilteredProducts([]);
     // setCurrentPage(1); // Reset to the first page after searching
   };
+
+  const totalPages = Math.ceil(Object.keys(users).length / 3);
+
+  if (loading) return <LoadingScreen />;
 
   return (
     <>
@@ -131,9 +172,10 @@ const Users = () => {
                           textAlign: "center",
                         }}
                         onClick={() => {
-                          const userId = user.id;
+                          const userId = user.id,
+                            type = user.userType;
                           navigate(`/admin/users/user/${user.id}`, {
-                            state: { userId },
+                            state: { userId, type },
                           });
                         }}
                       >
@@ -162,9 +204,14 @@ const Users = () => {
           })
         ) : (
           <h3 className="d-flex align-content-center justify-content-center mt-5 text-muted">
-            No users yet!
+            {message}
           </h3>
         )}
+        <PgHasNext
+          currentPage={currentPage}
+          hasNextPage={hasNextPage}
+          onPageChange={setCurrentPage}
+        />
       </div>
     </>
   );
