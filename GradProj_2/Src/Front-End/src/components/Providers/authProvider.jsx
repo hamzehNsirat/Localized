@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import authApi from "../../api/authApi";
 import axios from "axios";
+import { toast } from "react-toastify";
+import AppColors from "../Theme/AppColors";
 
 const AuthContext = createContext();
 
@@ -45,6 +47,10 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Login failed:", error);
+      if (error?.response?.data.body.details.success == false)
+        toast.error(`Login Failed, username or password are wrong`, {
+          progressStyle: { background: AppColors.primaryColor },
+        });
     }
   };
 

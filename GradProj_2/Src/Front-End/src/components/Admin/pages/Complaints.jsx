@@ -2,74 +2,77 @@ import AppColors from "../../Theme/AppColors";
 import userIcon from "../../../assets/user.png";
 import { Row, Col, Card } from "react-bootstrap";
 import SearchBar from "../components/SearchBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StatusColors from "../../Theme/StatusColors";
 import complaintStatus from "../../Models/complaintStatus";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import complaintApi from "../../../api/adminAPIs/complaints";
+import LoadingScreen from "../../Common/LoadingScreen";
+import { formatDateForInput } from "../../Utils/formatters.js";
+
 const Complaints = () => {
-  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredApplications, setFilteredApplications] = useState([]);
+  const navigate = useNavigate();
+  const [complaints, setComplaints] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const [message, setMessage] = useState("No users yet!");
+  const [loading, setLoading] = useState(true); // when its null it will be loading to fetch the data
+  const [totalComplaints, setTotalComplaints] = useState(0); // Track next page availability
+
+  const complaintPerPage = 5;
+
+  useEffect(() => {
+    const fetchComplaints = async () => {
+      try {
+        setLoading(true);
+        const payload = {
+          pageSize: complaintPerPage,
+          pageIndex: currentPage,
+        };
+
+        const response = await complaintApi.getComplaintsList(payload);
+        if (response?.body?.success) {
+          setComplaints(
+            response.body.complaintsList.complaintItem.reduce(
+              (acc, complaint) => {
+                acc[complaint.id] = {
+                  id: complaint.id,
+                  date: formatDateForInput(complaint.date),
+                  title: complaint.title,
+                  status: complaint.status,
+                };
+                return acc;
+              },
+              {}
+            )
+          );
+          if (totalComplaints == 0)
+            setTotalComplaints(parseInt(response.body.totalRecordsCount));
+        } else {
+          setMessage("No more complaints available!");
+          setComplaints({});
+          console.error("error fetching complaints ", response);
+        }
+      } catch (err) {
+        console.error("error fetching complaints ", err);
+        if (err?.response?.data?.body?.details.success == false) {
+          setMessage("No more complaints available!");
+          setComplaints({});
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchComplaints();
+  }, [currentPage]);
 
   const handleSearch = () => {
     setFilteredProducts([]);
     // setCurrentPage(1); // Reset to the first page after searching
   };
 
-  const complaints = {
-    1: {
-      id: 51,
-      title: "complaint_title",
-      date: new Date().toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }),
-      statusId: 1,
-    },
-    2: {
-      id: 52,
-      title: "complaint_title",
-      date: new Date().toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }),
-      statusId: 2,
-    },
-    3: {
-      id: 5309,
-      title: "complaint_title",
-      date: new Date().toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }),
-      statusId: 3,
-    },
-    4: {
-      id: 5319,
-      title: "complaint_title",
-      date: new Date().toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }),
-      statusId: 4,
-    },
-    5: {
-      id: 5509,
-      userImg: userIcon,
-      title: "complaint_title",
-
-      date: new Date().toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }),
-      statusId: 4,
-    },
-  };
+  if (loading) return <LoadingScreen />;
   return (
     <>
       <div className="d-flex justify-content-between g-2 align-items-center w-100">
@@ -136,10 +139,11 @@ const Complaints = () => {
                           textAlign: "center",
                         }}
                         onClick={() => {
+                          const compId = complaint.id;
                           navigate(
                             `/admin/complaints/complaint/${complaint.id}`,
                             {
-                              state: { complaint },
+                              state: { compId },
                             }
                           );
                         }}
@@ -153,15 +157,13 @@ const Complaints = () => {
                           width: "100%",
                           padding: "8px 10px",
                           backgroundColor:
-                            StatusColors.complaintStatus[
-                              complaintStatus[complaint.statusId]
-                            ],
+                            StatusColors.complaintStatus[complaint.status],
                           color: "white",
                           borderRadius: "3px",
                           textAlign: "center",
                         }}
                       >
-                        {complaintStatus[complaint.statusId]}
+                        {complaint.status}
                       </div>
                     </Col>
                   </Row>

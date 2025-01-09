@@ -53,18 +53,6 @@ const Penalties = () => {
       <div className="d-flex justify-content-between g-2 align-items-center w-100">
         <h3 className="fw-bold w-75">Penalties</h3>
         <div className="d-flex gap-3 w-100">
-          <CustomButton
-            label="Add"
-            className="px-5"
-            onClick={() => {
-              navigate("/admin/penalties/newPenalty");
-            }}
-            style={{
-              backgroundColor: AppColors.primaryColor,
-              boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.2)",
-              outline: "none",
-            }}
-          />
           <SearchBar
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}

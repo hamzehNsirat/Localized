@@ -11,6 +11,7 @@ import LoadingScreen from "../../Common/LoadingScreen";
 import "../styles/buttons.css";
 import CustomModal from "../../Common/CustomModal";
 import RegistrationBlock from "../components/RegistrationBlock";
+import { formatDateForInput } from "../../Utils/formatters";
 
 const ViewApplication = () => {
   const location = useLocation();
@@ -135,7 +136,9 @@ const ViewApplication = () => {
               className="px-3"
             >
               <h6 className="text-muted">Date:</h6>
-              <h6 className="fw-bold">{application.applicationDate}</h6>
+              <h6 className="fw-bold">
+                {formatDateForInput(application.applicationDate)}
+              </h6>
             </Col>
             <Col md="auto" className="px-3">
               <h6 className="text-muted">User Type:</h6>

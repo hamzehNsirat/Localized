@@ -2,53 +2,77 @@ import AppColors from "../../Theme/AppColors";
 import userIcon from "../../../assets/user.png";
 import { Row, Col, Card } from "react-bootstrap";
 import SearchBar from "../components/SearchBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StatusColors from "../../Theme/StatusColors";
 import quotationStatus from "../../Models/QuotationStatus";
 import { useLocation, useNavigate } from "react-router-dom";
+import quotationApi from "../../../api/adminAPIs/quotations";
+import LoadingScreen from "../../Common/LoadingScreen";
+import PaginationComponent from "../../Common/PaginationComponent";
 
 const Quotations = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredApplications, setFilteredApplications] = useState([]);
   const navigate = useNavigate();
+  const [quotations, setQuotations] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const [message, setMessage] = useState("No quotations yet!");
+  const [loading, setLoading] = useState(true); // when its null it will be loading to fetch the data
+  const [totalQuotations, setTotalQuotations] = useState(0); // Track next page availability
+
+  const quotationPerPage = 5;
+
+  useEffect(() => {
+    const fetchQuotations = async () => {
+      try {
+        setLoading(true);
+        const payload = {
+          pageSize: quotationPerPage,
+          pageIndex: currentPage,
+        };
+
+        const response = await quotationApi.getQuotationsList(payload);
+        if (response?.body?.success) {
+          setQuotations(
+            response.body.quotationsList.quotationItem.reduce(
+              (acc, quotation) => {
+                acc[quotation.id] = {
+                  id: quotation.id,
+                  image: quotation.logo,
+                  name: quotation.retailStoreName,
+                  statusId: parseInt(quotation.statusId),
+                };
+                return acc;
+              },
+              {}
+            )
+          );
+          if (totalQuotations == 0)
+            setTotalQuotations(parseInt(response.body.totalRecordsCount));
+        } else {
+          setMessage("No more quotations available!");
+          setQuotations({});
+          console.error("error fetching quotations ", response);
+        }
+      } catch (err) {
+        console.error("error fetching quotations ", err);
+        if (err?.response?.data?.body.details.success == false) {
+          setMessage("No more quotations available!");
+          setQuotations({});
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchQuotations();
+  }, [currentPage]);
 
   const handleSearch = () => {
     setFilteredProducts([]);
     // setCurrentPage(1); // Reset to the first page after searching
   };
 
-  const quotations = {
-    1: {
-      id: 51,
-      userImg: userIcon,
-      estName: "Retailer1",
-      statusId: 1,
-    },
-    2: {
-      id: 52,
-      userImg: userIcon,
-      estName: "Supplier2",
-      statusId: 2,
-    },
-    3: {
-      id: 5309,
-      userImg: userIcon,
-      estName: "Supplier3",
-      statusId: 3,
-    },
-    4: {
-      id: 5319,
-      userImg: userIcon,
-      estName: "Supplier3",
-      statusId: 4,
-    },
-    5: {
-      id: 5509,
-      userImg: userIcon,
-      estName: "Supplier3",
-      statusId: 5,
-    },
-  };
+  if (loading) return <LoadingScreen />;
   return (
     <>
       <div className="d-flex justify-content-between g-2 align-items-center w-100">
@@ -88,8 +112,8 @@ const Quotations = () => {
                       </Col>
                       <Col md={2}>
                         <img
-                          src={quotation.userImg}
-                          alt="img"
+                          src={quotation.image}
+                          alt={quotation.name}
                           style={{ width: "60%", objectFit: "contain" }}
                         ></img>
                       </Col>
@@ -98,7 +122,7 @@ const Quotations = () => {
                           className="fw-bold mb-0 w-100"
                           style={{ fontSize: "0.9rem" }}
                         >
-                          {quotation.estName}
+                          {quotation.name}
                         </p>
                       </Col>
                     </Col>
@@ -115,10 +139,11 @@ const Quotations = () => {
                           textAlign: "center",
                         }}
                         onClick={() => {
+                          const quoId = quotation.id;
                           navigate(
                             `/admin/quotations/quotation/${quotation.id}`,
                             {
-                              state: { quotation },
+                              state: { quoId },
                             }
                           );
                         }}
@@ -133,14 +158,14 @@ const Quotations = () => {
                           padding: "8px 10px",
                           backgroundColor:
                             StatusColors.quotationStatus[
-                              quotationStatus.Supplier[quotation.statusId]
+                              quotationStatus.Retailer[quotation.statusId]
                             ],
                           color: "white",
                           borderRadius: "3px",
                           textAlign: "center",
                         }}
                       >
-                        {quotationStatus.Supplier[quotation.statusId]}
+                        {quotationStatus.Retailer[quotation.statusId]}
                       </div>
                     </Col>
                   </Row>
@@ -153,6 +178,11 @@ const Quotations = () => {
             No quotation requested yet!
           </h3>
         )}
+        <PaginationComponent
+          currentPage={currentPage}
+          totalPages={Math.ceil(totalQuotations / quotationPerPage)}
+          onPageChange={setCurrentPage}
+        />
       </div>
     </>
   );

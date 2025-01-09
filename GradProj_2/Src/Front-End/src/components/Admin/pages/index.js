@@ -12,7 +12,9 @@ export { default as ViewUser } from './ViewUser';
 export { default as ViewCategory } from './ViewCategory';
 export { default as ViewQuotation } from './ViewQuotation';
 export { default as ViewPenalty } from './ViewPenalty';
+export {default as AddPenalty } from './AddPenalty';
 export { default as AddUser } from './AddUser';
+
 
 
 

@@ -1,56 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AppColors from "../../Theme/AppColors";
 import companyLogo from "../../../assets/companyLogo.png";
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Col, Form, Button, ProgressBar } from "react-bootstrap";
 import StatusColors from "../../Theme/StatusColors";
 import complaintStatus from "../../Models/ComplaintStatus";
-
-const fetchedQuotation = {
-  id: 1,
-  retailerId: "500",
-  supplierId: "123",
-  statusId: 4,
-  requestDate: new Date().toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }),
-  supLogo: companyLogo,
-  firstName: "Mohammad",
-  lastName: "Abuayyash",
-  retEstName: "ketab",
-  retPhoneNumber: "079",
-  retEmail: "ret@gmail.com",
-  supEstName: "Supplier",
-  shipToAdd: {
-    city: "city",
-    address: "address",
-  },
-  billToAdd: "billTo",
-  supplierAddress: "Al-Jandweel",
-  products: [],
-  subtotal: 0,
-  shipping: 0,
-  total: 0,
-  paymentMethod: "Cash",
-};
-
-const initialComplaint = {
-  id: 1,
-  quotationId: 1,
-  statusId: 1,
-  date: new Date().toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }),
-  type: "Order",
-  description: "This is a sample complaint description.",
-  resolutionNote: "This is a sample resolution note.",
-};
+import complaintApi from "../../../api/adminAPIs/complaints";
+import LoadingScreen from "../../Common/LoadingScreen";
+import { formatDateForInput } from "../../Utils/formatters.js";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../Providers";
+import { toast } from "react-toastify";
 
 const ViewComplaint = () => {
-  const [complaint, setComplaint] = useState(initialComplaint);
+  const [complaint, setComplaint] = useState({});
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { compId } = location.state;
+  const [loading, setLoading] = useState(true); // when its null it will be loading to fetch the data
+  const { userData } = useAuth();
+
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
+  useEffect(() => {
+    const fetchComplaint = async () => {
+      try {
+        setLoading(true);
+        const payload = {
+          complaintId: parseInt(compId),
+        };
+        const response = await complaintApi.getComplaintDetails(payload);
+        if (response?.body?.success) {
+          setComplaint(response.body.complaintDetails);
+        } else console.error("failed fetching complaint ", response);
+      } catch (err) {
+        console.error("failed fetching complaint ", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchComplaint();
+  }, []);
+
+  if (loading) return <LoadingScreen />;
 
   const handleStatusChange = (newStatusId) => {
     setComplaint((prev) => ({
@@ -59,9 +52,40 @@ const ViewComplaint = () => {
     }));
   };
 
-  const handleSubmit = () => {
-    console.log("Complaint Updated:", complaint);
-    // Handle submission logic here, such as API call
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setComplaint((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async () => {
+    const payload = {
+      complaintId: parseInt(complaint.id),
+      resolutionNotes: complaint.resolutionNotes,
+      reviewerId: parseInt(userData.adminDetails.adminId),
+      complaintStatus: complaint.complaintStatus.toUpperCase(),
+      submitterType: complaint.submitterType == "RETAILER" ? true : false,
+    };
+    console.log(payload);
+    try {
+      const response = await complaintApi.updateComplaint(payload);
+      if (response?.body?.success) {
+        toast.success(`Complaint Updated`, {
+          progressStyle: { background: AppColors.primaryColor },
+        });
+        navigate("/admin/complaints");
+      } else {
+        console.error("failed updating complaint ", response);
+        toast.error(`Failed to update complaint`, {
+          progressStyle: { background: AppColors.primaryColor },
+        });
+      }
+    } catch (err) {
+      console.error("failed updating complaint ", err);
+      toast.error(`Failed to update complaint`, {
+        progressStyle: { background: AppColors.primaryColor },
+      });
+    } finally {
+    }
   };
 
   return (
@@ -88,11 +112,13 @@ const ViewComplaint = () => {
               className="px-3"
             >
               <h6 className="text-muted">Date:</h6>
-              <h6 className="fw-bold">{complaint.date}</h6>
+              <h6 className="fw-bold">
+                {formatDateForInput(complaint.creationDate)}
+              </h6>
             </Col>
             <Col md="auto" className="px-3">
               <h6 className="text-muted">Quotation Id:</h6>
-              <h6 className="fw-bold">#{fetchedQuotation.id}</h6>
+              <h6 className="fw-bold">#{complaint.quotationId}</h6>
             </Col>
           </Row>
         </Col>
@@ -104,9 +130,7 @@ const ViewComplaint = () => {
               height: "2.5rem",
               padding: "10px",
               backgroundColor:
-                StatusColors.complaintStatus[
-                  complaintStatus[complaint.statusId]
-                ],
+                StatusColors.complaintStatus[complaint.complaintStatus],
               color: "white",
               borderRadius: "3px",
               textAlign: "center",
@@ -114,7 +138,7 @@ const ViewComplaint = () => {
               maxWidth: "200px",
             }}
           >
-            {complaintStatus[complaint.statusId]}
+            {complaint.complaintStatus}
           </div>
         </Col>
       </div>
@@ -129,9 +153,15 @@ const ViewComplaint = () => {
             }}
           >
             <h6 className="fw-bold">
-              {fetchedQuotation.firstName + " " + fetchedQuotation.lastName}
+              {complaint.submitterType == "RETAILER"
+                ? complaint.retailer.FullName
+                : complaint.supplier.FullName}
             </h6>
-            <h6 className="fw-bold">{fetchedQuotation.retEmail}</h6>
+            <h6 className="fw-bold">
+              {complaint.submitterType == "RETAILER"
+                ? complaint.retailer.EstablishmentEmail
+                : complaint.supplier.EstablishmentEmail}
+            </h6>
             <h6
               className="fw-bold"
               style={{
@@ -139,9 +169,11 @@ const ViewComplaint = () => {
                 color: AppColors.primaryColor,
               }}
             >
-              {fetchedQuotation.retPhoneNumber}
+              {complaint.submitterType == "RETAILER"
+                ? complaint.retailer.EstablishmentContact
+                : complaint.supplier.EstablishmentContact}
             </h6>
-            <h6 className="mb-0">Supplier</h6>
+            <h6 className="mb-0 fw-bold">{complaint.submitterType}</h6>
           </div>
         </Col>
         <Col className="px-0">
@@ -154,7 +186,7 @@ const ViewComplaint = () => {
               borderRadius: "3px",
             }}
           >
-            {complaint.type}
+            {complaint.title}
           </div>
         </Col>
       </div>
@@ -171,7 +203,7 @@ const ViewComplaint = () => {
           rows={4}
           disabled
         >
-          {complaint.description}
+          {complaint.complaintNotes}
         </textarea>
       </div>
 
@@ -183,6 +215,7 @@ const ViewComplaint = () => {
           Resolution Note
         </h4>
         <textarea
+          name="resolutionNotes"
           className="border d-flex align-items-center p-3 fw-bold"
           style={{
             borderRadius: "3px",
@@ -191,15 +224,16 @@ const ViewComplaint = () => {
             boxShadow: "none",
           }}
           rows={4}
-          // onChange={()}
-          value={complaint.resolutionNote}
+          onChange={handleChange}
+          value={complaint.resolutionNotes ?? ""}
         />
       </div>
       <div className="d-flex align-items-center justify-content-between">
-        <Form.Group controlId="status" className="mb-3 w-25">
+        <Form.Group controlId="complaintStatus" className="mb-3 w-25">
           <Form.Select
             value={complaint.statusId}
-            onChange={(e) => handleStatusChange(Number(e.target.value))}
+            name="complaintStatus"
+            onChange={handleChange}
             style={{
               height: "2.5rem",
               borderRadius: "3px",
@@ -207,24 +241,42 @@ const ViewComplaint = () => {
               outline: "none",
             }}
           >
-            <option value="1">New</option>
-            <option value="2">Under Review</option>
-            <option value="3">Resolved</option>
-            <option value="4">Rejected</option>
+            <option value="New">New</option>
+            <option value="Under Review">Under Review</option>
+            <option value="Resolved">Resolved</option>
+            <option value="Rejected">Rejected</option>
           </Form.Select>
         </Form.Group>
-        <Button
-          variant="dark"
-          style={{
-            boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.3)",
-            borderRadius: "3px",
-            marginLeft: "40px",
-          }}
-          className="y-2 w-25 fw-bold fs-6"
-          onClick={handleSubmit}
-        >
-          Submit
-        </Button>
+        <div className="d-flex align-items-center justify-content-end w-75">
+          <Button
+            variant="danger"
+            style={{
+              boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.3)",
+              borderRadius: "3px",
+              marginLeft: "40px",
+            }}
+            className="y-2 w-25 fw-bold fs-6"
+            onClick={() => {
+              navigate("/admin/penalties/newPenalty", {
+                state: { complaint },
+              });
+            }}
+          >
+            Apply Penalty
+          </Button>
+          <Button
+            variant="dark"
+            style={{
+              boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.3)",
+              borderRadius: "3px",
+              marginLeft: "40px",
+            }}
+            className="y-2 w-25 fw-bold fs-6"
+            onClick={handleSubmit}
+          >
+            Submit
+          </Button>
+        </div>
       </div>
     </div>
   );

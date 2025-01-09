@@ -57,6 +57,7 @@ import {
   ViewQuotation as AdminViewQuotation,
   ViewUser,
   ViewPenalty,
+  AddPenalty,
   ViewCategory,
   AddUser,
 } from "../components/Admin/pages/index.js";
@@ -190,7 +191,7 @@ const AppRoutes = () => (
         <Route path="penalties">
           <Route index element={<Penalties />} />
           <Route path="penalty/:penId" element={<ViewPenalty />} />
-          <Route path="newPenalty" element={<ViewPenalty />} />
+          <Route path="newPenalty" element={<AddPenalty />} />
         </Route>
         {/* <Route path="policies">
           <Route index element={<Users />} />

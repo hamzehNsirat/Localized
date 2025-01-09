@@ -5,54 +5,43 @@ import StatusColors from "../../Theme/StatusColors";
 import companyLogo from "../../../assets/companyLogo.png";
 import { filterProducts } from "../../Supplier/services/productService";
 import quotationStatus from "../../Models/QuotationStatus";
-
-const quotation = {
-  id: 1,
-  retailerId: "500",
-  supplierId: "123",
-  statusId: 2,
-  requestDate: new Date().toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }),
-  supLogo: companyLogo,
-  firstName: "Mohammad",
-  lastName: "Abuayyash",
-  retEstName: "ketab",
-  retPhoneNumber: "079",
-  retEmail: "ret@gmail.com",
-  supEstName: "Supplier",
-  shipToAdd: {
-    city: "city",
-    address: "address",
-  },
-  billToAdd: "billTo",
-  supplierAddress: "Al-Jandweel",
-  products: filterProducts("Food-company").map((product) => ({
-    id: product.id,
-    image: product.image,
-    name: product.title,
-    quantity: product.quantity || 1,
-    sellingPrice: product.sellingPrice,
-    subtotal: (product.sellingPrice * (product.quantity || 1)).toFixed(2),
-  })),
-  subtotal: 0,
-  shipping: 0,
-  total: 0,
-  paymentMethod: "Cash",
-};
+import { useEffect, useState } from "react";
+import quotationApi from "../../../api/adminAPIs/quotations";
+import LoadingScreen from "../../Common/LoadingScreen";
+import { formatDateForInput } from "../../Utils/formatters";
 
 const ViewQuotation = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { appId } = location.state;
-
-  const QuotationStatus = quotationStatus.Supplier[quotation.statusId];
+  const { quoId } = location.state;
+  const [loading, setLoading] = useState(true); // when its null it will be loading to fetch the data
+  const [quotation, setQuotation] = useState({});
 
   const handleGoBack = () => {
     navigate(-1);
   };
+
+  useEffect(() => {
+    const fetchQuotation = async () => {
+      try {
+        setLoading(true);
+        const payload = {
+          quotationId: parseInt(quoId),
+        };
+        const response = await quotationApi.getQuotationDetails(payload);
+        if (response?.body?.success) {
+          setQuotation(response.body.quotationDetails);
+        } else console.error("failed fetching quotation ", response);
+      } catch (err) {
+        console.error("failed fetching quotation ", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchQuotation();
+  }, []);
+
+  if (loading) return <LoadingScreen />;
   return (
     <div className="px-0 py-4">
       <div
@@ -77,7 +66,9 @@ const ViewQuotation = () => {
               className="px-3"
             >
               <h6 className="text-muted">Date:</h6>
-              <h6 className="fw-bold">{quotation.requestDate}</h6>
+              <h6 className="fw-bold">
+                {formatDateForInput(quotation.requestDate)}
+              </h6>
             </Col>
             <Col
               md="auto"
@@ -86,20 +77,25 @@ const ViewQuotation = () => {
             >
               <h6 className="text-muted">Payment Method:</h6>
               <h6 className="fw-bold">
-                {quotation.paymentMethod == ""
+                {quotation.paymentMethod == null
                   ? "-"
-                  : quotation.paymentMethod == "Cash"
+                  : quotation.paymentMethod == "CashOnDelivery"
                   ? "Cash on Delivery"
                   : "Credit / Debit"}
               </h6>
             </Col>
             <Col md="auto" className="px-3">
               <h6 className="text-muted">Total:</h6>
-              <h6 className="fw-bold">{quotation.total} JOD</h6>
+              <h6 className="fw-bold">
+                {quotation.total != null
+                  ? `${quotation.total} JOD`
+                  : "undetermined"}
+              </h6>
             </Col>
           </Row>
         </Col>
-        {QuotationStatus == "Declined" && (
+        {quotationStatus.Retailer[parseInt(quotation.statusId)] ==
+          "Declined" && (
           <Col md="auto">
             <div
               className="fw-bold"
@@ -109,7 +105,7 @@ const ViewQuotation = () => {
                 padding: "10px",
                 backgroundColor:
                   StatusColors.quotationStatus[
-                    quotationStatus.Supplier[quotation.statusId]
+                    quotationStatus.Retailer[parseInt(quotation.statusId)]
                   ],
                 color: "white",
                 borderRadius: "3px",
@@ -118,7 +114,7 @@ const ViewQuotation = () => {
                 maxWidth: "200px",
               }}
             >
-              {QuotationStatus}
+              {quotationStatus.Retailer[parseInt(quotation.statusId)]}
             </div>
           </Col>
         )}
@@ -144,8 +140,8 @@ const ViewQuotation = () => {
         </div>
         <div className="px-3 py-4 border rounded">
           <Row className="fw-bold text-muted border-bottom pb-2 m-0 px-3 mb-3">
-            <Col xs={4}>Product</Col>
-            <Col xs={4} className="text-center">
+            <Col xs={5}>Product</Col>
+            <Col xs={3} className="text-center">
               Quantity
             </Col>
             <Col xs={4} className="text-end">
@@ -153,27 +149,33 @@ const ViewQuotation = () => {
             </Col>
           </Row>
 
-          {quotation.products.map((product) => (
+          {quotation.details.detailsItem.map((product) => (
             <Row
-              key={product.id}
+              key={product.productId}
               className="align-items-center justify-content-between py-2 m-0 px-3"
             >
-              <Col md={3}>
+              <Col
+                md={2}
+                className="d-flex align-items-center"
+                style={{ minWidth: "35%" }}
+              >
                 <img
-                  src={product.image}
+                  src={product.productImage}
                   style={{
-                    width: "30%",
+                    maxWidth: "25%",
                     objectFit: "contain",
                     marginRight: "30px",
                   }}
                 />
-                {product.name}
+                <p className="m-0"> {product.productName}</p>
               </Col>
-              <Col md={3} className="text-center">
+              <Col md={2} className="text-center">
                 {product.quantity}
               </Col>
-              <Col md={3} className="text-end">
-                {product.subtotal} JOD
+              <Col md={3} className="text-end fw-bold">
+                {product.price != null
+                  ? `${product.price} JOD`
+                  : "undetermined"}{" "}
               </Col>
             </Row>
           ))}
@@ -181,27 +183,35 @@ const ViewQuotation = () => {
           <Row className="fw-bold mt-3 py-1 pt-3 m-0 px-3 border-top">
             <Col xs={6}>Subtotal</Col>
             <Col xs={6} className="text-end">
-              {quotation.subtotal} JOD
+              {quotation.subTotal != null
+                ? `${quotation.subTotal} JOD`
+                : "undetermined"}{" "}
             </Col>
           </Row>
           <Row className="fw-bold mt-2 py-1 m-0 px-3">
             <Col xs={6}>Shipping</Col>
             <Col xs={6} className="text-end">
-              {quotation.shipping} JOD
+              {quotation.shippingCost != null
+                ? `${quotation.shippingCost} JOD`
+                : "undetermined"}
             </Col>
           </Row>
           <Row className="fw-bold mt-2 py-1 m-0 px-3">
             <Col xs={6}>Payment Method</Col>
             <Col xs={6} className="text-end">
-              {quotation.paymentMethod == "Cash"
-                ? "Cash On Delivery"
+              {quotation.paymentMethod == null
+                ? "-"
+                : quotation.paymentMethod == "CashOnDelivery"
+                ? "Cash on Delivery"
                 : "Credit / Debit"}
             </Col>
           </Row>
           <Row className="fw-bold mt-2 py-1 m-0 px-3">
             <Col xs={6}>Total</Col>
             <Col xs={6} className="text-end">
-              {quotation.total} JOD
+              {quotation.total != null
+                ? `${quotation.total} JOD`
+                : "undetermined"}
             </Col>
           </Row>
         </div>
@@ -217,7 +227,7 @@ const ViewQuotation = () => {
           <h4 className="mb-3 fw-bold">Company Info</h4>
           <div className="d-flex flex-column justify-content-center">
             <h6 className="fw-bold">{"Marouf"}</h6>
-            <h6 className="fw-bold">{quotation.retEmail}</h6>
+            <h6 className="fw-bold">{quotation.retailStoreEmail}</h6>
             <h6
               className="fw-bold"
               style={{
@@ -225,7 +235,7 @@ const ViewQuotation = () => {
                 color: AppColors.primaryColor,
               }}
             >
-              {quotation.retPhoneNumber}
+              {quotation.retailContactNumber}
             </h6>
           </div>
         </Col>
@@ -239,10 +249,10 @@ const ViewQuotation = () => {
           <h4 className="mb-3 fw-bold">Billing Info</h4>
           <div className="d-flex flex-column justify-content-center">
             <h6 className="fw-bold">
-              {quotation.firstName + " " + quotation.lastName}
+              {quotation?.firstName + " " + quotation?.lastName}
             </h6>
-            <h6 className="fw-bold">{quotation.shipToAdd.city}</h6>
-            <h6 className="fw-bold">{quotation.shipToAdd.address}</h6>
+            <h6 className="fw-bold">{quotation.shipToAddress.split()[0]}</h6>
+            <h6 className="fw-bold">{quotation.shipToAddress.split()[0]}</h6>
           </div>
         </Col>
       </div>

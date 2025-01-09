@@ -8,31 +8,19 @@ import CustomButton from "../../Common/CustomButton";
 import CustomInput from "../../Common/CustomInput";
 import backIcon from "../../../assets/adminIcons/back.png";
 
-const penalty = {
-  id: 30,
-  complaintId: 20,
-  supplier_id: 10,
-  retailer_id: 1,
-  submitter_type: 0,
-  type: "",
-  weight: 0.01,
-  comment: "",
-};
-
-const ViewPenalty = () => {
+const AddPenalty = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { penId } = location.state || {};
-
-  const justView = penId ?? false;
+  const { complaint } = location.state;
 
   const handleGoBack = () => {
     navigate(-1);
   };
+
   return (
     <Container className="px-0 py-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h3 className="fw-bold">Penalty #{penalty.id}</h3>
+        <h3 className="fw-bold">Add Penalty</h3>
 
         <div className="d-flex align-items-center justify-content-end gap-4 w-50">
           <img
@@ -43,7 +31,7 @@ const ViewPenalty = () => {
           ></img>
           <CustomButton
             className="w-25"
-            label="Save"
+            label="Submit"
             style={{
               backgroundColor: AppColors.primaryColor,
             }}
@@ -53,20 +41,13 @@ const ViewPenalty = () => {
       <div className="d-flex align-items-center gap-3 mt-5">
         <CustomInput
           className="w-75"
-          cocontrolId="complaintId"
+          controlId="complaintId"
+          label="Complaint Id"
+          labelClassName="mb-0 fw-bold"
           placeholder="Search for Complaint Id"
-          value={penalty.complaintId}
+          value={complaint.id}
           onChange={{}}
-          disabled={justView}
-        />
-
-        <CustomButton
-          label="Search"
-          className="w-25"
-          onClick={{}}
-          style={{
-            backgroundColor: AppColors.primaryColor,
-          }}
+          disabled
         />
       </div>
       <div className="d-flex align-items-center gap-3 mt-3 w-100">
@@ -76,9 +57,9 @@ const ViewPenalty = () => {
           labelClassName="fw-bold mb-0"
           className="w-100"
           value={
-            penalty.submitter_type == 0
-              ? penalty.retailer_id
-              : penalty.supplier_id
+            complaint.submitterType == "RETAILER"
+              ? complaint.retailer.EstablishmentId
+              : complaint.supplier.EstablishmentId
           }
           disabled
         />
@@ -88,16 +69,16 @@ const ViewPenalty = () => {
           labelClassName="fw-bold mb-0"
           className="w-100"
           value={
-            penalty.submitter_type == 0
-              ? penalty.supplier_id
-              : penalty.retailer_id
+            complaint.submitterType == "RETAILER"
+              ? complaint.supplier.EstablishmentId
+              : complaint.retailer.EstablishmentId
           }
           disabled
         />
       </div>
       <div className="d-flex align-items-center gap-3 mt-3 w-100">
-        <Form.Group controlId="penaltyType" className="mb-3 w-100">
-          <Form.Label>Penalty Type</Form.Label>
+        <Form.Group controlId="penaltyType" className="w-100">
+          <Form.Label className="mb-0 fw-bold">Penalty Type</Form.Label>
           <Form.Select
             onChange={{}}
             style={{
@@ -106,7 +87,6 @@ const ViewPenalty = () => {
               boxShadow: "none",
               outline: "none",
             }}
-            disabled={justView}
           >
             <option value="1">hello</option>
             <option value="2">its</option>
@@ -123,8 +103,7 @@ const ViewPenalty = () => {
           label="Penalty Weight"
           labelClassName="fw-bold mb-0"
           className="w-100"
-          value={penalty.weight}
-          disabled={justView}
+          value={0}
         />
       </div>
       <div className="d-flex align-items-center gap-2 mt-3 w-100">
@@ -137,14 +116,13 @@ const ViewPenalty = () => {
             borderRadius: "3px",
             border: "1px solid gray",
           }}
-          value={penalty.description}
+          value={""}
           placeholder="Description"
           className="w-100 p-2"
-          disabled={justView}
         ></textarea>
       </div>
     </Container>
   );
 };
 
-export default ViewPenalty;
+export default AddPenalty;

@@ -2,7 +2,7 @@ import apiClient from "../index.js";
 
 const complaintApi = {
   getComplaintsList: async (data) => {
-    const response = await apiClient.post("/platformservices/getComplaintsListr", data);
+    const response = await apiClient.post("/platformservices/getComplaintsList", data);
     return response.data;
   },
   getComplaintDetails: async (data) => {

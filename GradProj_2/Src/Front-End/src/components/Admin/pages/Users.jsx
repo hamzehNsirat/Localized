@@ -10,7 +10,6 @@ import CustomButton from "../../Common/CustomButton";
 import userManagementApi from "../../../api/adminAPIs/userManagement";
 import LoadingScreen from "../../Common/LoadingScreen";
 import PaginationComponent from "../../Common/PaginationComponent";
-import PgHasNext from "../../Common/pgHasNext";
 
 const Users = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,24 +18,21 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [message, setMessage] = useState("No users yet!");
   const [loading, setLoading] = useState(true); // when its null it will be loading to fetch the data
-  const [hasNextPage, setHasNextPage] = useState(false); // Track next page availability
+  const [totalUsers, setTotalUsers] = useState(0); // Track next page availability
 
-  const productsPerPage = 5;
+  const userPerPage = 5;
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         setLoading(true);
         const payload = {
-          pageSize: productsPerPage,
+          pageSize: userPerPage,
           pageIndex: currentPage,
         };
 
         const response = await userManagementApi.getUserList(payload);
-        if (
-          response?.body?.success &&
-          response?.body?.userList.user.length > 0
-        ) {
+        if (response?.body?.success) {
           setUsers(
             response.body.userList.user.reduce((acc, user) => {
               acc[user.userId] = {
@@ -49,23 +45,11 @@ const Users = () => {
               return acc;
             }, {})
           );
-
-          // Check if next page exists
-          const nextPagePayload = {
-            pageSize: productsPerPage,
-            pageIndex: currentPage + 1,
-          };
-          const nextPageResponse = await userManagementApi.getUserList(
-            nextPagePayload
-          );
-          setHasNextPage(
-            nextPageResponse?.body?.success &&
-              nextPageResponse.body.userList.user.length > 0
-          );
+          if (totalUsers == 0)
+            setTotalUsers(parseInt(response.body.totalRecordsCount));
         } else {
           setMessage("No more users available!");
           setUsers({});
-          setHasNextPage(false);
           console.error("error fetching users ", response);
         }
       } catch (err) {
@@ -73,7 +57,6 @@ const Users = () => {
         if (err?.response?.data?.body.details.success == false) {
           setMessage("No more users available!");
           setUsers({});
-          setHasNextPage(false);
         }
       } finally {
         setLoading(false);
@@ -87,8 +70,6 @@ const Users = () => {
     setFilteredProducts([]);
     // setCurrentPage(1); // Reset to the first page after searching
   };
-
-  const totalPages = Math.ceil(Object.keys(users).length / 3);
 
   if (loading) return <LoadingScreen />;
 
@@ -207,9 +188,9 @@ const Users = () => {
             {message}
           </h3>
         )}
-        <PgHasNext
+        <PaginationComponent
           currentPage={currentPage}
-          hasNextPage={hasNextPage}
+          totalPages={Math.ceil(totalUsers / userPerPage)}
           onPageChange={setCurrentPage}
         />
       </div>

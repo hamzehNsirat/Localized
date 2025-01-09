@@ -168,7 +168,6 @@ const quotationService = {
     }
     const quotationsList = { quotationItem: [] };
     for (let i = 0; i < quotationFetchDb.length; i++) {
-      console.log(quotationFetchDb[i]);
       const item = {
         id: quotationFetchDb[i].out_quotation_id,
         retailStoreName: quotationFetchDb[i].out_retailer_establishment_name,
