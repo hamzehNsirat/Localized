@@ -5944,7 +5944,7 @@ RETURNS TABLE(
   out_quotation_id BIGINT,
   out_retailer_establishment_logo TEXT,
   out_retailer_establishment_name TEXT,
-  out_quotation_status VARCHAR,
+  out_quotation_status_id BIGINT,
 		  out_total_records_count BIGINT
 ) AS $$
 BEGIN
@@ -5953,7 +5953,7 @@ BEGIN
     CAST(q.quotation_id AS BIGINT) AS out_quotation_id ,
     e.establishment_logo AS out_retailer_establishment_logo,
     e.establishment_name AS out_retailer_establishment_name,
-    qs.quotation_status AS out_quotation_status,
+    CAST(qs.quotation_status_id AS BIGINT) AS out_quotation_status_id,
 			COUNT(*) OVER() AS out_total_records_count
   FROM
     quotation q
