@@ -102,9 +102,14 @@ export const AuthProvider = ({ children }) => {
       establishmentLogo: logoUrl,
     };
     try {
-      const data = await authApi.signUp(mappedFormData);
-      console.log("Sign up successful:", data);
-      return true;
+      const response = await authApi.signUp(mappedFormData);
+      if (response?.body?.success) {
+        console.log("Sign up successful:", response);
+        return true;
+      } else {
+        console.error("Sign up failed:", response);
+        return false;
+      }
     } catch (error) {
       console.error("Sign up failed:", error);
       return false;

@@ -36,14 +36,17 @@ const SignUpStep5 = ({ formData, setErrors }) => {
     }
     try {
       const response = await signUp(formData);
-      if (response?.body?.success) {
+      if (response == true) {
         console.log("user created successfully");
         navigate("/");
         toast.success(
           "Your application has been created. \nYou will receive an email when you're approved.",
           { progressStyle: { background: AppColors.primaryColor } }
         );
-      }
+      } else
+        toast.error("Something went wrong please try again", {
+          progressStyle: { background: AppColors.primaryColor },
+        });
     } catch (error) {
       console.error("Signup error:", error.message);
       alert(
