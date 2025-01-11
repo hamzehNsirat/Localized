@@ -25,7 +25,7 @@ const keys = {
   oauthClientSecret: "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",
   oauthRedirectUri: "https://developers.google.com/oauthplayground",
   oauthRefreshToken:
-    "1//04t7HhzdzheTxCgYIARAAGAQSNwF-L9Irbi186W0ji2tyh5iw1IVvS-vHqdP1GM8kZI3VgXa8v3K0OrVJ2KKlDMOEsKxvP_WAS6o",
+    "1//04BSVtLr0-If6CgYIARAAGAQSNwF-L9Ird_8HA0Qvl8RCiosHcPRm-yqrtO2KGoqtefCGQNmkGDZq_hy8fUFRa9sK8Oi44ETZr0A",
   // CORS settings
   allowedOrigins: ["http://localhost:5055", "http://localhost:5173"],
 };
