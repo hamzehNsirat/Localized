@@ -742,7 +742,7 @@ const analyticsService = {
         complaint
     WHERE
         submitter_type = true
-        AND retailer_id = $1
+        AND supplier_id = $1
     )
     SELECT
         total_complaints,

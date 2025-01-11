@@ -551,7 +551,9 @@ const platformComplianceService = {
       penaltyWeight: inputData.penaltyWeight,
       relatedComplaintId: inputData.relatedComplaintId,
     };
+
     const penaltyInsertDb = await Penalty.insertPenalty(insertData);
+    console.log(penaltyInsertDb);
     if (
       !penaltyInsertDb[0].out_penalty_id ||
       penaltyInsertDb[0].out_penalty_id == "-1"
