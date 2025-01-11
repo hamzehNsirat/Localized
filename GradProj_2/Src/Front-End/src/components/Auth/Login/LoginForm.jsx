@@ -23,7 +23,7 @@ const LoginForm = () => {
     const userPassword = password;
     try {
       const response = await login(userEmail, userName, userPassword);
-      if (response?.body.success) {
+      if (response?.body?.success) {
         console.log("Login successful");
       } else console.log("something happened: ", response.body);
     } catch (error) {

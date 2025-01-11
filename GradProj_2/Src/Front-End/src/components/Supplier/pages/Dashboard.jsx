@@ -244,9 +244,6 @@ const Dashboard = () => {
                 imgBgColor="#FDB913"
                 label="Profile Visits"
                 data={userData.insights.analyticsResult.profileViews}
-                value="1"
-                isActive={selectedCard === "1"}
-                onClick={handleSelectedCard}
               />
               <AnalyticsCard
                 img={quotationsCountPic}
@@ -254,8 +251,8 @@ const Dashboard = () => {
                 imgBgColor="#2C8C99"
                 label="Quotations Count"
                 data={userData.insights.analyticsResult.totalQuotations}
-                value="2"
-                isActive={selectedCard === "2"}
+                value="1"
+                isActive={selectedCard === "1"}
                 onClick={handleSelectedCard}
               />
               <AnalyticsCard
@@ -264,6 +261,9 @@ const Dashboard = () => {
                 imgBgColor="#FF947A"
                 label="Total Revenue"
                 data={userData.insights.analyticsResult.totalRevenue}
+                value="2"
+                isActive={selectedCard === "2"}
+                onClick={handleSelectedCard}
               />
               <AnalyticsCard
                 img={projectedProfitPic}
@@ -271,9 +271,6 @@ const Dashboard = () => {
                 imgBgColor="#BF83FF"
                 label="Total Customers"
                 data={userData.insights.analyticsResult.totalCustomers}
-                value="4"
-                isActive={selectedCard === "4"}
-                onClick={handleSelectedCard}
               />
               <AnalyticsCard
                 img={issuesReportedPic}
@@ -281,8 +278,8 @@ const Dashboard = () => {
                 imgBgColor="#FA5A7D"
                 label="Issues Reported"
                 data={userData.insights.analyticsResult.issuesReportedObj.total}
-                value="5"
-                isActive={selectedCard === "5"}
+                value="4"
+                isActive={selectedCard === "4"}
                 onClick={handleSelectedCard}
               />
               <AnalyticsCard
