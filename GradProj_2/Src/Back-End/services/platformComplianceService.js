@@ -144,13 +144,19 @@ const platformComplianceService = {
         error: "Failed to Fetch Complaints",
       };
     }
+    
     const complaintsList = { complaintItem: [] };
     for (let i = 0; i < complaintsFetchDb.length; i++) {
       const item = {
         id: complaintsFetchDb[i].complaint_id,
         title: complaintsFetchDb[i].complaint_title,
         date: complaintsFetchDb[i].complaint_date,
-        status: complaintsFetchDb[i].complaint_status,
+        statusId: [
+          "CREATED",
+          "UNDERREVIEW",
+          "RESOLVED",
+          "REJECTED",
+        ].indexOf(complaintsFetchDb[i].complaint_status) + 1,
       };
       complaintsList.complaintItem.push(item);
     }
@@ -170,6 +176,14 @@ const platformComplianceService = {
         error: "Failed to Fetch Complaint Details",
       };
     }
+    let complaintStatusIdIndex = [
+      "CREATED",
+      "UNDERREVIEW",
+      "RESOLVED",
+      "REJECTED",
+    ].indexOf(complaintFetchDb.out_complaint_status_id);
+
+    console.log(complaintStatusIdIndex);
     const complaintDetails = {
       id: complaintFetchDb.out_complaint_id,
       title: complaintFetchDb.out_complaint_title,
@@ -193,7 +207,7 @@ const platformComplianceService = {
         EstablishmentContact: complaintFetchDb.out_ret_contact,
       },
       complaintNotes: complaintFetchDb.out_complaint_notes,
-      complaintStatus: complaintFetchDb.out_complaint_status_id,
+      complaintStatusId: complaintStatusIdIndex + 1,
       submitterType:
         complaintFetchDb.out_submitter_type == true ? "RETAILER" : "SUPPLIER",
       creationDate: complaintFetchDb.out_creation_date,
@@ -290,7 +304,13 @@ const platformComplianceService = {
         id: complaintsFetchDb[i].complaint_id,
         title: complaintsFetchDb[i].complaint_title,
         date: complaintsFetchDb[i].complaint_date,
-        status: complaintsFetchDb[i].complaint_status,
+        statusId: [
+          "CREATED",
+          "UNDERREVIEW",
+          "RESOLVED",
+          "REJECTED",
+        ].indexOf(complaintsFetchDb[i].complaint_status) + 1,
+
       };
       complaintsList.complaintItem.push(item);
     }
@@ -317,7 +337,10 @@ const platformComplianceService = {
         id: complaintsFetchDb[i].out_complaint_id,
         title: complaintsFetchDb[i].out_complaint_title,
         date: complaintsFetchDb[i].out_creation_date,
-        status: complaintsFetchDb[i].out_complaint_status_id,
+        statusId:
+          ["CREATED", "UNDERREVIEW", "RESOLVED", "REJECTED"].indexOf(
+            complaintsFetchDb[i].out_complaint_status_id
+          ) + 1,
       };
       complaintsList.complaintItem.push(item);
     }
