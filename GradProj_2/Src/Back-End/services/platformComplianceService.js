@@ -183,7 +183,7 @@ const platformComplianceService = {
       "REJECTED",
     ].indexOf(complaintFetchDb.out_complaint_status_id);
 
-    console.log(complaintStatusIdIndex);
+
     const complaintDetails = {
       id: complaintFetchDb.out_complaint_id,
       title: complaintFetchDb.out_complaint_title,
@@ -204,7 +204,7 @@ const platformComplianceService = {
         FullName: complaintFetchDb.out_ret_full_name,
         EstablishmentName: complaintFetchDb.out_ret_establishment,
         EstablishmentEmail: complaintFetchDb.out_ret_email,
-        EstablishmentContact: complaintFetchDb.out_ret_contact,
+        EstablishmentContact: complaintFetchDb.out_ret_contact, 
       },
       complaintNotes: complaintFetchDb.out_complaint_notes,
       complaintStatusId: complaintStatusIdIndex + 1,
@@ -379,9 +379,16 @@ const platformComplianceService = {
     };
   },
   async updateComplaint(inputData) {
+
+    let complaintStatus = {
+      1: "CREATED",
+      2: "UNDERREVIEW",
+      3: "RESOLVED",
+      4: "REJECTED",
+    };
     const complaintsUpdateDb = await Complaint.updateComplaint(
       inputData.reviewerId,
-      inputData.complaintStatusId,
+      complaintStatus[inputData.complaintStatus],
       1,
       inputData.resolutionNotes,
       inputData.complaintId
