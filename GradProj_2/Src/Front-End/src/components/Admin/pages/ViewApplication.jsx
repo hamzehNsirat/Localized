@@ -23,6 +23,7 @@ const ViewApplication = () => {
   const [modalMessage, setModalMessage] = useState(""); // State for modal message
 
   const [application, setApplication] = useState(null);
+
   useEffect(() => {
     const fetchApplication = async () => {
       setLoading(true);

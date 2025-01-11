@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import userType from "../../Models/UserType";
 import applicationsApi from "../../../api/adminAPIs/applications";
 import PaginationComponent from "../../Common/PaginationComponent";
+import LoadingScreen from "../../Common/LoadingScreen";
 
 const Applications = () => {
   const navigate = useNavigate();
@@ -16,12 +17,17 @@ const Applications = () => {
   const [filteredApplications, setFilteredApplications] = useState([]);
   const [applications, setApplications] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
+  const [message, setMessage] = useState("No users yet!");
+  const [loading, setLoading] = useState(true); // when its null it will be loading to fetch the data
+  const [totalApplications, setTotalApplications] = useState(0); // Track next page availability
+
+  const applicationPerPage = 5;
 
   useEffect(() => {
     const fetchApplications = async () => {
       try {
         const payload = {
-          pageSize: 5,
+          pageSize: applicationPerPage,
           pageIndex: currentPage,
         };
         const response = await applicationsApi.getApplicationsList(payload);
@@ -40,11 +46,21 @@ const Applications = () => {
               {}
             )
           );
+          if (totalApplications == 0)
+            setTotalApplications(parseInt(response.body.totalRecordsCount));
         } else {
           console.error("error fetching applications ", response);
+          setMessage("No more users available!");
+          setApplications({});
         }
       } catch (err) {
         console.error("error fetching applications ", err);
+        if (err?.response?.data?.body.details.success == false) {
+          setMessage("No more users available!");
+          setApplications({});
+        }
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -55,6 +71,8 @@ const Applications = () => {
     setFilteredProducts([]);
     // setCurrentPage(1); // Reset to the first page after searching
   };
+
+  if (loading) return <LoadingScreen />;
 
   return (
     <>
@@ -161,7 +179,7 @@ const Applications = () => {
         )}
         <PaginationComponent
           currentPage={currentPage}
-          totalPages={Math.ceil(totalUsers / userPerPage)}
+          totalPages={Math.ceil(totalApplications / applicationPerPage)}
           onPageChange={setCurrentPage}
         />
       </div>
