@@ -268,7 +268,7 @@ const ViewApplication = () => {
           />
         </Col>
       </div>
-      {application.id == "CREATED" && (
+      {status == "NEW" && (
         <div className="d-flex align-items-center justify-content-end">
           <Button
             style={{

@@ -8,6 +8,8 @@ import applicationStatus from "../../Models/ApplicationStatus";
 import { useNavigate } from "react-router-dom";
 import userType from "../../Models/UserType";
 import applicationsApi from "../../../api/adminAPIs/applications";
+import PaginationComponent from "../../Common/PaginationComponent";
+
 const Applications = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
@@ -157,6 +159,11 @@ const Applications = () => {
             No applications yet!
           </h3>
         )}
+        <PaginationComponent
+          currentPage={currentPage}
+          totalPages={Math.ceil(totalUsers / userPerPage)}
+          onPageChange={setCurrentPage}
+        />
       </div>
     </>
   );
