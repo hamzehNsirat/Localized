@@ -36,7 +36,7 @@ const SignUpStep5 = ({ formData, setErrors }) => {
     }
     try {
       const response = await signUp(formData);
-      if (response?.body.success) {
+      if (response?.body?.success) {
         console.log("user created successfully");
         navigate("/");
         toast.success(

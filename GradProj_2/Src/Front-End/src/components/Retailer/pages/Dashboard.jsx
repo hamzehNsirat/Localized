@@ -287,7 +287,7 @@ const Dashboard = () => {
                   bgColor="#DCFCE7"
                   imgBgColor="#3CD856"
                   label="Compliance rate"
-                  data={userData.insights.analyticsResult.complianceIndicator.toFixed(
+                  data={userData.Insights.analyticsResult.complianceIndicator.toFixed(
                     2
                   )}
                 />

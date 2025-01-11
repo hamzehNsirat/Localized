@@ -77,7 +77,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signUp = async (formData) => {
-    const logoUrl = uploadImage(formData.logo);
+    const logoUrl = await uploadImage(formData.logo);
     if (!logoUrl || logoUrl == null) {
       console.log("failed image upload");
       return false;
