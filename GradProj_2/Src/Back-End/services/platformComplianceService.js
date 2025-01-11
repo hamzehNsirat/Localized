@@ -368,7 +368,10 @@ const platformComplianceService = {
         id: complaintsFetchDb[i].out_complaint_id,
         title: complaintsFetchDb[i].out_complaint_title,
         date: complaintsFetchDb[i].out_creation_date,
-        status: complaintsFetchDb[i].out_complaint_status_id,
+        statusId:
+          ["CREATED", "UNDERREVIEW", "RESOLVED", "REJECTED"].indexOf(
+            complaintsFetchDb[i].out_complaint_status_id
+          ) + 1,
       };
       complaintsList.complaintItem.push(item);
     }
