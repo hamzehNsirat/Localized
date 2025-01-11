@@ -273,7 +273,8 @@ BEGIN
 		complaint_status_id = COALESCE(in_complaint_status_id, complaint_status_id) , 
 		last_modification_date =CURRENT_TIMESTAMP,
 		last_modified_by= COALESCE(in_last_modified_by, last_modified_by),
-		resolution_notes=COALESCE(in_resolution_notes, resolution_notes);
+		resolution_notes=COALESCE(in_resolution_notes, resolution_notes)
+	WHERE CAST(complaint_id AS BIGINT)= in_complaint_id;
 	RETURN 0;
 EXCEPTION WHEN OTHERS THEN 
 

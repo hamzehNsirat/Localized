@@ -6175,3 +6175,46 @@ BEGIN
 	OFFSET ((page_index - 1) * page_size) ;
 END;
 $$ LANGUAGE plpgsql;
+--
+DROP FUNCTION complaint_update;
+CREATE OR REPLACE FUNCTION complaint_update (
+	IN in_reviewer_id BIGINT,
+	IN in_complaint_status_id 	 VARCHAR,
+	IN in_last_modified_by		 BIGINT,
+	IN in_resolution_notes  TEXT,
+	IN in_complaint_id     BIGINT
+)
+RETURNS BIGINT AS $$
+DECLARE
+    v_state TEXT;
+    v_msg TEXT;
+    v_detail TEXT;
+    v_hint TEXT;
+    v_context TEXT;
+BEGIN
+	UPDATE complaint SET
+		reviewer_id = COALESCE(in_reviewer_id,reviewer_id) , 
+		complaint_status_id = COALESCE(in_complaint_status_id, complaint_status_id) , 
+		last_modification_date =CURRENT_TIMESTAMP,
+		last_modified_by= COALESCE(in_last_modified_by, last_modified_by),
+		resolution_notes=COALESCE(in_resolution_notes, resolution_notes)
+	WHERE CAST(complaint_id AS BIGINT)= in_complaint_id;
+	RETURN 0;
+EXCEPTION WHEN OTHERS THEN 
+
+	get stacked diagnostics
+	v_state = returned_sqlstate,
+	v_msg = message_text,
+	v_detail = pg_exception_detail,
+	v_context = pg_exception_context;
+        
+    raise notice E' Got exception:
+    state: % 
+    message: % 
+    detail: %
+    hint: %
+    context: %',  v_state, v_msg, v_detail, v_hint, v_context;
+	RETURN -1;	
+END;
+$$ LANGUAGE plpgsql;
+
