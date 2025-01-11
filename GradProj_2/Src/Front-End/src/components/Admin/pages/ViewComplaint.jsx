@@ -45,13 +45,6 @@ const ViewComplaint = () => {
 
   if (loading) return <LoadingScreen />;
 
-  const handleStatusChange = (newStatusId) => {
-    setComplaint((prev) => ({
-      ...prev,
-      statusId: newStatusId,
-    }));
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setComplaint((prev) => ({ ...prev, [name]: value }));
@@ -62,8 +55,7 @@ const ViewComplaint = () => {
       complaintId: parseInt(complaint.id),
       resolutionNotes: complaint.resolutionNotes,
       reviewerId: parseInt(userData.adminDetails.adminId),
-      complaintStatus: complaint.complaintStatus.toUpperCase(),
-      submitterType: complaint.submitterType == "RETAILER" ? true : false,
+      complaintStatus: parseInt(complaint.complaintStatusId),
     };
     console.log(payload);
     try {
@@ -130,7 +122,9 @@ const ViewComplaint = () => {
               height: "2.5rem",
               padding: "10px",
               backgroundColor:
-                StatusColors.complaintStatus[complaint.complaintStatus],
+                StatusColors.complaintStatus[
+                  complaintStatus[complaint.complaintStatusId]
+                ],
               color: "white",
               borderRadius: "3px",
               textAlign: "center",
@@ -138,7 +132,7 @@ const ViewComplaint = () => {
               maxWidth: "200px",
             }}
           >
-            {complaint.complaintStatus}
+            {complaintStatus[complaint.complaintStatusId]}
           </div>
         </Col>
       </div>
@@ -229,10 +223,10 @@ const ViewComplaint = () => {
         />
       </div>
       <div className="d-flex align-items-center justify-content-between">
-        <Form.Group controlId="complaintStatus" className="mb-3 w-25">
+        <Form.Group controlId="complaintStatusId" className="mb-3 w-25">
           <Form.Select
-            value={complaint.statusId}
-            name="complaintStatus"
+            value={complaint.complaintStatusId}
+            name="complaintStatusId"
             onChange={handleChange}
             style={{
               height: "2.5rem",
@@ -241,10 +235,10 @@ const ViewComplaint = () => {
               outline: "none",
             }}
           >
-            <option value="New">New</option>
-            <option value="Under Review">Under Review</option>
-            <option value="Resolved">Resolved</option>
-            <option value="Rejected">Rejected</option>
+            <option value="1">New</option>
+            <option value="2">Under Review</option>
+            <option value="3">Resolved</option>
+            <option value="4">Rejected</option>
           </Form.Select>
         </Form.Group>
         <div className="d-flex align-items-center justify-content-end w-75">

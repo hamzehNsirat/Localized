@@ -21,10 +21,10 @@ const StatusColors = {
     Declined: "#9D4548",
   },
   complaintStatus: {
-    CREATED: "#2C8C99",
-    UNDERREVIEW: "#AEADAD",
-    RESOLVED: "#252525",
-    REJECTED: "#9D4548",
+    New: "#2C8C99",
+    "Under Review": "#AEADAD",
+    Resolved: "#252525",
+    Rejected: "#9D4548",
   },
   productStatus: {
     Published: "#252525",

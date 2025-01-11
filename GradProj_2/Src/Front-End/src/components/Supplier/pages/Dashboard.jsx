@@ -300,7 +300,9 @@ const Dashboard = () => {
                 bgColor="#DCFCE7"
                 imgBgColor="#3CD856"
                 label="Compliance rate"
-                data={userData.insights.analyticsResult.complianceIndicator}
+                data={userData.insights.analyticsResult.complianceIndicator.toFixed(
+                  2
+                )}
               />
             </div>
             <div>

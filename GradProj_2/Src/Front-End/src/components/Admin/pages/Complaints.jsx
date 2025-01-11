@@ -4,11 +4,11 @@ import { Row, Col, Card } from "react-bootstrap";
 import SearchBar from "../components/SearchBar";
 import { useEffect, useState } from "react";
 import StatusColors from "../../Theme/StatusColors";
-import complaintStatus from "../../Models/complaintStatus";
 import { useNavigate } from "react-router-dom";
 import complaintApi from "../../../api/adminAPIs/complaints";
 import LoadingScreen from "../../Common/LoadingScreen";
 import { formatDateForInput } from "../../Utils/formatters.js";
+import complaintStatus from "../../Models/ComplaintStatus.jsx";
 
 const Complaints = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -39,7 +39,7 @@ const Complaints = () => {
                   id: complaint.id,
                   date: formatDateForInput(complaint.date),
                   title: complaint.title,
-                  status: complaint.status,
+                  statusId: complaint.statusId,
                 };
                 return acc;
               },
@@ -157,13 +157,15 @@ const Complaints = () => {
                           width: "100%",
                           padding: "8px 10px",
                           backgroundColor:
-                            StatusColors.complaintStatus[complaint.status],
+                            StatusColors.complaintStatus[
+                              complaintStatus[complaint.statusId]
+                            ],
                           color: "white",
                           borderRadius: "3px",
                           textAlign: "center",
                         }}
                       >
-                        {complaint.status}
+                        {complaintStatus[complaint.statusId]}
                       </div>
                     </Col>
                   </Row>

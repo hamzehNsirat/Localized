@@ -1,53 +1,110 @@
 import AppColors from "../../Theme/AppColors";
 import userIcon from "../../../assets/user.png";
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card, Toast } from "react-bootstrap";
 import SearchBar from "../components/SearchBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { categories } from "../../Models/Categories";
 import CustomButton from "../../Common/CustomButton";
+import LoadingScreen from "../../Common/LoadingScreen";
+import { formatDateForInput } from "../../Utils/formatters.js";
+import penaltyApi from "../../../api/adminAPIs/penalties";
+import ConfirmationModal from "../../Common/ConfirmationModal.jsx";
+import { toast } from "react-toastify";
+
 const Penalties = () => {
-  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredApplications, setFilteredApplications] = useState([]);
+  const navigate = useNavigate();
+  const [penalties, setPenalties] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const [message, setMessage] = useState("No penalties yet!");
+  const [loading, setLoading] = useState(true); // when its null it will be loading to fetch the data
+  const [totalPenalties, setTotalPenalties] = useState(0); // Track next page availability
+  const [showModal, setShowModal] = useState(false); // State for modal visibility
+  const [selectedPenaltyId, setSelectedPenaltyId] = useState(null); // Track selected penalty
+
+  const penaltyPerPage = 5;
+
+  useEffect(() => {
+    const fetchpenalties = async () => {
+      try {
+        setLoading(true);
+        const payload = {
+          pageSize: penaltyPerPage,
+          pageIndex: currentPage,
+        };
+
+        const response = await penaltyApi.getPenaltiesList(payload);
+        if (response?.body?.success) {
+          setPenalties(
+            response.body.penaltiesList.penaltyItem.reduce((acc, penalty) => {
+              acc[penalty.id] = {
+                id: penalty.id,
+                date: formatDateForInput(penalty.date),
+                title: penalty.title,
+                statusId: penalty.statusId,
+              };
+              return acc;
+            }, {})
+          );
+          if (totalPenalties == 0)
+            setTotalPenalties(parseInt(response.body.totalRecordsCount));
+        } else {
+          setMessage("No more penalties available!");
+          setPenalties({});
+          console.error("error fetching penalties ", response);
+        }
+      } catch (err) {
+        console.error("error fetching penalties ", err);
+        if (err?.response?.data?.body?.details.success == false) {
+          setMessage("No more penalties available!");
+          setPenalties({});
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchpenalties();
+  }, [currentPage]);
 
   const handleSearch = () => {
     setFilteredProducts([]);
     // setCurrentPage(1); // Reset to the first page after searching
   };
 
-  const penalties = {
-    1: {
-      id: 51,
-      title: "penalty_title",
-      date: new Date().toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }),
-      statusId: 1,
-    },
-    2: {
-      id: 52,
-      title: "penalty_title",
-      date: new Date().toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }),
-      statusId: 2,
-    },
-    3: {
-      id: 5309,
-      title: "penalty_title",
-      date: new Date().toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }),
-      statusId: 3,
-    },
+  const handleDeletePenalty = async () => {
+    try {
+      const payload = {
+        penaltyId: parseInt(selectedPenaltyId),
+      };
+      const response = await penaltyApi.deletePenalty(payload);
+      if (response?.body?.success) {
+        toast.success(`Penalty Deleted Successfully`, {
+          progressStyle: { background: AppColors.primaryColor },
+        });
+      } else {
+        console.error("Failed Penalty Deletion ", response);
+        toast.error(`Failed Penalty Deletion`, {
+          progressStyle: { background: AppColors.primaryColor },
+        });
+      }
+    } catch (err) {
+      console.error("Failed Penalty Deletion ", err);
+      toast.error(`Failed Penalty Deletion`, {
+        progressStyle: { background: AppColors.primaryColor },
+      });
+    } finally {
+      setShowModal(false); // Close the modal after attempting deletion
+    }
   };
+
+  const confirmDeletePenalty = (penId) => {
+    setSelectedPenaltyId(penId); // Set the selected penalty ID
+    setShowModal(true); // Show the confirmation modal
+  };
+
+  if (loading) return <LoadingScreen />;
   return (
     <>
       <div className="d-flex justify-content-between g-2 align-items-center w-100">
@@ -103,11 +160,7 @@ const Penalties = () => {
                           className="mb-0 w-100"
                           style={{ fontSize: "0.9rem" }}
                         >
-                          {new Date().toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })}
+                          {formatDateForInput(penalty.date)}
                         </p>
                       </Col>
                     </Col>
@@ -150,7 +203,7 @@ const Penalties = () => {
                           textAlign: "center",
                           textDecoration: "none",
                         }}
-                        onClick={() => {}}
+                        onClick={() => confirmDeletePenalty(penalty.id)}
                       >
                         {"Delete"}
                       </a>
@@ -166,6 +219,15 @@ const Penalties = () => {
           </h3>
         )}
       </div>
+      <ConfirmationModal
+        show={showModal}
+        title="Confirm Deletion"
+        message="Are you sure you want to delete this penalty? This action cannot be undone."
+        onConfirm={handleDeletePenalty}
+        onCancel={() => setShowModal(false)}
+        confirmText="Yes, Delete"
+        cancelText="Cancel"
+      />
     </>
   );
 };

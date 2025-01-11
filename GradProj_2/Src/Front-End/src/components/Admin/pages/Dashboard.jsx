@@ -1,5 +1,5 @@
 import { Container } from "react-bootstrap";
-import AnalyticsCard from "../components/AnalyticsCard";
+import AnalyticsCard from "../../Common/AnalyticsCard";
 import quotationsCountPic from "../../../assets/analytics/quotationsCount.png";
 import totalSpentPic from "../../../assets/analytics/totalSpent.png";
 import projectedProfitPic from "../../../assets/analytics/clock.png";
@@ -13,6 +13,10 @@ const Dashboard = () => {
   const { user, userData, setUser, setUserData } = useAuth();
   const [loading, setLoading] = useState(!userData);
   const [error, setError] = useState(null);
+  const [selectedCard, setSelectedCard] = useState("1");
+  const handleSelectedCard = (idx) => {
+    setSelectedCard(idx);
+  };
 
   const fetchAdminData = async () => {
     const userId = { userId: parseInt(user.userId) };
@@ -56,32 +60,68 @@ const Dashboard = () => {
   return (
     <Container>
       <h3 className="fw-bold">Dashboard</h3>
-      <div className="d-flex gap-5 px-0 py-3 pb-4">
+      <div className="d-flex gap-4 px-0 py-3 pb-0">
         <AnalyticsCard
           img={quotationsCountPic}
           bgColor="#B9D9DD"
           imgBgColor="#2C8C99"
           label="Quotations Count"
           data={userData.insights.analyticsResult.Quotations}
+          value="1"
+          isActive={selectedCard === "1"}
+          onClick={handleSelectedCard}
         />
         <AnalyticsCard
           img={totalSpentPic}
-          bgColor="#FFF4DE"
+          bgColor="#FFE4DD"
           imgBgColor="#FF947A"
           label="Total Spent"
-          data="3K"
+          data={userData.insights.analyticsResult.spent}
+          value="2"
+          isActive={selectedCard === "2"}
+          onClick={handleSelectedCard}
         />
         <AnalyticsCard
           img={projectedProfitPic}
-          bgColor="#F3E8FF"
-          imgBgColor="#BF83FF"
+          bgColor="#FFE2E5"
+          imgBgColor="#FA5A7D"
           label="Projected Profit"
           data="3K"
         />
         <AnalyticsCard
           img={issuesReportedPic}
-          bgColor="#FFE2E5"
-          imgBgColor="#FA5A7D"
+          bgColor="#F3E8FF"
+          imgBgColor="#BF83FF"
+          label="Issues Reported"
+          data="0"
+        />
+      </div>
+      <div className="d-flex gap-4 px-0 py-3 pb-4">
+        <AnalyticsCard
+          img={quotationsCountPic}
+          bgColor="#C8C8C8"
+          imgBgColor="#252525"
+          label="Quotations Count"
+          data={userData.insights.analyticsResult.Quotations}
+        />
+        <AnalyticsCard
+          img={totalSpentPic}
+          bgColor="#DCFCE7"
+          imgBgColor="#3CD856"
+          label="Total Spent"
+          data="3K"
+        />
+        <AnalyticsCard
+          img={projectedProfitPic}
+          bgColor="#FAF0D8"
+          imgBgColor="#FDB913"
+          label="Projected Profit"
+          data="3K"
+        />
+        <AnalyticsCard
+          img={issuesReportedPic}
+          bgColor="#E3F4F6"
+          imgBgColor="#95E5EF"
           label="Issues Reported"
           data="0"
         />
