@@ -3,7 +3,6 @@ import apiClient from "../index.js";
 const adminDetailsApi = {
   getAdminDetails: async (data) => {
     try{
-
       const response = await apiClient.post("/dashboard/getadmindetails", data);
       return response.data;
     }catch (err) {
