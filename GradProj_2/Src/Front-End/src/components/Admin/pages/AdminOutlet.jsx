@@ -27,6 +27,7 @@ import reviewPic from "../../../assets/notifications/review.png";
 import ProfileSidebarItem from "../../Retailer/components/ProfileSidebarItem.jsx";
 
 import { useAuth } from "../../Providers/authProvider.jsx";
+import notificationsApi from "../../../api/adminAPIs/notifications.js";
 const AdminOutlet = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -49,7 +50,7 @@ const AdminOutlet = () => {
         notificationId: id,
       };
       const response = await notificationsApi.readNotification(payload);
-      if (response?.body.success) {
+      if (response?.body?.success) {
         console.log("notification read successfully");
       } else console.error("notification read error", response);
     } catch (err) {
@@ -96,6 +97,7 @@ const AdminOutlet = () => {
           pageIndex: 1,
         };
         const response = await notificationsApi.getNotifications(payload);
+        console.log(response);
         if (response?.body.success) {
           setNotifications(
             response.body.notificationList.notificationItem.map(

@@ -60,6 +60,7 @@ import {
   AddPenalty,
   ViewCategory,
   AddUser,
+  ProfileSettings as AdminProfileSettings,
 } from "../components/Admin/pages/index.js";
 import AdminSignUp from "../components/Auth/AdminSignUp/AdminSignUp.jsx";
 
@@ -193,6 +194,8 @@ const AppRoutes = () => (
           <Route path="penalty/:penId" element={<ViewPenalty />} />
           <Route path="newPenalty" element={<AddPenalty />} />
         </Route>
+        <Route path="profile" element={<AdminProfileSettings />} />
+
         {/* <Route path="policies">
           <Route index element={<Users />} />
           {/* <Route path="user/:userId" element={<ViewUser />} /> 

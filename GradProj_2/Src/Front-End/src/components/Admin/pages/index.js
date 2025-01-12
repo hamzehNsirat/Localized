@@ -14,6 +14,8 @@ export { default as ViewQuotation } from './ViewQuotation';
 export { default as ViewPenalty } from './ViewPenalty';
 export {default as AddPenalty } from './AddPenalty';
 export { default as AddUser } from './AddUser';
+export { default as ProfileSettings } from './ProfileSettings';
+
 
 
 
