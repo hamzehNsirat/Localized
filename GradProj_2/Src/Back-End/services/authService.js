@@ -190,7 +190,7 @@ const authService = {
         );
       }
       await commitTransaction();
-      await submitNotification(1,newUserId,2,'Welcome Abroad', 'Welcome to our Platform');
+      await submitNotification(1,newUserId,2,'Welcome Aboard', 'Welcome to our Platform');
       // Generate JWT Token
       const tokenDBRes = await executeQuery(
         "SELECT token_version FROM user_localized WHERE user_id = $1",
