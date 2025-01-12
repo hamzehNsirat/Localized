@@ -253,7 +253,7 @@ const userService = {
       success: true,
     };
   },
-  async getUserList(pageSize, pageIndex) {
+  async getUserList(userId, pageSize, pageIndex) {
     const inputData = {
       pageSize: pageSize,
       pageIndex: pageIndex,
@@ -287,9 +287,10 @@ const userService = {
       userObject.userAddress = item.user_address;
       userObject.isEmailVerified = item.is_email_verified;
       userObject.userImage = item.user_image;
-
-      // Add the userObject to the user array
-      userList.user.push(userObject);
+      if (userObject.userId !=userId) {
+        // Add the userObject to the user array
+        userList.user.push(userObject);
+      }
     }
     return {
       success: true,

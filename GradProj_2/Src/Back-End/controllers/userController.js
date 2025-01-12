@@ -44,6 +44,7 @@ const getUserList = async (req, res) => {
       return errorHandler.handleError(res, "E0013");
     }
     const result = await userService.getUserList(
+      req.user.userId,
       req.body.pageSize,
       req.body.pageIndex
     );
