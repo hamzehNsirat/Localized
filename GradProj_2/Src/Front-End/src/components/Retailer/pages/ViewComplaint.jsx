@@ -27,6 +27,7 @@ const ViewComplaint = () => {
         const response = await complaintApi.getComplaintDetails(payload);
         if (response?.body.success) {
           setComplaint(response.body.complaintDetails);
+          console.log(complaint);
         } else console.log("idk: ", response);
       } catch (err) {
         setError("Failed to fetch complaints.", err);
@@ -151,7 +152,7 @@ const ViewComplaint = () => {
           {complaint.complaintNotes}
         </textarea>
       </Row>
-      {complaint.complaintStatus == "RESOLVED" && (
+      {parseInt(complaint.complaintStatusId) == 3 && (
         <Row className="px-0 mb-4">
           <h4
             className="mb-3 fw-bold px-0"
@@ -167,10 +168,9 @@ const ViewComplaint = () => {
               resize: "none",
             }}
             rows={4}
+            value={complaint.resolutionNotes}
             disabled
-          >
-            {complaint.resolutionNotes}
-          </textarea>
+          ></textarea>
         </Row>
       )}
       <Row className="d-flex justify-content-end">

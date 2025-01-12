@@ -19,7 +19,7 @@ export default function Header() {
   const [notifications, setNotifications] = useState([]);
   const dropdownRef = useRef(null);
   const [expanded, setExpanded] = useState(false);
-  const { userData, user } = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -80,6 +80,48 @@ export default function Header() {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, []);
+
+  const markAsRead = async (id) => {
+    try {
+      const payload = {
+        notificationId: id,
+      };
+      const response = await notificationsApi.readNotification(payload);
+      if (response?.body.success) {
+        console.log("notification read successfully");
+      } else console.error("notification read error", response);
+    } catch (err) {
+      console.error("notification read error", err);
+    }
+    setNotifications((prevNotifications) => {
+      const updatedNotifications = prevNotifications.map((notification) =>
+        notification.id === id
+          ? { ...notification, isRead: true }
+          : notification
+      );
+      // Find the clicked notification
+      const clickedNotification = updatedNotifications.find(
+        (notification) => notification.id === id
+      );
+
+      // Navigate based on the notification type
+      if (
+        clickedNotification?.type === "3" ||
+        clickedNotification?.type === "9"
+      ) {
+        navigate("/retailer/manageQuotations");
+        setShowNotifications(false);
+      } else if (
+        clickedNotification?.type === "7" ||
+        clickedNotification?.type === "11"
+      ) {
+        navigate("/retailer/complaints");
+        setShowNotifications(false);
+      }
+
+      return updatedNotifications; // Return the updated state
+    });
+  };
 
   return (
     <>
@@ -198,8 +240,7 @@ export default function Header() {
                 <div ref={dropdownRef}>
                   <NotificationDropdown
                     notifications={notifications}
-                    setNotifications={setNotifications}
-                    setShowNotifications={setShowNotifications}
+                    markAsRead={markAsRead}
                   />
                 </div>
               )}

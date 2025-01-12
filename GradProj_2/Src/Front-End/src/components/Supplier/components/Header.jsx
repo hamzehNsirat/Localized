@@ -20,7 +20,7 @@ export default function Header() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const dropdownRef = useRef(null);
-  const { userData, user } = useAuth();
+  const { user } = useAuth();
   const [expanded, setExpanded] = useState(false);
 
   const handleMarketClick = () => {

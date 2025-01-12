@@ -32,8 +32,8 @@ const AdminOutlet = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
-
-  const { logout } = useAuth();
+  const [notifications, setNotifications] = useState([]);
+  const { logout, user } = useAuth();
 
   const handleProfileClick = () => {
     navigate("profile");
@@ -43,72 +43,87 @@ const AdminOutlet = () => {
     setShowNotifications((prev) => !prev);
   };
 
-  const markAsRead = (id) => {
-    setNotifications((prevNotifications) =>
-      prevNotifications.map((notification) =>
-        notification.id === id ? { ...notification, read: true } : notification
-      )
-    );
+  const markAsRead = async (id) => {
+    try {
+      const payload = {
+        notificationId: id,
+      };
+      const response = await notificationsApi.readNotification(payload);
+      if (response?.body.success) {
+        console.log("notification read successfully");
+      } else console.error("notification read error", response);
+    } catch (err) {
+      console.error("notification read error", err);
+    }
+    setNotifications((prevNotifications) => {
+      const updatedNotifications = prevNotifications.map((notification) =>
+        notification.id === id
+          ? { ...notification, isRead: true }
+          : notification
+      );
+      // Find the clicked notification
+      const clickedNotification = updatedNotifications.find(
+        (notification) => notification.id === id
+      );
+
+      // Navigate based on the notification type
+      if (
+        clickedNotification?.type === "3" ||
+        clickedNotification?.type === "9"
+      ) {
+        navigate("/admin/manageQuotations");
+        setShowNotifications(false);
+      } else if (
+        clickedNotification?.type === "7" ||
+        clickedNotification?.type === "11"
+      ) {
+        navigate("/admin/complaints");
+        setShowNotifications(false);
+      }
+
+      return updatedNotifications; // Return the updated state
+    });
   };
 
-  const [notifications, setNotifications] = useState([
-    {
-      id: 1,
-      icon: orderPic,
-      text: "Let’s Get You Sourced! Make your first order.",
-      time: "Just Now",
-      read: false,
-    },
-    {
-      id: 2,
-      icon: marketPic,
-      text: "Take a look at the marketplace O’O",
-      time: "15 min",
-      read: false,
-    },
-    {
-      id: 3,
-      icon: approvePic,
-      text: "Congrats! Your Application is approved",
-      time: "30 min",
-      read: false,
-    },
-    {
-      id: 4,
-      icon: reviewPic,
-      text: "Your Application is being reviewed.",
-      time: "1 hour ago",
-      read: true,
-    },
-    {
-      id: 5,
-      icon: approvePic,
-      text: "Congrats! Your Application is approved",
-      time: "30 min",
-      read: false,
-    },
-    {
-      id: 6,
-      icon: reviewPic,
-      text: "Your Application is being reviewed.",
-      time: "1 hour ago",
-      read: true,
-    },
-    {
-      id: 7,
-      icon: approvePic,
-      text: "Congrats! Your Application is approved",
-      time: "30 min",
-      read: false,
-    },
-    {
-      id: 8,
-      icon: reviewPic,
-      text: "Your Application is being reviewed.",
-      time: "1 hour ago",
-      read: true,
-    },
-  ]);
+  const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const payload = {
+          userId: parseInt(user.userId),
+          pageSize: 5,
+          pageIndex: 1,
+        };
+        const response = await notificationsApi.getNotifications(payload);
+        if (response?.body.success) {
+          setNotifications(
+            response.body.notificationList.notificationItem.map(
+              (notification) => ({
+                id: notification.id,
+                type: notification.type,
+                name: notification.subject,
+                description: notification.details || "No description", // Fallback for empty descriptions
+                isRead: notification.isRead,
+                date: notification.creationTime,
+              })
+            )
+          );
+        }
+      } catch (err) {
+        console.error("Error fetching notifications:", err);
+      }
+    };
+
+    // Fetch notifications immediately
+    fetchNotifications();
+
+    // Set an interval to fetch notifications every 30 seconds
+    const interval = setInterval(fetchNotifications, 30000); // 30 seconds
+
+    // Cleanup the interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -196,7 +211,7 @@ const AdminOutlet = () => {
                   }}
                 >
                   {
-                    notifications.filter((notification) => !notification.read)
+                    notifications.filter((notification) => !notification.isRead)
                       .length
                   }
                 </div>

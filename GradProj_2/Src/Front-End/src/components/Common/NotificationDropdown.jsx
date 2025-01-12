@@ -4,57 +4,8 @@ import React, { useState } from "react";
 import AppColors from "../Theme/AppColors";
 import notificationTypes from "../Models/NotificationTypes";
 import { Col, Row } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import notificationsApi from "../../api/retailerAPIs/notifications";
 
-const NotificationDropdown = ({
-  notifications,
-  setNotifications,
-  setShowNotifications,
-}) => {
-  const navigate = useNavigate();
-  const markAsRead = async (id) => {
-    try {
-      const payload = {
-        notificationId: id,
-      };
-      const response = await notificationsApi.readNotification(payload);
-      if (response?.body.success) {
-        console.log("notification read successfully");
-      } else console.error("notification read error", response);
-    } catch (err) {
-      console.error("notification read error", err);
-    }
-    setNotifications((prevNotifications) => {
-      const updatedNotifications = prevNotifications.map((notification) =>
-        notification.id === id
-          ? { ...notification, isRead: true }
-          : notification
-      );
-      // Find the clicked notification
-      const clickedNotification = updatedNotifications.find(
-        (notification) => notification.id === id
-      );
-
-      // Navigate based on the notification type
-      if (
-        clickedNotification?.type === "3" ||
-        clickedNotification?.type === "9"
-      ) {
-        navigate("/retailer/manageQuotations");
-        setShowNotifications(false);
-      } else if (
-        clickedNotification?.type === "7" ||
-        clickedNotification?.type === "11"
-      ) {
-        navigate("/retailer/complaints");
-        setShowNotifications(false);
-      }
-
-      return updatedNotifications; // Return the updated state
-    });
-  };
-
+const NotificationDropdown = ({ notifications, markAsRead }) => {
   return (
     <div
       className="notifications-dropdown position-absolute"

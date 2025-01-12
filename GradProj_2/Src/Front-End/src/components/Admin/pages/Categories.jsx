@@ -83,8 +83,10 @@ const Categories = () => {
                       textDecoration: "none",
                     }}
                     onClick={() => {
+                      const catId = index + 1,
+                        catName = category.name;
                       navigate(`/admin/categories/category/${index + 1}`, {
-                        state: { category },
+                        state: { catId, catName },
                       });
                     }}
                   >

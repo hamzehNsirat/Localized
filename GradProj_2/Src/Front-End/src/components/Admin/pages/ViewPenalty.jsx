@@ -11,17 +11,6 @@ import { useEffect, useState } from "react";
 import LoadingScreen from "../../Common/LoadingScreen";
 import penaltyApi from "../../../api/adminAPIs/penalties";
 
-const penalty = {
-  id: 30,
-  complaintId: 20,
-  supplier_id: 10,
-  retailer_id: 1,
-  submitter_type: 0,
-  type: "",
-  weight: 0.01,
-  comment: "",
-};
-
 const ViewPenalty = () => {
   const location = useLocation();
   const navigate = useNavigate();

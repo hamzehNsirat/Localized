@@ -9,6 +9,7 @@ import LoadingScreen from "../../Common/LoadingScreen.jsx";
 import { useAuth } from "../../Providers/authProvider.jsx";
 import { formatDateForInput } from "../../Utils/formatters.js";
 import complaintApi from "../../../api/retailerAPIs/complaints.js";
+import complaintStatus from "../../Models/ComplaintStatus.jsx";
 
 /* 
   getSupplierComplaintsById: {supId}: list of complaints
@@ -42,7 +43,7 @@ const ComplaintsPage = () => {
                   id: complaint.id,
                   title: complaint.title,
                   date: complaint.date,
-                  status: complaint.status,
+                  statusId: complaint.statusId,
                 };
                 return acc;
               },
@@ -133,13 +134,15 @@ const ComplaintsPage = () => {
                         width: "100%",
                         padding: "10px",
                         backgroundColor:
-                          StatusColors.complaintStatus[complaint.status],
+                          StatusColors.complaintStatus[
+                            complaintStatus[complaint.statusId]
+                          ],
                         color: "white",
                         borderRadius: "5px",
                         textAlign: "center",
                       }}
                     >
-                      {complaint.status}
+                      {complaintStatus[complaint.statusId]}
                     </div>
                   </Col>
                 </Row>
