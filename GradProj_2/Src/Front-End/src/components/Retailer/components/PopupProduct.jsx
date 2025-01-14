@@ -52,8 +52,8 @@ const PopupProduct = ({
                   className="mb-0 fw-bold"
                   style={{ color: "#C1272D", letterSpacing: "0.05rem" }}
                 >
-                  {selectedProduct.wholeSalePrice} - {selectedProduct.unitPrice}{" "}
-                  JOD
+                  {selectedProduct.wholeSalePrice} -{" "}
+                  {selectedProduct.retailPrice} JOD
                 </h5>
                 <p className="text-muted mt-0" style={{ fontSize: "0.7rem" }}>
                   Buying price
@@ -64,7 +64,7 @@ const PopupProduct = ({
                   className="mb-0 fw-bold"
                   style={{ letterSpacing: "0.05rem" }}
                 >
-                  {selectedProduct.retailPrice} JOD
+                  {selectedProduct.unitPrice} JOD
                 </h5>
                 <p className="text-muted mt-0" style={{ fontSize: "0.7rem" }}>
                   Selling price
@@ -79,11 +79,11 @@ const PopupProduct = ({
                   }}
                 >
                   {(
-                    selectedProduct.retailPrice - selectedProduct.wholeSalePrice
+                    selectedProduct.unitPrice - selectedProduct.retailPrice
                   ).toFixed(2)}{" "}
                   -{" "}
                   {(
-                    selectedProduct.retailPrice - selectedProduct.unitPrice
+                    selectedProduct.unitPrice - selectedProduct.wholeSalePrice
                   ).toFixed(2)}
                   JOD
                 </h5>

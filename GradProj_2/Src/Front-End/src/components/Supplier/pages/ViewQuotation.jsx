@@ -68,6 +68,7 @@ const ViewQuotation = () => {
       setError("error completing quotation", err);
     } finally {
       setLoading(false);
+      setShowModal(true);
     }
   };
 
@@ -311,6 +312,7 @@ const ViewQuotation = () => {
         onHide={() => setShowModal(false)}
         title="Success"
         bodyContent="Quotation has been confirmed successfully!"
+        onCloseText="Close"
       />
     </Container>
   );

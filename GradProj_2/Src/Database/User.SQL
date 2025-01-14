@@ -148,7 +148,7 @@ BEGIN
 	FROM user_localized D
 	WHERE CAST(D.user_name_lclzd AS VARCHAR) = in_user_name  AND CAST(D.user_email AS VARCHAR) = in_user_email  INTO salted_pass, v_user_id, v_user_type;
 	IF salted_pass IS NULL THEN 
-		v_user_id := 0;
+		v_user_id := 0;s
 		v_user_type := 0;
 		RETURN QUERY SELECT  v_user_id,v_user_type, 0;
 	END IF;

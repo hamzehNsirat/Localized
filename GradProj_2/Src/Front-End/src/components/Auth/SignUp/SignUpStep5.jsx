@@ -23,6 +23,7 @@ const SignUpStep5 = ({ formData, setErrors }) => {
         newErrors[field] = error;
       }
     });
+    console.log(newErrors);
     setErrors(newErrors);
     // If there are no errors, return true; otherwise, false
     return Object.keys(newErrors).length === 0;

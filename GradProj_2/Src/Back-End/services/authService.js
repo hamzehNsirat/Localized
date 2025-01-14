@@ -85,7 +85,6 @@ const authService = {
         establishmentData.lastModifiedBy = newUserId;
         const establishmentResult =
           await Establishment.insertEstablishment(establishmentData);
-
         if (
           !establishmentResult[0].out_establishment_id ||
           establishmentResult[0].out_establishment_id == -1
@@ -222,6 +221,8 @@ const authService = {
           : null,
         token: token,
       };
+                                  console.log("admin response: ", response);
+
       const inputData = {
         logUserId: newUserId,
         actionDetails: "Create New User: " + newUserId,
@@ -229,7 +230,9 @@ const authService = {
         actionDescription: "DATA CREATION",
         isTransactional: true,
       };
+
       await logDBModel.insertLog(inputData);
+      
       return response;
     } catch (error) {
       throw error;

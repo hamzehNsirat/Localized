@@ -143,7 +143,7 @@ CREATE OR REPLACE FUNCTION order_update (
 	IN in_order_id 		     BIGINT,
 	IN in_order_quantity   	 FLOAT,
 	IN in_order_price 		 FLOAT,
-	IN in_last_modified_by   BIGINT,
+	IN in_last_modified_by   BIGINT
 ) 
 RETURNS INTEGER
 AS $$ 

@@ -6,7 +6,8 @@ import companyLogo from "../dumpAssets/companyLogo.png";
 import jordanFlag from "../../../assets/jordanFlag.png";
 import { useAuth } from "../../Providers/authProvider.jsx";
 import quotationsApi from "../../../api/retailerAPIs/quotations.js";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import CustomModal from "../../Common/CustomModal.jsx";
 
 /* 
   getRetailer&EstInfo: {retId:}
@@ -60,6 +61,11 @@ const RequestQuotationPage = ({ requestedProducts }) => {
     email: userData.establishmentDetails.establishmentEmail,
   });
 
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState(""); // State for modal message
+
+  const navigate = useNavigate();
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -91,9 +97,18 @@ const RequestQuotationPage = ({ requestedProducts }) => {
       };
       // Send the API request
       const response = await quotationsApi.requestQuotation(payload);
-      console.log("Quotation created successfully:", response);
+      if (response?.body?.success) {
+        console.log("Quotation created successfully:", response);
+        setModalMessage(`Quotation has been created`);
+        setShowModal(true); // Show success modal
+      } else {
+        setModalMessage("Something went wrong");
+        setShowModal(true);
+      }
     } catch (err) {
       console.error("Error creating quotation:", err);
+      setModalMessage("Something went wrong");
+      setShowModal(true);
     }
   };
 
@@ -118,6 +133,16 @@ const RequestQuotationPage = ({ requestedProducts }) => {
 
   return (
     <Row className="mt-4 mb-4 justify-content-between">
+      <CustomModal
+        show={showModal}
+        onHide={() => {
+          setShowModal(false);
+          navigate("/retailer/manageQuotations");
+        }}
+        title="Application Approval"
+        bodyContent={modalMessage}
+        onCloseText="Close"
+      />
       <Col md={5}>
         <h4 className="fw-bold">Billing Information</h4>
         <Form style={{ width: "100%" }}>

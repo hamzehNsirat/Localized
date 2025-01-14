@@ -54,6 +54,7 @@ const AddPenalty = () => {
         toast.success(`Penalty Applied`, {
           progressStyle: { background: AppColors.primaryColor },
         });
+        navigate("/admin/penalties");
       } else {
         console.error("Failed Penalty Applied ", response);
         toast.error(`Failed Penalty Applied`, {
@@ -71,7 +72,7 @@ const AddPenalty = () => {
   return (
     <Container className="px-0 py-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h3 className="fw-bold">Add Penalty "{penalty.penaltyTitle}"</h3>
+        <h3 className="fw-bold">Add Penalty</h3>
 
         <div className="d-flex align-items-center justify-content-end gap-4 w-50">
           <img
@@ -93,14 +94,22 @@ const AddPenalty = () => {
           />
         </div>
       </div>
-      <div className="d-flex align-items-center gap-3 mt-5">
+      <div className="d-flex align-itemscenter gap-3 mt-5">
         <CustomInput
-          className="w-75"
+          className="w-100"
           controlId="complaintId"
           label="Complaint Id"
           labelClassName="mb-0 fw-bold"
           placeholder="Search for Complaint Id"
           value={complaint.id}
+          disabled
+        />
+        <CustomInput
+          className="w-100"
+          controlId="penaltyTitle"
+          label="Penalty Title"
+          labelClassName="mb-0 fw-bold"
+          value={penalty.penaltyTitle}
           disabled
         />
       </div>
@@ -155,7 +164,7 @@ const AddPenalty = () => {
           labelClassName="fw-bold mb-0"
           className="w-100"
           onChange={handleChange}
-          value={penalty.penaltyWeight}
+          value={penalty.penaltyWeight ?? 0}
         />
       </div>
       <div className="d-flex align-items-center gap-2 mt-3 w-100">

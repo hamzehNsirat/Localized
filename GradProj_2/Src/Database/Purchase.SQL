@@ -248,7 +248,7 @@ CREATE OR REPLACE FUNCTION purchase_insert (
 	IN in_credit_cvc CHAR,
 	IN in_supplier_iban  	VARCHAR,
 	IN in_supplier_bank_account_num  	VARCHAR,
-	IN in_supplier_bank_name  	VARCHAR
+	IN in_supplier_bank_name  	VARCHAR,
 
 	OUT out_purchase_id BIGINT
 ) 
@@ -352,7 +352,7 @@ CREATE OR REPLACE FUNCTION purchase_update (
 	IN in_credit_cvc CHAR,
 	IN in_supplier_iban  	VARCHAR,
 	IN in_supplier_bank_account_num  	VARCHAR,
-	IN in_supplier_bank_name  	VARCHAR
+	IN in_supplier_bank_name  	VARCHAR,
 
 	OUT update_res INT
 ) 

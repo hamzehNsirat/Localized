@@ -1,12 +1,23 @@
 -- LAST UPDATED: 27-11-2024
 -- REMOVE MIDDLE NAME NOT NULL CONSTRAINT IN TABLE: USER_LOCALIZED
-ALTER TABLE user_localized ALTER COLUMN middle_name DROP NOT NULL
-ALTER TABLE user_localized ALTER COLUMN user_phone_number DROP NOT NULL
-ALTER TABLE user_localized ALTER COLUMN date_of_birth DROP NOT NULL
-ALTER TABLE user_localized DROP COLUMN user_pass_salt
+ALTER TABLE user_localized ALTER COLUMN middle_name DROP NOT NULL;
+ALTER TABLE user_localized ALTER COLUMN user_phone_number DROP NOT NULL;
+ALTER TABLE user_localized ALTER COLUMN date_of_birth DROP NOT NULL;
+ALTER TABLE user_localized DROP COLUMN user_pass_salt;
 ALTER TABLE user_localized ALTER COLUMN date_of_birth SET DEFAULT '1970-01-01';
 ALTER TABLE user_localized ALTER COLUMN middle_name SET DEFAULT '';
-ALTER TABLE user_localized ALTER COLUMN user_phone_number SET DEFAULT NULL;
+
+ALTER TABLE user_localized
+ADD COLUMN token_version INTEGER DEFAULT 0;
+
+ALTER TABLE user_localized
+ADD COLUMN reset_password_token VARCHAR(255) DEFAULT NULL,
+ADD COLUMN reset_password_expires TIMESTAMP DEFAULT NULL;
+
+ALTER TABLE user_localized ADD COLUMN is_pass_change BOOLEAN;
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 ----------------------------------
 DROP TRIGGER before_update_userpass ON user_localized;
 CREATE TRIGGER before_update_userpass 
@@ -1015,7 +1026,7 @@ ALTER TABLE establishment ALTER COLUMN establishment_cover TYPE TEXT;
 ALTER TABLE establishment ALTER COLUMN establishment_logo TYPE TEXT;
 ALTER TABLE application ALTER COLUMN establishment_logo TYPE TEXT;
 ----------------------------------------------------------------------------
-DROP FUNCTION user_get_by_id
+DROP FUNCTION user_get_by_id;
 CREATE OR REPLACE FUNCTION user_get_by_id(IN in_user_id BIGINT)
 RETURNS TABLE(		
 		national_number BIGINT,
@@ -4212,7 +4223,7 @@ BEGIN
     p.out_product_unit_price,
     p.out_product_whole_sale_price,
     p.out_supplier_id,
-    tc.total_records_count
+    tc.total_records_count,
 	p.product_category,
 	CAST(p.establishment_name AS TEXT)	
   FROM matching_products p, total_count tc

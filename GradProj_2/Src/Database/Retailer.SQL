@@ -8,13 +8,13 @@ CREATE TABLE retailer (
 	retailer_bank_account_num    VARCHAR(18) UNIQUE,
 	retailer_iban    VARCHAR(34)  NOT NULL UNIQUE,
 	retailer_compliance_indicator FLOAT NOT NULL DEFAULT 0,
-	retailer_compliance_count 	    INTEGER NOT NULL DEFAULT 0,
+	retailer_complaint_count 	    INTEGER NOT NULL DEFAULT 0,
 	last_modification_date  TIMESTAMP NOT NULL,
 	last_modified_by		 BIGINT   NOT NULL,
 	CONSTRAINT fk_retailer_user_id FOREIGN KEY (retailer_user_id)
     REFERENCES user_localized(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT chk_retlr_compliance_ind CHECK(retailer_compliance_indicator BETWEEN 0 AND 1),
-	CONSTRAINT chk_retlr_compliance_cnt CHECK(retailer_compliance_count >= 0)
+	CONSTRAINT chk_retlr_compliance_cnt CHECK(retailer_complaint_count >= 0)
 );
 /*
 Retailer Indexes  / Triggers
@@ -53,7 +53,7 @@ BEGIN
 	retailer_bank_account_num,
 	retailer_iban,
 	retailer_compliance_indicator,
-	retailer_compliance_count 
+	retailer_complaint_count 
 	FROM retailer
 	WHERE CAST(retailer_id AS BIGINT) = in_retailer_id;
 END;
@@ -70,7 +70,7 @@ BEGIN
     RETURN QUERY 
 	SELECT
 	retailer_compliance_indicator,
-	retailer_compliance_count 	
+	retailer_complaint_count 	
 	FROM retailer
 	WHERE CAST(retailer_id AS BIGINT) = in_retailer_id;
 END;
@@ -96,7 +96,7 @@ BEGIN
 	retailer_bank_account_num,
 	retailer_iban,
 	retailer_compliance_indicator,
-	retailer_compliance_count,
+	retailer_complaint_count,
 	last_modification_date,
 	last_modified_by
 	)
@@ -137,7 +137,7 @@ BEGIN
 	retailer_bank_account_num= COALESCE(in_retailer_bank_account_num, retailer_bank_account_num),
 	retailer_iban= COALESCE(in_retailer_iban, retailer_iban),
 	retailer_compliance_indicator= COALESCE(in_retailer_compliance_indicator, retailer_compliance_indicator),
-	retailer_compliance_count= COALESCE(in_retailer_complaint_count, retailer_compliance_count),
+	retailer_complaint_count= COALESCE(in_retailer_complaint_count, retailer_complaint_count),
 	last_modification_date = CURRENT_TIMESTAMP,
 	last_modified_by =	COALESCE(in_last_modified_by, last_modified_by)
 

@@ -11,6 +11,8 @@ import complaintApi from "../../../api/supplierAPIs/complaints.js";
 import { useAuth } from "../../Providers/authProvider.jsx";
 import quotationsApi from "../../../api/supplierAPIs/quotations.js";
 import LoadingScreen from "../../Common/LoadingScreen.jsx";
+import CustomModal from "../../Common/CustomModal.jsx";
+import { useNavigate } from "react-router-dom";
 
 /* 
   getAllQuotationsByRetId: {supId}: list of quotations
@@ -35,6 +37,8 @@ const AddComplaintPage = () => {
   });
 
   const [quotations, setQuotations] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -118,12 +122,10 @@ const AddComplaintPage = () => {
             : complaintData.complaintNotes,
         submitterType: false,
       };
-      console.log(payload);
       const response = await complaintApi.createComplaint(payload);
-      console.log(response);
       if (response?.body?.success) {
-        const comp = {};
-        addComplaint(comp);
+        console.error("Complaint created successfully ");
+        setShowModal(true);
       } else console.error("failed creating complaint ", err);
     } catch (err) {
       console.error("failed creating complaint ", err);
@@ -132,6 +134,16 @@ const AddComplaintPage = () => {
   if (loading) return <LoadingScreen />;
   return (
     <Container className="p-4">
+      <CustomModal
+        show={showModal}
+        onHide={() => {
+          setShowModal(false);
+          navigate("/supplier/complaints");
+        }}
+        title="Complaint Creation"
+        bodyContent="Complaint has been created"
+        onCloseText="Close"
+      />
       <h2 className="fw-bold mt-4 mb-4">Complaint</h2>
       <Row className="mt-4 justify-content-between">
         <Col md={5}>

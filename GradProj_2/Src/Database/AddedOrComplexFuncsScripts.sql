@@ -68,7 +68,7 @@ BEGIN
 	retailer_bank_account_num,
 	retailer_iban,
 	retailer_compliance_indicator,
-	retailer_compliance_count 
+	retailer_complaint_count 
 	FROM retailer
 	WHERE CAST(retailer_user_id AS BIGINT) = in_ret_user_id;
 END;
@@ -364,7 +364,7 @@ $$ LANGUAGE plpgsql;
 -- Creation Data: 04122024,
 -- Desc: Gets Products filtered by Entered Category / Industry
 -- NodeJS Model: Product
-DROP FUNCTION fetch_products_by_industry_and_category
+DROP FUNCTION fetch_products_by_industry_and_category;
 CREATE OR REPLACE FUNCTION fetch_products_by_industry_and_category(
   IN industry_types BIGINT[], -- Array of industry types
   IN categories BIGINT[],     -- Array of categories

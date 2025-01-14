@@ -4,7 +4,7 @@
 CREATE TABLE category ( 
 	category_id 	 SERIAL PRIMARY KEY,
 	industry_type    BIGINT NOT NULL, 
-	category_name    VARCHAR(15) NOT NULL, 
+	category_name    VARCHAR(255) NOT NULL, 
 	last_modification_date  TIMESTAMP NOT NULL,
 	last_modified_by		 BIGINT   NOT NULL,
 	CONSTRAINT fk_cat_industry_type FOREIGN KEY (industry_type)
@@ -20,7 +20,7 @@ CREATE INDEX  idx_car_industry_type ON category(industry_type);
 
 CREATE OR REPLACE FUNCTION category_get_by_industry(IN in_industry_type BIGINT) 
 RETURNS TABLE (
-	out_category_id            BIGINT
+	out_category_id            BIGINT,
 	out_category_name  		   VARCHAR
 ) 
 AS $$ BEGIN RETURN QUERY

@@ -19,11 +19,10 @@ const SignUpStep1 = ({
     handleCheckboxChange(!isChecked);
   };
 
-  const isUserNameValid = (username) => {
-    return username.length >= 6;
-  };
+  const [valid, setValid] = useState(null);
 
-  const checkUniqueUsername = async (username) => {
+  const checkUniqueUsername = async (e) => {
+    const username = e.target.value;
     const mappedFormData = {
       username: username,
     };
@@ -42,13 +41,14 @@ const SignUpStep1 = ({
 
       const data = await response.json();
 
-      if (
-        response.ok &&
-        data.header.errorCode === "0000" &&
-        data.body.success
-      ) {
-        if (data.body.isAvailable) console.log("Username availabe: ", username);
-        else console.log("Username not availabe", username);
+      if (data?.body?.success) {
+        if (data.body.isAvailable) {
+          console.log("Username availabe: ", username);
+          setValid(true);
+        } else {
+          console.log("Username not availabe", username);
+          setValid(false);
+        }
         return data;
       } else {
         console.error(
@@ -58,6 +58,7 @@ const SignUpStep1 = ({
         throw new Error(
           data?.header?.errorDescription || "Please try again later."
         );
+        setValid(null);
       }
     } catch (error) {
       console.error("Error during signup:", error);
@@ -139,8 +140,12 @@ const SignUpStep1 = ({
             controlId="username"
             value={formData.username}
             onChange={handleInputChange}
-            onBlur={() => handleBlur("username")}
+            onBlur={(e) => {
+              handleBlur("username");
+              checkUniqueUsername(e);
+            }}
             error={errors.username}
+            valid={valid}
           />
           <Form.Group controlId="phone" className="mb-2">
             <Form.Label className="mb-0 form-lbl">Phone</Form.Label>

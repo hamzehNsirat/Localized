@@ -33,7 +33,7 @@ CREATE OR REPLACE FUNCTION insert_rating_type()
   AS
 $$
 BEGIN			
-	IF (NEW.rating IN (3, 4 5)) THEN 
+	IF (NEW.rating IN (3, 4, 5)) THEN 
 		NEW.rating_type =  TRUE;
 	ELSE 
 		NEW.rating_type =  FALSE;

@@ -48,7 +48,7 @@ CREATE INDEX idx_product_status ON product(product_status_id);
 -- UPDATE VIEWS
 CREATE OR REPLACE FUNCTION product_update_view(IN in_product_id BIGINT) 
 RETURNS VOID
-AS $$ BEGIN RETURN QUERY
+AS $$ BEGIN 
 	UPDATE	product
 	SET product_view = product_view + 1
 	WHERE	CAST(product_id AS BIGINT) = in_product_id;

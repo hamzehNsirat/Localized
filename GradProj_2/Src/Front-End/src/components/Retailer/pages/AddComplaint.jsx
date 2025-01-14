@@ -11,6 +11,8 @@ import { useAuth } from "../../Providers/authProvider.jsx";
 import LoadingScreen from "../../Common/LoadingScreen.jsx";
 import complaintApi from "../../../api/retailerAPIs/complaints.js";
 import quotationsApi from "../../../api/retailerAPIs/quotations.js";
+import CustomModal from "../../Common/CustomModal.jsx";
+import { useNavigate } from "react-router-dom";
 
 /* 
   getAllQuotationsByRetId: {supId}: list of quotations
@@ -118,20 +120,32 @@ const AddComplaintPage = () => {
             : complaintData.complaintNotes,
         submitterType: true,
       };
-      console.log(payload);
       const response = await complaintApi.createComplaint(payload);
-      console.log(response);
       if (response?.body?.success) {
-        const comp = {};
-        addComplaint(comp);
-      } else console.error("failed creating complaint ", err);
+        console.error("Complaint created successfully ");
+        setShowModal(true);
+      } else console.error("failed creating complaint ", response);
     } catch (err) {
       console.error("failed creating complaint ", err);
     }
   };
+
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+
   if (loading) return <LoadingScreen />;
   return (
     <Container className="p-4">
+      <CustomModal
+        show={showModal}
+        onHide={() => {
+          setShowModal(false);
+          navigate("/retailer/complaints");
+        }}
+        title="Complaint Creation"
+        bodyContent="Complaint has been created"
+        onCloseText="Close"
+      />
       <h2 className="fw-bold mt-4 mb-4">Complaint</h2>
       <Row className="mt-4 justify-content-between">
         <Col md={5}>

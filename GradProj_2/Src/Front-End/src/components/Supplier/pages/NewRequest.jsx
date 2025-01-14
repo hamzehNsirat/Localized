@@ -1,4 +1,12 @@
-import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Modal,
+  Form,
+  Toast,
+} from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import AppColors from "../../Theme/AppColors";
 import quotationStatus from "../../Models/QuotationStatus";
@@ -7,6 +15,9 @@ import { useEffect, useState } from "react";
 import quotationsApi from "../../../api/supplierAPIs/quotations";
 import LoadingScreen from "../../Common/LoadingScreen";
 import EditableModal from "../components/EditableModal";
+import ConfirmationModal from "../../Common/ConfirmationModal";
+import CustomModal from "../../Common/CustomModal";
+import { toast } from "react-toastify";
 
 /* 
   getQuotationData:{quoId:}
@@ -23,6 +34,9 @@ const NewRequest = () => {
   const [error, setError] = useState(null);
 
   const [showModal, setShowModal] = useState(false);
+  const [showRejectModal, setShowRejectModal] = useState(false);
+  const [showAccpetModal, setShowAccpetModal] = useState(false);
+
   const [modalContext, setModalContext] = useState(null); // Context for the modal
   const [modalValue, setModalValue] = useState("");
 
@@ -84,6 +98,20 @@ const NewRequest = () => {
   };
 
   const submitQuotation = async () => {
+    if (quotation.shippingCost == null || quotation.shippingCost === "") {
+      toast.error("Shipping cost should not be empty.");
+      return; // Stop execution if invalid
+    }
+
+    // Check if any product price is null or empty
+    const hasInvalidPrice = quotation.details.detailsItem.some(
+      (product) => product.price == null || product.price === ""
+    );
+
+    if (hasInvalidPrice) {
+      toast.error("Each product must have a valid price.");
+      return; // Stop execution if invalid
+    }
     try {
       // Dynamically build the payload from the quotation state
       const payload = {
@@ -110,8 +138,9 @@ const NewRequest = () => {
       // Call the API
       const response = await quotationsApi.submitQuotation(payload);
 
-      if (response.body.success) {
+      if (response?.body?.success) {
         console.log("Quotation submitted successfully:", response.body);
+        setShowAccpetModal(true); // Show success modal
       } else {
         console.error("Failed to submit quotation:", response.body.error);
       }
@@ -119,13 +148,14 @@ const NewRequest = () => {
       console.error("Error submitting quotation:", err.message);
     } finally {
       console.log("Quotation submission complete.");
+      setShowAccpetModal(true); // Show success modal
     }
   };
 
   // Helper function to calculate subtotal
   const calculateSubTotal = (detailsItem) => {
     return detailsItem.reduce(
-      (total, product) => total + (product.price || 0),
+      (total, product) => total + (product.price * product.quantity || 0),
       0
     );
   };
@@ -135,10 +165,57 @@ const NewRequest = () => {
     return subTotal + (shippingCost || 0);
   };
 
+  const rejectQuotation = async () => {
+    try {
+      const payload = {
+        quotationId: parseInt(quoId),
+        quotationStatusId: 5,
+      };
+      setLoading(true);
+      const response = await quotationsApi.updateQuotationStatus(payload);
+      if (response?.body?.success) {
+        console.log("quotation rejected");
+        setShowRejectModal(false);
+        navigate("/supplier/manageQuotations");
+      } else if (response.body.details.success == "false")
+        console.log("error reject quotation");
+    } catch (err) {
+      console.error("error rejecting quotation", err);
+      setError("error rejecting quotation", err);
+    } finally {
+      setLoading(false);
+      setShowRejectModal(false);
+    }
+  };
+
+  const confirmDeleteQuotation = () => {
+    setShowRejectModal(true); // Show the confirmation modal
+  };
+
   if (loading) return <LoadingScreen />;
 
   return (
     <Container className="p-0 mt-5 pb-3">
+      <ConfirmationModal
+        show={showRejectModal}
+        title="Confirm Rejection"
+        message="Are you sure you want to reject this quotations? This action cannot be undone."
+        onConfirm={rejectQuotation}
+        onCancel={() => setShowRejectModal(false)}
+        confirmText="Yes, Delete"
+        cancelText="Cancel"
+      />
+
+      <CustomModal
+        show={showAccpetModal}
+        onHide={() => {
+          setShowAccpetModal(false);
+          navigate("/supplier/manageQuotations");
+        }}
+        title="Quotation Acceptance"
+        bodyContent="Quotation have been Approved"
+        onCloseText="Close"
+      />
       <div className="px-0 mb-5 d-flex justify-content-between align-items-center">
         <h2 className="fw-bold">Quotation</h2>
         <h2 className="fw-bold">#{quotation.id}</h2>
@@ -349,7 +426,7 @@ const NewRequest = () => {
             boxShadow: "none",
             border: "none",
           }}
-          onClick={handleDone}
+          onClick={confirmDeleteQuotation}
         >
           {"Reject Quotation"}
         </Button>

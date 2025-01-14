@@ -8,6 +8,7 @@ import quotationStatus from "../../Models/QuotationStatus.jsx";
 import quotationsApi from "../../../api/retailerAPIs/quotations.js";
 import { useAuth } from "../../Providers/authProvider.jsx";
 import LoadingScreen from "../../Common/LoadingScreen.jsx";
+import ConfirmationModal from "../../Common/ConfirmationModal.jsx";
 
 /* 
   rejectQuotation: {retId, statusId}
@@ -51,17 +52,21 @@ const ViewQuotation = () => {
   }, []);
 
   const [paymentMethod, setPaymentMethod] = useState("CashOnDelivery");
+  const [showModal, setShowModal] = useState(false); // State for modal visibility
+  const [selectedQuotationId, setSelectedQuotationId] = useState(null); // Track selected penalty
 
   const rejectQuotation = async () => {
     try {
       const payload = {
-        quotationId: parseInt(quoId),
+        quotationId: parseInt(selectedQuotationId),
         quotationStatusId: 5,
       };
       setLoading(true);
       const response = await quotationsApi.updateQuotationStatus(payload);
       if (response?.body?.success) {
         console.log("quotation rejected");
+        setShowModal(false);
+        navigate("/retailer/manageQuotations");
       } else if (response.body.details.success == "false")
         console.log("error reject quotation");
     } catch (err) {
@@ -69,6 +74,7 @@ const ViewQuotation = () => {
       setError("error rejecting quotation", err);
     } finally {
       setLoading(false);
+      setShowModal(false);
     }
   };
 
@@ -82,6 +88,11 @@ const ViewQuotation = () => {
 
   const handleGoBack = () => {
     navigate(-1);
+  };
+
+  const confirmDeleteQuotation = (quoId) => {
+    setSelectedQuotationId(quoId); // Set the selected quotation ID
+    setShowModal(true); // Show the confirmation modal
   };
 
   if (loading) return <LoadingScreen />;
@@ -229,7 +240,7 @@ const ViewQuotation = () => {
                 Quantity
               </Col>
               <Col xs={4} className="text-end">
-                Subtotal
+                Amount
               </Col>
             </Row>
 
@@ -242,8 +253,7 @@ const ViewQuotation = () => {
                   {product.quantity}
                 </Col>
                 <Col xs={4} className="text-end">
-                  {quotationStatus.Retailer[quotation.statusId] ==
-                  quotationStatus.Retailer[0]
+                  {parseInt(quotation.statusId) == 1
                     ? "To be determined"
                     : product.price + " JOD"}
                 </Col>
@@ -300,7 +310,7 @@ const ViewQuotation = () => {
                     border: "0",
                   }}
                   className="w-100 fs-6 fw-bold"
-                  onClick={rejectQuotation}
+                  onClick={() => confirmDeleteQuotation(quotation.id)}
                 >
                   Reject Quotation
                 </Button>
@@ -321,6 +331,15 @@ const ViewQuotation = () => {
           )}
         </Col>
       </Row>
+      <ConfirmationModal
+        show={showModal}
+        title="Confirm Rejection"
+        message="Are you sure you want to reject this quotations? This action cannot be undone."
+        onConfirm={rejectQuotation}
+        onCancel={() => setShowModal(false)}
+        confirmText="Yes, Delete"
+        cancelText="Cancel"
+      />
     </Container>
   );
 };

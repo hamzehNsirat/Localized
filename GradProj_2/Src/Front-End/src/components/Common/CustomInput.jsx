@@ -11,6 +11,8 @@ const CustomInput = ({
   required,
   labelClassName = "",
   error = "", // Error message prop
+  style = {},
+  valid = null,
   ...props
 }) => {
   const handleChange = (e) => {
@@ -18,7 +20,7 @@ const CustomInput = ({
   };
 
   return (
-    <Form.Group className={className}>
+    <Form.Group className={className} style={style}>
       {label && <Form.Label className={labelClassName}>{label}</Form.Label>}
       <Form.Control
         type={type}
@@ -29,7 +31,13 @@ const CustomInput = ({
         required={required}
         isInvalid={!!error} // Highlight input field if there’s an error
         {...props}
-        style={{ borderRadius: "3px", height: "2.5rem", boxShadow: "none" }}
+        style={{
+          borderRadius: "3px",
+          height: "2.5rem",
+          boxShadow: "none",
+          borderWidth: valid === null ? "1px" : "2px",
+          borderColor: valid === null ? "" : valid ? "lightgreen" : "red",
+        }}
       />
       {error && (
         <Form.Text

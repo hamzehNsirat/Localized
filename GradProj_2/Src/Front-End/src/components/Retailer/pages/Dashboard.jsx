@@ -250,7 +250,7 @@ const Dashboard = () => {
                   bgColor="#B9D9DD"
                   imgBgColor="#2C8C99"
                   label="Quotations Count"
-                  data="100"
+                  data={userData.Insights.analyticsResult.quotationsCount}
                   value="1"
                   isActive={selectedCard === "1"}
                   onClick={handleSelectedCard}
@@ -260,7 +260,7 @@ const Dashboard = () => {
                   bgColor="#FFF4DE"
                   imgBgColor="#FF947A"
                   label="Total Spent"
-                  data="3K"
+                  data={userData.Insights.analyticsResult.totalSpent}
                   value="2"
                   isActive={selectedCard === "2"}
                   onClick={handleSelectedCard}
@@ -270,14 +270,20 @@ const Dashboard = () => {
                   bgColor="#F3E8FF"
                   imgBgColor="#BF83FF"
                   label="Projected Profit"
-                  data="3K"
+                  data={
+                    userData.Insights.analyticsResult.expectedProfit[
+                      analyticsMapping[analyticsTime]
+                    ]
+                  }
                 />
                 <AnalyticsCard
                   img={issuesReportedPic}
                   bgColor="#FFE2E5"
                   imgBgColor="#FA5A7D"
                   label="Issues Reported"
-                  data="0"
+                  data={
+                    userData.Insights.analyticsResult.issuesReportedObj.total
+                  }
                   value="4"
                   isActive={selectedCard === "4"}
                   onClick={handleSelectedCard}

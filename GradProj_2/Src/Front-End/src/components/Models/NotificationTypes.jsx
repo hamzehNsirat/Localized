@@ -6,7 +6,7 @@ const notificationTypes = {
   1: { name: "Registration", icon: orderPic },
   2: { name: "Verification", icon: orderPic },
   3: { name: "Quotation Request", icon: orderPic },
-  4: { name: "Pasword Change", icon: orderPic },
+  4: { name: "Password Change", icon: orderPic },
   5: { name: "Request Password Change", icon: orderPic },
   6: { name: "Review Submitted", icon: orderPic },
   7: { name: "Complaint Created", icon: orderPic },

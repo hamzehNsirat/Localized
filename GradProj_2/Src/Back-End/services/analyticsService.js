@@ -598,7 +598,7 @@ const analyticsService = {
     const issuesReportedCount = await executeQuery(
       `SELECT COUNT(complaint_id) AS issues_reported
     FROM complaint
-    WHERE supplier_id = $1;
+    WHERE supplier_id = $1 AND submitter_type = TRUE;
     `,
       [supplierId[0].supplier_id]
     );
