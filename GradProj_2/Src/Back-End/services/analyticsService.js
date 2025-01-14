@@ -63,7 +63,7 @@ const analyticsService = {
     const expectedProfitAllTime = await executeQuery(
       `SELECT 
     SUM(
-        (p.product_retail_price - (details->>'price')::NUMERIC) * (details->>'quantity')::NUMERIC
+        (p.product_unit_price - (details->>'price')::NUMERIC) * (details->>'quantity')::NUMERIC
     ) AS total_expected_profit
     FROM 
         quotation q
@@ -80,7 +80,7 @@ const analyticsService = {
     const expectedProfitOneYr = await executeQuery(
       `SELECT 
         SUM(
-            (p.product_retail_price - (details->>'price')::NUMERIC) * (details->>'quantity')::NUMERIC
+            (p.product_unit_price - (details->>'price')::NUMERIC) * (details->>'quantity')::NUMERIC
         ) AS total_expected_profit
     FROM 
         quotation q
@@ -97,7 +97,7 @@ const analyticsService = {
     const expectedProfitThreeMnths = await executeQuery(
       `SELECT 
         SUM(
-            (p.product_retail_price - (details->>'price')::NUMERIC) * (details->>'quantity')::NUMERIC
+            (p.product_unit_price - (details->>'price')::NUMERIC) * (details->>'quantity')::NUMERIC
         ) AS total_expected_profit
     FROM 
         quotation q
@@ -114,7 +114,7 @@ const analyticsService = {
     const expectedProfitSixMnths = await executeQuery(
       `SELECT 
     SUM(
-        (p.product_retail_price - (details->>'price')::NUMERIC) * (details->>'quantity')::NUMERIC
+        (p.product_unit_price - (details->>'price')::NUMERIC) * (details->>'quantity')::NUMERIC
     ) AS total_expected_profit
     FROM 
         quotation q
@@ -131,7 +131,7 @@ const analyticsService = {
     const expectedProfitNineMnths = await executeQuery(
       `SELECT 
         SUM(
-            (p.product_retail_price - (details->>'price')::NUMERIC) * (details->>'quantity')::NUMERIC
+            (p.product_unit_price - (details->>'price')::NUMERIC) * (details->>'quantity')::NUMERIC
         ) AS total_expected_profit
     FROM 
         quotation q
