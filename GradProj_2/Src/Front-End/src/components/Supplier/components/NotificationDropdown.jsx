@@ -77,7 +77,7 @@ const NotificationDropdown = ({
         return (
           <div
             key={notification.id}
-            className="notification-item d-flex align-items-center my-2"
+            className="notification-item d-flex align-items-center my-2 gap-2"
             style={{
               cursor: "pointer",
               borderBottom: `1px solid ${AppColors.dividerLine}`,
@@ -87,7 +87,7 @@ const NotificationDropdown = ({
             <img
               src={notificationTypes[parseInt(notification.type)].icon}
               alt="Notification Icon"
-              style={{ width: "40px", marginRight: "10px" }}
+              style={{ width: "30px", marginRight: "10px" }}
             />
             <Row
               className="d-flex align-items-center justify-content-between w-100"
@@ -104,15 +104,13 @@ const NotificationDropdown = ({
               {/* New indicator */}
               {!notification.isRead && (
                 <div
+                  className="d-inline-block"
                   style={{
-                    position: "absolute",
-                    right: "10px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    width: "13px",
-                    height: "13px",
+                    marginRight: "3px",
+                    width: "23px",
+                    height: "23px",
                     backgroundColor: AppColors.primaryColor,
-                    borderRadius: "100%",
+                    borderRadius: "100px",
                   }}
                 ></div>
               )}

@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const user = { user: { userEmail, userName, userPassword } };
       const data = await authApi.login(user);
-      if (data.body.success) {
+      if (data?.body?.success) {
         localStorage.setItem("authToken", data.body.token);
         localStorage.setItem("userId", data.body.userId);
         localStorage.setItem("userRole", data.body.userType);
@@ -42,15 +42,14 @@ export const AuthProvider = ({ children }) => {
           3: "/supplier",
         };
         navigate(userNav[data.body.userType]);
+        return true;
       } else {
         console.log("Login failed:", data.header.errorCode);
+        return false;
       }
     } catch (error) {
       console.error("Login failed:", error);
-      if (error?.response?.data.body.details.success == false)
-        toast.error(`Login Failed, username or password are wrong`, {
-          progressStyle: { background: AppColors.primaryColor },
-        });
+      return false;
     }
   };
 

@@ -63,8 +63,18 @@ const SignUpStep2 = ({
               style={{ border: "none", outline: "none", boxShadow: "none" }}
               onChange={handleInputChange}
               value={formData.companyPhoneNumber}
+              onBlur={() => handleBlur("companyPhoneNumber")}
+              error={errors.companyPhoneNumber}
             />
           </div>
+          {errors.companyPhoneNumber && (
+            <Form.Text
+              className="text-light mb-0"
+              style={{ fontSize: "0.7rem" }}
+            >
+              * {errors.companyPhoneNumber}
+            </Form.Text>
+          )}
         </Form.Group>
         <CustomInput
           controlId="regNumber"

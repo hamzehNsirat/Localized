@@ -154,7 +154,7 @@ const ViewComplaint = () => {
           {complaint.complaintNotes}
         </textarea>
       </Row>
-      {complaint.complaintStatus == "RESOLVED" && (
+      {complaint.complaintStatusId == 3 && (
         <Row className="px-0 mb-4">
           <h4
             className="mb-3 fw-bold px-0"

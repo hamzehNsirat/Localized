@@ -2,6 +2,8 @@ import { Button, Form } from "react-bootstrap";
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useAuth } from "../../Providers";
+import { toast } from "react-toastify";
+import AppColors from "../../Theme/AppColors";
 
 const LoginForm = () => {
   const [input, setInput] = useState("");
@@ -23,11 +25,18 @@ const LoginForm = () => {
     const userPassword = password;
     try {
       const response = await login(userEmail, userName, userPassword);
-      if (response?.body?.success) {
+      if (response === true) {
         console.log("Login successful");
-      } else console.log("something happened: ", response.body);
+        toast.success("Login SuccessFul");
+      } else {
+        console.log("something happened: ", response.body);
+        toast.error("Login Failed");
+      }
     } catch (error) {
       console.error("Login failed:", error);
+      toast.error(`Login Failed, username or password are wrong`, {
+        progressStyle: { background: AppColors.primaryColor },
+      });
     }
   };
 

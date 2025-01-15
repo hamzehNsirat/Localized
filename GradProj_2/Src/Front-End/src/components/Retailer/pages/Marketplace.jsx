@@ -40,6 +40,7 @@ const Marketplace = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 10;
+  const [totalProducts, setTotalProducts] = useState(0); // Track next page availability
 
   var [products, setProducts] = useState({});
   const [loading, setLoading] = useState(true); // when its null it will be loading to fetch the data
@@ -72,10 +73,10 @@ const Marketplace = () => {
       try {
         const response = await retailerApi.getRetailerMarketplace(
           retId,
-          5,
+          productsPerPage,
           currentPage
         );
-        if (response.body.success) {
+        if (response?.body?.success) {
           setProducts(
             response.body.marketPlace.productItem.map((product) => ({
               id: product.id,
@@ -90,6 +91,8 @@ const Marketplace = () => {
               supplier: product.supplier,
             }))
           );
+          if (totalProducts == 0)
+            setTotalProducts(parseInt(response.body.totalRecordsCount));
         } else console.log("idk: ", response);
       } catch (err) {
         setError("Failed to fetch supplier products data.", err);
@@ -123,8 +126,6 @@ const Marketplace = () => {
   };
 
   const handleCloseModal = () => setShowModal(false);
-
-  const totalPages = Math.ceil(Object.keys(products).length / productsPerPage);
 
   if (loading) <LoadingScreen />;
 
@@ -162,7 +163,7 @@ const Marketplace = () => {
           />
           <PaginationComponent
             currentPage={currentPage}
-            totalPages={totalPages}
+            totalPages={Math.ceil(totalProducts / productsPerPage)}
             onPageChange={setCurrentPage}
           />
         </Col>

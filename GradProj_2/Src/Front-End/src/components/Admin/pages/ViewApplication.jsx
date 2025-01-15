@@ -12,6 +12,7 @@ import "../styles/buttons.css";
 import CustomModal from "../../Common/CustomModal";
 import RegistrationBlock from "../components/RegistrationBlock";
 import { formatDateForInput } from "../../Utils/formatters";
+import ConfirmationModal from "../../Common/ConfirmationModal";
 
 const ViewApplication = () => {
   const location = useLocation();
@@ -20,7 +21,9 @@ const ViewApplication = () => {
   const { appId, status } = location.state;
   const [valid, setValid] = useState(null);
   const [showModal, setShowModal] = useState(false); // State to control modal visibility
+  const [showRejectModal, setShowRejectModal] = useState(false);
   const [modalMessage, setModalMessage] = useState(""); // State for modal message
+  const [selectedApplicationId, setSelectedApplicationId] = useState(null); // Track selected penalty
 
   const [application, setApplication] = useState(null);
 
@@ -97,8 +100,40 @@ const ViewApplication = () => {
     }
   };
 
+  const rejectApplication = async () => {
+    try {
+      setLoading(true);
+      const payload = {
+        applicationId: parseInt(appId),
+        status: "REJECTED",
+      };
+      const response = await applicationsApi.updateApplicationStatus(payload);
+      if (response?.body?.success) {
+        console.log("approved");
+        setModalMessage(`Application ${application.id} has been rejected.`);
+        setShowModal(true); // Show success modal
+      } else {
+        console.error("error approving rejected ", response);
+        setModalMessage("Something went wrong");
+        setShowModal(true);
+      }
+    } catch (err) {
+      console.error("error approving rejected ", err);
+      setModalMessage("Something went wrong");
+      setShowModal(true);
+    } finally {
+      setLoading(false);
+      setShowRejectModal(false);
+    }
+  };
+
   const handleGoBack = () => {
     navigate(-1);
+  };
+
+  const confirmRejectApplication = (appId) => {
+    setSelectedApplicationId(appId); // Set the selected quotation ID
+    setShowRejectModal(true); // Show the confirmation modal
   };
 
   if (loading) return <LoadingScreen />;
@@ -114,6 +149,15 @@ const ViewApplication = () => {
         title="Application Approval"
         bodyContent={modalMessage}
         onCloseText="Close"
+      />
+      <ConfirmationModal
+        show={showRejectModal}
+        title="Confirm Rejection"
+        message="Are you sure you want to reject this application? This action cannot be undone."
+        onConfirm={rejectApplication}
+        onCancel={() => setShowRejectModal(false)}
+        confirmText="Yes, Delete"
+        cancelText="Cancel"
       />
       <div
         className="p-3 mb-4 border d-flex  align-items-center justify-content-between"
@@ -279,7 +323,7 @@ const ViewApplication = () => {
               border: "0",
             }}
             className="fs-6 fw-bold"
-            onClick={handleGoBack}
+            onClick={confirmRejectApplication}
           >
             Reject
           </Button>

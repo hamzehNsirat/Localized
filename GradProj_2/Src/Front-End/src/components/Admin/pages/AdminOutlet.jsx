@@ -97,7 +97,6 @@ const AdminOutlet = () => {
           pageIndex: 1,
         };
         const response = await notificationsApi.getNotifications(payload);
-        console.log(response);
         if (response?.body.success) {
           setNotifications(
             response.body.notificationList.notificationItem.map(

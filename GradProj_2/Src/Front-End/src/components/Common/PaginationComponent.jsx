@@ -4,7 +4,6 @@ import "../Styles/Pagination.css"; // Adjust path based on your file structure
 
 const PaginationComponent = ({ currentPage, totalPages, onPageChange }) => {
   if (totalPages <= 1) return null; // Hide pagination if only one page
-  console.log(totalPages);
   const handlePageChange = (pageNumber) => {
     if (pageNumber > 0 && pageNumber <= totalPages) {
       onPageChange(pageNumber);

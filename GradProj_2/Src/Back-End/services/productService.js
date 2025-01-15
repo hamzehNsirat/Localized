@@ -17,7 +17,6 @@ const productService = {
         inputData.pageIndex
       );
 
-      console.log(retMarketPlaceResult);
       const marketPlace = { productItem: [] };
       for (let i = 0; i < retMarketPlaceResult.length; i++) {
         const item = {
