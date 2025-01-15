@@ -26,9 +26,11 @@ const dashboardService = {
     // Fetch Data from each table
     const basicData = await userService.getUserById(input);
     const retailerData = await Retailer.getRetailerByUserId(userId);
+
     const retailStoreData = await RetailStore.getOwnedRetailStores(
       retailerData[0].out_retailer_id
     );
+
     const establishmentData = await Establishment.getEstablishmentById(
       retailStoreData[0].retailstore_est_id
     );
@@ -43,6 +45,7 @@ const dashboardService = {
     if (internalCaller == false) {
       retailerInsights = await analytics.getRetailerAnalytics(userId);
     }
+
 
     // Consilidate Data and Format it
     const retailerDashboard = {

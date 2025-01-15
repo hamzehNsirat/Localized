@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import emailPic from "../../../assets/signup/email.png";
@@ -9,8 +9,10 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AppColors from "../../Theme/AppColors";
 import { validateField } from "../../Utils/Validators";
+import LoadingScreen from "../../Common/LoadingScreen";
 
 const SignUpStep5 = ({ formData, setErrors }) => {
+  const [loading, setLoading] = useState(false);
   const { signUp } = useAuth();
   const navigate = useNavigate();
 
@@ -29,19 +31,29 @@ const SignUpStep5 = ({ formData, setErrors }) => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleLoading = (state) => {
+    setLoading(state);
+  };
+
   const handleFinishClick = async () => {
     const isValid = validateFormData(); // Validate all fields before submission
     if (!isValid) {
-      alert("Some data are invalid or missing. Please check your inputs.");
+      toast.error(
+        "Some data are invalid or missing. Please check your inputs."
+      );
       return;
     }
     try {
+      handleLoading(true);
       const response = await signUp(formData);
       if (response == true) {
         console.log("user created successfully");
         navigate("/");
         toast.success(
-          "Your application has been created. \nYou will receive an email when you're approved.",
+          <>
+            Your application has been created. <br></br>
+            You will receive an email when you're approved.
+          </>,
           { progressStyle: { background: AppColors.primaryColor } }
         );
       } else
@@ -53,8 +65,12 @@ const SignUpStep5 = ({ formData, setErrors }) => {
       alert(
         error.message || "An error occurred during signup. Please try again."
       );
+    } finally {
+      handleLoading(false);
     }
   };
+
+  if (loading) return <LoadingScreen />;
 
   return (
     <>

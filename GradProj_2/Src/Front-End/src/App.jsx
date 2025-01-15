@@ -26,6 +26,9 @@ function App() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
+        toastClassName="toast-container"
+        bodyClassName="toast-body"
+        dangerouslySetInnerHTML={true}
       />
     </BrowserRouter>
   );

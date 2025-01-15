@@ -3,7 +3,7 @@ import pic from "../../../assets/user.png";
 
 import ManagementSection from "../components/ManagmentSection.jsx";
 import { FaUserCircle, FaStore, FaQuestionCircle } from "react-icons/fa";
-import { Container, Form } from "react-bootstrap";
+import { Col, Container, Form, Row } from "react-bootstrap";
 import AppColors from "../../Theme/AppColors.jsx";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../Providers/authProvider.jsx";
@@ -20,6 +20,7 @@ import issuesReportedPic from "../../../assets/analytics/sadFace.png";
 import complianceRatePic from "../../../assets/analytics/tag.png";
 import BarChart from "../../Models/BarChart.jsx";
 import PieChart from "../../Models/PieChart.jsx";
+import { formatDateForInput } from "../../Utils/formatters.js";
 
 /* 
   to fetch basic data: { userType:,userId:,} returns { retId and other things }
@@ -102,7 +103,7 @@ const Dashboard = () => {
         const totalSpent = insights?.totalSpent || 0;
         setChartData([{ type: "Total Spent", value: totalSpent }]);
         setChartTitle(`Total Spend - ${analyticsTime}`);
-        setChartType("bar");
+        setChartType("table");
         break;
 
       case "3": // Projected Profit (Bar Chart)
@@ -302,6 +303,54 @@ const Dashboard = () => {
                 <h6 className="fw-bold">{chartTitle}</h6>
                 {chartType === "bar" && (
                   <BarChart data={chartData} title={chartTitle} />
+                )}
+                {chartType === "table" && (
+                  <div
+                    className="py-3 px-5"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      padding: "10px 15px",
+                      boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.3)",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    <Row
+                      className="text-muted mb-3 py-3 fw-bold"
+                      style={{ borderBottom: "1px solid gray" }}
+                    >
+                      <Col>#</Col>
+                      <Col>Company Name</Col>
+                      <Col>Date</Col>
+                      <Col>Amount</Col>
+                      <Col>%</Col>
+                    </Row>
+                    {userData.Insights.analyticsResult.purchaseList.purchaseItem.map(
+                      (purchase, index) => {
+                        return (
+                          <Row
+                            className="py-2 fw-bold"
+                            style={{
+                              borderBottom:
+                                index !=
+                                userData.Insights.analyticsResult.purchaseList
+                                  .purchaseItem.length -
+                                  1
+                                  ? "1px solid gray"
+                                  : "",
+                              marginBottom: "10px",
+                            }}
+                          >
+                            <Col>{purchase.id}</Col>
+                            <Col>{purchase.name}</Col>
+                            <Col>{formatDateForInput(purchase.date)}</Col>
+                            <Col>{purchase.total}</Col>
+                            <Col>{purchase.share}</Col>
+                          </Row>
+                        );
+                      }
+                    )}
+                  </div>
                 )}
                 {chartType === "pie" && (
                   <PieChart data={chartData} title={chartTitle} />

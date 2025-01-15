@@ -12,6 +12,7 @@ const analyticsService = {
   async getRetailerAnalytics(userId) {
     let isInsertedFlag = false;
     const fetchAnalyticsDb = await analyticsModel.getAnalyticsByUserId(userId);
+
     if (Object.entries(fetchAnalyticsDb).length != 0) {
       if (
         fetchAnalyticsDb[0].out_capture != null &&
@@ -50,6 +51,8 @@ const analyticsService = {
       [retailerId[0].retailer_id]
     );
 
+
+
     const totalSpent = await executeQuery(
       `SELECT 
         SUM(total) AS total_spent
@@ -76,6 +79,8 @@ const analyticsService = {
         AND q.requester_id = $1;`,
       [retailerId[0].retailer_id]
     );
+
+
 
     const expectedProfitOneYr = await executeQuery(
       `SELECT 
@@ -244,11 +249,13 @@ const analyticsService = {
     `,
       [retailerId[0].retailer_id]
     );
+    
 
     const purchasesList = await executeQuery(
       `SELECT 
     quotation_id,
     to_establishment_name,
+    quotation_request_date,
     total,
     (total * 100.0 / SUM(total) OVER ()) AS percentage_of_total 
     FROM 
@@ -262,6 +269,8 @@ const analyticsService = {
     `,
       [retailerId[0].retailer_id]
     );
+
+
 
     const productsTopThreeList = await executeQuery(
       `WITH product_mentions AS (
@@ -377,11 +386,14 @@ const analyticsService = {
       const item = {
         id: purchasesList[i].quotation_id,
         name: purchasesList[i].to_establishment_name,
+        date: purchasesList[i].quotation_request_date,
         total: purchasesList[i].total,
         share: parseFloat(purchasesList[i].percentage_of_total ?? 0).toFixed(2),
       };
       purchaseList.purchaseItem.push(item);
+
     }
+
 
    const topThreeProducts = { productItem: [] };
    const topThreeProductsPercentages = { percentageList: [] };
@@ -607,6 +619,7 @@ const analyticsService = {
       `SELECT 
     quotation_id,
     from_establishment_name,
+    quotation_request_date,
     total,
     (total * 100.0 / SUM(total) OVER ()) AS percentage_of_total 
     FROM 
@@ -625,6 +638,7 @@ const analyticsService = {
       `WITH customer_quotations AS (
     SELECT 
         requester_id,
+        from_establishment_name,
         COUNT(*) AS quotation_count
     FROM 
         quotation
@@ -879,9 +893,11 @@ const analyticsService = {
 
     const purchaseList = { purchaseItem: [] };
     for (let i = 0; i < purchasesList.length; i++) {
+      console.log(purchasesList[i]);
       const item = {
         id: purchasesList[i].quotation_id,
-        name: purchasesList[i].to_establishment_name,
+        name: purchasesList[i].from_establishment_name,
+        date: purchasesList[i].quotation_request_date,
         total: purchasesList[i].total,
         share: parseFloat(purchasesList[i].percentage_of_total ?? 0).toFixed(2),
       };

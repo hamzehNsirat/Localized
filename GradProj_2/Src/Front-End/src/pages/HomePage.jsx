@@ -12,6 +12,10 @@ import aboveAvgPic from "../assets/companiesLogos/aboveAvg.png";
 
 import CustomButton from "../components/Common/CustomButton.jsx";
 
+import pic1 from "../assets/landingPage/pic1.png";
+import pic2 from "../assets/landingPage/pic2.png";
+import pic3 from "../assets/landingPage/pic3.png";
+
 export default function HomePage() {
   const navigate = useNavigate();
 
@@ -118,20 +122,71 @@ export default function HomePage() {
         </div>
       </Container>
       <div
-        className="py-5"
+        className="py-5 px-5"
         style={{ backgroundColor: AppColors.primaryColor, color: "white" }}
       >
-        <div className="d-flex flex-column align-items-center">
+        <div className="d-flex flex-column align-items-center justify-content-center mb-4">
           <h1 className="fw-bold mb-0" style={{ letterSpacing: "1.5px" }}>
-            Jordan's First Platform{" "}
+            Jordan's First Platform
           </h1>
           <p className="fw-lighter mt-0">
             for Product Discovery and Local Business Growth
           </p>
         </div>
-        <div className="d-flex"></div>
-        <div className="d-flex"></div>
-        <div className="d-flex"></div>
+        <div
+          className="d-flex px-3 align-items-center justify-content-center"
+          style={{ gap: "10%" }}
+        >
+          <img
+            src={pic1}
+            width="35%"
+            style={{ borderRadius: "30px", boxShadow: "0px 0px 30px #ffffff" }}
+          ></img>
+          <div>
+            <h2>Enhanced Product Discovery</h2>
+            <p className="fw-light fs-5 ">
+              Streamlines the process of discovering<br></br> local products,
+              making it easier for <br></br>retailers to source goods from
+              Jordanian manufacturers.
+            </p>
+          </div>
+        </div>
+        <div
+          className="d-flex px-3 align-items-center justify-content-center"
+          style={{ gap: "10%" }}
+        >
+          <div>
+            <h2>Boosts Local Manufacturing</h2>
+            <p className="fw-light fs-5 ">
+              Supports small and medium-scale <br></br>manufacturers by offering
+              a<br></br>
+              dedicated platform for product <br></br>validation and market
+              access.
+            </p>
+          </div>
+          <img
+            src={pic2}
+            width="35%"
+            style={{ borderRadius: "30px", boxShadow: "0px 0px 30px #ffffff" }}
+          ></img>
+        </div>
+        <div
+          className="d-flex px-3 align-items-center justify-content-center"
+          style={{ gap: "10%" }}
+        >
+          <img
+            src={pic3}
+            width="35%"
+            style={{ borderRadius: "30px", boxShadow: "0px 0px 30px #fff" }}
+          ></img>
+          <div>
+            <h2>Be the first to discover new products</h2>
+            <p className="fw-light fs-5 ">
+              Discover a lot of hidden and new products <br></br>to the market,
+              be the first to source and <br></br>resell them.
+            </p>
+          </div>
+        </div>
       </div>
       <div
         className="d-flex align-items-center justify-content-around py-3"
