@@ -98,7 +98,7 @@ const Dashboard = () => {
         setChartType("table1");
         break;
 
-      case "3": // Projected Profit (Bar Chart)
+      case "3": // totalCustomers (Table)
         const totalCustomers = insights?.totalCustomers || 0;
         setChartData([{ type: "Total Customers", value: totalCustomers }]);
         setChartTitle(`Total Customers- ${totalCustomers}`);
@@ -122,11 +122,23 @@ const Dashboard = () => {
         setChartType("pie");
         break;
 
-      case "5": // Compliance Rate (Pie Chart)
-        const complianceIndicator = insights?.complianceIndicator || 0;
-        setChartData([{ type: "Compliance Rate", value: complianceIndicator }]);
-        setChartTitle(`Compliance Rate - ${analyticsTime}`);
-        setChartType("pie");
+      case "5": // Establishment_rate (Pie Chart)
+        const establishmentRate = insights?.review || 0;
+        setChartData([
+          {
+            type: "Positive Reviews",
+            value: establishmentRate.positivePercentage,
+            color: "#4CAF50", // Green
+          },
+          {
+            type: "Negative Reviews",
+            value: establishmentRate.negativePercentage,
+            color: "#F44336", // Red
+          },
+        ]);
+
+        setChartTitle("Establishment Rate");
+        setChartType("pie2");
         break;
 
       default:
@@ -136,17 +148,21 @@ const Dashboard = () => {
         break;
     }
   };
-
   useEffect(() => {
     const initializeData = async () => {
       setLoading(true);
       await fetchSupplierData();
-      fetchChartData();
       setLoading(false);
     };
 
     initializeData();
-  }, [selectedCard, analyticsTime]);
+  }, []); // Run only once on component mount
+
+  useEffect(() => {
+    if (userData) {
+      fetchChartData(); // Call fetchChartData only when userData is available
+    }
+  }, [userData, selectedCard, analyticsTime]); // Trigger when userData, selectedCard, or analyticsTime changes
 
   if (loading) return <LoadingScreen />;
 
@@ -272,6 +288,9 @@ const Dashboard = () => {
                 imgBgColor="#BF83FF"
                 label="Total Customers"
                 data={userData.insights.analyticsResult.totalCustomers}
+                value="3"
+                isActive={selectedCard === "3"}
+                onClick={handleSelectedCard}
               />
               <AnalyticsCard
                 img={issuesReportedPic}
@@ -289,8 +308,8 @@ const Dashboard = () => {
                 imgBgColor="#252525"
                 label="Establishment Rate"
                 data={userData.insights.analyticsResult.overallRating}
-                value="6"
-                isActive={selectedCard === "6"}
+                value="5"
+                isActive={selectedCard === "5"}
                 onClick={handleSelectedCard}
               />
               <AnalyticsCard
@@ -378,26 +397,26 @@ const Dashboard = () => {
                     <Col>%</Col>
                   </Row>
                   {userData.insights.analyticsResult.customerList.customerItem.map(
-                    (purchase, index) => {
+                    (customer, index) => {
                       return (
                         <Row
                           className="py-2 fw-bold"
                           style={{
                             borderBottom:
                               index !=
-                              userData.insights.analyticsResult.purchaseList
-                                .purchaseItem.length -
+                              userData.insights.analyticsResult.customerList
+                                .customerItem.length -
                                 1
                                 ? "1px solid gray"
                                 : "",
                             marginBottom: "10px",
                           }}
                         >
-                          <Col>{purchase.id}</Col>
-                          <Col>{purchase.name}</Col>
-                          <Col>{formatDateForInput(purchase.date)}</Col>
-                          <Col>{purchase.total}</Col>
-                          <Col>{purchase.share}</Col>
+                          <Col>{customer.establishmentName}</Col>
+                          <Col>{customer.establishmentContactNumber}</Col>
+                          <Col>{customer.numberOfQuotations}</Col>
+                          <Col>{customer.amount}</Col>
+                          <Col>{customer.share}</Col>
                         </Row>
                       );
                     }
@@ -405,6 +424,9 @@ const Dashboard = () => {
                 </div>
               )}
               {chartType === "pie" && (
+                <PieChart data={chartData} title={chartTitle} />
+              )}
+              {chartType === "pie2" && (
                 <PieChart data={chartData} title={chartTitle} />
               )}
             </div>

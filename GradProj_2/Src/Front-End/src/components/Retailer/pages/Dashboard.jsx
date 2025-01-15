@@ -150,12 +150,17 @@ const Dashboard = () => {
     const initializeData = async () => {
       setLoading(true);
       await fetchRetailerData();
-      fetchChartData();
       setLoading(false);
     };
 
     initializeData();
-  }, [selectedCard, analyticsTime]);
+  }, []); // Run only once on component mount
+
+  useEffect(() => {
+    if (userData) {
+      fetchChartData(); // Call fetchChartData only when userData is available
+    }
+  }, [userData, selectedCard, analyticsTime]);
 
   if (loading) return <LoadingScreen />;
   return (

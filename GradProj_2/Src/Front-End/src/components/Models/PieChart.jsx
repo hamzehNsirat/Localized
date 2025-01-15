@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { FormatterPlugin, VChart } from "@visactor/vchart";
+import { VChart } from "@visactor/vchart";
 
 const PieChart = ({ data, title }) => {
   const chartRef = useRef(null);
@@ -14,19 +14,23 @@ const PieChart = ({ data, title }) => {
           values: data, // Use the data passed as a prop
         },
       ],
-      outerRadius: 0.6, // Adjust radius
-      valueField: "value", // Field for values
-      categoryField: "type", // Field for categories
+      outerRadius: 0.6,
+      valueField: "value",
+      categoryField: "type",
+      colorField: "color",
+      encode: {
+        color: "color", // Map color from data
+      },
       title: {
         visible: true,
-        text: title || "Pie Chart", // Use the title passed as a prop
+        text: title || "Pie Chart",
       },
       label: {
-        visible: true, // Show labels on the chart
-        FormatterPlugin: (datum) => `${datum.type}: ${datum.value}`, // Label format
+        visible: true,
+        FormatterPlugin: (datum) => `${datum.type}: ${datum.value}%`, // Format label
       },
       legends: {
-        visible: true, // Show legends
+        visible: true,
         orient: "left",
       },
       tooltip: {
@@ -34,7 +38,7 @@ const PieChart = ({ data, title }) => {
           content: [
             {
               key: (datum) => datum.type,
-              value: (datum) => `${datum.value}`, // Tooltip shows the value
+              value: (datum) => `${datum.value}%`,
             },
           ],
         },
