@@ -546,20 +546,20 @@ const analyticsService = {
     let isInsertedFlag = false;
     const fetchAnalyticsDb = await analyticsModel.getAnalyticsByUserId(userId);
 
-    if (Object.entries(fetchAnalyticsDb).length != 0) {
-      if (
-        fetchAnalyticsDb[0].out_capture != null &&
-        moment(fetchAnalyticsDb[0].out_capture_date).isSame(moment(), "hour")
-      ) {
-        // take from db
-        const res = fetchAnalyticsDb[0].out_capture;
-        return {
-          analyticsResult: res,
-        };
-      } else {
-        isInsertedFlag = true;
-      }
-    }
+    // if (Object.entries(fetchAnalyticsDb).length != 0) {
+    //   if (
+    //     fetchAnalyticsDb[0].out_capture != null &&
+    //     moment(fetchAnalyticsDb[0].out_capture_date).isSame(moment(), "hour")
+    //   ) {
+    //     // take from db
+    //     const res = fetchAnalyticsDb[0].out_capture;
+    //     return {
+    //       analyticsResult: res,
+    //     };
+    //   } else {
+    //     isInsertedFlag = true;
+    //   }
+    // }
 
     const profileViews = await executeQuery(
       `SELECT profile_view 
@@ -636,33 +636,39 @@ const analyticsService = {
 
     const customersList = await executeQuery(
       `WITH customer_quotations AS (
-    SELECT 
-        requester_id,
-        from_establishment_name,
-        COUNT(*) AS quotation_count
-    FROM 
-        quotation
-    WHERE 
-        supplier_id = $1
-    GROUP BY 
-        requester_id
-    ),
-    total_quotations AS (
-        SELECT 
-            SUM(quotation_count) AS total_quotations
-        FROM 
-            customer_quotations
-    )
-    SELECT 
-        cq.requester_id AS retailer,
-        cq.quotation_count AS number_of_requested_quotations,
-        (cq.quotation_count * 100.0 / tq.total_quotations) AS percentage_of_total
-    FROM 
-        customer_quotations cq
-    CROSS JOIN 
-        total_quotations tq
-    ORDER BY 
-        percentage_of_total DESC;
+      SELECT 
+          requester_id,
+          from_establishment_name,
+          f.contact_number,
+          COUNT(*) AS quotation_count
+      FROM 
+          quotation
+      JOIN
+          establishment f
+      ON f.establishment_id = (SELECT retailstore_est_id FROM retailstore WHERE owner_id = requester_id)
+      WHERE 
+          supplier_id = 1
+      GROUP BY 
+          requester_id, from_establishment_name, f.contact_number
+      ),
+      total_quotations AS (
+          SELECT 
+              SUM(quotation_count) AS total_quotations
+          FROM 
+              customer_quotations
+      )
+      SELECT 
+          cq.requester_id AS retailer,
+          cq.quotation_count AS number_of_requested_quotations,
+          (cq.quotation_count * 100.0 / tq.total_quotations) AS percentage_of_total,
+          cq.from_establishment_name,
+          cq.contact_number
+      FROM 
+          customer_quotations cq
+      CROSS JOIN 
+          total_quotations tq
+      ORDER BY 
+          percentage_of_total DESC;
     `,
       [supplierId[0].supplier_id]
     );
@@ -885,6 +891,8 @@ const analyticsService = {
         retailer: customersList[i].retailer,
         numberOfQuotations: customersList[i].number_of_requested_quotations,
         share: parseFloat(customersList[i].percentage_of_total ?? 0).toFixed(2),
+        establishmentName: customersList[i].from_establishment_name,
+        establishmentContactNumber: customersList[i].contact_number,
       };
       customerList.customerItem.push(item);
     }
