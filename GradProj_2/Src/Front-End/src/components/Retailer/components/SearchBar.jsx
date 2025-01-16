@@ -13,12 +13,18 @@ const SearchBar = ({
   categories,
   setProducts,
   setLoading,
+  currentPage,
+  productPerPage,
 }) => {
   const { userData } = useAuth();
   const fetchMarketPlaceProducts = async () => {
     const retId = parseInt(userData.retailerDetails.retailerId);
     try {
-      const response = await retailerApi.getRetailerMarketplace(retId, 5, 1);
+      const response = await retailerApi.getRetailerMarketplace(
+        retId,
+        productPerPage,
+        currentPage
+      );
       if (response.body.success) {
         setProducts(
           response.body.marketPlace.productItem.reduce((acc, product) => {

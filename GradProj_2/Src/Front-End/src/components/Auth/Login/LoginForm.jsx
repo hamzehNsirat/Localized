@@ -25,6 +25,7 @@ const LoginForm = () => {
     const userPassword = password;
     try {
       const response = await login(userEmail, userName, userPassword);
+      console.log(response);
       if (response === true) {
         console.log("Login successful");
         toast.success("Login SuccessFul");

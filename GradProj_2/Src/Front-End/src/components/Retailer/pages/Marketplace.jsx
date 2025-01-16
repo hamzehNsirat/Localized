@@ -153,6 +153,8 @@ const Marketplace = () => {
             categories={categories}
             setProducts={setProducts}
             setLoading={setLoading}
+            currentPage={currentPage}
+            productPerPage={productsPerPage}
           />
           <ProductGrid
             products={products}
